@@ -32,7 +32,7 @@ TEST_REQUIREMENTS = ["pytest"]
 
 setup(
     name="ashpy",
-    version="1.0.0",
+    version="1.0.1",
     description="TensorFlow 2.0 library for distributed training, evaluation, model selection, and fast prototyping.",
     long_description=README + "\n\n" + DOCLINK,
     long_description_content_type="text/markdown",
