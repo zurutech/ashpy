@@ -1,0 +1,45 @@
+DiscriminatorLoss
+===================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.gan.DiscriminatorLoss
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.gan
+
+----
+
+.. autoclass:: DiscriminatorLoss
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DiscriminatorLoss.__init__
+      ~DiscriminatorLoss.json_read
+      ~DiscriminatorLoss.json_write
+      ~DiscriminatorLoss.model_selection
+      ~DiscriminatorLoss.reset_states
+      ~DiscriminatorLoss.result
+      ~DiscriminatorLoss.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DiscriminatorLoss.best_folder
+      ~DiscriminatorLoss.best_model_sel_file
+      ~DiscriminatorLoss.logdir
+      ~DiscriminatorLoss.metric
+      ~DiscriminatorLoss.model_selection_operator
+      ~DiscriminatorLoss.name
+   
+   

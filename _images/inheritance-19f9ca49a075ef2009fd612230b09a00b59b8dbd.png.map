@@ -1,0 +1,4 @@
+<map id="inheritancea7ac4942a7" name="inheritancea7ac4942a7">
+<area shape="rect" id="node1" href="../base_context/ashpy.contexts.base_context.BaseContext.html#ashpy.contexts.base_context.BaseContext" target="_top" title=":py:class:`ashpy.contexts.base_context.BaseContext` provide an interface for all contexts to inherit from." alt="" coords="5,5,111,31"/>
+<area shape="rect" id="node2" href="#ashpy.contexts.gan.GANContext" target="_top" title=":py:class:`ashpy.contexts.gan.GANContext` measure the specified metrics on the GAN." alt="" coords="159,5,261,31"/>
+</map>

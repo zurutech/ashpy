@@ -1,0 +1,39 @@
+AdversarialLossG
+=================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.AdversarialLossG
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: AdversarialLossG
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdversarialLossG.__init__
+      ~AdversarialLossG.call
+      ~AdversarialLossG.get_discriminator_inputs
+      ~AdversarialLossG.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AdversarialLossG.fn
+      ~AdversarialLossG.global_batch_size
+      ~AdversarialLossG.weight
+   
+   

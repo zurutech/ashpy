@@ -1,0 +1,38 @@
+ClassifierLoss
+======================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.classifier.ClassifierLoss
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.classifier
+
+----
+
+.. autoclass:: ClassifierLoss
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ClassifierLoss.__init__
+      ~ClassifierLoss.call
+      ~ClassifierLoss.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClassifierLoss.fn
+      ~ClassifierLoss.global_batch_size
+      ~ClassifierLoss.weight
+   
+   

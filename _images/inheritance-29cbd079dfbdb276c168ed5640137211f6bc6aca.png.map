@@ -1,0 +1,6 @@
+<map id="inheritance331b367a06" name="inheritance331b367a06">
+<area shape="rect" id="node1" href="../losses/gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" target="_top" title="Base class for the adversarial loss of the generator" alt="" coords="288,5,423,31"/>
+<area shape="rect" id="node4" href="../losses/gan/ashpy.losses.gan.GeneratorLSGAN.html#ashpy.losses.gan.GeneratorLSGAN" target="_top" title="Least Square GAN Loss for generator" alt="" coords="471,5,601,31"/>
+<area shape="rect" id="node2" href="../losses/gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor" target="_top" title="Executor for GANs. Implements the basic functions needed by the GAN losses" alt="" coords="132,5,240,31"/>
+<area shape="rect" id="node3" href="../losses/executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" target="_top" title="Carry a function and the wa of executing it. Given a context." alt="" coords="5,5,84,31"/>
+</map>

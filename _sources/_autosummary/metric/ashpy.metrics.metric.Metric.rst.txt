@@ -1,0 +1,45 @@
+Metric
+===========================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.metric.Metric
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.metric
+
+----
+
+.. autoclass:: Metric
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Metric.__init__
+      ~Metric.json_read
+      ~Metric.json_write
+      ~Metric.model_selection
+      ~Metric.reset_states
+      ~Metric.result
+      ~Metric.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Metric.best_folder
+      ~Metric.best_model_sel_file
+      ~Metric.logdir
+      ~Metric.metric
+      ~Metric.model_selection_operator
+      ~Metric.name
+   
+   

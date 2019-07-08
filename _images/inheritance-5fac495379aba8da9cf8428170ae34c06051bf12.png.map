@@ -1,0 +1,4 @@
+<map id="inheritancec90478c1a4" name="inheritancec90478c1a4">
+<area shape="rect" id="node1" href="base_context/ashpy.contexts.base_context.BaseContext.html#ashpy.contexts.base_context.BaseContext" target="_top" title=":py:class:`ashpy.contexts.base_context.BaseContext` provide an interface for all contexts to inherit from." alt="" coords="5,5,111,31"/>
+<area shape="rect" id="node2" href="classifier/ashpy.contexts.classifier.ClassifierContext.html#ashpy.contexts.classifier.ClassifierContext" target="_top" title=":py:class:`ashpy.contexts.classifier.ClassifierContext` provide the standard functions to test a classifier." alt="" coords="159,5,292,31"/>
+</map>

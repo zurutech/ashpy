@@ -1,0 +1,39 @@
+SumExecutor
+=================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.executor.SumExecutor
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.executor
+
+----
+
+.. autoclass:: SumExecutor
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SumExecutor.__init__
+      ~SumExecutor.call
+      ~SumExecutor.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SumExecutor.executors
+      ~SumExecutor.fn
+      ~SumExecutor.global_batch_size
+      ~SumExecutor.weight
+   
+   

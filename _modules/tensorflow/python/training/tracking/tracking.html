@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tensorflow.python.training.tracking.tracking &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tensorflow.python.training.tracking.tracking</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tensorflow.python.training.tracking.tracking</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Dependency tracking for trackable objects.&quot;&quot;&quot;</span>
+<span class="c1"># Copyright 2017 The TensorFlow Authors. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1"># ==============================================================================</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.python.eager</span> <span class="k">import</span> <span class="n">def_function</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.eager</span> <span class="k">import</span> <span class="n">function</span> <span class="k">as</span> <span class="n">defun</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">dtypes</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.training.tracking</span> <span class="k">import</span> <span class="n">base</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.training.tracking</span> <span class="k">import</span> <span class="n">data_structures</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.util</span> <span class="k">import</span> <span class="n">tf_contextlib</span>
+
+
+<span class="c1"># global _RESOURCE_TRACKER_STACK</span>
+<span class="n">_RESOURCE_TRACKER_STACK</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">class</span> <span class="nc">NotTrackable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Marks instances of child classes as unsaveable using an object-based API.</span>
+
+<span class="sd">  Useful for marking objects which would otherwise look trackable because</span>
+<span class="sd">  of inheritance (e.g. through `Layer`) as not trackable. Inheriting from</span>
+<span class="sd">  `NotTrackable` does not prevent an object from being assigned to any</span>
+<span class="sd">  attributes, but will throw an error on save/restore.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">AutoTrackable</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Trackable</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Manages dependencies on other objects.</span>
+
+<span class="sd">  `Trackable` objects may have dependencies: other `Trackable` objects</span>
+<span class="sd">  which should be saved if the object declaring the dependency is saved. A</span>
+<span class="sd">  correctly saveable program has a dependency graph such that if changing a</span>
+<span class="sd">  global variable affects an object (e.g. changes the behavior of any of its</span>
+<span class="sd">  methods) then there is a chain of dependencies from the influenced object to</span>
+<span class="sd">  the variable.</span>
+
+<span class="sd">  Dependency edges have names, and are created implicitly when a</span>
+<span class="sd">  `Trackable` object is assigned to an attribute of another</span>
+<span class="sd">  `Trackable` object. For example:</span>
+
+<span class="sd">  ```</span>
+<span class="sd">  obj = Trackable()</span>
+<span class="sd">  obj.v = ResourceVariable(0.)</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  The `Trackable` object `obj` now has a dependency named &quot;v&quot; on a</span>
+<span class="sd">  variable.</span>
+
+<span class="sd">  `Trackable` objects may specify `Tensor`s to be saved and restored</span>
+<span class="sd">  directly (e.g. a `Variable` indicating how to save itself) rather than through</span>
+<span class="sd">  dependencies on other objects. See</span>
+<span class="sd">  `Trackable._gather_saveables_for_checkpoint` for details.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Support self.foo = trackable syntax.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_self_setattr_tracking&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="n">data_structures</span><span class="o">.</span><span class="n">sticky_attribute_assignment</span><span class="p">(</span>
+          <span class="n">trackable</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">AutoTrackable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_initialize_trackable</span><span class="p">()</span>
+    <span class="n">delete_tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">AutoTrackable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__delattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_no_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Override to allow TrackableBase to disable dependency tracking.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">data_structures</span><span class="o">.</span><span class="n">NoDependency</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_list_functions_for_serialization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused_serialization_cache</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a dict of `Function`s of a trackable.&quot;&quot;&quot;</span>
+    <span class="n">functions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">attribute_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">attribute_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+        <span class="c1"># We really don&#39;t want to throw an exception just because some object&#39;s</span>
+        <span class="c1"># attribute accessor is broken.</span>
+        <span class="n">attribute_value</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attribute_value</span><span class="p">,</span> <span class="p">(</span><span class="n">def_function</span><span class="o">.</span><span class="n">Function</span><span class="p">,</span>
+                                      <span class="n">defun</span><span class="o">.</span><span class="n">ConcreteFunction</span><span class="p">)):</span>
+        <span class="n">functions</span><span class="p">[</span><span class="n">attribute_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">attribute_value</span>
+    <span class="k">return</span> <span class="n">functions</span>
+
+
+<span class="k">def</span> <span class="nf">delete_tracking</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Removes the tracking of name from object.&quot;&quot;&quot;</span>
+  <span class="c1"># pylint: disable=protected-access</span>
+  <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">_unconditional_dependency_names</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">obj</span><span class="o">.</span><span class="n">_unconditional_dependency_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">dep_name</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_unconditional_checkpoint_dependencies</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">dep_name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">obj</span><span class="o">.</span><span class="n">_unconditional_checkpoint_dependencies</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">break</span>
+  <span class="c1"># pylint: enable=protected-access</span>
+
+
+<span class="k">class</span> <span class="nc">ResourceTracker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An object that tracks a list of resources.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_resources</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">resources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resources</span>
+
+  <span class="k">def</span> <span class="nf">add_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_resources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+
+<span class="nd">@tf_contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">resource_tracker_scope</span><span class="p">(</span><span class="n">resource_tracker</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;A context to manage resource trackers.</span>
+
+<span class="sd">  Use this in order to collect up all resources created within a block of code.</span>
+<span class="sd">  Example usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  resource_tracker = ResourceTracker()</span>
+<span class="sd">  with resource_tracker_scope(resource_tracker):</span>
+<span class="sd">    resource = TrackableResource()</span>
+
+<span class="sd">  assert resource_tracker.resources == [resource]</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    resource_tracker: The passed in ResourceTracker object</span>
+
+<span class="sd">  Yields:</span>
+<span class="sd">    A scope in which the resource_tracker is active.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">global</span> <span class="n">_RESOURCE_TRACKER_STACK</span>
+  <span class="n">old</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_RESOURCE_TRACKER_STACK</span><span class="p">)</span>
+  <span class="n">_RESOURCE_TRACKER_STACK</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource_tracker</span><span class="p">)</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">yield</span>
+  <span class="k">finally</span><span class="p">:</span>
+    <span class="n">_RESOURCE_TRACKER_STACK</span> <span class="o">=</span> <span class="n">old</span>
+
+
+<span class="k">class</span> <span class="nc">CapturableResource</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Trackable</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Holds a Tensor which a tf.function can capture.</span>
+
+<span class="sd">  `CapturableResource`s are discovered by traversing the graph of object</span>
+<span class="sd">  attributes, e.g. during `tf.saved_model.save`. They are excluded from the</span>
+<span class="sd">  scope-based tracking of `TrackableResource`; generally things that require</span>
+<span class="sd">  initialization should inherit from `TrackableResource` instead of</span>
+<span class="sd">  `CapturableResource` directly.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialize the `CapturableResource`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      device: A string indicating a required placement for this resource,</span>
+<span class="sd">        e.g. &quot;CPU&quot; if this resource must be created on a CPU device. A blank</span>
+<span class="sd">        device allows the user to place resource creation, so generally this</span>
+<span class="sd">        should be blank unless the resource only makes sense on one device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_resource_handle</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_resource_device</span> <span class="o">=</span> <span class="n">device</span>
+
+  <span class="k">def</span> <span class="nf">_create_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A function that creates a resource handle.&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TrackableResource._create_resource not &quot;</span>
+                              <span class="s2">&quot;implemented.&quot;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A function that initializes the resource. Optional.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">resource_handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the resource handle associated with this Resource.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resource_handle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_resource_device</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_resource_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_resource</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resource_handle</span>
+
+  <span class="k">def</span> <span class="nf">_list_functions_for_serialization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused_functions</span><span class="p">):</span>
+    <span class="nd">@def_function</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">input_signature</span><span class="o">=</span><span class="p">[],</span> <span class="n">autograph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_creator</span><span class="p">():</span>
+      <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_resource</span><span class="p">()</span>
+      <span class="k">return</span> <span class="n">resource</span>
+
+    <span class="nd">@def_function</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">input_signature</span><span class="o">=</span><span class="p">[],</span> <span class="n">autograph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_initializer</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">()</span>
+      <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># Dummy return</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;_create_resource&quot;</span><span class="p">:</span> <span class="n">_creator</span><span class="p">,</span>
+        <span class="s2">&quot;_initialize&quot;</span><span class="p">:</span> <span class="n">_initializer</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">TrackableResource</span><span class="p">(</span><span class="n">CapturableResource</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Adds scope tracking to CapturableResource.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialize the `TrackableResource`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      device: A string indicating a required placement for this resource,</span>
+<span class="sd">        e.g. &quot;CPU&quot; if this resource must be created on a CPU device. A blank</span>
+<span class="sd">        device allows the user to place resource creation, so generally this</span>
+<span class="sd">        should be blank unless the resource only makes sense on one device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_RESOURCE_TRACKER_STACK</span>
+    <span class="k">for</span> <span class="n">resource_tracker</span> <span class="ow">in</span> <span class="n">_RESOURCE_TRACKER_STACK</span><span class="p">:</span>
+      <span class="n">resource_tracker</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">TrackableResource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TrackableAsset</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Trackable</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for asset files which need to be tracked.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Record the full path to the asset.&quot;&quot;&quot;</span>
+    <span class="c1"># The init_scope prevents functions from capturing `path` in an</span>
+    <span class="c1"># initialization graph, since it is transient and should not end up in a</span>
+    <span class="c1"># serialized function body.</span>
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">init_scope</span><span class="p">(),</span> <span class="n">ops</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;CPU&quot;</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">internal_convert_to_tensor</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">string</span><span class="p">,</span>
+                                                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;asset_path&quot;</span><span class="p">)</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">asset_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fetch the current asset path.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span>
+
+
+<span class="k">def</span> <span class="nf">cached_per_instance</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Lightweight decorator for caching lazily constructed properties.</span>
+
+<span class="sd">  When to use:</span>
+<span class="sd">  This decorator provides simple caching with minimal overhead. It is designed</span>
+<span class="sd">  for properties which are expensive to compute and static over the life of a</span>
+<span class="sd">  class instance, and provides no mechanism for cache invalidation. Thus it is</span>
+<span class="sd">  best suited for lazily exposing derived properties of other static data.</span>
+
+<span class="sd">  For classes with custom getattr / setattr behavior (such as trackable</span>
+<span class="sd">  objects), storing cache results as object attributes is not performant.</span>
+<span class="sd">  Instead, a specialized cache can significantly reduce property lookup</span>
+<span class="sd">  overhead. (While still allowing the decorated property to be lazily computed.)</span>
+<span class="sd">  Consider the following class:</span>
+
+<span class="sd">  ```</span>
+<span class="sd">  class MyClass(object):</span>
+<span class="sd">    def __setattr__(self, key, value):</span>
+<span class="sd">      # Some expensive class specific code</span>
+<span class="sd">      # ...</span>
+<span class="sd">      # ...</span>
+
+<span class="sd">      super(MyClass, self).__setattr__(key, value)</span>
+
+<span class="sd">    @property</span>
+<span class="sd">    def thing(self):</span>
+<span class="sd">      # `thing` is expensive to compute (and may not even be requested), so we</span>
+<span class="sd">      # want to lazily compute it and then cache it.</span>
+<span class="sd">      output = getattr(self, &#39;_thing&#39;, None)</span>
+<span class="sd">      if output is None:</span>
+<span class="sd">        self._thing = output = compute_thing(self)</span>
+<span class="sd">      return output</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  It&#39;s also worth noting that ANY overriding of __setattr__, even something as</span>
+<span class="sd">  simple as:</span>
+<span class="sd">  ```</span>
+<span class="sd">    def __setattr__(self, key, value):</span>
+<span class="sd">      super(MyClass, self).__setattr__(key, value)</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Slows down attribute assignment by nearly 10x.</span>
+
+<span class="sd">  By contrast, replacing the definition of `thing` with the following sidesteps</span>
+<span class="sd">  the expensive __setattr__ altogether:</span>
+
+<span class="sd">  &#39;&#39;&#39;</span>
+<span class="sd">  @property</span>
+<span class="sd">  @tracking.cached_per_instance</span>
+<span class="sd">  def thing(self):</span>
+<span class="sd">    # `thing` is expensive to compute (and may not even be requested), so we</span>
+<span class="sd">    # want to lazily compute it and then cache it.</span>
+<span class="sd">    return compute_thing(self)</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+<span class="sd">  Performance:</span>
+<span class="sd">  The overhead for this decorator is ~0.4 us / call. A much lower overhead</span>
+<span class="sd">  implementation (~0.085 us / call) can be achieved by using a custom dict type:</span>
+
+<span class="sd">  ```</span>
+<span class="sd">  def dict_based_cache(f):</span>
+<span class="sd">    class Cache(dict):</span>
+<span class="sd">      __slots__ = ()</span>
+<span class="sd">      def __missing__(self, key):</span>
+<span class="sd">        self[key] = output = f(key)</span>
+<span class="sd">        return output</span>
+
+<span class="sd">    return property(Cache().__getitem__)</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  However, that implementation holds class instances as keys, and as a result</span>
+<span class="sd">  blocks garbage collection. (And modifying it to use weakref&#39;s as keys raises</span>
+<span class="sd">  the lookup overhead to ~0.4 us) As a result, the WeakKeyDictionary</span>
+<span class="sd">  implementation below turns out to be more prudent.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    f: The function to cache.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    f decorated with simple caching behavior.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">cache</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakKeyDictionary</span><span class="p">()</span>
+
+  <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">cache</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
+  <span class="k">return</span> <span class="n">wrapped</span>
+
+
+<span class="n">ops</span><span class="o">.</span><span class="n">register_tensor_conversion_function</span><span class="p">(</span>
+    <span class="n">TrackableAsset</span><span class="p">,</span>
+    <span class="k">lambda</span> <span class="n">asset</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">ops</span><span class="o">.</span><span class="n">internal_convert_to_tensor</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">asset_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

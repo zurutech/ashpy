@@ -1,0 +1,30 @@
+AdversarialTrainer
+=================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.trainers.AdversarialTrainer
+   :parts: 1
+
+.. currentmodule:: ashpy.trainers
+
+----
+
+.. autoclass:: AdversarialTrainer
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdversarialTrainer.__init__
+      ~AdversarialTrainer.call
+      ~AdversarialTrainer.train_step
+   
+   
+
+   
+   
+   

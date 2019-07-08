@@ -1,0 +1,110 @@
+SUNet
+=====================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.unet.SUNet
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.unet
+
+----
+
+.. autoclass:: SUNet
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SUNet.__init__
+      ~SUNet.add_loss
+      ~SUNet.add_metric
+      ~SUNet.add_update
+      ~SUNet.add_variable
+      ~SUNet.add_weight
+      ~SUNet.apply
+      ~SUNet.build
+      ~SUNet.call
+      ~SUNet.compile
+      ~SUNet.compute_mask
+      ~SUNet.compute_output_shape
+      ~SUNet.compute_output_signature
+      ~SUNet.count_params
+      ~SUNet.evaluate
+      ~SUNet.evaluate_generator
+      ~SUNet.fit
+      ~SUNet.fit_generator
+      ~SUNet.from_config
+      ~SUNet.get_config
+      ~SUNet.get_decoder_block
+      ~SUNet.get_encoder_block
+      ~SUNet.get_input_at
+      ~SUNet.get_input_mask_at
+      ~SUNet.get_input_shape_at
+      ~SUNet.get_layer
+      ~SUNet.get_losses_for
+      ~SUNet.get_output_at
+      ~SUNet.get_output_mask_at
+      ~SUNet.get_output_shape_at
+      ~SUNet.get_updates_for
+      ~SUNet.get_weights
+      ~SUNet.load_weights
+      ~SUNet.predict
+      ~SUNet.predict_generator
+      ~SUNet.predict_on_batch
+      ~SUNet.reset_metrics
+      ~SUNet.reset_states
+      ~SUNet.save
+      ~SUNet.save_weights
+      ~SUNet.set_weights
+      ~SUNet.summary
+      ~SUNet.test_on_batch
+      ~SUNet.to_json
+      ~SUNet.to_yaml
+      ~SUNet.train_on_batch
+      ~SUNet.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SUNet.activity_regularizer
+      ~SUNet.dtype
+      ~SUNet.dynamic
+      ~SUNet.inbound_nodes
+      ~SUNet.input
+      ~SUNet.input_mask
+      ~SUNet.input_shape
+      ~SUNet.input_spec
+      ~SUNet.layers
+      ~SUNet.losses
+      ~SUNet.metrics
+      ~SUNet.metrics_names
+      ~SUNet.name
+      ~SUNet.name_scope
+      ~SUNet.non_trainable_variables
+      ~SUNet.non_trainable_weights
+      ~SUNet.outbound_nodes
+      ~SUNet.output
+      ~SUNet.output_mask
+      ~SUNet.output_shape
+      ~SUNet.run_eagerly
+      ~SUNet.sample_weights
+      ~SUNet.state_updates
+      ~SUNet.stateful
+      ~SUNet.submodules
+      ~SUNet.trainable
+      ~SUNet.trainable_variables
+      ~SUNet.trainable_weights
+      ~SUNet.updates
+      ~SUNet.variables
+      ~SUNet.weights
+   
+   

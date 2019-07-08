@@ -1,0 +1,10 @@
+<map id="inheritancec2416e54e0" name="inheritancec2416e54e0">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="96,4,176,21"/>
+<area shape="rect" id="node7" title="Base neural network module class." alt="" coords="210,4,260,21"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="4,4,62,21"/>
+<area shape="rect" id="node3" href="interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="549,4,640,21"/>
+<area shape="rect" id="node5" href="#ashpy.models.convolutional.pix2pixhd.GlobalGenerator" target="_top" title="Global Generator from pix2pixHD paper:" alt="" coords="674,4,764,21"/>
+<area shape="rect" id="node4" title="`Model` groups layers into an object with training and inference features." alt="" coords="465,4,515,21"/>
+<area shape="rect" id="node6" title="Base layer class." alt="" coords="294,4,344,21"/>
+<area shape="rect" id="node8" title="A `Network` is a composition of layers." alt="" coords="377,4,432,21"/>
+</map>

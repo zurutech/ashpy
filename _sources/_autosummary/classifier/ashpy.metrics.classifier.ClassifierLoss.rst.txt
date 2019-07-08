@@ -1,0 +1,45 @@
+ClassifierLoss
+=======================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.classifier.ClassifierLoss
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.classifier
+
+----
+
+.. autoclass:: ClassifierLoss
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ClassifierLoss.__init__
+      ~ClassifierLoss.json_read
+      ~ClassifierLoss.json_write
+      ~ClassifierLoss.model_selection
+      ~ClassifierLoss.reset_states
+      ~ClassifierLoss.result
+      ~ClassifierLoss.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClassifierLoss.best_folder
+      ~ClassifierLoss.best_model_sel_file
+      ~ClassifierLoss.logdir
+      ~ClassifierLoss.metric
+      ~ClassifierLoss.model_selection_operator
+      ~ClassifierLoss.name
+   
+   

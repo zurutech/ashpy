@@ -1,0 +1,47 @@
+InceptionScore
+================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.gan.InceptionScore
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.gan
+
+----
+
+.. autoclass:: InceptionScore
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~InceptionScore.__init__
+      ~InceptionScore.get_or_train_inception
+      ~InceptionScore.inception_score
+      ~InceptionScore.json_read
+      ~InceptionScore.json_write
+      ~InceptionScore.model_selection
+      ~InceptionScore.reset_states
+      ~InceptionScore.result
+      ~InceptionScore.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~InceptionScore.best_folder
+      ~InceptionScore.best_model_sel_file
+      ~InceptionScore.logdir
+      ~InceptionScore.metric
+      ~InceptionScore.model_selection_operator
+      ~InceptionScore.name
+   
+   

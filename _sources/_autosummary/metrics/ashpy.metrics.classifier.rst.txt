@@ -1,0 +1,25 @@
+classifier
+========================
+
+.. automodule:: ashpy.metrics.classifier
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: classifier
+   
+      ClassifierLoss
+      ClassifierMetric
+   
+   
+
+   
+   
+   

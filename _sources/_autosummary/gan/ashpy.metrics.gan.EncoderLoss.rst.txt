@@ -1,0 +1,45 @@
+EncoderLoss
+=============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.gan.EncoderLoss
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.gan
+
+----
+
+.. autoclass:: EncoderLoss
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~EncoderLoss.__init__
+      ~EncoderLoss.json_read
+      ~EncoderLoss.json_write
+      ~EncoderLoss.model_selection
+      ~EncoderLoss.reset_states
+      ~EncoderLoss.result
+      ~EncoderLoss.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EncoderLoss.best_folder
+      ~EncoderLoss.best_model_sel_file
+      ~EncoderLoss.logdir
+      ~EncoderLoss.metric
+      ~EncoderLoss.model_selection_operator
+      ~EncoderLoss.name
+   
+   

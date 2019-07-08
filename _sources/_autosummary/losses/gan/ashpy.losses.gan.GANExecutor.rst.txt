@@ -1,0 +1,39 @@
+GANExecutor
+============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.GANExecutor
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: GANExecutor
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GANExecutor.__init__
+      ~GANExecutor.call
+      ~GANExecutor.get_discriminator_inputs
+      ~GANExecutor.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GANExecutor.fn
+      ~GANExecutor.global_batch_size
+      ~GANExecutor.weight
+   
+   

@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ashpy.models.convolutional.decoders &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ashpy.models.convolutional.decoders</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ashpy.models.convolutional.decoders</h1><div class="highlight"><pre>
+<span></span><span class="c1">#Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#you may not use this file except in compliance with the License.</span>
+<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#See the License for the specific language governing permissions and</span>
+<span class="c1">#limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Collection of Decoders (i.e., GANs&#39; Generators) models.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="k">import</span> <span class="n">keras</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
+
+<span class="kn">from</span> <span class="nn">ashpy.models.convolutional.interfaces</span> <span class="k">import</span> <span class="n">Conv2DInterface</span>
+
+<span class="n">__ALL__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BaseDecoder&quot;</span><span class="p">,</span> <span class="s2">&quot;FCNNBaseDecoder&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="BaseDecoder"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.gans.BaseDecoder">[docs]</a><span class="k">class</span> <span class="nc">BaseDecoder</span><span class="p">(</span><span class="n">Conv2DInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Primitive Model for all decoder (i.e., transpose convolution) based architecture.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        Default to DCGAN Generator architecture.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        * Direct Usage:</span>
+
+<span class="sd">            .. testcode::</span>
+
+<span class="sd">                dummy_generator = BaseDecoder(</span>
+<span class="sd">                    layer_spec_input_res=(8, 8),</span>
+<span class="sd">                    layer_spec_target_res=(64, 64),</span>
+<span class="sd">                    kernel_size=(5, 5),</span>
+<span class="sd">                    initial_filters=1024,</span>
+<span class="sd">                    filters_cap=16,</span>
+<span class="sd">                    channels=3,</span>
+<span class="sd">                )</span>
+
+<span class="sd">        * Subclassing</span>
+
+<span class="sd">            .. testcode::</span>
+
+<span class="sd">                class DummyGenerator(BaseDecoder):</span>
+<span class="sd">                    def call(self, input, training=True):</span>
+<span class="sd">                        print(&quot;Dummy Generator!&quot;)</span>
+<span class="sd">                        return input</span>
+
+<span class="sd">                dummy_generator = DummyGenerator(</span>
+<span class="sd">                    layer_spec_input_res=(8, 8),</span>
+<span class="sd">                    layer_spec_target_res=(32, 32),</span>
+<span class="sd">                    kernel_size=(5, 5),</span>
+<span class="sd">                    initial_filters=1024,</span>
+<span class="sd">                    filters_cap=16,</span>
+<span class="sd">                    channels=3,</span>
+<span class="sd">                )</span>
+<span class="sd">                dummy_generator(tf.random.normal((1, 100)))</span>
+
+<span class="sd">            .. testoutput::</span>
+
+<span class="sd">                Dummy Generator!</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BaseDecoder.__init__"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.gans.BaseDecoder.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">layer_spec_input_res</span><span class="p">,</span>
+        <span class="n">layer_spec_target_res</span><span class="p">,</span>
+        <span class="n">kernel_size</span><span class="p">,</span>
+        <span class="n">initial_filters</span><span class="p">,</span>
+        <span class="n">filters_cap</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">,</span>
+        <span class="n">use_dropout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dropout_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">non_linearity</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate the :class:`BaseDecoder`.</span>
+
+<span class="sd">        Model Assembly:</span>
+<span class="sd">            1. :func:`_add_malkuth_block`: Ingest the :py:obj:`tf.keras.Model`</span>
+<span class="sd">            inputs and prepare them for :func:`_add_yesod_block`.</span>
+
+<span class="sd">            2. :func:`_add_yesod_block`: Core of the model, the layers specified</span>
+<span class="sd">            here get added to the :py:obj:`tf.keras.Model` multiple times consuming the</span>
+<span class="sd">            hyperparameters generated in the :func:`_get_layer_spec`.</span>
+
+<span class="sd">            3. :func:`_add_daat_block`: Final block of our :py:obj:`tf.keras.Model`,</span>
+<span class="sd">            take the model after :func:`_add_yesod_block` and prepare them for the</span>
+<span class="sd">            for the final output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layer_spec_input_res (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Shape of</span>
+<span class="sd">                the :func:`_get_layer_spec` input tensors.</span>
+<span class="sd">            layer_spec_target_res: (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Shape</span>
+<span class="sd">                of tensor desired as output of :func:`_get_layer_spec`.</span>
+<span class="sd">            kernel_size (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Kernel used by the</span>
+<span class="sd">                convolution layers.</span>
+<span class="sd">            initial_filters (int): Numbers of filters at the end of the first block.</span>
+<span class="sd">            filters_cap (int): Cap filters to a set amount, in the case of Decoder is a</span>
+<span class="sd">                floor value AKA the minimum amount of filters.</span>
+<span class="sd">            channels (int): Channels of the output images (1 for Grayscale, 3 for RGB).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :py:obj:`None`</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If `filters_cap` &gt; `initial_filters`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">filters_cap</span> <span class="o">&gt;</span> <span class="n">initial_filters</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;`filters_cap` &gt; `initial_filters`. &quot;</span>
+                <span class="s2">&quot;When decoding ``filters_cap`` is a floor value AKA the minimum &quot;</span>
+                <span class="s2">&quot;amount of filters.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer_spec_input_res</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">layer_spec_input_res</span> <span class="o">=</span> <span class="p">(</span><span class="n">layer_spec_input_res</span><span class="p">,</span> <span class="n">layer_spec_input_res</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer_spec_target_res</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">layer_spec_target_res</span> <span class="o">=</span> <span class="p">(</span><span class="n">layer_spec_target_res</span><span class="p">,</span> <span class="n">layer_spec_target_res</span><span class="p">)</span>
+
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_layer_spec</span><span class="p">(</span>
+            <span class="n">initial_filters</span><span class="p">,</span> <span class="n">filters_cap</span><span class="p">,</span> <span class="n">layer_spec_input_res</span><span class="p">,</span> <span class="n">layer_spec_target_res</span>
+        <span class="p">)</span>
+
+        <span class="c1"># layer specification</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_dropout</span> <span class="o">=</span> <span class="n">use_dropout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout_prob</span> <span class="o">=</span> <span class="n">dropout_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_linearity</span> <span class="o">=</span> <span class="n">non_linearity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_size</span> <span class="o">=</span> <span class="n">kernel_size</span>
+
+        <span class="c1"># Assembling Model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_initial_block</span><span class="p">(</span><span class="n">initial_filters</span><span class="p">,</span> <span class="n">layer_spec_input_res</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer_filters</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_building_block</span><span class="p">(</span><span class="n">layer_filters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_final_block</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseDecoder._add_initial_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.gans.BaseDecoder._add_initial_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_initial_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_filters</span><span class="p">,</span> <span class="n">input_res</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ingest the :py:obj:`tf.keras.Model` inputs and prepare them for :func:`_add_yesod_block`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            initial_filters (int): Numbers of filters to used as a base value.</span>
+<span class="sd">            input_res (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Shape of the</span>
+<span class="sd">                :func:`_get_layer_spec` input tensors.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_layers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">initial_filters</span> <span class="o">*</span> <span class="n">input_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">input_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">non_linearity</span><span class="p">(),</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Reshape</span><span class="p">((</span><span class="n">input_res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">input_res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">initial_filters</span><span class="p">)),</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseDecoder._add_building_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.gans.BaseDecoder._add_building_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_building_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the core of the :py:obj:`tf.keras.model`.</span>
+
+<span class="sd">        The layers specified here get added to the :py:obj:`tf.keras.Model` multiple times</span>
+<span class="sd">        consuming the hyperparameters generated in the :func:`_get_layer_spec`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filters (int): Number of filters to use for this iteration of the Yesod Block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_layers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2DTranspose</span><span class="p">(</span>
+                    <span class="n">filters</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">,</span>
+                    <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                    <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">,</span>
+                    <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">non_linearity</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseDecoder._add_final_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.gans.BaseDecoder._add_final_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_final_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channels</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take the results of :func:`_add_yesod_block` and prepare them for the for the final output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            channels (int): Channels of the output images (1 for Grayscale, 3 for RGB).</span>
+<span class="sd">            kernel_size (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Kernel used by the</span>
+<span class="sd">                convolution layers.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2DTranspose</span><span class="p">(</span>
+                <span class="n">channels</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">,</span>
+                <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">,</span>
+                <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FCNNBaseDecoder"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html#ashpy.models.gans.FCNNBaseDecoder">[docs]</a><span class="k">class</span> <span class="nc">FCNNBaseDecoder</span><span class="p">(</span><span class="n">BaseDecoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fully Convolutional Decoder. Expected input is a feature map.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        * Direct Usage:</span>
+
+<span class="sd">            .. testcode::</span>
+
+<span class="sd">                dummy_generator = FCNNBaseDecoder(</span>
+<span class="sd">                    layer_spec_input_res=(8, 8),</span>
+<span class="sd">                    layer_spec_target_res=(64, 64),</span>
+<span class="sd">                    kernel_size=(5, 5),</span>
+<span class="sd">                    initial_filters=1024,</span>
+<span class="sd">                    filters_cap=16,</span>
+<span class="sd">                    channels=3,</span>
+<span class="sd">                )</span>
+
+<span class="sd">                print(dummy_generator(tf.zeros((1, 1, 1, 100))).shape)</span>
+
+<span class="sd">            .. testoutput::</span>
+
+<span class="sd">                (1, 64, 64, 3)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">layer_spec_input_res</span><span class="p">,</span>
+        <span class="n">layer_spec_target_res</span><span class="p">,</span>
+        <span class="n">kernel_size</span><span class="p">,</span>
+        <span class="n">initial_filters</span><span class="p">,</span>
+        <span class="n">filters_cap</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">,</span>
+        <span class="n">use_dropout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dropout_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">non_linearity</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_size</span> <span class="o">=</span> <span class="n">kernel_size</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">layer_spec_input_res</span><span class="p">,</span>
+            <span class="n">layer_spec_target_res</span><span class="p">,</span>
+            <span class="n">kernel_size</span><span class="p">,</span>
+            <span class="n">initial_filters</span><span class="p">,</span>
+            <span class="n">filters_cap</span><span class="p">,</span>
+            <span class="n">channels</span><span class="p">,</span>
+            <span class="n">use_dropout</span><span class="o">=</span><span class="n">use_dropout</span><span class="p">,</span>
+            <span class="n">dropout_prob</span><span class="o">=</span><span class="n">dropout_prob</span><span class="p">,</span>
+            <span class="n">non_linearity</span><span class="o">=</span><span class="n">non_linearity</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="FCNNBaseDecoder._add_initial_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html#ashpy.models.gans.FCNNBaseDecoder._add_initial_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_initial_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_filters</span><span class="p">,</span> <span class="n">input_res</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ingest the :py:obj:`tf.keras.Model` inputs and prepare them for :func:`_add_yesod_block`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            initial_filters (int): Numbers of filters to used as a base value.</span>
+<span class="sd">            input_res (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Shape of the</span>
+<span class="sd">                :func:`_get_layer_spec` input tensors.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Always suppose to have a 1x1xD input vector.</span>
+        <span class="c1"># GOAL: upsample in order to make it input_res[0], input_res[1], initial_filters</span>
+        <span class="c1"># Since conv2dtrasponse output is: input size * stride if padding == same</span>
+        <span class="c1"># and (input size -1) * stride + Kernel size if padding == valid</span>
+
+        <span class="c1"># Since input resolution is 1, computing the stride value is</span>
+        <span class="c1"># not possible (division by zero (input_size-1))</span>
+        <span class="c1"># hence we have to use padding = same.</span>
+
+        <span class="n">stride</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="o">*</span><span class="n">input_res</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_layers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2DTranspose</span><span class="p">(</span>
+                    <span class="n">initial_filters</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_size</span><span class="p">,</span>
+                    <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="n">stride</span><span class="p">,</span> <span class="n">stride</span><span class="p">),</span>
+                    <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">,</span>
+                    <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

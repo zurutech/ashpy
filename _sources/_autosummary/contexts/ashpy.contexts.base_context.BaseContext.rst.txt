@@ -1,0 +1,39 @@
+BaseContext
+=======================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.contexts.base_context.BaseContext
+   :parts: 1
+
+.. currentmodule:: ashpy.contexts.base_context
+
+----
+
+.. autoclass:: BaseContext
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseContext.__init__
+      ~BaseContext.measure_metrics
+      ~BaseContext.model_selection
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BaseContext.dataset
+      ~BaseContext.global_step
+      ~BaseContext.log_eval_mode
+      ~BaseContext.metrics
+   
+   

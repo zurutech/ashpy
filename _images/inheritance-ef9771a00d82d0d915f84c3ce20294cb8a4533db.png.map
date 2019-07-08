@@ -1,0 +1,6 @@
+<map id="inheritance43f75995a6" name="inheritance43f75995a6">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node3" href="../metrics/metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" target="_top" title="Metric is the abstract class that every ash metric must implement." alt="" coords="125,5,197,31"/>
+<area shape="rect" id="node2" href="../metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html#ashpy.metrics.classifier.ClassifierMetric" target="_top" title="A wrapper for the classification metric that requires to apply argmax" alt="" coords="245,5,368,31"/>
+<area shape="rect" id="node4" href="../metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html#ashpy.metrics.gan.EncodingAccuracy" target="_top" title="Measures the Generator and Encoder performance together, by classifying:" alt="" coords="416,5,556,31"/>
+</map>

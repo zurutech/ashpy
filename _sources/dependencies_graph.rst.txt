@@ -1,0 +1,38 @@
+Dependencies Graph
+##################
+
+ashpy.models
+**********
+
+Convolutional
+=============
+
+.. inheritance-diagram:: ashpy.models.convolutional.interfaces ashpy.models.convolutional.encoders ashpy.models.convolutional.decoders
+   :parts: 1
+
+----
+
+GANs
+====
+
+.. inheritance-diagram:: ashpy.models.gans
+   :parts: 1
+
+----
+
+ashpy.trainers
+************
+
+Adversarial
+===========
+
+.. inheritance-diagram:: ashpy.trainers.base_trainer ashpy.trainers.gan
+   :parts: 1
+
+----
+
+Classifier
+==========
+
+.. inheritance-diagram:: ashpy.trainers.base_trainer ashpy.trainers.classifier
+    :parts: 1

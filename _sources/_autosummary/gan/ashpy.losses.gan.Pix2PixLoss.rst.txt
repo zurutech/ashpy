@@ -1,0 +1,39 @@
+Pix2PixLoss
+============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.Pix2PixLoss
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: Pix2PixLoss
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Pix2PixLoss.__init__
+      ~Pix2PixLoss.call
+      ~Pix2PixLoss.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Pix2PixLoss.executors
+      ~Pix2PixLoss.fn
+      ~Pix2PixLoss.global_batch_size
+      ~Pix2PixLoss.weight
+   
+   

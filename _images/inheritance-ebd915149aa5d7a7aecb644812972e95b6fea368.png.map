@@ -1,0 +1,11 @@
+<map id="inheritanceff4044ba39" name="inheritanceff4044ba39">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="91,4,167,20"/>
+<area shape="rect" id="node6" title="Base neural network module class." alt="" coords="198,4,246,20"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="4,4,59,20"/>
+<area shape="rect" id="node3" href="interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="519,4,606,20"/>
+<area shape="rect" id="node9" href="unet/ashpy.models.convolutional.unet.UNet.html#ashpy.models.convolutional.unet.UNet" target="_top" title="UNet Architecture [1]_" alt="" coords="638,4,685,20"/>
+<area shape="rect" id="node4" title="`Model` groups layers into an object with training and inference features." alt="" coords="440,4,488,20"/>
+<area shape="rect" id="node5" title="Base layer class." alt="" coords="278,4,325,20"/>
+<area shape="rect" id="node7" title="A `Network` is a composition of layers." alt="" coords="357,4,408,20"/>
+<area shape="rect" id="node8" href="unet/ashpy.models.convolutional.unet.SUNet.html#ashpy.models.convolutional.unet.SUNet" target="_top" title="Semantic UNet" alt="" coords="717,4,764,20"/>
+</map>

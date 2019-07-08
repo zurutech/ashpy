@@ -1,0 +1,39 @@
+DiscriminatorMinMax
+====================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.DiscriminatorMinMax
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: DiscriminatorMinMax
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DiscriminatorMinMax.__init__
+      ~DiscriminatorMinMax.call
+      ~DiscriminatorMinMax.get_discriminator_inputs
+      ~DiscriminatorMinMax.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DiscriminatorMinMax.fn
+      ~DiscriminatorMinMax.global_batch_size
+      ~DiscriminatorMinMax.weight
+   
+   

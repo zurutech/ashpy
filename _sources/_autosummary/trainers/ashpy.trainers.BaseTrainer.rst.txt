@@ -1,0 +1,29 @@
+BaseTrainer
+==========================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.trainers.BaseTrainer
+   :parts: 1
+
+.. currentmodule:: ashpy.trainers
+
+----
+
+.. autoclass:: BaseTrainer
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseTrainer.__init__
+      ~BaseTrainer.call
+   
+   
+
+   
+   
+   

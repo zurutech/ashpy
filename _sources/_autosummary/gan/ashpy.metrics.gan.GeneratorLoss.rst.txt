@@ -1,0 +1,45 @@
+GeneratorLoss
+===============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.gan.GeneratorLoss
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.gan
+
+----
+
+.. autoclass:: GeneratorLoss
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GeneratorLoss.__init__
+      ~GeneratorLoss.json_read
+      ~GeneratorLoss.json_write
+      ~GeneratorLoss.model_selection
+      ~GeneratorLoss.reset_states
+      ~GeneratorLoss.result
+      ~GeneratorLoss.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GeneratorLoss.best_folder
+      ~GeneratorLoss.best_model_sel_file
+      ~GeneratorLoss.logdir
+      ~GeneratorLoss.metric
+      ~GeneratorLoss.model_selection_operator
+      ~GeneratorLoss.name
+   
+   

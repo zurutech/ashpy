@@ -1,0 +1,43 @@
+GANContext
+=============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.contexts.gan.GANContext
+   :parts: 1
+
+.. currentmodule:: ashpy.contexts.gan
+
+----
+
+.. autoclass:: GANContext
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GANContext.__init__
+      ~GANContext.measure_metrics
+      ~GANContext.model_selection
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GANContext.dataset
+      ~GANContext.discriminator_loss
+      ~GANContext.discriminator_model
+      ~GANContext.generator_loss
+      ~GANContext.generator_model
+      ~GANContext.global_step
+      ~GANContext.log_eval_mode
+      ~GANContext.metrics
+   
+   

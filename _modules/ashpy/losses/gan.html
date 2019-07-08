@@ -1,0 +1,1009 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ashpy.losses.gan &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ashpy.losses.gan</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ashpy.losses.gan</h1><div class="highlight"><pre>
+<span></span><span class="c1">#Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#you may not use this file except in compliance with the License.</span>
+<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#See the License for the specific language governing permissions and</span>
+<span class="c1">#limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;GAN losses.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">ashpy.contexts</span> <span class="k">import</span> <span class="n">GANContext</span>
+
+<span class="kn">from</span> <span class="nn">ashpy.losses.executor</span> <span class="k">import</span> <span class="n">Executor</span><span class="p">,</span> <span class="n">SumExecutor</span>
+
+
+<div class="viewcode-block" id="AdversarialLossType"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html#ashpy.losses.gan.AdversarialLossType">[docs]</a><span class="k">class</span> <span class="nc">AdversarialLossType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">GAN</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># classical gan loss (minmax)</span>
+    <span class="n">LSGAN</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Least Square GAN</span></div>
+
+
+<div class="viewcode-block" id="GANExecutor"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor">[docs]</a><span class="k">class</span> <span class="nc">GANExecutor</span><span class="p">(</span><span class="n">Executor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Executor for GANs. Implements the basic functions needed by the GAN losses</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GANExecutor.get_discriminator_inputs"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor.get_discriminator_inputs">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_discriminator_inputs</span><span class="p">(</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">GANContext</span><span class="p">,</span>
+        <span class="n">fake_or_real</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">condition</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">training</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the discriminator inputs. If needed it uses the encoder.</span>
+<span class="sd">        The current implementation uses the number of inputs to determine</span>
+<span class="sd">        whether the discriminator is conditioned or not.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            context (:py:class:`ashpy.contexts.gan.GANContext`): context for GAN models</span>
+<span class="sd">            fake_or_real (:py:class:`tf.Tensor`): discriminator input tensor, it can be fake (generated) or real</span>
+<span class="sd">            condition (:py:class:`tf.Tensor`): discriminator condition (it can also be generator noise)</span>
+<span class="sd">            training (bool): whether is training phase or not</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The discriminator inputs.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_inputs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
+
+        <span class="c1"># Handle encoder</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&quot;encoder_model&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">num_inputs</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">d_inputs</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">fake_or_real</span><span class="p">,</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">encoder_model</span><span class="p">(</span><span class="n">fake_or_real</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">num_inputs</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">d_inputs</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">fake_or_real</span><span class="p">,</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">encoder_model</span><span class="p">(</span><span class="n">fake_or_real</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">),</span>
+                    <span class="n">condition</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s2">&quot;Context has encoder_model, but generator has only </span><span class="si">{num_inputs}</span><span class="s2"> inputs&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num_inputs</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">d_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">fake_or_real</span><span class="p">,</span> <span class="n">condition</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d_inputs</span> <span class="o">=</span> <span class="n">fake_or_real</span>
+
+        <span class="k">return</span> <span class="n">d_inputs</span></div></div>
+
+
+<div class="viewcode-block" id="AdversarialLossG"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG">[docs]</a><span class="k">class</span> <span class="nc">AdversarialLossG</span><span class="p">(</span><span class="n">GANExecutor</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for the adversarial loss of the generator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AdversarialLossG.__init__"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            loss_fn: loss_fn to call passing (tf.ones_like(d_fake_i), d_fake_i)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">loss_fn</span><span class="p">)</span></div>
+
+    <span class="nd">@Executor</span><span class="o">.</span><span class="n">reduce_loss</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fake</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call: setup the discriminator inputs and calls `loss_fn`</span>
+<span class="sd">        Args:</span>
+<span class="sd">            context: GAN Context</span>
+<span class="sd">            fake: fake images</span>
+<span class="sd">            condition: generator condition</span>
+<span class="sd">            training: if training or evaluation</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The loss for each example</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fake_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_discriminator_inputs</span><span class="p">(</span>
+            <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">fake_or_real</span><span class="o">=</span><span class="n">fake</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span>
+        <span class="p">)</span>
+
+        <span class="n">d_fake</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="p">(</span><span class="n">fake_inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+
+        <span class="c1"># support for Multiscale discriminator</span>
+        <span class="c1"># TODO: Improve</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d_fake</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add_n</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">d_fake_i</span><span class="p">),</span> <span class="n">d_fake_i</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">d_fake_i</span> <span class="ow">in</span> <span class="n">d_fake</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">d_fake</span><span class="p">),</span> <span class="n">d_fake</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">d_fake</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">4</span><span class="p">)),</span>
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="GeneratorBCE"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html#ashpy.losses.gan.GeneratorBCE">[docs]</a><span class="k">class</span> <span class="nc">GeneratorBCE</span><span class="p">(</span><span class="n">AdversarialLossG</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Binary CrossEntropy computed among the generator and the 1 label.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        L_{G} =  E [\log (D( G(z))]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;GeneratorBCE&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GeneratorLSGAN"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html#ashpy.losses.gan.GeneratorLSGAN">[docs]</a><span class="k">class</span> <span class="nc">GeneratorLSGAN</span><span class="p">(</span><span class="n">AdversarialLossG</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Least Square GAN Loss for generator</span>
+<span class="sd">    Reference: https://arxiv.org/abs/1611.04076</span>
+<span class="sd">    Basically the Mean Squared Error between</span>
+<span class="sd">    the discriminator output when evaluated in fake and 1</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        L_{G} =  \frac{1}{2} E [(1 - D(G(z))^2]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;GeneratorLSGAN&quot;</span></div>
+
+
+<div class="viewcode-block" id="GeneratorL1"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1">[docs]</a><span class="k">class</span> <span class="nc">GeneratorL1</span><span class="p">(</span><span class="n">GANExecutor</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    L1 loss between the generator output and the target.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        L_G = E ||x - G(z)||_1</span>
+
+<span class="sd">    where x is the target and G(z) is generated image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GeneratorL1.L1Loss"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1.L1Loss">[docs]</a>    <span class="k">class</span> <span class="nc">L1Loss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Loss</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reduction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">SUM_OVER_BATCH_SIZE</span>
+
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reduction</span>
+
+        <span class="nd">@reduction</span><span class="o">.</span><span class="n">setter</span>
+        <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reduction</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="GeneratorL1.L1Loss.call"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1.L1Loss.call">[docs]</a>        <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            For each element the mean of the l1 between x and y</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reduction</span> <span class="o">==</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">SUM_OVER_BATCH_SIZE</span><span class="p">:</span>
+                <span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reduction</span> <span class="o">==</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+                <span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;L1Loss: unhandled reduction type&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GeneratorL1</span><span class="o">.</span><span class="n">L1Loss</span><span class="p">())</span>
+
+    <span class="nd">@Executor</span><span class="o">.</span><span class="n">reduce_loss</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fake</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">mae</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">fake</span><span class="p">,</span> <span class="n">real</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mae</span></div>
+
+
+<div class="viewcode-block" id="FeatureMatchingLoss"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss">[docs]</a><span class="k">class</span> <span class="nc">FeatureMatchingLoss</span><span class="p">(</span><span class="n">GeneratorL1</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Conditional GAN Feature matching loss.</span>
+<span class="sd">    The loss is computed for each example and it&#39;s the L1 (MAE) of the feature difference.</span>
+<span class="sd">    Implementation of pix2pix HD: https://github.com/NVIDIA/pix2pixHD</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \text{FM} = \sum_{i=0}^N \frac{1}{M_i} ||D_i(x, c) - D_i(G(c), c) ||_1</span>
+
+<span class="sd">    Where:</span>
+
+<span class="sd">    - D_i is the i-th layer of the discriminator</span>
+<span class="sd">    - N is the total number of layer of the discriminator</span>
+<span class="sd">    - M_i is the number of components for the i-th layer</span>
+<span class="sd">    - x is the target image</span>
+<span class="sd">    - c is the condition</span>
+<span class="sd">    - G(c) is the generated image from the condition c</span>
+<span class="sd">    - || ||_1 stands for norm 1.</span>
+
+<span class="sd">    This is for a single example: basically for each layer of the discriminator we compute the absolute error between</span>
+<span class="sd">    the layer evaluated in real examples and in fake examples.</span>
+<span class="sd">    Then we average along the batch. In the case where D_i is a multidimensional tensor we simply calculate the mean</span>
+<span class="sd">    over the axis 1,2,3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@Executor</span><span class="o">.</span><span class="n">reduce_loss</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fake</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">fake_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_discriminator_inputs</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">,</span> <span class="n">fake_or_real</span><span class="o">=</span><span class="n">fake</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span>
+        <span class="p">)</span>
+
+        <span class="n">real_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_discriminator_inputs</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">,</span> <span class="n">fake_or_real</span><span class="o">=</span><span class="n">real</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span>
+        <span class="p">)</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">features_fake</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="p">(</span>
+            <span class="n">fake_inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">,</span> <span class="n">return_features</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">features_real</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="p">(</span>
+            <span class="n">real_inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">,</span> <span class="n">return_features</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="c1"># for each feature the L1 between the real and the fake</span>
+        <span class="c1"># every call to fn should return [batch_size, 1] that is the mean L1</span>
+        <span class="n">feature_loss</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">feat_real_i</span><span class="p">,</span> <span class="n">feat_fake_i</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">feat_real_i</span><span class="p">,</span> <span class="n">feat_fake_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">features_real</span><span class="p">,</span> <span class="n">features_fake</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">mae</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add_n</span><span class="p">(</span><span class="n">feature_loss</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mae</span></div>
+
+
+<div class="viewcode-block" id="CategoricalCrossEntropy"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html#ashpy.losses.gan.CategoricalCrossEntropy">[docs]</a><span class="k">class</span> <span class="nc">CategoricalCrossEntropy</span><span class="p">(</span><span class="n">Executor</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Categorical Cross Entropy between generator output and target.</span>
+<span class="sd">    Useful when the output of the generator is a distribution over classes</span>
+<span class="sd">    The target must be represented in one hot notation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;CrossEntropy&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">CategoricalCrossentropy</span><span class="p">())</span>
+
+    <span class="nd">@Executor</span><span class="o">.</span><span class="n">reduce_loss</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fake</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the categorical cross entropy loss</span>
+<span class="sd">        Args:</span>
+<span class="sd">            context: unused</span>
+<span class="sd">            fake: fake images G(condition)</span>
+<span class="sd">            real: Real images x(c)</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The categorical cross entropy loss for each example</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">loss_value</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">fake</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">loss_value</span></div>
+
+
+<div class="viewcode-block" id="Pix2PixLoss"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html#ashpy.losses.gan.Pix2PixLoss">[docs]</a><span class="k">class</span> <span class="nc">Pix2PixLoss</span><span class="p">(</span><span class="n">SumExecutor</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Weighted sum of :py:class:`ashpy.losses.gan.GeneratorL1`, :py:class:`ashpy.losses.gan.AdversarialLossG` and</span>
+<span class="sd">    :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.</span>
+<span class="sd">    Used by Pix2Pix [1] and Pix2PixHD [2]</span>
+
+<span class="sd">    .. [1] Image-to-Image Translation with Conditional Adversarial Networks</span>
+<span class="sd">             https://arxiv.org/abs/1611.07004</span>
+<span class="sd">    .. [2] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs</span>
+<span class="sd">             https://arxiv.org/abs/1711.11585</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Pix2PixLoss.__init__"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html#ashpy.losses.gan.Pix2PixLoss.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">l1_loss_weight</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
+        <span class="n">adversarial_loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">feature_matching_weight</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+        <span class="n">adversarial_loss_type</span><span class="p">:</span> <span class="n">AdversarialLossType</span> <span class="o">=</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span><span class="p">,</span>
+        <span class="n">use_feature_matching_loss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Weighted sum of :py:class:`ashpy.losses.gan.GeneratorL1`, :py:class:`ashpy.losses.gan.AdversarialLossG` and</span>
+<span class="sd">        :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            l1_loss_weight: weight of L1 loss (scalar, :py:class:`tf.Tensor`, callable)</span>
+<span class="sd">            adversarial_loss_weight: weight of adversarial loss (scalar, :py:class:`tf.Tensor`, callable)</span>
+<span class="sd">            feature_matching_weight: weight of the feature matching loss (scalar, :py:class:`tf.Tensor`, callable)</span>
+<span class="sd">            adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Adversarial loss type</span>
+<span class="sd">                                                                     (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN`</span>
+<span class="sd">                                                                     or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)</span>
+<span class="sd">            use_feature_matching_loss (bool): if True use also :py:class:`ashpy.losses.gan.FeatureMatchingLoss`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">executors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">GeneratorL1</span><span class="p">()</span> <span class="o">*</span> <span class="n">l1_loss_weight</span><span class="p">,</span>
+            <span class="n">get_adversarial_loss_generator</span><span class="p">(</span><span class="n">adversarial_loss_type</span><span class="p">)()</span>
+            <span class="o">*</span> <span class="n">adversarial_loss_weight</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">use_feature_matching_loss</span><span class="p">:</span>
+            <span class="n">executors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FeatureMatchingLoss</span><span class="p">()</span> <span class="o">*</span> <span class="n">feature_matching_weight</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executors</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Pix2PixLossSemantic"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html#ashpy.losses.gan.Pix2PixLossSemantic">[docs]</a><span class="k">class</span> <span class="nc">Pix2PixLossSemantic</span><span class="p">(</span><span class="n">SumExecutor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`, :py:class:`ashpy.losses.gan.AdversarialLossG` and</span>
+<span class="sd">    :py:class:`ashpy.losses.gan.FeatureMatchingLoss`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Pix2PixLossSemantic.__init__"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html#ashpy.losses.gan.Pix2PixLossSemantic.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cross_entropy_weight</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
+        <span class="n">adversarial_loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">feature_matching_weight</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+        <span class="n">adversarial_loss_type</span><span class="p">:</span> <span class="n">AdversarialLossType</span> <span class="o">=</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span><span class="p">,</span>
+        <span class="n">use_feature_matching_loss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`, :py:class:`ashpy.losses.gan.AdversarialLossG` and</span>
+<span class="sd">        :py:class:`ashpy.losses.gan.FeatureMatchingLoss`</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cross_entropy_weight: weight of the categorical cross entropy loss (scalar, :py:class:`tf.Tensor`, callable)</span>
+<span class="sd">            adversarial_loss_weight: weight of the adversarial loss (scalar, :py:class:`tf.Tensor`, callable)</span>
+<span class="sd">            feature_matching_weight: weight of the feature matching loss (scalar, :py:class:`tf.Tensor`, callable)</span>
+<span class="sd">            adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): type of adversarial loss,</span>
+<span class="sd">                                                                     see :py:class:`ashpy.losses.gan.AdversarialLossType`</span>
+<span class="sd">            use_feature_matching_loss (bool): whether to use feature matching loss or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">executors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">CategoricalCrossEntropy</span><span class="p">()</span> <span class="o">*</span> <span class="n">cross_entropy_weight</span><span class="p">,</span>
+            <span class="n">get_adversarial_loss_generator</span><span class="p">(</span><span class="n">adversarial_loss_type</span><span class="p">)()</span>
+            <span class="o">*</span> <span class="n">adversarial_loss_weight</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">use_feature_matching_loss</span><span class="p">:</span>
+            <span class="n">executors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FeatureMatchingLoss</span><span class="p">()</span> <span class="o">*</span> <span class="n">feature_matching_weight</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executors</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="EncoderBCE"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html#ashpy.losses.gan.EncoderBCE">[docs]</a><span class="k">class</span> <span class="nc">EncoderBCE</span><span class="p">(</span><span class="n">Executor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Binary Cross Entropy computed among the encoder and the 0 label.</span>
+<span class="sd">    TODO: Check if this supports condition</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">))</span>
+
+    <span class="nd">@Executor</span><span class="o">.</span><span class="n">reduce_loss</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="n">training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">encode</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">encoder_model</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+        <span class="n">d_real</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="p">([</span><span class="n">real</span><span class="p">,</span> <span class="n">encode</span><span class="p">],</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">d_real</span><span class="p">),</span> <span class="n">d_real</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AdversarialLossD"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html#ashpy.losses.gan.AdversarialLossD">[docs]</a><span class="k">class</span> <span class="nc">AdversarialLossD</span><span class="p">(</span><span class="n">GANExecutor</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for the adversarial loss of the discriminator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AdversarialLossD.__init__"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html#ashpy.losses.gan.AdversarialLossD.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            loss_fn to call passing (d_real, d_fake)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">loss_fn</span><span class="p">)</span></div>
+
+    <span class="nd">@Executor</span><span class="o">.</span><span class="n">reduce_loss</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fake</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call: setup the discriminator inputs and calls `loss_fn`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            context: GAN Context</span>
+<span class="sd">            fake: fake images corresponding to the condition G(c)</span>
+<span class="sd">            real: real images corresponding to the condition x(c)</span>
+<span class="sd">            condition: condition for the generator and discriminator</span>
+<span class="sd">            training: if training or evaluation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The loss for each example</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fake_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_discriminator_inputs</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">,</span> <span class="n">fake_or_real</span><span class="o">=</span><span class="n">fake</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span>
+        <span class="p">)</span>
+
+        <span class="n">real_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_discriminator_inputs</span><span class="p">(</span>
+            <span class="n">context</span><span class="p">,</span> <span class="n">fake_or_real</span><span class="o">=</span><span class="n">real</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span>
+        <span class="p">)</span>
+
+        <span class="n">d_fake</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="p">(</span><span class="n">fake_inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+        <span class="n">d_real</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">discriminator_model</span><span class="p">(</span><span class="n">real_inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d_fake</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add_n</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">d_real_i</span><span class="p">,</span> <span class="n">d_fake_i</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">d_real_i</span><span class="p">,</span> <span class="n">d_fake_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d_real</span><span class="p">,</span> <span class="n">d_fake</span><span class="p">)</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">d_real</span><span class="p">,</span> <span class="n">d_fake</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">d_fake</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">4</span><span class="p">)),</span>
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="DiscriminatorMinMax"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html#ashpy.losses.gan.DiscriminatorMinMax">[docs]</a><span class="k">class</span> <span class="nc">DiscriminatorMinMax</span><span class="p">(</span><span class="n">AdversarialLossD</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The min-max game played by the discriminator.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        L_{D} =  - \frac{1}{2} E [\log(D(x)) + \log (1 - D(G(z))]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscriminatorMinMax.GANLoss"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html#ashpy.losses.gan.DiscriminatorMinMax.GANLoss">[docs]</a>    <span class="k">class</span> <span class="nc">GANLoss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Loss</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label_smoothing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_positive_bce</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span>
+                <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">,</span>
+                <span class="n">label_smoothing</span><span class="o">=</span><span class="n">label_smoothing</span><span class="p">,</span>
+                <span class="n">reduction</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_negative_bce</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span>
+                <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">,</span>
+                <span class="n">label_smoothing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">reduction</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positive_bce</span><span class="o">.</span><span class="n">reduction</span>
+
+        <span class="nd">@reduction</span><span class="o">.</span><span class="n">setter</span>
+        <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_positive_bce</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_negative_bce</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="DiscriminatorMinMax.GANLoss.call"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html#ashpy.losses.gan.DiscriminatorMinMax.GANLoss.call">[docs]</a>        <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_real</span><span class="p">,</span> <span class="n">d_fake</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Play the DiscriminatorMinMax game between the discriminator computed in real</span>
+<span class="sd">            and the discriminator compute with fake inputs.&quot;&quot;&quot;</span>
+
+            <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_positive_bce</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">d_real</span><span class="p">),</span> <span class="n">d_real</span><span class="p">)</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_negative_bce</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">d_fake</span><span class="p">),</span> <span class="n">d_fake</span><span class="p">)</span>
+            <span class="p">)</span></div></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label_smoothing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">DiscriminatorMinMax</span><span class="o">.</span><span class="n">GANLoss</span><span class="p">(</span>
+                <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">,</span> <span class="n">label_smoothing</span><span class="o">=</span><span class="n">label_smoothing</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiscriminatorLSGAN"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html#ashpy.losses.gan.DiscriminatorLSGAN">[docs]</a><span class="k">class</span> <span class="nc">DiscriminatorLSGAN</span><span class="p">(</span><span class="n">AdversarialLossD</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Least square Loss for discriminator.</span>
+
+<span class="sd">    Reference: Least Squares Generative Adversarial Networks [1]_ .</span>
+
+<span class="sd">    Basically the Mean Squared Error between</span>
+<span class="sd">    the discriminator output when evaluated in fake and 0</span>
+<span class="sd">    and the discriminator output when evaluated in real and 1:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        L_{D} = \frac{1}{2} E[(D(x) - 1)^2 + (0 - D(G(z))^2]</span>
+
+<span class="sd">    .. [1] https://arxiv.org/abs/1611.04076</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscriminatorLSGAN.LeastSquareLoss"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html#ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss">[docs]</a>    <span class="k">class</span> <span class="nc">LeastSquareLoss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Loss</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_positive_mse</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">(</span>
+                <span class="n">reduction</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">NONE</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_negative_mse</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">(</span>
+                <span class="n">reduction</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Reduction</span><span class="o">.</span><span class="n">NONE</span>
+            <span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positive_mse</span><span class="o">.</span><span class="n">reduction</span>
+
+        <span class="nd">@reduction</span><span class="o">.</span><span class="n">setter</span>
+        <span class="k">def</span> <span class="nf">reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_positive_mse</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_negative_mse</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="DiscriminatorLSGAN.LeastSquareLoss.call"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html#ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss.call">[docs]</a>        <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_real</span><span class="p">,</span> <span class="n">d_fake</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_positive_mse</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">d_real</span><span class="p">),</span> <span class="n">d_real</span><span class="p">)</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_negative_mse</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">d_fake</span><span class="p">),</span> <span class="n">d_fake</span><span class="p">)</span>
+            <span class="p">)</span></div></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">DiscriminatorLSGAN</span><span class="o">.</span><span class="n">LeastSquareLoss</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DiscriminatorLSGAN&quot;</span></div>
+
+
+<span class="c1">###</span>
+<span class="c1"># Utility functions in order to get the correct loss</span>
+<span class="c1">###</span>
+
+
+<div class="viewcode-block" id="get_adversarial_loss_discriminator"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html#ashpy.losses.gan.get_adversarial_loss_discriminator">[docs]</a><span class="k">def</span> <span class="nf">get_adversarial_loss_discriminator</span><span class="p">(</span>
+    <span class="n">adversarial_loss_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AdversarialLossType</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Executor</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the correct loss fot the discriminator</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Type of loss (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN` or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span>
+        <span class="ow">or</span> <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">DiscriminatorMinMax</span>
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">LSGAN</span>
+        <span class="ow">or</span> <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">LSGAN</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">DiscriminatorLSGAN</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Loss type not supported, the implemented losses are DiscriminatorMinMax or LSGAN&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_adversarial_loss_generator"><a class="viewcode-back" href="../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html#ashpy.losses.gan.get_adversarial_loss_generator">[docs]</a><span class="k">def</span> <span class="nf">get_adversarial_loss_generator</span><span class="p">(</span>
+    <span class="n">adversarial_loss_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AdversarialLossType</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Executor</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the correct loss fot the generator</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Type of loss (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN` or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span>
+        <span class="ow">or</span> <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">GAN</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">GeneratorBCE</span>
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">LSGAN</span>
+        <span class="ow">or</span> <span class="n">adversarial_loss_type</span> <span class="o">==</span> <span class="n">AdversarialLossType</span><span class="o">.</span><span class="n">LSGAN</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">GeneratorLSGAN</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Loss type not supported, the implemented losses are DiscriminatorMinMax or LSGAN&quot;</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

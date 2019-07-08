@@ -1,0 +1,34 @@
+Getting Started
+###############
+
+
+Creating a new Dataset
+======================
+
+Creating a new Model
+====================
+
+Creating a new Trainer
+======================
+
+----
+
+Complete Examples
+=================
+
+GANs
+++++
+
+Dummy
+-----
+
+.. literalinclude:: ../../examples/gans/dummy.py
+   :language: python
+   :linenos:
+
+Fashion MNIST
+-------------
+
+.. literalinclude:: ../../examples/gans/fashion_mnist.py
+   :language: python
+   :linenos:

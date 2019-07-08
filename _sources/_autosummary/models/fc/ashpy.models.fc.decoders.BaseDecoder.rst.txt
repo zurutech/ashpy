@@ -1,0 +1,108 @@
+BaseDecoder
+====================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.fc.decoders.BaseDecoder
+   :parts: 1
+
+.. currentmodule:: ashpy.models.fc.decoders
+
+----
+
+.. autoclass:: BaseDecoder
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseDecoder.__init__
+      ~BaseDecoder.add_loss
+      ~BaseDecoder.add_metric
+      ~BaseDecoder.add_update
+      ~BaseDecoder.add_variable
+      ~BaseDecoder.add_weight
+      ~BaseDecoder.apply
+      ~BaseDecoder.build
+      ~BaseDecoder.call
+      ~BaseDecoder.compile
+      ~BaseDecoder.compute_mask
+      ~BaseDecoder.compute_output_shape
+      ~BaseDecoder.compute_output_signature
+      ~BaseDecoder.count_params
+      ~BaseDecoder.evaluate
+      ~BaseDecoder.evaluate_generator
+      ~BaseDecoder.fit
+      ~BaseDecoder.fit_generator
+      ~BaseDecoder.from_config
+      ~BaseDecoder.get_config
+      ~BaseDecoder.get_input_at
+      ~BaseDecoder.get_input_mask_at
+      ~BaseDecoder.get_input_shape_at
+      ~BaseDecoder.get_layer
+      ~BaseDecoder.get_losses_for
+      ~BaseDecoder.get_output_at
+      ~BaseDecoder.get_output_mask_at
+      ~BaseDecoder.get_output_shape_at
+      ~BaseDecoder.get_updates_for
+      ~BaseDecoder.get_weights
+      ~BaseDecoder.load_weights
+      ~BaseDecoder.predict
+      ~BaseDecoder.predict_generator
+      ~BaseDecoder.predict_on_batch
+      ~BaseDecoder.reset_metrics
+      ~BaseDecoder.reset_states
+      ~BaseDecoder.save
+      ~BaseDecoder.save_weights
+      ~BaseDecoder.set_weights
+      ~BaseDecoder.summary
+      ~BaseDecoder.test_on_batch
+      ~BaseDecoder.to_json
+      ~BaseDecoder.to_yaml
+      ~BaseDecoder.train_on_batch
+      ~BaseDecoder.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BaseDecoder.activity_regularizer
+      ~BaseDecoder.dtype
+      ~BaseDecoder.dynamic
+      ~BaseDecoder.inbound_nodes
+      ~BaseDecoder.input
+      ~BaseDecoder.input_mask
+      ~BaseDecoder.input_shape
+      ~BaseDecoder.input_spec
+      ~BaseDecoder.layers
+      ~BaseDecoder.losses
+      ~BaseDecoder.metrics
+      ~BaseDecoder.metrics_names
+      ~BaseDecoder.name
+      ~BaseDecoder.name_scope
+      ~BaseDecoder.non_trainable_variables
+      ~BaseDecoder.non_trainable_weights
+      ~BaseDecoder.outbound_nodes
+      ~BaseDecoder.output
+      ~BaseDecoder.output_mask
+      ~BaseDecoder.output_shape
+      ~BaseDecoder.run_eagerly
+      ~BaseDecoder.sample_weights
+      ~BaseDecoder.state_updates
+      ~BaseDecoder.stateful
+      ~BaseDecoder.submodules
+      ~BaseDecoder.trainable
+      ~BaseDecoder.trainable_variables
+      ~BaseDecoder.trainable_weights
+      ~BaseDecoder.updates
+      ~BaseDecoder.variables
+      ~BaseDecoder.weights
+   
+   

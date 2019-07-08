@@ -1,0 +1,25 @@
+executor
+=====================
+
+.. automodule:: ashpy.losses.executor
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: executor
+   
+      Executor
+      SumExecutor
+   
+   
+
+   
+   
+   

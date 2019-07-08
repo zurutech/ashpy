@@ -1,0 +1,6 @@
+ashpy.models.convolutional.unet.FUNet
+=====================================
+
+.. currentmodule:: ashpy.models.convolutional.unet
+
+.. autofunction:: FUNet

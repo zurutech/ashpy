@@ -1,0 +1,6 @@
+ashpy.losses.gan.get\_adversarial\_loss\_discriminator
+======================================================
+
+.. currentmodule:: ashpy.losses.gan
+
+.. autofunction:: get_adversarial_loss_discriminator

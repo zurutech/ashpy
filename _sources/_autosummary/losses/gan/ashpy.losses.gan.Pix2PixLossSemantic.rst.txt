@@ -1,0 +1,39 @@
+Pix2PixLossSemantic
+====================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.Pix2PixLossSemantic
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: Pix2PixLossSemantic
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Pix2PixLossSemantic.__init__
+      ~Pix2PixLossSemantic.call
+      ~Pix2PixLossSemantic.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Pix2PixLossSemantic.executors
+      ~Pix2PixLossSemantic.fn
+      ~Pix2PixLossSemantic.global_batch_size
+      ~Pix2PixLossSemantic.weight
+   
+   

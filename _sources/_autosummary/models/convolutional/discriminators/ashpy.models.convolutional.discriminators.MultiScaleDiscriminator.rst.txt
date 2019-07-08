@@ -1,0 +1,109 @@
+MultiScaleDiscriminator
+=================================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.discriminators.MultiScaleDiscriminator
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.discriminators
+
+----
+
+.. autoclass:: MultiScaleDiscriminator
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MultiScaleDiscriminator.__init__
+      ~MultiScaleDiscriminator.add_loss
+      ~MultiScaleDiscriminator.add_metric
+      ~MultiScaleDiscriminator.add_update
+      ~MultiScaleDiscriminator.add_variable
+      ~MultiScaleDiscriminator.add_weight
+      ~MultiScaleDiscriminator.apply
+      ~MultiScaleDiscriminator.build
+      ~MultiScaleDiscriminator.build_discriminator
+      ~MultiScaleDiscriminator.call
+      ~MultiScaleDiscriminator.compile
+      ~MultiScaleDiscriminator.compute_mask
+      ~MultiScaleDiscriminator.compute_output_shape
+      ~MultiScaleDiscriminator.compute_output_signature
+      ~MultiScaleDiscriminator.count_params
+      ~MultiScaleDiscriminator.evaluate
+      ~MultiScaleDiscriminator.evaluate_generator
+      ~MultiScaleDiscriminator.fit
+      ~MultiScaleDiscriminator.fit_generator
+      ~MultiScaleDiscriminator.from_config
+      ~MultiScaleDiscriminator.get_config
+      ~MultiScaleDiscriminator.get_input_at
+      ~MultiScaleDiscriminator.get_input_mask_at
+      ~MultiScaleDiscriminator.get_input_shape_at
+      ~MultiScaleDiscriminator.get_layer
+      ~MultiScaleDiscriminator.get_losses_for
+      ~MultiScaleDiscriminator.get_output_at
+      ~MultiScaleDiscriminator.get_output_mask_at
+      ~MultiScaleDiscriminator.get_output_shape_at
+      ~MultiScaleDiscriminator.get_updates_for
+      ~MultiScaleDiscriminator.get_weights
+      ~MultiScaleDiscriminator.load_weights
+      ~MultiScaleDiscriminator.predict
+      ~MultiScaleDiscriminator.predict_generator
+      ~MultiScaleDiscriminator.predict_on_batch
+      ~MultiScaleDiscriminator.reset_metrics
+      ~MultiScaleDiscriminator.reset_states
+      ~MultiScaleDiscriminator.save
+      ~MultiScaleDiscriminator.save_weights
+      ~MultiScaleDiscriminator.set_weights
+      ~MultiScaleDiscriminator.summary
+      ~MultiScaleDiscriminator.test_on_batch
+      ~MultiScaleDiscriminator.to_json
+      ~MultiScaleDiscriminator.to_yaml
+      ~MultiScaleDiscriminator.train_on_batch
+      ~MultiScaleDiscriminator.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MultiScaleDiscriminator.activity_regularizer
+      ~MultiScaleDiscriminator.dtype
+      ~MultiScaleDiscriminator.dynamic
+      ~MultiScaleDiscriminator.inbound_nodes
+      ~MultiScaleDiscriminator.input
+      ~MultiScaleDiscriminator.input_mask
+      ~MultiScaleDiscriminator.input_shape
+      ~MultiScaleDiscriminator.input_spec
+      ~MultiScaleDiscriminator.layers
+      ~MultiScaleDiscriminator.losses
+      ~MultiScaleDiscriminator.metrics
+      ~MultiScaleDiscriminator.metrics_names
+      ~MultiScaleDiscriminator.name
+      ~MultiScaleDiscriminator.name_scope
+      ~MultiScaleDiscriminator.non_trainable_variables
+      ~MultiScaleDiscriminator.non_trainable_weights
+      ~MultiScaleDiscriminator.outbound_nodes
+      ~MultiScaleDiscriminator.output
+      ~MultiScaleDiscriminator.output_mask
+      ~MultiScaleDiscriminator.output_shape
+      ~MultiScaleDiscriminator.run_eagerly
+      ~MultiScaleDiscriminator.sample_weights
+      ~MultiScaleDiscriminator.state_updates
+      ~MultiScaleDiscriminator.stateful
+      ~MultiScaleDiscriminator.submodules
+      ~MultiScaleDiscriminator.trainable
+      ~MultiScaleDiscriminator.trainable_variables
+      ~MultiScaleDiscriminator.trainable_weights
+      ~MultiScaleDiscriminator.updates
+      ~MultiScaleDiscriminator.variables
+      ~MultiScaleDiscriminator.weights
+   
+   

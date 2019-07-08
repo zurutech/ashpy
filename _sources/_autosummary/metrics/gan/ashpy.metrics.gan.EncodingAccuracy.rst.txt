@@ -1,0 +1,45 @@
+EncodingAccuracy
+==================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.gan.EncodingAccuracy
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.gan
+
+----
+
+.. autoclass:: EncodingAccuracy
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~EncodingAccuracy.__init__
+      ~EncodingAccuracy.json_read
+      ~EncodingAccuracy.json_write
+      ~EncodingAccuracy.model_selection
+      ~EncodingAccuracy.reset_states
+      ~EncodingAccuracy.result
+      ~EncodingAccuracy.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EncodingAccuracy.best_folder
+      ~EncodingAccuracy.best_model_sel_file
+      ~EncodingAccuracy.logdir
+      ~EncodingAccuracy.metric
+      ~EncodingAccuracy.model_selection_operator
+      ~EncodingAccuracy.name
+   
+   

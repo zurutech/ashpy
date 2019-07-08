@@ -1,0 +1,9 @@
+<map id="inheritance074a7dc96d" name="inheritance074a7dc96d">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="114,4,210,26"/>
+<area shape="rect" id="node6" title="Base neural network module class." alt="" coords="250,4,310,26"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="4,4,74,26"/>
+<area shape="rect" id="node3" href="interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="655,4,764,26"/>
+<area shape="rect" id="node4" title="`Model` groups layers into an object with training and inference features." alt="" coords="555,4,615,26"/>
+<area shape="rect" id="node5" title="Base layer class." alt="" coords="350,4,410,26"/>
+<area shape="rect" id="node7" title="A `Network` is a composition of layers." alt="" coords="450,4,515,26"/>
+</map>

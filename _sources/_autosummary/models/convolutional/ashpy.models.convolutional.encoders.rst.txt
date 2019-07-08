@@ -1,0 +1,25 @@
+encoders
+===================================
+
+.. automodule:: ashpy.models.convolutional.encoders
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: encoders
+   
+      BaseEncoder
+      FCNNBaseEncoder
+   
+   
+
+   
+   
+   

@@ -1,0 +1,4 @@
+<map id="inheritance58966cab2a" name="inheritance58966cab2a">
+<area shape="rect" id="node1" href="#ashpy.losses.gan.EncoderBCE" target="_top" title="The Binary Cross Entropy computed among the encoder and the 0 label." alt="" coords="132,5,232,31"/>
+<area shape="rect" id="node2" href="../executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" target="_top" title="Carry a function and the wa of executing it. Given a context." alt="" coords="5,5,84,31"/>
+</map>

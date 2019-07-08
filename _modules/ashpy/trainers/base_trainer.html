@@ -1,0 +1,617 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ashpy.trainers.base_trainer &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ashpy.trainers.base_trainer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ashpy.trainers.base_trainer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#you may not use this file except in compliance with the License.</span>
+<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#See the License for the specific language governing permissions and</span>
+<span class="c1">#limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Primitive Trainer Interface.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">ashpy.losses.executor</span> <span class="k">import</span> <span class="n">Executor</span>
+<span class="kn">from</span> <span class="nn">ashpy.modes</span> <span class="k">import</span> <span class="n">LogEvalMode</span>
+
+
+<div class="viewcode-block" id="BaseTrainer"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer">[docs]</a><span class="k">class</span> <span class="nc">BaseTrainer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;:py:class:`BaseTrainer` provide an interface for all trainers to inherit from.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BaseTrainer.__init__"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="p">,</span>
+        <span class="n">logdir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;log&quot;</span><span class="p">),</span>
+        <span class="n">log_eval_mode</span><span class="o">=</span><span class="n">LogEvalMode</span><span class="o">.</span><span class="n">TEST</span><span class="p">,</span>
+        <span class="n">global_step</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;global_step&quot;</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="n">post_process_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Primitive trainer interface. Handles model saving and restore.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            epochs (int): Number of training epochs.</span>
+<span class="sd">            logdir (str): Checkpoint and log directory.</span>
+<span class="sd">            log_eval_mode: models&#39; mode to use when evaluating and logging.</span>
+<span class="sd">            global_step: tf.Variable that keeps track of the training steps.</span>
+<span class="sd">            post_process_callback: the function to postprocess the model output, if needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distribute_strategy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">get_strategy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_callback</span> <span class="o">=</span> <span class="n">post_process_callback</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epochs</span> <span class="o">=</span> <span class="n">epochs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span> <span class="o">=</span> <span class="n">global_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_steps_per_epoch</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+            <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;steps_per_epoch&quot;</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ckpt</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Checkpoint</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ckpt</span><span class="o">.</span><span class="n">objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ckpt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_per_epoch</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logdir</span> <span class="o">=</span> <span class="n">logdir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">CheckpointManager</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ckpt</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logdir</span><span class="p">,</span> <span class="s2">&quot;ckpts&quot;</span><span class="p">),</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">3</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_summary_writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">create_file_writer</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logdir</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_summary_writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">create_file_writer</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logdir</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_summary_writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">create_file_writer</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logdir</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Initialize the global batch size to a negative number</span>
+        <span class="c1"># This is used when a distribution strategy changes the batch size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_batch_size</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_eval_mode</span> <span class="o">=</span> <span class="n">log_eval_mode</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._log"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._log">[docs]</a>    <span class="k">def</span> <span class="nf">_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Log the out tensor using name as its name in tensorboard.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: summary name.</span>
+<span class="sd">            out: the tensor to log.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rank</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span>
+
+        <span class="c1"># handle post post_process_callback</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_callback</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_callback</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="c1"># log</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="c1"># tensorboard 2.0 does not support float images in [-1, 1]</span>
+            <span class="c1"># only in [0,1]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_callback</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">out</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span>
+                <span class="c1"># TODO: the hypothesis is that image are in [-1,1] how to check?</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+            <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">image</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">max_outputs</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">out</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">),</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._update_global_batch_size"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._update_global_batch_size">[docs]</a>    <span class="k">def</span> <span class="nf">_update_global_batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">executors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a dataset and the current distribution strategy sets the</span>
+<span class="sd">        self._global_batch_size variable where needed.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            dataset: a dataset from wich the batch size will be extracted.</span>
+<span class="sd">            executors: a list of executor with the property &quot;global_batch_size&quot; settable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sample</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">batch_size_per_replica</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">batch_size_per_replica</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to extract the batch size from the dataset&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_batch_size</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distribute_strategy</span><span class="o">.</span><span class="n">num_replicas_in_sync</span> <span class="o">*</span> <span class="n">batch_size_per_replica</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">executors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">executors</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">executor</span> <span class="ow">in</span> <span class="n">executors</span><span class="p">:</span>
+                    <span class="n">executor</span><span class="o">.</span><span class="n">global_batch_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_batch_size</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">executors</span><span class="p">,</span> <span class="n">Executor</span><span class="p">):</span>
+                <span class="n">executors</span><span class="o">.</span><span class="n">global_batch_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_batch_size</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._reduce"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._reduce">[docs]</a>    <span class="k">def</span> <span class="nf">_reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">per_replica_tensor</span><span class="p">,</span> <span class="n">reduce_op</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given the input tensor, reduces it in a distributed fashion, using the specified op.&quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">get_replica_context</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">context</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="n">reduce_op</span><span class="p">,</span> <span class="n">per_replica_tensor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribute_strategy</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span>
+            <span class="n">reduce_op</span><span class="p">,</span> <span class="n">per_replica_tensor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._restore_or_init"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._restore_or_init">[docs]</a>    <span class="k">def</span> <span class="nf">_restore_or_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Restores or initializes the persistence layer (checkpoint).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">latest_checkpoint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ckpt</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">latest_checkpoint</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Restored checkpoint </span><span class="si">{self._manager.latest_checkpoint}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing checkpoint.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._save"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._save">[docs]</a>    <span class="k">def</span> <span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save the current checkpointable object status.&quot;&quot;&quot;</span>
+        <span class="n">ckpt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># print is captured from pydoc - deterministic output can be used</span>
+        <span class="c1"># to run tests.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;[{self._global_step.numpy()}] Saved checkpoint: </span><span class="si">{ckpt}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._current_epoch"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._current_epoch">[docs]</a>    <span class="k">def</span> <span class="nf">_current_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the current epoch using the (restored) variables.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            current_epoch (int)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current_epoch</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">greater</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steps_per_epoch</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
+            <span class="n">current_epoch</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steps_per_epoch</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">current_epoch</span></div>
+
+<div class="viewcode-block" id="BaseTrainer._epoch_completed"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer._epoch_completed">[docs]</a>    <span class="k">def</span> <span class="nf">_epoch_completed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the end of the training epoch.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            epoch (int): the just completed training epoch.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">less</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steps_per_epoch</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c1"># only the first time, save the number of steps per epoch</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_steps_per_epoch</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Epoch </span><span class="si">{epoch}</span><span class="s2"> completed.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_log_metrics_and_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">metric_obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">:</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">metric_obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">metric_obj</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+            <span class="n">metric_obj</span><span class="o">.</span><span class="n">reset_states</span><span class="p">()</span>
+
+<div class="viewcode-block" id="BaseTrainer.call"><a class="viewcode-back" href="../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.BaseTrainer.call">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the training process.</span>
+
+<span class="sd">        Iterate over the elements of a :py:class:`tf.data.Dataset`.</span>
+<span class="sd">        The dataset must contain everything needed to train the model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset: A :py:class:`tf.data.Dataset` to loop on to train the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Invoke the trainer.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

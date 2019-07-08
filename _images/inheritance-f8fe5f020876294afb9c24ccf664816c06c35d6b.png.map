@@ -1,0 +1,9 @@
+<map id="inheritance1f51f2dd97" name="inheritance1f51f2dd97">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="114,4,209,25"/>
+<area shape="rect" id="node6" title="Base neural network module class." alt="" coords="249,4,308,25"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="4,4,74,25"/>
+<area shape="rect" id="node3" href="#ashpy.models.fc.autoencoders.BaseAutoencoder" target="_top" title="Primitive Model for all fully connected autoencoders." alt="" coords="651,4,764,25"/>
+<area shape="rect" id="node4" title="`Model` groups layers into an object with training and inference features." alt="" coords="551,4,611,25"/>
+<area shape="rect" id="node5" title="Base layer class." alt="" coords="348,4,408,25"/>
+<area shape="rect" id="node7" title="A `Network` is a composition of layers." alt="" coords="448,4,512,25"/>
+</map>

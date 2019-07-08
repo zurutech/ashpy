@@ -1,0 +1,9 @@
+<map id="inheritance2087a421e0" name="inheritance2087a421e0">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="116,5,213,26"/>
+<area shape="rect" id="node4" title="Base neural network module class." alt="" coords="254,5,315,26"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="5,5,76,26"/>
+<area shape="rect" id="node3" title="Base layer class." alt="" coords="356,5,417,26"/>
+<area shape="rect" id="node7" title="A `Network` is a composition of layers." alt="" coords="457,5,523,26"/>
+<area shape="rect" id="node5" href="#ashpy.models.convolutional.pix2pixhd.LocalEnhancer" target="_top" title="Local Enhancer" alt="" coords="665,5,763,26"/>
+<area shape="rect" id="node6" title="`Model` groups layers into an object with training and inference features." alt="" coords="564,5,625,26"/>
+</map>

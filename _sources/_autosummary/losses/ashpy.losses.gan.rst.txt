@@ -1,0 +1,46 @@
+gan
+================
+
+.. automodule:: ashpy.losses.gan
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: gan
+   
+      get_adversarial_loss_discriminator
+      get_adversarial_loss_generator
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: gan
+   
+      AdversarialLossD
+      AdversarialLossG
+      AdversarialLossType
+      CategoricalCrossEntropy
+      DiscriminatorLSGAN
+      DiscriminatorMinMax
+      EncoderBCE
+      FeatureMatchingLoss
+      GANExecutor
+      GeneratorBCE
+      GeneratorL1
+      GeneratorLSGAN
+      Pix2PixLoss
+      Pix2PixLossSemantic
+   
+   
+
+   
+   
+   

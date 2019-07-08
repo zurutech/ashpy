@@ -1,0 +1,38 @@
+Executor
+==============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.executor.Executor
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.executor
+
+----
+
+.. autoclass:: Executor
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Executor.__init__
+      ~Executor.call
+      ~Executor.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Executor.fn
+      ~Executor.global_batch_size
+      ~Executor.weight
+   
+   

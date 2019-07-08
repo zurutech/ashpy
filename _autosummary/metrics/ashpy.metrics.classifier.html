@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>classifier &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ClassifierLoss" href="classifier/ashpy.metrics.classifier.ClassifierLoss.html" />
+    <link rel="prev" title="EncodingAccuracy" href="../gan/ashpy.metrics.gan.EncodingAccuracy.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../ashpy.metrics.html">ashpy.metrics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../api.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="../ashpy.metrics.html">ashpy.metrics</a> &raquo;</li>
+        
+      <li>classifier</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/_autosummary/metrics/ashpy.metrics.classifier.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ashpy.metrics.classifier">
+<span id="classifier"></span><h1>classifier<a class="headerlink" href="#module-ashpy.metrics.classifier" title="Permalink to this headline">¶</a></h1>
+<p>The classification metrics.</p>
+<p class="rubric">Classes</p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="classifier/ashpy.metrics.classifier.ClassifierLoss.html#ashpy.metrics.classifier.ClassifierLoss" title="ashpy.metrics.classifier.ClassifierLoss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClassifierLoss</span></code></a></p></td>
+<td><p>A handy way to measure the classification loss.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="classifier/ashpy.metrics.classifier.ClassifierMetric.html#ashpy.metrics.classifier.ClassifierMetric" title="ashpy.metrics.classifier.ClassifierMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClassifierMetric</span></code></a></p></td>
+<td><p>A wrapper for the classification metric that requires to apply argmax to the classifier output to extract the predictions.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="ashpy.metrics.classifier.ClassifierLoss">
+<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
+<p>A handy way to measure the classification loss.</p>
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_selection_operator</strong> – The operation to be used when model_selection
+is on to compare the metrics. E.g.: operator.gt.</p></li>
+<li><p><strong>logdir</strong> – The log dir.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.best_folder">
+<code class="descname">best_folder</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.best_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The folder to use to save the best model when doing model selection.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.best_model_sel_file">
+<code class="descname">best_model_sel_file</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.best_model_sel_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The JSON file that contains the measured performance of the best model.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.json_read">
+<em class="property">static </em><code class="descname">json_read</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.json_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a Json file.
+:param filename: The JSON file to read.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>data</em> – The data read.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.json_write">
+<em class="property">static </em><code class="descname">json_write</code><span class="sig-paren">(</span><em>filename</em>, <em>what_to_write</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.json_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write inside the JSON file specified the mean and stddev.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The JSON file to write.</p></li>
+<li><p><strong>what_to_write</strong> – A dict containing what to write</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.logdir">
+<code class="descname">logdir</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.logdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>The log directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.metric">
+<code class="descname">metric</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>The keras metric object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.model_selection">
+<code class="descname">model_selection</code><span class="sig-paren">(</span><em>checkpoint</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.model_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform model selection.
+:param context: the checkpoint object that contains the model status.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.model_selection_operator">
+<code class="descname">model_selection_operator</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.model_selection_operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model selection operator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.name">
+<code class="descname">name</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The metric name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.reset_states">
+<code class="descname">reset_states</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss.reset_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.reset_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the state of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.result">
+<code class="descname">result</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss.result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the result of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current value of the metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierLoss.update_state">
+<code class="descname">update_state</code><span class="sig-paren">(</span><em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss.update_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.update_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the internal state of the metric, using
+the information from the context object.
+:param context: a Context Object that carries all the metric needs.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.metrics.classifier.ClassifierMetric">
+<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierMetric</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
+<p>A wrapper for the classification metric that requires to apply argmax
+to the classifier output to extract the predictions.</p>
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric</strong> – The metric for the classifier (e.g.: Accuracy()).</p></li>
+<li><p><strong>model_selection_operator</strong> – The operation, if needed, to be used
+to confront the metric value (e.g.: operator.gt).</p></li>
+<li><p><strong>logdir</strong> – The logdir.</p></li>
+<li><p><strong>processing_predictions</strong> – A dict in the form of
+{“fn”: tf.argmax, “kwargs”: {“axis”: -1}} with a function “fn”
+to be used for predictions processing purposes and its “kwargs” as an inner dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.best_folder">
+<code class="descname">best_folder</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.best_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The folder to use to save the best model when doing model selection.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.best_model_sel_file">
+<code class="descname">best_model_sel_file</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.best_model_sel_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The JSON file that contains the measured performance of the best model.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.json_read">
+<em class="property">static </em><code class="descname">json_read</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.json_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a Json file.
+:param filename: The JSON file to read.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>data</em> – The data read.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.json_write">
+<em class="property">static </em><code class="descname">json_write</code><span class="sig-paren">(</span><em>filename</em>, <em>what_to_write</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.json_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write inside the JSON file specified the mean and stddev.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The JSON file to write.</p></li>
+<li><p><strong>what_to_write</strong> – A dict containing what to write</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.logdir">
+<code class="descname">logdir</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.logdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>The log directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.metric">
+<code class="descname">metric</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>The keras metric object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.model_selection">
+<code class="descname">model_selection</code><span class="sig-paren">(</span><em>checkpoint</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.model_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform model selection.
+:param context: the checkpoint object that contains the model status.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.model_selection_operator">
+<code class="descname">model_selection_operator</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.model_selection_operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model selection operator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.name">
+<code class="descname">name</code><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The metric name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.reset_states">
+<code class="descname">reset_states</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.reset_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.reset_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the state of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.result">
+<code class="descname">result</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the result of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current value of the metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.metrics.classifier.ClassifierMetric.update_state">
+<code class="descname">update_state</code><span class="sig-paren">(</span><em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.update_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.update_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the internal state of the metric, using
+the information from the context object.
+:param context: a Context Object that carries all the metric needs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="classifier/ashpy.metrics.classifier.ClassifierLoss.html" class="btn btn-neutral float-right" title="ClassifierLoss" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../gan/ashpy.metrics.gan.EncodingAccuracy.html" class="btn btn-neutral float-left" title="EncodingAccuracy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

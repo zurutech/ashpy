@@ -1,0 +1,108 @@
+LocalEnhancer
+==================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.pix2pixhd.LocalEnhancer
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.pix2pixhd
+
+----
+
+.. autoclass:: LocalEnhancer
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~LocalEnhancer.__init__
+      ~LocalEnhancer.add_loss
+      ~LocalEnhancer.add_metric
+      ~LocalEnhancer.add_update
+      ~LocalEnhancer.add_variable
+      ~LocalEnhancer.add_weight
+      ~LocalEnhancer.apply
+      ~LocalEnhancer.build
+      ~LocalEnhancer.call
+      ~LocalEnhancer.compile
+      ~LocalEnhancer.compute_mask
+      ~LocalEnhancer.compute_output_shape
+      ~LocalEnhancer.compute_output_signature
+      ~LocalEnhancer.count_params
+      ~LocalEnhancer.evaluate
+      ~LocalEnhancer.evaluate_generator
+      ~LocalEnhancer.fit
+      ~LocalEnhancer.fit_generator
+      ~LocalEnhancer.from_config
+      ~LocalEnhancer.get_config
+      ~LocalEnhancer.get_input_at
+      ~LocalEnhancer.get_input_mask_at
+      ~LocalEnhancer.get_input_shape_at
+      ~LocalEnhancer.get_layer
+      ~LocalEnhancer.get_losses_for
+      ~LocalEnhancer.get_output_at
+      ~LocalEnhancer.get_output_mask_at
+      ~LocalEnhancer.get_output_shape_at
+      ~LocalEnhancer.get_updates_for
+      ~LocalEnhancer.get_weights
+      ~LocalEnhancer.load_weights
+      ~LocalEnhancer.predict
+      ~LocalEnhancer.predict_generator
+      ~LocalEnhancer.predict_on_batch
+      ~LocalEnhancer.reset_metrics
+      ~LocalEnhancer.reset_states
+      ~LocalEnhancer.save
+      ~LocalEnhancer.save_weights
+      ~LocalEnhancer.set_weights
+      ~LocalEnhancer.summary
+      ~LocalEnhancer.test_on_batch
+      ~LocalEnhancer.to_json
+      ~LocalEnhancer.to_yaml
+      ~LocalEnhancer.train_on_batch
+      ~LocalEnhancer.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LocalEnhancer.activity_regularizer
+      ~LocalEnhancer.dtype
+      ~LocalEnhancer.dynamic
+      ~LocalEnhancer.inbound_nodes
+      ~LocalEnhancer.input
+      ~LocalEnhancer.input_mask
+      ~LocalEnhancer.input_shape
+      ~LocalEnhancer.input_spec
+      ~LocalEnhancer.layers
+      ~LocalEnhancer.losses
+      ~LocalEnhancer.metrics
+      ~LocalEnhancer.metrics_names
+      ~LocalEnhancer.name
+      ~LocalEnhancer.name_scope
+      ~LocalEnhancer.non_trainable_variables
+      ~LocalEnhancer.non_trainable_weights
+      ~LocalEnhancer.outbound_nodes
+      ~LocalEnhancer.output
+      ~LocalEnhancer.output_mask
+      ~LocalEnhancer.output_shape
+      ~LocalEnhancer.run_eagerly
+      ~LocalEnhancer.sample_weights
+      ~LocalEnhancer.state_updates
+      ~LocalEnhancer.stateful
+      ~LocalEnhancer.submodules
+      ~LocalEnhancer.trainable
+      ~LocalEnhancer.trainable_variables
+      ~LocalEnhancer.trainable_weights
+      ~LocalEnhancer.updates
+      ~LocalEnhancer.variables
+      ~LocalEnhancer.weights
+   
+   

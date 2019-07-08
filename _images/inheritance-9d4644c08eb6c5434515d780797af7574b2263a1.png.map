@@ -1,0 +1,4 @@
+<map id="inheritance883d8cce44" name="inheritance883d8cce44">
+<area shape="rect" id="node1" href="../losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html#ashpy.losses.gan.CategoricalCrossEntropy" target="_top" title="Categorical Cross Entropy between generator output and target." alt="" coords="132,5,315,31"/>
+<area shape="rect" id="node2" href="../losses/executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" target="_top" title="Carry a function and the wa of executing it. Given a context." alt="" coords="5,5,84,31"/>
+</map>

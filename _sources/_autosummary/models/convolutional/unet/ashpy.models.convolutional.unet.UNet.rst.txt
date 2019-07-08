@@ -1,0 +1,110 @@
+UNet
+====================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.unet.UNet
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.unet
+
+----
+
+.. autoclass:: UNet
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~UNet.__init__
+      ~UNet.add_loss
+      ~UNet.add_metric
+      ~UNet.add_update
+      ~UNet.add_variable
+      ~UNet.add_weight
+      ~UNet.apply
+      ~UNet.build
+      ~UNet.call
+      ~UNet.compile
+      ~UNet.compute_mask
+      ~UNet.compute_output_shape
+      ~UNet.compute_output_signature
+      ~UNet.count_params
+      ~UNet.evaluate
+      ~UNet.evaluate_generator
+      ~UNet.fit
+      ~UNet.fit_generator
+      ~UNet.from_config
+      ~UNet.get_config
+      ~UNet.get_decoder_block
+      ~UNet.get_encoder_block
+      ~UNet.get_input_at
+      ~UNet.get_input_mask_at
+      ~UNet.get_input_shape_at
+      ~UNet.get_layer
+      ~UNet.get_losses_for
+      ~UNet.get_output_at
+      ~UNet.get_output_mask_at
+      ~UNet.get_output_shape_at
+      ~UNet.get_updates_for
+      ~UNet.get_weights
+      ~UNet.load_weights
+      ~UNet.predict
+      ~UNet.predict_generator
+      ~UNet.predict_on_batch
+      ~UNet.reset_metrics
+      ~UNet.reset_states
+      ~UNet.save
+      ~UNet.save_weights
+      ~UNet.set_weights
+      ~UNet.summary
+      ~UNet.test_on_batch
+      ~UNet.to_json
+      ~UNet.to_yaml
+      ~UNet.train_on_batch
+      ~UNet.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UNet.activity_regularizer
+      ~UNet.dtype
+      ~UNet.dynamic
+      ~UNet.inbound_nodes
+      ~UNet.input
+      ~UNet.input_mask
+      ~UNet.input_shape
+      ~UNet.input_spec
+      ~UNet.layers
+      ~UNet.losses
+      ~UNet.metrics
+      ~UNet.metrics_names
+      ~UNet.name
+      ~UNet.name_scope
+      ~UNet.non_trainable_variables
+      ~UNet.non_trainable_weights
+      ~UNet.outbound_nodes
+      ~UNet.output
+      ~UNet.output_mask
+      ~UNet.output_shape
+      ~UNet.run_eagerly
+      ~UNet.sample_weights
+      ~UNet.state_updates
+      ~UNet.stateful
+      ~UNet.submodules
+      ~UNet.trainable
+      ~UNet.trainable_variables
+      ~UNet.trainable_weights
+      ~UNet.updates
+      ~UNet.variables
+      ~UNet.weights
+   
+   

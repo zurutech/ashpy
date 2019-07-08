@@ -1,0 +1,7 @@
+<map id="inheritance29c1debd43" name="inheritance29c1debd43">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="137,5,252,31"/>
+<area shape="rect" id="node5" title="Base neural network module class." alt="" coords="300,5,372,31"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="5,5,89,31"/>
+<area shape="rect" id="node3" href="#ashpy.layers.layers.InstanceNormalization" target="_top" title="Instance Normalization Layer (used by Pix2Pix [1]_ and Pix2PixHD [2]_ )" alt="" coords="540,5,709,31"/>
+<area shape="rect" id="node4" title="Base layer class." alt="" coords="420,5,492,31"/>
+</map>

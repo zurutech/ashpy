@@ -1,0 +1,10 @@
+<map id="inheritance2d0502f752" name="inheritance2d0502f752">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="101,4,186,23"/>
+<area shape="rect" id="node7" title="Base neural network module class." alt="" coords="221,4,274,23"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="4,4,66,23"/>
+<area shape="rect" id="node3" href="decoders/ashpy.models.fc.decoders.BaseDecoder.html#ashpy.models.fc.decoders.BaseDecoder" target="_top" title="Primitive Model for all fully connected decoder based architecture." alt="" coords="685,4,764,23"/>
+<area shape="rect" id="node4" href="interfaces/ashpy.models.fc.interfaces.FCInterface.html#ashpy.models.fc.interfaces.FCInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="578,4,649,23"/>
+<area shape="rect" id="node5" title="`Model` groups layers into an object with training and inference features." alt="" coords="490,4,543,23"/>
+<area shape="rect" id="node6" title="Base layer class." alt="" coords="309,4,362,23"/>
+<area shape="rect" id="node8" title="A `Network` is a composition of layers." alt="" coords="398,4,455,23"/>
+</map>

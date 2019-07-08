@@ -1,0 +1,5 @@
+<map id="inheritance7913d0155a" name="inheritance7913d0155a">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node3" href="../metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" target="_top" title="Metric is the abstract class that every ash metric must implement." alt="" coords="125,5,197,31"/>
+<area shape="rect" id="node2" href="#ashpy.metrics.classifier.ClassifierLoss" target="_top" title="A handy way to measure the classification loss." alt="" coords="245,5,356,31"/>
+</map>

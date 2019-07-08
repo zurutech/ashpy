@@ -1,0 +1,108 @@
+BaseAutoencoder
+============================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.fc.autoencoders.BaseAutoencoder
+   :parts: 1
+
+.. currentmodule:: ashpy.models.fc.autoencoders
+
+----
+
+.. autoclass:: BaseAutoencoder
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseAutoencoder.__init__
+      ~BaseAutoencoder.add_loss
+      ~BaseAutoencoder.add_metric
+      ~BaseAutoencoder.add_update
+      ~BaseAutoencoder.add_variable
+      ~BaseAutoencoder.add_weight
+      ~BaseAutoencoder.apply
+      ~BaseAutoencoder.build
+      ~BaseAutoencoder.call
+      ~BaseAutoencoder.compile
+      ~BaseAutoencoder.compute_mask
+      ~BaseAutoencoder.compute_output_shape
+      ~BaseAutoencoder.compute_output_signature
+      ~BaseAutoencoder.count_params
+      ~BaseAutoencoder.evaluate
+      ~BaseAutoencoder.evaluate_generator
+      ~BaseAutoencoder.fit
+      ~BaseAutoencoder.fit_generator
+      ~BaseAutoencoder.from_config
+      ~BaseAutoencoder.get_config
+      ~BaseAutoencoder.get_input_at
+      ~BaseAutoencoder.get_input_mask_at
+      ~BaseAutoencoder.get_input_shape_at
+      ~BaseAutoencoder.get_layer
+      ~BaseAutoencoder.get_losses_for
+      ~BaseAutoencoder.get_output_at
+      ~BaseAutoencoder.get_output_mask_at
+      ~BaseAutoencoder.get_output_shape_at
+      ~BaseAutoencoder.get_updates_for
+      ~BaseAutoencoder.get_weights
+      ~BaseAutoencoder.load_weights
+      ~BaseAutoencoder.predict
+      ~BaseAutoencoder.predict_generator
+      ~BaseAutoencoder.predict_on_batch
+      ~BaseAutoencoder.reset_metrics
+      ~BaseAutoencoder.reset_states
+      ~BaseAutoencoder.save
+      ~BaseAutoencoder.save_weights
+      ~BaseAutoencoder.set_weights
+      ~BaseAutoencoder.summary
+      ~BaseAutoencoder.test_on_batch
+      ~BaseAutoencoder.to_json
+      ~BaseAutoencoder.to_yaml
+      ~BaseAutoencoder.train_on_batch
+      ~BaseAutoencoder.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BaseAutoencoder.activity_regularizer
+      ~BaseAutoencoder.dtype
+      ~BaseAutoencoder.dynamic
+      ~BaseAutoencoder.inbound_nodes
+      ~BaseAutoencoder.input
+      ~BaseAutoencoder.input_mask
+      ~BaseAutoencoder.input_shape
+      ~BaseAutoencoder.input_spec
+      ~BaseAutoencoder.layers
+      ~BaseAutoencoder.losses
+      ~BaseAutoencoder.metrics
+      ~BaseAutoencoder.metrics_names
+      ~BaseAutoencoder.name
+      ~BaseAutoencoder.name_scope
+      ~BaseAutoencoder.non_trainable_variables
+      ~BaseAutoencoder.non_trainable_weights
+      ~BaseAutoencoder.outbound_nodes
+      ~BaseAutoencoder.output
+      ~BaseAutoencoder.output_mask
+      ~BaseAutoencoder.output_shape
+      ~BaseAutoencoder.run_eagerly
+      ~BaseAutoencoder.sample_weights
+      ~BaseAutoencoder.state_updates
+      ~BaseAutoencoder.stateful
+      ~BaseAutoencoder.submodules
+      ~BaseAutoencoder.trainable
+      ~BaseAutoencoder.trainable_variables
+      ~BaseAutoencoder.trainable_weights
+      ~BaseAutoencoder.updates
+      ~BaseAutoencoder.variables
+      ~BaseAutoencoder.weights
+   
+   

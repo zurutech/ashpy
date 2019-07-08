@@ -1,0 +1,45 @@
+ClassifierMetric
+=========================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.metrics.classifier.ClassifierMetric
+   :parts: 1
+
+.. currentmodule:: ashpy.metrics.classifier
+
+----
+
+.. autoclass:: ClassifierMetric
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ClassifierMetric.__init__
+      ~ClassifierMetric.json_read
+      ~ClassifierMetric.json_write
+      ~ClassifierMetric.model_selection
+      ~ClassifierMetric.reset_states
+      ~ClassifierMetric.result
+      ~ClassifierMetric.update_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClassifierMetric.best_folder
+      ~ClassifierMetric.best_model_sel_file
+      ~ClassifierMetric.logdir
+      ~ClassifierMetric.metric
+      ~ClassifierMetric.model_selection_operator
+      ~ClassifierMetric.name
+   
+   

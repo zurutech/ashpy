@@ -1,0 +1,30 @@
+EncoderTrainer
+=============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.trainers.EncoderTrainer
+   :parts: 1
+
+.. currentmodule:: ashpy.trainers
+
+----
+
+.. autoclass:: EncoderTrainer
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~EncoderTrainer.__init__
+      ~EncoderTrainer.call
+      ~EncoderTrainer.train_step
+   
+   
+
+   
+   
+   

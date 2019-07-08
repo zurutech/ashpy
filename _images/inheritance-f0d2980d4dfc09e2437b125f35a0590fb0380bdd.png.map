@@ -1,0 +1,5 @@
+<map id="inheritancebf4502ff68" name="inheritancebf4502ff68">
+<area shape="rect" id="node1" href="../losses/executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" target="_top" title="Carry a function and the wa of executing it. Given a context." alt="" coords="5,5,84,31"/>
+<area shape="rect" id="node3" href="../losses/executor/ashpy.losses.executor.SumExecutor.html#ashpy.losses.executor.SumExecutor" target="_top" title="The sum executor. Executes the call of each fn and weights the losses." alt="" coords="132,5,240,31"/>
+<area shape="rect" id="node2" href="../losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html#ashpy.losses.gan.Pix2PixLossSemantic" target="_top" title="Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`, :py:class:`ashpy.losses.gan.AdversarialLossG` and" alt="" coords="288,5,448,31"/>
+</map>

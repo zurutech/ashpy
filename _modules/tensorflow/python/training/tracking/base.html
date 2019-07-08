@@ -1,0 +1,1384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tensorflow.python.training.tracking.base &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../_autosummary/ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../_autosummary/metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_autosummary/metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tensorflow.python.training.tracking.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tensorflow.python.training.tracking.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;An object-local variable management scheme.&quot;&quot;&quot;</span>
+<span class="c1"># Copyright 2017 The TensorFlow Authors. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1"># ==============================================================================</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.python.eager</span> <span class="k">import</span> <span class="n">context</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">constant_op</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">dtypes</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">array_ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">control_flow_ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">gen_io_ops</span> <span class="k">as</span> <span class="n">io_ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.platform</span> <span class="k">import</span> <span class="n">tf_logging</span> <span class="k">as</span> <span class="n">logging</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.training.saving</span> <span class="k">import</span> <span class="n">saveable_object</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.util</span> <span class="k">import</span> <span class="n">nest</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.util</span> <span class="k">import</span> <span class="n">tf_contextlib</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.util</span> <span class="k">import</span> <span class="n">tf_decorator</span>
+
+<span class="c1"># Key where the object graph proto is saved in a TensorBundle</span>
+<span class="n">OBJECT_GRAPH_PROTO_KEY</span> <span class="o">=</span> <span class="s2">&quot;_CHECKPOINTABLE_OBJECT_GRAPH&quot;</span>
+
+<span class="c1"># A key indicating a variable&#39;s value in an object&#39;s checkpointed Tensors</span>
+<span class="c1"># (Trackable._gather_saveables_for_checkpoint). If this is the only key and</span>
+<span class="c1"># the object has no dependencies, then its value may be restored on object</span>
+<span class="c1"># creation (avoiding double assignment when executing eagerly).</span>
+<span class="n">VARIABLE_VALUE_KEY</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_VALUE&quot;</span>
+<span class="n">OBJECT_CONFIG_JSON_KEY</span> <span class="o">=</span> <span class="s2">&quot;OBJECT_CONFIG_JSON&quot;</span>
+
+<span class="n">TrackableReference</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;TrackableReference&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="c1"># The local name for this dependency.</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+        <span class="c1"># The Trackable object being referenced.</span>
+        <span class="s2">&quot;ref&quot;</span>
+    <span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">CheckpointInitialValue</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Tensor wrapper for managing update UIDs in `Variables`.</span>
+
+<span class="sd">  When supplied as an initial value, objects of this type let a `Variable`</span>
+<span class="sd">  (`Variable`, `ResourceVariable`, etc.) know the UID of the restore the initial</span>
+<span class="sd">  value came from. This allows deferred restorations to be sequenced in the</span>
+<span class="sd">  order the user specified them, and lets us fall back on assignment if an</span>
+<span class="sd">  initial value is not set (e.g. due to a custom getter interfering).</span>
+
+<span class="sd">  See comments in _add_variable_with_custom_getter for more information about</span>
+<span class="sd">  how `CheckpointInitialValue` is used.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint_position</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_value</span> <span class="o">=</span> <span class="n">checkpoint_position</span><span class="o">.</span><span class="n">value_tensors</span><span class="p">()[</span><span class="n">VARIABLE_VALUE_KEY</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">shape</span><span class="p">:</span>
+      <span class="c1"># We need to set the static shape information on the initializer if</span>
+      <span class="c1"># possible so we don&#39;t get a variable with an unknown shape.</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_value</span><span class="o">.</span><span class="n">set_shape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_position</span> <span class="o">=</span> <span class="n">checkpoint_position</span>
+
+  <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wrapped_value</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">checkpoint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_position</span>
+
+
+<span class="k">class</span> <span class="nc">NoRestoreSaveable</span><span class="p">(</span><span class="n">saveable_object</span><span class="o">.</span><span class="n">SaveableObject</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Embeds a tensor in a checkpoint with no restore ops.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">saveable_object</span><span class="o">.</span><span class="n">SaveSpec</span><span class="p">(</span>
+        <span class="n">tensor</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">NoRestoreSaveable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="n">spec</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restored_tensors</span><span class="p">,</span> <span class="n">restored_shapes</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">control_flow_ops</span><span class="o">.</span><span class="n">no_op</span><span class="p">()</span>
+
+
+<span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">PythonStateSaveable</span><span class="p">(</span><span class="n">saveable_object</span><span class="o">.</span><span class="n">SaveableObject</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An interface for saving/restoring volatile Python state.&quot;&quot;&quot;</span>
+
+  <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+  <span class="k">def</span> <span class="nf">feed_dict_additions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;When running a graph, indicates fresh state to feed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A dictionary mapping `Tensor`s to current Python state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+  <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+  <span class="k">def</span> <span class="nf">freeze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a new `SaveableObject` which freezes current state as a constant.</span>
+
+<span class="sd">    Used when executing eagerly to embed the current state as a constant, or</span>
+<span class="sd">    when creating a static tf.compat.v1.train.Saver with the frozen current</span>
+<span class="sd">    Python state.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A `SaveableObject` which is not a `PythonStateSaveable` instance (i.e. has</span>
+<span class="sd">      no Python state associated with it).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">PythonStringStateSaveable</span><span class="p">(</span><span class="n">PythonStateSaveable</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Saves Python state in a checkpoint.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">state_callback</span><span class="p">,</span> <span class="n">restore_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Configure saving.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      name: The checkpoint key to write to.</span>
+<span class="sd">      state_callback: A function taking no arguments which returns a string.</span>
+<span class="sd">        This function is run every time a checkpoint is written.</span>
+<span class="sd">      restore_callback: A function taking a Python string, used to restore</span>
+<span class="sd">        state. Optional; defaults to doing nothing, in which case it is ignored</span>
+<span class="sd">        by status assertions such as assert_consumed().</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_has_trivial_state_callback</span> <span class="o">=</span> <span class="p">(</span><span class="n">restore_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_state_callback_wrapper</span><span class="p">():</span>
+      <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">state_callback</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_state_callback</span> <span class="o">=</span> <span class="n">_state_callback_wrapper</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_restore_callback</span> <span class="o">=</span> <span class="n">restore_callback</span>
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;/cpu:0&quot;</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_save_string</span> <span class="o">=</span> <span class="n">constant_op</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">saveable_object</span><span class="o">.</span><span class="n">SaveSpec</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_string</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">PythonStringStateSaveable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_save_string</span><span class="p">,</span> <span class="p">[</span><span class="n">spec</span><span class="p">],</span>
+                                                    <span class="n">name</span><span class="p">)</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">optional_restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;For values with no restore, relaxes assert_consumed().&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_trivial_state_callback</span>
+
+  <span class="k">def</span> <span class="nf">feed_dict_additions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;When running a graph, indicates fresh state to feed.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_save_string</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_callback</span><span class="p">()}</span>
+
+  <span class="k">def</span> <span class="nf">freeze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a frozen `SaveableObject` which saves the current state.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_constant_state</span><span class="p">():</span>
+      <span class="k">return</span> <span class="n">constant_op</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state_callback</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">NoRestoreSaveable</span><span class="p">(</span>
+        <span class="n">tensor</span><span class="o">=</span><span class="n">_constant_state</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">string</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu:0&quot;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">python_restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restored_strings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Called to restore Python state.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restore_callback</span><span class="p">:</span>
+      <span class="n">restored</span><span class="p">,</span> <span class="o">=</span> <span class="n">restored_strings</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_restore_callback</span><span class="p">(</span><span class="n">restored</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restored_tensors</span><span class="p">,</span> <span class="n">restored_shapes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Called to restore TensorFlow state (nothing to do).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">control_flow_ops</span><span class="o">.</span><span class="n">no_op</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">CheckpointPosition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Indicates a position within a `_CheckpointRestoreCoordinator`.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint</span><span class="p">,</span> <span class="n">proto_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Specify an object within a checkpoint.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      checkpoint: A _CheckpointRestoreCoordinator object.</span>
+<span class="sd">      proto_id: The index of this object in TrackableObjectGraph.nodes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span> <span class="o">=</span> <span class="n">checkpoint</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span> <span class="o">=</span> <span class="n">proto_id</span>
+
+  <span class="k">def</span> <span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trackable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Restore this value into `trackable`.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_object</span><span class="p">(</span><span class="n">trackable</span><span class="p">):</span>
+        <span class="c1"># This object&#39;s correspondence with a checkpointed object is new, so</span>
+        <span class="c1"># process deferred restorations for it and its dependencies.</span>
+        <span class="n">restore_ops</span> <span class="o">=</span> <span class="n">trackable</span><span class="o">.</span><span class="n">_restore_from_checkpoint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span>
+        <span class="k">if</span> <span class="n">restore_ops</span><span class="p">:</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">new_restore_ops</span><span class="p">(</span><span class="n">restore_ops</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">bind_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trackable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set a checkpoint&lt;-&gt;object correspondence and process slot variables.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      trackable: The object to record a correspondence for.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      True if this is a new assignment, False if this object has already been</span>
+<span class="sd">      mapped to a checkpointed `Object` proto.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">      AssertionError: If another object is already bound to the `Object` proto.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkpoint</span>
+    <span class="n">checkpoint</span><span class="o">.</span><span class="n">all_python_objects</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">trackable</span><span class="p">)</span>
+    <span class="n">current_assignment</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">object_by_proto_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">checkpoint</span><span class="o">.</span><span class="n">matched_proto_ids</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current_assignment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">checkpoint</span><span class="o">.</span><span class="n">object_by_proto_id</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">trackable</span>
+      <span class="k">for</span> <span class="n">deferred_slot_restoration</span> <span class="ow">in</span> <span class="p">(</span>
+          <span class="n">checkpoint</span><span class="o">.</span><span class="n">deferred_slot_restorations</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">,</span> <span class="p">())):</span>
+        <span class="n">trackable</span><span class="o">.</span><span class="n">_create_or_restore_slot_variable</span><span class="p">(</span>  <span class="c1"># pylint: disable=protected-access</span>
+            <span class="n">slot_variable_position</span><span class="o">=</span><span class="n">CheckpointPosition</span><span class="p">(</span>
+                <span class="n">checkpoint</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
+                <span class="n">proto_id</span><span class="o">=</span><span class="n">deferred_slot_restoration</span><span class="o">.</span><span class="n">slot_variable_id</span><span class="p">),</span>
+            <span class="n">variable</span><span class="o">=</span><span class="n">deferred_slot_restoration</span><span class="o">.</span><span class="n">original_variable</span><span class="p">,</span>
+            <span class="n">slot_name</span><span class="o">=</span><span class="n">deferred_slot_restoration</span><span class="o">.</span><span class="n">slot_name</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">slot_restoration</span> <span class="ow">in</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">slot_restorations</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">,</span> <span class="p">()):</span>
+        <span class="n">optimizer_object</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">object_by_proto_id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">slot_restoration</span><span class="o">.</span><span class="n">optimizer_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">optimizer_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="c1"># The optimizer has not yet been created or tracked. Record in the</span>
+          <span class="c1"># checkpoint that the slot variables need to be restored when it is.</span>
+          <span class="n">checkpoint</span><span class="o">.</span><span class="n">deferred_slot_restorations</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+              <span class="n">slot_restoration</span><span class="o">.</span><span class="n">optimizer_id</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                  <span class="n">_DeferredSlotVariableRestoration</span><span class="p">(</span>
+                      <span class="n">original_variable</span><span class="o">=</span><span class="n">trackable</span><span class="p">,</span>
+                      <span class="n">slot_variable_id</span><span class="o">=</span><span class="n">slot_restoration</span><span class="o">.</span><span class="n">slot_variable_id</span><span class="p">,</span>
+                      <span class="n">slot_name</span><span class="o">=</span><span class="n">slot_restoration</span><span class="o">.</span><span class="n">slot_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="n">optimizer_object</span><span class="o">.</span><span class="n">_create_or_restore_slot_variable</span><span class="p">(</span>  <span class="c1"># pylint: disable=protected-access</span>
+              <span class="n">slot_variable_position</span><span class="o">=</span><span class="n">CheckpointPosition</span><span class="p">(</span>
+                  <span class="n">checkpoint</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
+                  <span class="n">proto_id</span><span class="o">=</span><span class="n">slot_restoration</span><span class="o">.</span><span class="n">slot_variable_id</span><span class="p">),</span>
+              <span class="n">variable</span><span class="o">=</span><span class="n">trackable</span><span class="p">,</span>
+              <span class="n">slot_name</span><span class="o">=</span><span class="n">slot_restoration</span><span class="o">.</span><span class="n">slot_name</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># New assignment</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># The object was already mapped for this checkpoint load, which means</span>
+      <span class="c1"># we don&#39;t need to do anything besides check that the mapping is</span>
+      <span class="c1"># consistent (if the dependency DAG is not a tree then there are</span>
+      <span class="c1"># multiple paths to the same object).</span>
+      <span class="k">if</span> <span class="n">current_assignment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">trackable</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">((</span>
+            <span class="s2">&quot;Inconsistent references when loading the checkpoint into this &quot;</span>
+            <span class="s2">&quot;object graph. Either the Trackable object references in the &quot;</span>
+            <span class="s2">&quot;Python program have changed in an incompatible way, or the &quot;</span>
+            <span class="s2">&quot;checkpoint was generated in an incompatible program.</span><span class="se">\n\n</span><span class="s2">Two &quot;</span>
+            <span class="s2">&quot;checkpoint references resolved to different objects (</span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2">).&quot;</span><span class="p">),</span>
+                        <span class="n">current_assignment</span><span class="p">,</span> <span class="n">trackable</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Not a new assignment</span>
+
+  <span class="k">def</span> <span class="nf">is_simple_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Determine whether this value is restorable with a Tensor initializer.&quot;&quot;&quot;</span>
+    <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_proto</span><span class="o">.</span><span class="n">attributes</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span>
+            <span class="n">attributes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">VARIABLE_VALUE_KEY</span> <span class="ow">and</span>
+            <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_proto</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">value_tensors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create value `Tensor`s for this object&#39;s attributes.</span>
+
+<span class="sd">    Does not require that the Python object has been created. Used for</span>
+<span class="sd">    restore-on-create when executing eagerly.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A dictionary mapping from object attribute names to `Tensor`s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">value_tensors</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">serialized_tensor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_proto</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+      <span class="n">checkpoint_key</span> <span class="o">=</span> <span class="n">serialized_tensor</span><span class="o">.</span><span class="n">checkpoint_key</span>
+      <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">dtype_map</span><span class="p">[</span><span class="n">checkpoint_key</span><span class="p">]</span>
+      <span class="n">base_type</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">base_dtype</span>
+      <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+        <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;/cpu:0&quot;</span><span class="p">):</span>
+          <span class="c1"># Run the restore itself on the CPU.</span>
+          <span class="n">value</span><span class="p">,</span> <span class="o">=</span> <span class="n">io_ops</span><span class="o">.</span><span class="n">restore_v2</span><span class="p">(</span>
+              <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">save_path_tensor</span><span class="p">,</span>
+              <span class="n">tensor_names</span><span class="o">=</span><span class="p">[</span><span class="n">checkpoint_key</span><span class="p">],</span>
+              <span class="n">shape_and_slices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
+              <span class="n">dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">base_type</span><span class="p">],</span>
+              <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_checkpoint_read&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">name</span><span class="p">,))</span>
+        <span class="c1"># Copy the value to the current device if necessary.</span>
+        <span class="n">value_tensors</span><span class="p">[</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">array_ops</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">value_tensors</span>
+
+  <span class="k">def</span> <span class="nf">_gather_ops_or_named_saveables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Looks up or creates SaveableObjects which don&#39;t have cached ops.&quot;&quot;&quot;</span>
+    <span class="n">saveables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trackable</span><span class="o">.</span><span class="n">_gather_saveables_for_checkpoint</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="c1"># Name saveables based on the name this object had when it was checkpointed.</span>
+    <span class="n">named_saveables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">python_saveables</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">existing_restore_ops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">serialized_tensor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_proto</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">():</span>
+        <span class="n">existing_op</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">existing_op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">restore_ops_by_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">serialized_tensor</span><span class="o">.</span><span class="n">checkpoint_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">existing_op</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">existing_restore_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">existing_op</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+      <span class="c1"># Only if we don&#39;t have cached ops for this SaveableObject, we&#39;ll see if</span>
+      <span class="c1"># the SaveableObject itself has been cached. If not, we&#39;ll make it, and</span>
+      <span class="c1"># either way we&#39;ll extract new ops from it (or if it has Python state to</span>
+      <span class="c1"># restore, we&#39;ll run that).</span>
+      <span class="n">saveables_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">graph_view</span><span class="o">.</span><span class="n">saveables_cache</span>
+      <span class="k">if</span> <span class="n">saveables_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># No SaveableObject caching when executing eagerly.</span>
+        <span class="n">saveable</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If we&#39;ve already created and cached a SaveableObject for this</span>
+        <span class="c1"># attribute, we can re-use it to avoid re-creating some ops when graph</span>
+        <span class="c1"># building.</span>
+        <span class="n">saveable_list</span> <span class="o">=</span> <span class="n">saveables_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trackable</span><span class="p">,</span>
+                                            <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                    <span class="p">(</span><span class="kc">None</span><span class="p">,))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">saveable_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="c1"># Almost every attribute will have exactly one SaveableObject.</span>
+          <span class="n">saveable</span><span class="p">,</span> <span class="o">=</span> <span class="n">saveable_list</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="c1"># Don&#39;t use cached SaveableObjects for partitioned variables, which is</span>
+          <span class="c1"># the only case where we&#39;d have a list of SaveableObjects. Op caching</span>
+          <span class="c1"># will catch them.</span>
+          <span class="n">saveable</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="k">if</span> <span class="n">saveable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># The name of this attribute has changed, so we need to re-generate</span>
+        <span class="c1"># the SaveableObject.</span>
+        <span class="k">if</span> <span class="n">serialized_tensor</span><span class="o">.</span><span class="n">checkpoint_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">saveable</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+          <span class="n">saveable</span> <span class="o">=</span> <span class="kc">None</span>
+          <span class="k">del</span> <span class="n">saveables_cache</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">trackable</span><span class="p">]</span>
+          <span class="k">break</span>
+      <span class="k">if</span> <span class="n">saveable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If there was no cached SaveableObject, we should check if the Python</span>
+        <span class="c1"># object has the attribute.</span>
+        <span class="n">saveable_factory</span> <span class="o">=</span> <span class="n">saveables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">saveable_factory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="c1"># Purposefully does not throw an exception if attributes have been</span>
+          <span class="c1"># added or deleted. Stores unused attributes so an exception can be</span>
+          <span class="c1"># raised if the user decides to check that everything in the</span>
+          <span class="c1"># checkpoint was loaded.</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">serialized_tensor</span><span class="o">.</span><span class="n">optional_restore</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">unused_attributes</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+          <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">saveable_factory</span><span class="p">):</span>
+          <span class="n">saveable</span> <span class="o">=</span> <span class="n">saveable_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">checkpoint_key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="n">saveable</span> <span class="o">=</span> <span class="n">saveable_factory</span>
+        <span class="k">if</span> <span class="n">saveables_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="n">saveables_cache</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trackable</span><span class="p">,</span>
+                                     <span class="p">{})[</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">saveable</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">saveable</span><span class="p">,</span> <span class="n">PythonStateSaveable</span><span class="p">):</span>
+        <span class="n">python_saveables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">saveable</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">named_saveables</span><span class="p">[</span><span class="n">serialized_tensor</span><span class="o">.</span><span class="n">checkpoint_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">saveable</span>
+    <span class="k">return</span> <span class="n">existing_restore_ops</span><span class="p">,</span> <span class="n">named_saveables</span><span class="p">,</span> <span class="n">python_saveables</span>
+
+  <span class="k">def</span> <span class="nf">restore_ops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create or fetch restore ops for this object&#39;s attributes.</span>
+
+<span class="sd">    Requires that the `Trackable` Python object has been bound to an object</span>
+<span class="sd">    ID in the checkpoint.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A list of operations when graph building, or an empty list when executing</span>
+<span class="sd">      eagerly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">restore_ops</span><span class="p">,</span> <span class="n">tensor_saveables</span><span class="p">,</span>
+     <span class="n">python_saveables</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gather_ops_or_named_saveables</span><span class="p">()</span>
+    <span class="n">restore_ops</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">restore_saveables</span><span class="p">(</span><span class="n">tensor_saveables</span><span class="p">,</span> <span class="n">python_saveables</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">restore_ops</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">trackable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">object_by_proto_id</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">]</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">object_proto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">object_graph_proto</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto_id</span><span class="p">]</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">restore_uid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint</span><span class="o">.</span><span class="n">restore_uid</span>
+
+  <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_proto</span><span class="p">)</span>
+
+
+<span class="n">_DeferredSlotVariableRestoration</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;_DeferredSlotVariableRestoration&quot;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s2">&quot;original_variable&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slot_variable_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slot_name&quot;</span><span class="p">,</span>
+    <span class="p">])</span>
+
+<span class="n">_SlotVariableRestoration</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;_SlotVariableRestoration&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="c1"># The checkpoint proto id of the optimizer object.</span>
+        <span class="s2">&quot;optimizer_id&quot;</span><span class="p">,</span>
+        <span class="c1"># The checkpoint proto id of the slot variable.</span>
+        <span class="s2">&quot;slot_variable_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;slot_name&quot;</span><span class="p">,</span>
+    <span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">no_automatic_dependency_tracking</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Disables automatic dependency tracking on attribute assignment.</span>
+
+<span class="sd">  Use to decorate any method of a Trackable object. Attribute assignment in</span>
+<span class="sd">  that method will not add dependencies (also respected in Model). Harmless if</span>
+<span class="sd">  used in a class which does not do automatic dependency tracking (which means</span>
+<span class="sd">  it&#39;s safe to use in base classes which may have subclasses which also inherit</span>
+<span class="sd">  from Trackable).</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    method: The method to decorate.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A decorated method which sets and un-sets automatic dependency tracking for</span>
+<span class="sd">    the object the method is called on (not thread safe).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">_method_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">previous_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_self_setattr_tracking&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+  <span class="k">return</span> <span class="n">tf_decorator</span><span class="o">.</span><span class="n">make_decorator</span><span class="p">(</span>
+      <span class="n">target</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">decorator_func</span><span class="o">=</span><span class="n">_method_wrapper</span><span class="p">)</span>
+
+
+<span class="nd">@tf_contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">no_automatic_dependency_tracking_scope</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;A context that disables automatic dependency tracking when assigning attrs.</span>
+
+<span class="sd">  Objects that inherit from Autotrackable automatically creates dependencies</span>
+<span class="sd">  to trackable objects through attribute assignments, and wraps data structures</span>
+<span class="sd">  (lists or dicts) with trackable classes. This scope may be used to temporarily</span>
+<span class="sd">  disable this behavior. This works similar to the decorator</span>
+<span class="sd">  `no_automatic_dependency_tracking`.</span>
+
+<span class="sd">  Example usage:</span>
+<span class="sd">  ```</span>
+<span class="sd">  model = tf.keras.Model()</span>
+<span class="sd">  model.arr1 = []  # Creates a ListWrapper object</span>
+<span class="sd">  with no_automatic_dependency_tracking_scope(model):</span>
+<span class="sd">    model.arr2 = []  # Creates a regular, untracked python list</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    obj: A trackable object.</span>
+
+<span class="sd">  Yields:</span>
+<span class="sd">    a scope in which the object doesn&#39;t track dependencies.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">previous_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;_setattr_tracking&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+  <span class="n">obj</span><span class="o">.</span><span class="n">_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">yield</span>
+  <span class="k">finally</span><span class="p">:</span>
+    <span class="n">obj</span><span class="o">.</span><span class="n">_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+
+<span class="k">class</span> <span class="nc">Trackable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for `Trackable` objects without automatic dependencies.</span>
+
+<span class="sd">  This class has no __setattr__ override for performance reasons. Dependencies</span>
+<span class="sd">  must be added explicitly. Unless attribute assignment is performance-critical,</span>
+<span class="sd">  use `AutoTrackable` instead. Use `Trackable` for `isinstance`</span>
+<span class="sd">  checks.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># For compatibility with wrapt.ObjectProxy, attributes are all prefixed with</span>
+  <span class="c1"># _self_. We have some properties to forward semi-public attributes to their</span>
+  <span class="c1"># _self_ equivalents.</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_setattr_tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_self_setattr_tracking&quot;</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span>
+
+  <span class="nd">@_setattr_tracking</span><span class="o">.</span><span class="n">setter</span>
+  <span class="k">def</span> <span class="nf">_setattr_tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">value</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_update_uid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span>
+
+  <span class="nd">@_update_uid</span><span class="o">.</span><span class="n">setter</span>
+  <span class="k">def</span> <span class="nf">_update_uid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span> <span class="o">=</span> <span class="n">value</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_unconditional_checkpoint_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_checkpoint_dependencies</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_unconditional_dependency_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_dependency_names</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_name_based_restores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_name_based_restores</span>
+
+  <span class="c1"># Trackable does not do automatic dependency tracking, but uses the</span>
+  <span class="c1"># no_automatic_dependency_tracking decorator so it can avoid adding</span>
+  <span class="c1"># dependencies if a subclass is Trackable / inherits from Model (both of</span>
+  <span class="c1"># which have __setattr__ overrides).</span>
+  <span class="nd">@no_automatic_dependency_tracking</span>
+  <span class="k">def</span> <span class="nf">_maybe_initialize_trackable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialize dependency management.</span>
+
+<span class="sd">    Not __init__, since most objects will forget to call it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_self_unconditional_checkpoint_dependencies&quot;</span><span class="p">):</span>
+      <span class="c1"># __init__ already called. This check means that we don&#39;t need</span>
+      <span class="c1"># Trackable.__init__() in the constructor of every TensorFlow object.</span>
+      <span class="k">return</span>
+    <span class="c1"># A list of TrackableReference objects. Some classes implementing</span>
+    <span class="c1"># `Trackable`, notably `Optimizer`s, may override the</span>
+    <span class="c1"># _checkpoint_dependencies property with conditional dependencies</span>
+    <span class="c1"># (e.g. based on the current graph when saving).</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_checkpoint_dependencies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Maps names -&gt; Trackable objects</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_dependency_names</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Restorations for other Trackable objects on which this object may</span>
+    <span class="c1"># eventually depend. Maps local name -&gt; CheckpointPosition list. Optimizers</span>
+    <span class="c1"># tack on conditional dependencies, and so need separate management of</span>
+    <span class="c1"># deferred dependencies too.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_deferred_dependencies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># The UID of the highest assignment to this object. Used to ensure that the</span>
+    <span class="c1"># last requested assignment determines the final value of an object.</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_self_update_uid&quot;</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+          <span class="s2">&quot;Internal error: the object had an update UID set before its &quot;</span>
+          <span class="s2">&quot;initialization code was run.&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="c1"># When executing eagerly, holds a collection of _NameBasedRestoreCoordinator</span>
+    <span class="c1"># instances, which should be checked when creating variables or other</span>
+    <span class="c1"># saveables. These are passed on recursively to all dependencies, since</span>
+    <span class="c1"># unlike object-based checkpoint restores we don&#39;t know which subgraph is</span>
+    <span class="c1"># being restored in advance. This mechanism is only necessary for</span>
+    <span class="c1"># restore-on-create when executing eagerly, and so is unused when graph</span>
+    <span class="c1"># building.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_name_based_restores</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_object_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;String used to identify this object in a SavedModel.</span>
+
+<span class="sd">    Generally, the object identifier is constant across objects of the same</span>
+<span class="sd">    class, while the metadata field is used for instance-specific data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      String object identifier.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;_generic_user_object&quot;</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_tracking_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;String containing object metadata, which is saved to the SavedModel.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">_no_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;If automatic dependency tracking is enabled, ignores `value`.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+  <span class="k">def</span> <span class="nf">_name_based_attribute_restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Restore the object&#39;s attributes from a name-based checkpoint.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_name_based_restores</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span> <span class="o">&lt;</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span><span class="p">:</span>
+      <span class="n">checkpoint</span><span class="o">.</span><span class="n">eager_restore</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_checkpoint_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;All dependencies of this object.</span>
+
+<span class="sd">    May be overridden to include conditional dependencies.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A list of `TrackableReference` objects indicating named</span>
+<span class="sd">      `Trackable` dependencies which should be saved along with this</span>
+<span class="sd">      object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_checkpoint_dependencies</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">_deferred_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A dictionary with deferred dependencies.</span>
+
+<span class="sd">    Stores restorations for other Trackable objects on which this object</span>
+<span class="sd">    may eventually depend. May be overridden by sub-classes (e.g. Optimizers use</span>
+<span class="sd">    conditional dependencies based the current graph, and so need separate</span>
+<span class="sd">    management of deferred dependencies too).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A dictionary mapping from local name to a list of CheckpointPosition</span>
+<span class="sd">      objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_deferred_dependencies</span>
+
+  <span class="k">def</span> <span class="nf">_lookup_dependency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Look up a dependency by name.</span>
+
+<span class="sd">    May be overridden to include conditional dependencies.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      name: The local name of the dependency.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A `Trackable` object, or `None` if no dependency by this name was</span>
+<span class="sd">      found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_dependency_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_add_variable_with_custom_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                       <span class="n">name</span><span class="p">,</span>
+                                       <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                       <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                                       <span class="n">initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                       <span class="n">getter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                       <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="o">**</span><span class="n">kwargs_for_getter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Restore-on-create for a variable be saved with this `Trackable`.</span>
+
+<span class="sd">    If the user has requested that this object or another `Trackable` which</span>
+<span class="sd">    depends on this object be restored from a checkpoint (deferred loading</span>
+<span class="sd">    before variable object creation), `initializer` may be ignored and the value</span>
+<span class="sd">    from the checkpoint used instead.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      name: A name for the variable. Must be unique within this object.</span>
+<span class="sd">      shape: The shape of the variable.</span>
+<span class="sd">      dtype: The data type of the variable.</span>
+<span class="sd">      initializer: The initializer to use. Ignored if there is a deferred</span>
+<span class="sd">        restoration left over from a call to</span>
+<span class="sd">        `_restore_from_checkpoint_position`.</span>
+<span class="sd">      getter: The getter to wrap which actually fetches the variable.</span>
+<span class="sd">      overwrite: If True, disables unique name and type checks.</span>
+<span class="sd">      **kwargs_for_getter: Passed to the getter.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      The new variable object.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      ValueError: If the variable name is not unique.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_initialize_trackable</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">():</span>
+        <span class="c1"># If this is a variable with a single Tensor stored in the checkpoint,</span>
+        <span class="c1"># we can set that value as an initializer rather than initializing and</span>
+        <span class="c1"># then assigning (when executing eagerly). This call returns None if</span>
+        <span class="c1"># there is nothing to restore.</span>
+        <span class="n">checkpoint_initializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preload_simple_restoration</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">checkpoint_initializer</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">checkpoint_initializer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
+          <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">initializer</span><span class="p">,</span> <span class="n">CheckpointInitialValue</span><span class="p">)</span> <span class="ow">and</span>
+               <span class="p">(</span><span class="n">initializer</span><span class="o">.</span><span class="n">restore_uid</span> <span class="o">&gt;</span> <span class="n">checkpoint_initializer</span><span class="o">.</span><span class="n">restore_uid</span><span class="p">))):</span>
+        <span class="c1"># If multiple Trackable objects are &quot;creating&quot; the same variable</span>
+        <span class="c1"># via the magic of custom getters, the one with the highest restore UID</span>
+        <span class="c1"># (the one called last) has to make the final initializer. If another</span>
+        <span class="c1"># custom getter interrupts this process by overwriting the initializer,</span>
+        <span class="c1"># then we&#39;ll catch that when we call _track_trackable. So this is</span>
+        <span class="c1"># &quot;best effort&quot; to set the initializer with the highest restore UID.</span>
+        <span class="n">initializer</span> <span class="o">=</span> <span class="n">checkpoint_initializer</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">new_variable</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs_for_getter</span><span class="p">)</span>
+
+    <span class="c1"># If we set an initializer and the variable processed it, tracking will not</span>
+    <span class="c1"># assign again. It will add this variable to our dependencies, and if there</span>
+    <span class="c1"># is a non-trivial restoration queued, it will handle that. This also</span>
+    <span class="c1"># handles slot variables.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_variable</span><span class="p">,</span> <span class="n">Trackable</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_trackable</span><span class="p">(</span><span class="n">new_variable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># TODO(allenl): Some variable types are not yet supported. Remove this</span>
+      <span class="c1"># fallback once all get_variable() return types are Trackable.</span>
+      <span class="k">return</span> <span class="n">new_variable</span>
+
+  <span class="k">def</span> <span class="nf">_preload_simple_restoration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a dependency&#39;s value for restore-on-create.</span>
+
+<span class="sd">    Note the restoration is not deleted; if for some reason preload is called</span>
+<span class="sd">    and then not assigned to the variable (for example because a custom getter</span>
+<span class="sd">    overrides the initializer), the assignment will still happen once the</span>
+<span class="sd">    variable is tracked (determined based on checkpoint.restore_uid).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      name: The object-local name of the dependency holding the variable&#39;s</span>
+<span class="sd">        value.</span>
+<span class="sd">      shape: The shape of the variable being loaded into.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      An callable for use as a variable&#39;s initializer/initial_value, or None if</span>
+<span class="sd">      one should not be set (either because there was no variable with this name</span>
+<span class="sd">      in the checkpoint or because it needs more complex deserialization). Any</span>
+<span class="sd">      non-trivial deserialization will happen when the variable object is</span>
+<span class="sd">      tracked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">deferred_dependencies_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_dependencies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">())</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">deferred_dependencies_list</span><span class="p">:</span>
+      <span class="c1"># Nothing to do; we don&#39;t have a restore for this dependency queued up.</span>
+      <span class="k">return</span>
+    <span class="k">for</span> <span class="n">checkpoint_position</span> <span class="ow">in</span> <span class="n">deferred_dependencies_list</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">checkpoint_position</span><span class="o">.</span><span class="n">is_simple_variable</span><span class="p">():</span>
+        <span class="c1"># If _any_ pending restoration is too complicated to fit in an</span>
+        <span class="c1"># initializer (because it has dependencies, or because there are</span>
+        <span class="c1"># multiple Tensors to restore), bail and let the general tracking code</span>
+        <span class="c1"># handle it.</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">checkpoint_position</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+        <span class="n">deferred_dependencies_list</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">restore</span><span class="p">:</span> <span class="n">restore</span><span class="o">.</span><span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CheckpointInitialValue</span><span class="p">(</span>
+        <span class="n">checkpoint_position</span><span class="o">=</span><span class="n">checkpoint_position</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_track_trackable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trackable</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Declare a dependency on another `Trackable` object.</span>
+
+<span class="sd">    Indicates that checkpoints for this object should include variables from</span>
+<span class="sd">    `trackable`.</span>
+
+<span class="sd">    Variables in a checkpoint are mapped to `Trackable`s based on the names</span>
+<span class="sd">    provided when the checkpoint was written. To avoid breaking existing</span>
+<span class="sd">    checkpoints when modifying a class, neither variable names nor dependency</span>
+<span class="sd">    names (the names passed to `_track_trackable`) may change.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      trackable: A `Trackable` which this object depends on.</span>
+<span class="sd">      name: A local name for `trackable`, used for loading checkpoints into the</span>
+<span class="sd">        correct objects.</span>
+<span class="sd">      overwrite: Boolean, whether silently replacing dependencies is OK. Used</span>
+<span class="sd">        for __setattr__, where throwing an error on attribute reassignment would</span>
+<span class="sd">        be inappropriate.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      `trackable`, for convenience when declaring a dependency and</span>
+<span class="sd">      assigning to a member variable in one statement.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      TypeError: If `trackable` does not inherit from `Trackable`.</span>
+<span class="sd">      ValueError: If another object is already tracked by this name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_initialize_trackable</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trackable</span><span class="p">,</span> <span class="n">Trackable</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span><span class="s2">&quot;Trackable._track_trackable() passed type </span><span class="si">%s</span><span class="s2">, not a &quot;</span>
+                       <span class="s2">&quot;Trackable.&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">trackable</span><span class="p">),))</span>
+    <span class="n">new_reference</span> <span class="o">=</span> <span class="n">TrackableReference</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">trackable</span><span class="p">)</span>
+    <span class="n">current_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup_dependency</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">current_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">current_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">trackable</span><span class="p">):</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;Called Trackable._track_trackable() with name=&#39;</span><span class="si">%s</span><span class="s2">&#39;, &quot;</span>
+             <span class="s2">&quot;but a Trackable with this name is already declared as a &quot;</span>
+             <span class="s2">&quot;dependency. Names must be unique (or overwrite=True).&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,))</span>
+      <span class="c1"># This is a weird thing to do, but we&#39;re not going to stop people from</span>
+      <span class="c1"># using __setattr__.</span>
+      <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">old_name</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_checkpoint_dependencies</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">old_name</span><span class="p">:</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_checkpoint_dependencies</span><span class="p">[</span>
+              <span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_reference</span>
+    <span class="k">elif</span> <span class="n">current_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_checkpoint_dependencies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_reference</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_handle_deferred_dependencies</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">trackable</span><span class="o">=</span><span class="n">trackable</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_self_unconditional_dependency_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">trackable</span>
+    <span class="k">return</span> <span class="n">trackable</span>
+
+  <span class="k">def</span> <span class="nf">_handle_deferred_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">trackable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pop and load any deferred checkpoint restores into `trackable`.</span>
+
+<span class="sd">    This method does not add a new dependency on `trackable`, but it does</span>
+<span class="sd">    check if any outstanding/deferred dependencies have been queued waiting for</span>
+<span class="sd">    this dependency to be added (matched based on `name`). If so,</span>
+<span class="sd">    `trackable` and its dependencies are restored. The restorations are</span>
+<span class="sd">    considered fulfilled and so are deleted.</span>
+
+<span class="sd">    `_track_trackable` is more appropriate for adding a</span>
+<span class="sd">    normal/unconditional dependency, and includes handling for deferred</span>
+<span class="sd">    restorations. This method allows objects such as `Optimizer` to use the same</span>
+<span class="sd">    restoration logic while managing conditional dependencies themselves, by</span>
+<span class="sd">    overriding `_checkpoint_dependencies` and `_lookup_dependency` to change the</span>
+<span class="sd">    object&#39;s dependencies based on the context it is saved/restored in (a single</span>
+<span class="sd">    optimizer instance can have state associated with multiple graphs).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      name: The name of the dependency within this object (`self`), used to</span>
+<span class="sd">        match `trackable` with values saved in a checkpoint.</span>
+<span class="sd">      trackable: The Trackable object to restore (inheriting from `Trackable`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_initialize_trackable</span><span class="p">()</span>
+    <span class="n">trackable</span><span class="o">.</span><span class="n">_maybe_initialize_trackable</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="n">deferred_dependencies_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_dependencies</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">())</span>
+    <span class="k">for</span> <span class="n">checkpoint_position</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">deferred_dependencies_list</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">restore</span><span class="p">:</span> <span class="n">restore</span><span class="o">.</span><span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+      <span class="n">checkpoint_position</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">trackable</span><span class="p">)</span>
+
+    <span class="c1"># Pass on any name-based restores queued in this object.</span>
+    <span class="k">for</span> <span class="n">name_based_restore</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_self_name_based_restores</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">checkpoint</span><span class="p">:</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+      <span class="n">trackable</span><span class="o">.</span><span class="n">_name_based_attribute_restore</span><span class="p">(</span><span class="n">name_based_restore</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+  <span class="k">def</span> <span class="nf">_restore_from_checkpoint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint_position</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Restore this object and its dependencies (may be deferred).&quot;&quot;&quot;</span>
+    <span class="c1"># Attempt a breadth-first traversal, since presumably the user has more</span>
+    <span class="c1"># control over shorter paths. If we don&#39;t have all of the dependencies at</span>
+    <span class="c1"># this point, the end result is not breadth-first (since other deferred</span>
+    <span class="c1"># traversals will happen later).</span>
+    <span class="n">visit_queue</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">([</span><span class="n">checkpoint_position</span><span class="p">])</span>
+    <span class="n">restore_ops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">visit_queue</span><span class="p">:</span>
+      <span class="n">current_position</span> <span class="o">=</span> <span class="n">visit_queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+      <span class="n">restore_ops</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+          <span class="n">nest</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">current_position</span><span class="o">.</span><span class="n">trackable</span>  <span class="c1"># pylint: disable=protected-access</span>
+                       <span class="o">.</span><span class="n">_single_restoration_from_checkpoint_position</span><span class="p">(</span>
+                           <span class="n">checkpoint_position</span><span class="o">=</span><span class="n">current_position</span><span class="p">,</span>
+                           <span class="n">visit_queue</span><span class="o">=</span><span class="n">visit_queue</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">restore_ops</span>
+
+  <span class="k">def</span> <span class="nf">_single_restoration_from_checkpoint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint_position</span><span class="p">,</span>
+                                                   <span class="n">visit_queue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Restore this object, and either queue its dependencies or defer them.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_initialize_trackable</span><span class="p">()</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">checkpoint_position</span><span class="o">.</span><span class="n">checkpoint</span>
+    <span class="c1"># If the UID of this restore is lower than our current update UID, we don&#39;t</span>
+    <span class="c1"># need to actually restore the object. However, we should pass the</span>
+    <span class="c1"># restoration on to our dependencies.</span>
+    <span class="k">if</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span><span class="p">:</span>
+      <span class="n">restore_ops</span> <span class="o">=</span> <span class="n">checkpoint_position</span><span class="o">.</span><span class="n">restore_ops</span><span class="p">()</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_self_update_uid</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">restore_uid</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">restore_ops</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">checkpoint_position</span><span class="o">.</span><span class="n">object_proto</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+      <span class="n">child_position</span> <span class="o">=</span> <span class="n">CheckpointPosition</span><span class="p">(</span>
+          <span class="n">checkpoint</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">proto_id</span><span class="o">=</span><span class="n">child</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
+      <span class="n">local_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup_dependency</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">local_name</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">local_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># We don&#39;t yet have a dependency registered with this name. Save it</span>
+        <span class="c1"># in case we do.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_dependencies</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">local_name</span><span class="p">,</span>
+                                               <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_position</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">child_position</span><span class="o">.</span><span class="n">bind_object</span><span class="p">(</span><span class="n">trackable</span><span class="o">=</span><span class="n">local_object</span><span class="p">):</span>
+          <span class="c1"># This object&#39;s correspondence is new, so dependencies need to be</span>
+          <span class="c1"># visited. Delay doing it so that we get a breadth-first dependency</span>
+          <span class="c1"># resolution order (shallowest paths first). The caller is responsible</span>
+          <span class="c1"># for emptying visit_queue.</span>
+          <span class="n">visit_queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_position</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">restore_ops</span>
+
+  <span class="k">def</span> <span class="nf">_gather_saveables_for_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a dictionary of values to checkpoint with this object.</span>
+
+<span class="sd">    Keys in the returned dictionary are local to this object and in a separate</span>
+<span class="sd">    namespace from dependencies. Values may either be `SaveableObject` factories</span>
+<span class="sd">    or variables easily converted to `SaveableObject`s (as in</span>
+<span class="sd">    `tf.compat.v1.train.Saver`&#39;s</span>
+<span class="sd">    `var_list` constructor argument).</span>
+
+<span class="sd">    `SaveableObjects` have a name set, which Trackable needs to generate</span>
+<span class="sd">    itself. So rather than returning `SaveableObjects` directly, this method</span>
+<span class="sd">    should return a dictionary of callables which take `name` arguments and</span>
+<span class="sd">    return `SaveableObjects` with that name.</span>
+
+<span class="sd">    If this object may also be passed to the global-name-based</span>
+<span class="sd">    `tf.compat.v1.train.Saver`,</span>
+<span class="sd">    the returned callables should have a default value for their name argument</span>
+<span class="sd">    (i.e. be callable with no arguments).</span>
+
+<span class="sd">    Returned values must be saved only by this object; if any value may be</span>
+<span class="sd">    shared, it should instead be a dependency. For example, variable objects</span>
+<span class="sd">    save their own values with the key `VARIABLE_VALUE_KEY`, but objects which</span>
+<span class="sd">    reference variables simply add a dependency.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      The dictionary mapping attribute names to `SaveableObject` factories</span>
+<span class="sd">      described above. For example:</span>
+<span class="sd">      {VARIABLE_VALUE_KEY:</span>
+<span class="sd">       lambda name=&quot;global_name_for_this_object&quot;:</span>
+<span class="sd">       SaveableObject(name=name, ...)}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{}</span>
+
+  <span class="k">def</span> <span class="nf">_list_extra_dependencies_for_serialization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serialization_cache</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lists extra dependencies to serialize.</span>
+
+<span class="sd">    Internal sub-classes can override this method to return extra dependencies</span>
+<span class="sd">    that should be saved with the object during SavedModel serialization. For</span>
+<span class="sd">    example, this is used to save `trainable_variables` in Keras models. The</span>
+<span class="sd">    python property `trainable_variables` contains logic to iterate through the</span>
+<span class="sd">    weights from the model and its sublayers. The serialized Keras model saves</span>
+<span class="sd">    `trainable_weights` as a trackable list of variables.</span>
+
+<span class="sd">    PLEASE NOTE when overriding this method:</span>
+<span class="sd">      1. This function may only generate new trackable objects the first time it</span>
+<span class="sd">         is called.</span>
+<span class="sd">      2. The returned dictionary must not have naming conflicts with</span>
+<span class="sd">         dependencies tracked by the root. In other words, if the root is</span>
+<span class="sd">         tracking `object_1` with name &#39;x&#39;, and this functions returns</span>
+<span class="sd">         `{&#39;x&#39;: object_2}`, an error is raised when saving.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      serialization_cache: A dictionary shared between all objects in the same</span>
+<span class="sd">        object graph. This object is passed to both</span>
+<span class="sd">        `_list_extra_dependencies_for_serialization` and</span>
+<span class="sd">        `_list_functions_for_serialization`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A dictionary mapping attribute names to trackable objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">serialization_cache</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">_list_functions_for_serialization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serialization_cache</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lists the functions of this trackable to serialize.</span>
+
+<span class="sd">    Internal sub-classes can override this with specific logic. E.g.</span>
+<span class="sd">    `AutoTrackable` provides an implementation that returns the `attr`</span>
+<span class="sd">    that return functions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      serialization_cache: Dictionary passed to all objects in the same object</span>
+<span class="sd">        graph during serialization.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A dictionary mapping attribute names to `Function` or</span>
+<span class="sd">        `ConcreteFunction`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">serialization_cache</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

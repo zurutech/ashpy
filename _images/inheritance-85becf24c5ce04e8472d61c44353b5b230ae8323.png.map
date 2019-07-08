@@ -1,0 +1,13 @@
+<map id="inheritance681d52c688" name="inheritance681d52c688">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="83,19,152,34"/>
+<area shape="rect" id="node10" title="Base neural network module class." alt="" coords="182,19,225,34"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="3,19,54,34"/>
+<area shape="rect" id="node3" href="_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.convolutional.decoders.BaseDecoder" target="_top" title="Primitive Model for all decoder (i.e., transpose convolution) based architecture." alt="" coords="583,3,649,19"/>
+<area shape="rect" id="node7" href="_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html#ashpy.models.convolutional.decoders.FCNNBaseDecoder" target="_top" title="Fully Convolutional Decoder. Expected input is a feature map." alt="" coords="678,3,765,19"/>
+<area shape="rect" id="node4" href="_autosummary/models/convolutional/interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="475,19,554,34"/>
+<area shape="rect" id="node5" href="_autosummary/models/convolutional/encoders/ashpy.models.convolutional.encoders.BaseEncoder.html#ashpy.models.convolutional.encoders.BaseEncoder" target="_top" title="Primitive Model for all encoder (i.e., convolution) based architecture." alt="" coords="584,33,648,48"/>
+<area shape="rect" id="node8" href="_autosummary/models/convolutional/encoders/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html#ashpy.models.convolutional.encoders.FCNNBaseEncoder" target="_top" title="Fully Convolutional Encoder. Output a 1x1xencoding_size vector." alt="" coords="678,33,764,48"/>
+<area shape="rect" id="node6" title="`Model` groups layers into an object with training and inference features." alt="" coords="403,19,446,34"/>
+<area shape="rect" id="node9" title="Base layer class." alt="" coords="254,19,298,34"/>
+<area shape="rect" id="node11" title="A `Network` is a composition of layers." alt="" coords="327,19,374,34"/>
+</map>

@@ -1,0 +1,24 @@
+base_context
+===========================
+
+.. automodule:: ashpy.contexts.base_context
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: base_context
+   
+      BaseContext
+   
+   
+
+   
+   
+   

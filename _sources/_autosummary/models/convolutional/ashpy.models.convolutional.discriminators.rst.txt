@@ -1,0 +1,25 @@
+discriminators
+=========================================
+
+.. automodule:: ashpy.models.convolutional.discriminators
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :nosignatures:
+      :toctree: discriminators
+   
+      MultiScaleDiscriminator
+      PatchDiscriminator
+   
+   
+
+   
+   
+   

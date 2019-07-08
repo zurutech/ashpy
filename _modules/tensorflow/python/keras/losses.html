@@ -1,0 +1,1539 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tensorflow.python.keras.losses &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/losses/ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/losses/ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/losses/ashpy.losses.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/losses/gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../_autosummary/ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>tensorflow.python.keras.losses</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tensorflow.python.keras.losses</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2015 The TensorFlow Authors. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1"># ==============================================================================</span>
+<span class="sd">&quot;&quot;&quot;Built-in loss functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.python.distribute</span> <span class="k">import</span> <span class="n">distribution_strategy_context</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">smart_cond</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras.utils</span> <span class="k">import</span> <span class="n">losses_utils</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras.utils</span> <span class="k">import</span> <span class="n">tf_utils</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras.utils.generic_utils</span> <span class="k">import</span> <span class="n">deserialize_keras_object</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras.utils.generic_utils</span> <span class="k">import</span> <span class="n">serialize_keras_object</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">array_ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">math_ops</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops.losses</span> <span class="k">import</span> <span class="n">losses_impl</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.util.tf_export</span> <span class="k">import</span> <span class="n">keras_export</span>
+<span class="kn">from</span> <span class="nn">tensorflow.tools.docs</span> <span class="k">import</span> <span class="n">doc_controls</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.Loss&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Loss</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Loss base class.</span>
+
+<span class="sd">  To be implemented by subclasses:</span>
+<span class="sd">  * `call()`: Contains the logic for loss calculation using `y_true`, `y_pred`.</span>
+
+<span class="sd">  Example subclass implementation:</span>
+<span class="sd">  ```</span>
+<span class="sd">  class MeanSquaredError(Loss):</span>
+<span class="sd">    def call(self, y_true, y_pred):</span>
+<span class="sd">      y_pred = ops.convert_to_tensor(y_pred)</span>
+<span class="sd">      y_true = math_ops.cast(y_true, y_pred.dtype)</span>
+<span class="sd">      return K.mean(math_ops.square(y_pred - y_true), axis=-1)</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  When used with `tf.distribute.Strategy`, outside of built-in training loops</span>
+<span class="sd">  such as `tf.keras` `compile` and `fit`, please use &#39;SUM&#39; or &#39;NONE&#39; reduction</span>
+<span class="sd">  types, and reduce losses explicitly in your training loop. Using &#39;AUTO&#39; or</span>
+<span class="sd">  &#39;SUM_OVER_BATCH_SIZE&#39; will raise an error.</span>
+
+<span class="sd">  Please see</span>
+<span class="sd">  https://www.tensorflow.org/alpha/tutorials/distribute/training_loops for more</span>
+<span class="sd">  details on this.</span>
+
+<span class="sd">  You can implement &#39;SUM_OVER_BATCH_SIZE&#39; using global batch size like:</span>
+<span class="sd">  ```</span>
+<span class="sd">  with strategy.scope():</span>
+<span class="sd">    loss_obj = tf.keras.losses.CategoricalCrossentropy(</span>
+<span class="sd">        reduction=tf.keras.losses.Reduction.NONE)</span>
+<span class="sd">    ....</span>
+<span class="sd">    loss = (tf.reduce_sum(loss_obj(labels, predictions)) *</span>
+<span class="sd">            (1. / global_batch_size))</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: Optional name for the op.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">reduction</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">reduction</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+  <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Invokes the `Loss` instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      y_true: Ground truth values.</span>
+<span class="sd">      y_pred: The predicted values.</span>
+<span class="sd">      sample_weight: Optional `Tensor` whose rank is either 0, or the same rank</span>
+<span class="sd">        as `y_true`, or is broadcastable to `y_true`. `sample_weight` acts as a</span>
+<span class="sd">        coefficient for the loss. If a scalar is provided, then the loss is</span>
+<span class="sd">        simply scaled by the given value. If `sample_weight` is a tensor of size</span>
+<span class="sd">        `[batch_size]`, then the total loss for each sample of the batch is</span>
+<span class="sd">        rescaled by the corresponding element in the `sample_weight` vector. If</span>
+<span class="sd">        the shape of `sample_weight` matches the shape of `y_pred`, then the</span>
+<span class="sd">        loss of each measurable element of `y_pred` is scaled by the</span>
+<span class="sd">        corresponding value of `sample_weight`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Weighted loss float `Tensor`. If `reduction` is `NONE`, this has the same</span>
+<span class="sd">        shape as `y_true`; otherwise, it is scalar.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      ValueError: If the shape of `sample_weight` is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># If we are wrapping a lambda function strip &#39;&lt;&gt;&#39; from the name as it is not</span>
+    <span class="c1"># accepted in scope name.</span>
+    <span class="n">scope_name</span> <span class="o">=</span> <span class="s1">&#39;lambda&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&lt;lambda&gt;&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">graph_ctx</span> <span class="o">=</span> <span class="n">tf_utils</span><span class="o">.</span><span class="n">graph_context_for_symbolic_tensors</span><span class="p">(</span>
+        <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">K</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="n">scope_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="n">graph_ctx</span><span class="p">:</span>
+      <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">losses_utils</span><span class="o">.</span><span class="n">compute_weighted_loss</span><span class="p">(</span>
+          <span class="n">losses</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_reduction</span><span class="p">())</span>
+
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Instantiates a `Loss` from its config (output of `get_config()`).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config: Output of `get_config()`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A `Loss` instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;reduction&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+
+  <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+  <span class="nd">@doc_controls</span><span class="o">.</span><span class="n">for_subclass_implementers</span>
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Invokes the `Loss` instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      y_true: Ground truth values, with the same shape as &#39;y_pred&#39;.</span>
+<span class="sd">      y_pred: The predicted values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Must be implemented in subclasses.&#39;</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_get_reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handles `AUTO` reduction cases and returns the reduction value.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">distribution_strategy_context</span><span class="o">.</span><span class="n">has_strategy</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span> <span class="ow">or</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">SUM_OVER_BATCH_SIZE</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+          <span class="s1">&#39;Please use `tf.keras.losses.Reduction.SUM` or &#39;</span>
+          <span class="s1">&#39;`tf.keras.losses.Reduction.NONE` for loss reduction when losses are &#39;</span>
+          <span class="s1">&#39;used with `tf.distribute.Strategy` outside of the built-in training &#39;</span>
+          <span class="s1">&#39;loops. You can implement &#39;</span>
+          <span class="s1">&#39;`tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE` using global batch &#39;</span>
+          <span class="s1">&#39;size like:</span><span class="se">\n</span><span class="s1">```</span><span class="se">\n</span><span class="s1">with strategy.scope():</span><span class="se">\n</span><span class="s1">&#39;</span>
+          <span class="s1">&#39;    loss_obj = tf.keras.losses.CategoricalCrossentropy(&#39;</span>
+          <span class="s1">&#39;reduction=tf.keras.losses.reduction.None)</span><span class="se">\n</span><span class="s1">....</span><span class="se">\n</span><span class="s1">&#39;</span>
+          <span class="s1">&#39;    loss = tf.reduce_sum(loss_obj(labels, predictions)) * &#39;</span>
+          <span class="s1">&#39;(1. / global_batch_size)</span><span class="se">\n</span><span class="s1">```</span><span class="se">\n</span><span class="s1">Please see &#39;</span>
+          <span class="s1">&#39;https://www.tensorflow.org/alpha/tutorials/distribute/training_loops&#39;</span>
+          <span class="s1">&#39; for more details.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">SUM_OVER_BATCH_SIZE</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span>
+
+
+<span class="k">class</span> <span class="nc">LossFunctionWrapper</span><span class="p">(</span><span class="n">Loss</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Wraps a loss function in the `Loss` class.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    fn: The loss function to wrap, with signature `fn(y_true, y_pred,</span>
+<span class="sd">      **kwargs)`.</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: (Optional) name for the loss.</span>
+<span class="sd">    **kwargs: The keyword arguments that are passed on to `fn`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">fn</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">=</span> <span class="n">fn</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_fn_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Invokes the `LossFunctionWrapper` instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      y_true: Ground truth values.</span>
+<span class="sd">      y_pred: The predicted values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Loss values per sample.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_fn_kwargs</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fn_kwargs</span><span class="p">):</span>
+      <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="n">tf_utils</span><span class="o">.</span><span class="n">is_tensor_or_variable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
+    <span class="n">base_config</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">base_config</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.MeanSquaredError&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MeanSquaredError</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the mean of squares of errors between labels and predictions.</span>
+
+<span class="sd">  For example, if `y_true` is [0., 0., 1., 1.] and `y_pred` is [1., 1., 1., 0.]</span>
+<span class="sd">  then the mean squared error value is 3/4 (0.75).</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  mse = tf.keras.losses.MeanSquaredError()</span>
+<span class="sd">  loss = mse([0., 0., 1., 1.], [1., 1., 1., 0.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.75</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.MeanSquaredError())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MeanSquaredError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.MeanAbsoluteError&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MeanAbsoluteError</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the mean of absolute difference between labels and predictions.</span>
+
+<span class="sd">  For example, if `y_true` is [0., 0., 1., 1.] and `y_pred` is [1., 1., 1., 0.]</span>
+<span class="sd">  then the mean absolute error value is 3/4 (0.75).</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  mae = tf.keras.losses.MeanAbsoluteError()</span>
+<span class="sd">  loss = mae([0., 0., 1., 1.], [1., 1., 1., 0.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.75</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.MeanAbsoluteError())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mean_absolute_error&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MeanAbsoluteError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.MeanAbsolutePercentageError&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MeanAbsolutePercentageError</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the mean absolute percentage error between `y_true` and `y_pred`.</span>
+
+<span class="sd">  For example, if `y_true` is [0., 0., 1., 1.] and `y_pred` is [1., 1., 1., 0.]</span>
+<span class="sd">  then the mean absolute percentage error value is 5e+08.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  mape = tf.keras.losses.MeanAbsolutePercentageError()</span>
+<span class="sd">  loss = mape([0., 0., 1., 1.], [1., 1., 1., 0.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 5e+08</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.MeanAbsolutePercentageError())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mean_absolute_percentage_error&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MeanAbsolutePercentageError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.MeanSquaredLogarithmicError&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MeanSquaredLogarithmicError</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the mean squared logarithmic error between `y_true` and `y_pred`.</span>
+
+<span class="sd">  For example, if `y_true` is [0., 0., 1., 1.] and `y_pred` is [1., 1., 1., 0.]</span>
+<span class="sd">  then the mean squared logarithmic error value is 0.36034.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  msle = tf.keras.losses.MeanSquaredLogarithmicError()</span>
+<span class="sd">  loss = msle([0., 0., 1., 1.], [1., 1., 1., 0.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.36034</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.MeanSquaredLogarithmicError())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mean_squared_logarithmic_error&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MeanSquaredLogarithmicError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">mean_squared_logarithmic_error</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.BinaryCrossentropy&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BinaryCrossentropy</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the cross-entropy loss between true labels and predicted labels.</span>
+
+<span class="sd">  Use this cross-entropy loss when there are only two label classes (assumed to</span>
+<span class="sd">  be 0 and 1). For each example, there should be a single floating-point value</span>
+<span class="sd">  per prediction.</span>
+
+<span class="sd">  In the snippet below, each of the four examples has only a single</span>
+<span class="sd">  floating-pointing value, and both `y_pred` and `y_true` have the shape</span>
+<span class="sd">  `[batch_size]`.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  bce = tf.keras.losses.BinaryCrossentropy()</span>
+<span class="sd">  loss = bce([0., 0., 1., 1.], [1., 1., 1., 0.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 11.522857</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with the `tf.keras` API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.BinaryCrossentropy())</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    from_logits: Whether to interpret `y_pred` as a tensor of</span>
+<span class="sd">      [logit](https://en.wikipedia.org/wiki/Logit) values. By default, we assume</span>
+<span class="sd">        that `y_pred` contains probabilities (i.e., values in [0, 1]).</span>
+<span class="sd">    label_smoothing: Float in [0, 1]. When 0, no smoothing occurs. When &gt; 0, we</span>
+<span class="sd">      compute the loss between the predicted labels and a smoothed version of</span>
+<span class="sd">      the true labels, where the smoothing squeezes the labels towards 0.5.</span>
+<span class="sd">      Larger values of `label_smoothing` correspond to heavier smoothing.</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: (Optional) Name for the op.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">label_smoothing</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">BinaryCrossentropy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">binary_crossentropy</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span>
+        <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">,</span>
+        <span class="n">label_smoothing</span><span class="o">=</span><span class="n">label_smoothing</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">from_logits</span> <span class="o">=</span> <span class="n">from_logits</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.CategoricalCrossentropy&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">CategoricalCrossentropy</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the crossentropy loss between the labels and predictions.</span>
+
+<span class="sd">  Use this crossentropy loss function when there are two or more label classes.</span>
+<span class="sd">  We expect labels to be provided in a `one_hot` representation. If you want to</span>
+<span class="sd">  provide labels as integers, please use `SparseCategoricalCrossentropy` loss.</span>
+<span class="sd">  There should be `# classes` floating point values per feature.</span>
+
+<span class="sd">  In the snippet below, there is `# classes` floating pointing values per</span>
+<span class="sd">  example. The shape of both `y_pred` and `y_true` are</span>
+<span class="sd">  `[batch_size, num_classes]`.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  cce = tf.keras.losses.CategoricalCrossentropy()</span>
+<span class="sd">  loss = cce(</span>
+<span class="sd">    [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]],</span>
+<span class="sd">    [[.9, .05, .05], [.5, .89, .6], [.05, .01, .94]])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.3239</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.CategoricalCrossentropy())</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    from_logits: Whether `y_pred` is expected to be a logits tensor. By default,</span>
+<span class="sd">      we assume that `y_pred` encodes a probability distribution.</span>
+<span class="sd">    label_smoothing: Float in [0, 1]. When &gt; 0, label values are smoothed,</span>
+<span class="sd">      meaning the confidence on label values are relaxed. e.g.</span>
+<span class="sd">      `label_smoothing=0.2` means that we will use a value of `0.1` for label</span>
+<span class="sd">      `0` and `0.9` for label `1`&quot;</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: Optional name for the op.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">label_smoothing</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">CategoricalCrossentropy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">categorical_crossentropy</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span>
+        <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">,</span>
+        <span class="n">label_smoothing</span><span class="o">=</span><span class="n">label_smoothing</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.SparseCategoricalCrossentropy&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the crossentropy loss between the labels and predictions.</span>
+
+<span class="sd">  Use this crossentropy loss function when there are two or more label classes.</span>
+<span class="sd">  We expect labels to be provided as integers. If you want to provide labels</span>
+<span class="sd">  using `one-hot` representation, please use `CategoricalCrossentropy` loss.</span>
+<span class="sd">  There should be `# classes` floating point values per feature for `y_pred`</span>
+<span class="sd">  and a single floating point value per feature for `y_true`.</span>
+
+<span class="sd">  In the snippet below, there is a single floating point value per example for</span>
+<span class="sd">  `y_true` and `# classes` floating pointing values per example for `y_pred`.</span>
+<span class="sd">  The shape of `y_true` is `[batch_size]` and the shape of `y_pred` is</span>
+<span class="sd">  `[batch_size, num_classes]`.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  cce = tf.keras.losses.SparseCategoricalCrossentropy()</span>
+<span class="sd">  loss = cce(</span>
+<span class="sd">    [0, 1, 2],</span>
+<span class="sd">    [[.9, .05, .05], [.5, .89, .6], [.05, .01, .94]])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.3239</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.SparseCategoricalCrossentropy())</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    from_logits: Whether `y_pred` is expected to be a logits tensor. By default,</span>
+<span class="sd">      we assume that `y_pred` encodes a probability distribution.</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: Optional name for the op.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">sparse_categorical_crossentropy</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span>
+        <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.Hinge&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Hinge</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the hinge loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  `y_true` values are expected to be -1 or 1. If binary (0 or 1) labels are</span>
+<span class="sd">  provided we will convert them to -1 or 1.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  h = tf.keras.losses.Hinge()</span>
+<span class="sd">  loss = h([-1., 1., 1.], [0.6, -0.7, -0.5])</span>
+
+<span class="sd">  # loss = max(0, 1 - y_true * y_pred) = [1.6 + 1.7 + 1.5] / 3</span>
+
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 1.6</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.Hinge())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Hinge</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">hinge</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.SquaredHinge&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SquaredHinge</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the squared hinge loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  `y_true` values are expected to be -1 or 1. If binary (0 or 1) labels are</span>
+<span class="sd">  provided we will convert them to -1 or 1.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  sh = tf.keras.losses.SquaredHinge()</span>
+<span class="sd">  loss = sh([-1., 1., 1.], [0.6, -0.7, -0.5])</span>
+
+<span class="sd">  # loss = (max(0, 1 - y_true * y_pred))^2 = [1.6^2 + 1.7^2 + 1.5^2] / 3</span>
+
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 2.566666</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.SquaredHinge())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;squared_hinge&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">SquaredHinge</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">squared_hinge</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.CategoricalHinge&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">CategoricalHinge</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the categorical hinge loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  ch = tf.keras.losses.CategoricalHinge()</span>
+<span class="sd">  loss = ch([0., 1., 1.], [1., 0., 1.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 1.0</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.CategoricalHinge())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;categorical_hinge&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">CategoricalHinge</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">categorical_hinge</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.Poisson&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Poisson</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the Poisson loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  `loss = y_pred - y_true * log(y_pred)`</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  p = tf.keras.losses.Poisson()</span>
+<span class="sd">  loss = p([1, 9, 2], [4, 8, 12])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: -4.63</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.Poisson())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;poisson&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Poisson</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">poisson</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.LogCosh&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">LogCosh</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the logarithm of the hyperbolic cosine of the prediction error.</span>
+
+<span class="sd">  `logcosh = log((exp(x) + exp(-x))/2)`, where x is the error (y_pred - y_true)</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  l = tf.keras.losses.LogCosh()</span>
+<span class="sd">  loss = l([0., 1., 1.], [1., 0., 1.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.289</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.LogCosh())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;logcosh&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">LogCosh</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">logcosh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.KLDivergence&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">KLDivergence</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes Kullback Leibler divergence loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  `loss = y_true * log(y_true / y_pred)`</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  k = tf.keras.losses.KLDivergence()</span>
+<span class="sd">  loss = k([.4, .9, .2], [.5, .8, .12])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: -0.043</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.KLDivergence())</span>
+<span class="sd">  ```</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kullback_leibler_divergence&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">KLDivergence</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">kullback_leibler_divergence</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.Huber&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Huber</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the Huber loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  For each value x in `error=y_true-y_pred`, the following is calculated:</span>
+
+<span class="sd">  ```</span>
+<span class="sd">  0.5 * x^2                  if |x| &lt;= d</span>
+<span class="sd">  0.5 * d^2 + d * (|x| - d)  if |x| &gt; d</span>
+<span class="sd">  ```</span>
+<span class="sd">  where d is `delta`. See: https://en.wikipedia.org/wiki/Huber_loss</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  l = tf.keras.losses.Huber()</span>
+<span class="sd">  loss = l([0., 1., 1.], [1., 0., 1.])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.333</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.Huber())</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    delta: A float, the point where the Huber loss function changes from a</span>
+<span class="sd">      quadratic to linear.</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: Optional name for the op.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">delta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;huber_loss&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Huber</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">huber_loss</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.mean_squared_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.mse&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.MSE&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mean_squared_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mse&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.MSE&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">squared_difference</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.mean_absolute_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.mae&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.MAE&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mean_absolute_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mae&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.MAE&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.mean_absolute_percentage_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.mape&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.MAPE&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mean_absolute_percentage_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mape&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.MAPE&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">diff</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+      <span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">/</span> <span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true</span><span class="p">),</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span> <span class="kc">None</span><span class="p">))</span>
+  <span class="k">return</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.mean_squared_logarithmic_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.msle&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.MSLE&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.mean_squared_logarithmic_error&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.msle&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.MSLE&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mean_squared_logarithmic_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">first_log</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">)</span>
+  <span class="n">second_log</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">squared_difference</span><span class="p">(</span><span class="n">first_log</span><span class="p">,</span> <span class="n">second_log</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_maybe_convert_labels</span><span class="p">(</span><span class="n">y_true</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Converts binary labels into -1/1.&quot;&quot;&quot;</span>
+  <span class="n">are_zeros</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">are_ones</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">is_binary</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">reduce_all</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">are_zeros</span><span class="p">,</span> <span class="n">are_ones</span><span class="p">))</span>
+
+  <span class="k">def</span> <span class="nf">_convert_binary_labels</span><span class="p">():</span>
+    <span class="c1"># Convert the binary labels to -1 or 1.</span>
+    <span class="k">return</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">y_true</span> <span class="o">-</span> <span class="mf">1.</span>
+
+  <span class="n">updated_y_true</span> <span class="o">=</span> <span class="n">smart_cond</span><span class="o">.</span><span class="n">smart_cond</span><span class="p">(</span><span class="n">is_binary</span><span class="p">,</span>
+                                         <span class="n">_convert_binary_labels</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">y_true</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">updated_y_true</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.squared_hinge&#39;</span><span class="p">,</span> <span class="s1">&#39;keras.losses.squared_hinge&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">squared_hinge</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the squared hinge loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    y_true: The ground truth values. `y_true` values are expected to be -1 or 1.</span>
+<span class="sd">      If binary (0 or 1) labels are provided we will convert them to -1 or 1.</span>
+<span class="sd">    y_pred: The predicted values.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Tensor with one scalar loss entry per sample.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">_maybe_convert_labels</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+      <span class="n">math_ops</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.hinge&#39;</span><span class="p">,</span> <span class="s1">&#39;keras.losses.hinge&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hinge</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the hinge loss between `y_true` and `y_pred`.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    y_true: The ground truth values. `y_true` values are expected to be -1 or 1.</span>
+<span class="sd">      If binary (0 or 1) labels are provided we will convert them to -1 or 1.</span>
+<span class="sd">    y_pred: The predicted values.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Tensor with one scalar loss entry per sample.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">_maybe_convert_labels</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.categorical_hinge&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">categorical_hinge</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">pos</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">neg</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">((</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">neg</span> <span class="o">-</span> <span class="n">pos</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">huber_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes Huber loss value.</span>
+
+<span class="sd">  For each value x in `error=y_true-y_pred`, the following is calculated:</span>
+
+<span class="sd">  ```</span>
+<span class="sd">  0.5 * x^2                  if |x| &lt;= d</span>
+<span class="sd">  0.5 * d^2 + d * (|x| - d)  if |x| &gt; d</span>
+<span class="sd">  ```</span>
+<span class="sd">  where d is `delta`. See: https://en.wikipedia.org/wiki/Huber_loss</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    y_true: tensor of true targets.</span>
+<span class="sd">    y_pred: tensor of predicted targets.</span>
+<span class="sd">    delta: A float, the point where the Huber loss function changes from a</span>
+<span class="sd">      quadratic to linear.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Tensor with one scalar loss entry per sample.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+  <span class="n">error</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
+  <span class="n">abs_error</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+  <span class="n">quadratic</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">abs_error</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+  <span class="n">linear</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">abs_error</span><span class="p">,</span> <span class="n">quadratic</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+      <span class="n">math_ops</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+          <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">quadratic</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+          <span class="n">math_ops</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">quadratic</span><span class="p">,</span> <span class="n">quadratic</span><span class="p">)),</span>
+      <span class="n">math_ops</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">linear</span><span class="p">))</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.logcosh&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">logcosh</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Logarithm of the hyperbolic cosine of the prediction error.</span>
+
+<span class="sd">  `log(cosh(x))` is approximately equal to `(x ** 2) / 2` for small `x` and</span>
+<span class="sd">  to `abs(x) - log(2)` for large `x`. This means that &#39;logcosh&#39; works mostly</span>
+<span class="sd">  like the mean squared error, but will not be so strongly affected by the</span>
+<span class="sd">  occasional wildly incorrect prediction.</span>
+
+<span class="sd">  Arguments:</span>
+<span class="sd">      y_true: tensor of true targets.</span>
+<span class="sd">      y_pred: tensor of predicted targets.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      Tensor with one scalar loss entry per sample.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_logcosh</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">_logcosh</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y_true</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.categorical_crossentropy&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.categorical_crossentropy&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">categorical_crossentropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span>
+                             <span class="n">y_pred</span><span class="p">,</span>
+                             <span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">label_smoothing</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the categorical crossentropy loss.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    y_true: tensor of true targets.</span>
+<span class="sd">    y_pred: tensor of predicted targets.</span>
+<span class="sd">    from_logits: Whether `y_pred` is expected to be a logits tensor. By default,</span>
+<span class="sd">      we assume that `y_pred` encodes a probability distribution.</span>
+<span class="sd">    label_smoothing: Float in [0, 1]. If &gt; `0` then smooth the labels.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Categorical crossentropy loss value.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">label_smoothing</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">label_smoothing</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+
+  <span class="k">def</span> <span class="nf">_smooth_labels</span><span class="p">():</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">array_ops</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y_true</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y_true</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">label_smoothing</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">label_smoothing</span> <span class="o">/</span> <span class="n">num_classes</span><span class="p">)</span>
+
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">smart_cond</span><span class="o">.</span><span class="n">smart_cond</span><span class="p">(</span><span class="n">label_smoothing</span><span class="p">,</span>
+                                 <span class="n">_smooth_labels</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">y_true</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">categorical_crossentropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.sparse_categorical_crossentropy&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.sparse_categorical_crossentropy&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sparse_categorical_crossentropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">sparse_categorical_crossentropy</span><span class="p">(</span>
+      <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.binary_crossentropy&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.binary_crossentropy&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">binary_crossentropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label_smoothing</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">label_smoothing</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">label_smoothing</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+
+  <span class="k">def</span> <span class="nf">_smooth_labels</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">y_true</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">label_smoothing</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">label_smoothing</span>
+
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">smart_cond</span><span class="o">.</span><span class="n">smart_cond</span><span class="p">(</span><span class="n">label_smoothing</span><span class="p">,</span>
+                                 <span class="n">_smooth_labels</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">y_true</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+      <span class="n">K</span><span class="o">.</span><span class="n">binary_crossentropy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">from_logits</span><span class="o">=</span><span class="n">from_logits</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.kullback_leibler_divergence&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.kld&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.metrics.KLD&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.kullback_leibler_divergence&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.kld&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;keras.losses.KLD&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">kullback_leibler_divergence</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_true</span> <span class="o">/</span> <span class="n">y_pred</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.metrics.poisson&#39;</span><span class="p">,</span> <span class="s1">&#39;keras.losses.poisson&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">poisson</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the Poisson loss between y_true and y_pred.</span>
+
+<span class="sd">  The Poisson loss is the mean of the elements of the `Tensor`</span>
+<span class="sd">  `y_pred - y_true * log(y_pred)`.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  loss = tf.keras.losses.poisson([1.4, 9.3, 2.2], [4.3, 8.2, 12.2])</span>
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: -0.8045559</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    y_true: Tensor of true targets.</span>
+<span class="sd">    y_pred: Tensor of predicted targets.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A `Tensor` with the mean Poisson loss.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">      InvalidArgumentError: If `y_true` and `y_pred` have incompatible shapes.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y_true</span> <span class="o">*</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">+</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c1"># Retaining the legacy namespaces: &#39;cosine_proximity&#39; and &#39;cosine&#39;.</span>
+<span class="c1"># TODO(psv): Change name of this function to `cosine_similarity` after fixing</span>
+<span class="c1"># estimator test.</span>
+<span class="nd">@keras_export</span><span class="p">(</span>
+    <span class="s1">&#39;keras.losses.cosine_similarity&#39;</span><span class="p">,</span>
+    <span class="n">v1</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;keras.metrics.cosine_proximity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;keras.metrics.cosine&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;keras.losses.cosine_proximity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;keras.losses.cosine&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;keras.losses.cosine_similarity&#39;</span><span class="p">,</span>
+    <span class="p">])</span>
+<span class="k">def</span> <span class="nf">cosine_proximity</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the cosine similarity between labels and predictions.&quot;&quot;&quot;</span>
+  <span class="n">y_true</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">l2_normalize</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">l2_normalize</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.CosineSimilarity&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">CosineSimilarity</span><span class="p">(</span><span class="n">LossFunctionWrapper</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the cosine similarity between `y_true` and `y_pred`.</span>
+
+<span class="sd">  Usage:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  cosine_loss = tf.keras.losses.CosineSimilarity(axis=1)</span>
+<span class="sd">  loss = cosine_loss([[0., 1.], [1., 1.]], [[1., 0.], [1., 1.]])</span>
+<span class="sd">  # l2_norm(y_true) = [[0., 1.], [1./1.414], 1./1.414]]]</span>
+<span class="sd">  # l2_norm(y_pred) = [[1., 0.], [1./1.414], 1./1.414]]]</span>
+<span class="sd">  # l2_norm(y_true) . l2_norm(y_pred) = [[0., 0.], [0.5, 0.5]]</span>
+<span class="sd">  # loss = mean(sum(l2_norm(y_true) . l2_norm(y_pred), axis=1))</span>
+<span class="sd">         = ((0. + 0.) +  (0.5 + 0.5)) / 2</span>
+
+<span class="sd">  print(&#39;Loss: &#39;, loss.numpy())  # Loss: 0.5</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Usage with tf.keras API:</span>
+
+<span class="sd">  ```python</span>
+<span class="sd">  model = tf.keras.Model(inputs, outputs)</span>
+<span class="sd">  model.compile(&#39;sgd&#39;, loss=tf.keras.losses.CosineSimilarity(axis=1))</span>
+<span class="sd">  ```</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    axis: (Optional) Defaults to -1. The dimension along which the cosine</span>
+<span class="sd">      similarity is computed.</span>
+<span class="sd">    reduction: (Optional) Type of `tf.keras.losses.Reduction` to apply to loss.</span>
+<span class="sd">      Default value is `AUTO`. `AUTO` indicates that the reduction option will</span>
+<span class="sd">      be determined by the usage context. For almost all cases this defaults to</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE`.</span>
+<span class="sd">      When used with `tf.distribute.Strategy`, outside of built-in training</span>
+<span class="sd">      loops such as `tf.keras` `compile` and `fit`, using `AUTO` or</span>
+<span class="sd">      `SUM_OVER_BATCH_SIZE` will raise an error. Please see</span>
+<span class="sd">      https://www.tensorflow.org/alpha/tutorials/distribute/training_loops</span>
+<span class="sd">      for more details on this.</span>
+<span class="sd">    name: Optional name for the op.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+               <span class="n">reduction</span><span class="o">=</span><span class="n">losses_utils</span><span class="o">.</span><span class="n">ReductionV2</span><span class="o">.</span><span class="n">AUTO</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cosine_similarity&#39;</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">CosineSimilarity</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">cosine_similarity</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+
+<span class="c1"># Aliases.</span>
+
+<span class="n">mse</span> <span class="o">=</span> <span class="n">MSE</span> <span class="o">=</span> <span class="n">mean_squared_error</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="n">MAE</span> <span class="o">=</span> <span class="n">mean_absolute_error</span>
+<span class="n">mape</span> <span class="o">=</span> <span class="n">MAPE</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span>
+<span class="n">msle</span> <span class="o">=</span> <span class="n">MSLE</span> <span class="o">=</span> <span class="n">mean_squared_logarithmic_error</span>
+<span class="n">kld</span> <span class="o">=</span> <span class="n">KLD</span> <span class="o">=</span> <span class="n">kullback_leibler_divergence</span>
+<span class="n">cosine_similarity</span> <span class="o">=</span> <span class="n">cosine_proximity</span>
+
+
+<span class="k">def</span> <span class="nf">is_categorical_crossentropy</span><span class="p">(</span><span class="n">loss</span><span class="p">):</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">CategoricalCrossentropy</span><span class="p">)</span> <span class="ow">or</span>
+             <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">LossFunctionWrapper</span><span class="p">)</span> <span class="ow">and</span>
+              <span class="n">loss</span><span class="o">.</span><span class="n">fn</span> <span class="o">==</span> <span class="n">categorical_crossentropy</span><span class="p">)</span> <span class="ow">or</span>
+             <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">)</span> <span class="ow">and</span>
+              <span class="n">loss</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">)</span> <span class="ow">or</span>
+             <span class="p">(</span><span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">)))</span>
+  <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.serialize&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">loss</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">serialize_keras_object</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.deserialize&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">custom_objects</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">deserialize_keras_object</span><span class="p">(</span>
+      <span class="n">name</span><span class="p">,</span>
+      <span class="n">module_objects</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span>
+      <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span>
+      <span class="n">printable_module_name</span><span class="o">=</span><span class="s1">&#39;loss function&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@keras_export</span><span class="p">(</span><span class="s1">&#39;keras.losses.get&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">identifier</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">identifier</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">None</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+    <span class="n">identifier</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">identifier</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">identifier</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not interpret &#39;</span>
+                     <span class="s1">&#39;loss function identifier:&#39;</span><span class="p">,</span> <span class="n">identifier</span><span class="p">)</span>
+
+
+<span class="n">LABEL_DTYPES_FOR_LOSSES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">losses_impl</span><span class="o">.</span><span class="n">sparse_softmax_cross_entropy</span><span class="p">:</span> <span class="s1">&#39;int32&#39;</span><span class="p">,</span>
+    <span class="n">sparse_categorical_crossentropy</span><span class="p">:</span> <span class="s1">&#39;int32&#39;</span>
+<span class="p">}</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

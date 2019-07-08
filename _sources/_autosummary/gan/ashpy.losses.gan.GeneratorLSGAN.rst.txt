@@ -1,0 +1,39 @@
+GeneratorLSGAN
+===============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.GeneratorLSGAN
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: GeneratorLSGAN
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GeneratorLSGAN.__init__
+      ~GeneratorLSGAN.call
+      ~GeneratorLSGAN.get_discriminator_inputs
+      ~GeneratorLSGAN.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GeneratorLSGAN.fn
+      ~GeneratorLSGAN.global_batch_size
+      ~GeneratorLSGAN.weight
+   
+   

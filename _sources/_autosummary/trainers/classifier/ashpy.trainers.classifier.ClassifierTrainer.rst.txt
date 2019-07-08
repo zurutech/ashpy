@@ -1,0 +1,30 @@
+ClassifierTrainer
+===========================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.trainers.classifier.ClassifierTrainer
+   :parts: 1
+
+.. currentmodule:: ashpy.trainers.classifier
+
+----
+
+.. autoclass:: ClassifierTrainer
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ClassifierTrainer.__init__
+      ~ClassifierTrainer.call
+      ~ClassifierTrainer.train_step
+   
+   
+
+   
+   
+   

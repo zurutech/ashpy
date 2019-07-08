@@ -1,0 +1,108 @@
+FCInterface
+======================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.fc.interfaces.FCInterface
+   :parts: 1
+
+.. currentmodule:: ashpy.models.fc.interfaces
+
+----
+
+.. autoclass:: FCInterface
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FCInterface.__init__
+      ~FCInterface.add_loss
+      ~FCInterface.add_metric
+      ~FCInterface.add_update
+      ~FCInterface.add_variable
+      ~FCInterface.add_weight
+      ~FCInterface.apply
+      ~FCInterface.build
+      ~FCInterface.call
+      ~FCInterface.compile
+      ~FCInterface.compute_mask
+      ~FCInterface.compute_output_shape
+      ~FCInterface.compute_output_signature
+      ~FCInterface.count_params
+      ~FCInterface.evaluate
+      ~FCInterface.evaluate_generator
+      ~FCInterface.fit
+      ~FCInterface.fit_generator
+      ~FCInterface.from_config
+      ~FCInterface.get_config
+      ~FCInterface.get_input_at
+      ~FCInterface.get_input_mask_at
+      ~FCInterface.get_input_shape_at
+      ~FCInterface.get_layer
+      ~FCInterface.get_losses_for
+      ~FCInterface.get_output_at
+      ~FCInterface.get_output_mask_at
+      ~FCInterface.get_output_shape_at
+      ~FCInterface.get_updates_for
+      ~FCInterface.get_weights
+      ~FCInterface.load_weights
+      ~FCInterface.predict
+      ~FCInterface.predict_generator
+      ~FCInterface.predict_on_batch
+      ~FCInterface.reset_metrics
+      ~FCInterface.reset_states
+      ~FCInterface.save
+      ~FCInterface.save_weights
+      ~FCInterface.set_weights
+      ~FCInterface.summary
+      ~FCInterface.test_on_batch
+      ~FCInterface.to_json
+      ~FCInterface.to_yaml
+      ~FCInterface.train_on_batch
+      ~FCInterface.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FCInterface.activity_regularizer
+      ~FCInterface.dtype
+      ~FCInterface.dynamic
+      ~FCInterface.inbound_nodes
+      ~FCInterface.input
+      ~FCInterface.input_mask
+      ~FCInterface.input_shape
+      ~FCInterface.input_spec
+      ~FCInterface.layers
+      ~FCInterface.losses
+      ~FCInterface.metrics
+      ~FCInterface.metrics_names
+      ~FCInterface.name
+      ~FCInterface.name_scope
+      ~FCInterface.non_trainable_variables
+      ~FCInterface.non_trainable_weights
+      ~FCInterface.outbound_nodes
+      ~FCInterface.output
+      ~FCInterface.output_mask
+      ~FCInterface.output_shape
+      ~FCInterface.run_eagerly
+      ~FCInterface.sample_weights
+      ~FCInterface.state_updates
+      ~FCInterface.stateful
+      ~FCInterface.submodules
+      ~FCInterface.trainable
+      ~FCInterface.trainable_variables
+      ~FCInterface.trainable_weights
+      ~FCInterface.updates
+      ~FCInterface.variables
+      ~FCInterface.weights
+   
+   

@@ -1,0 +1,108 @@
+Conv2DInterface
+=====================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.interfaces.Conv2DInterface
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.interfaces
+
+----
+
+.. autoclass:: Conv2DInterface
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Conv2DInterface.__init__
+      ~Conv2DInterface.add_loss
+      ~Conv2DInterface.add_metric
+      ~Conv2DInterface.add_update
+      ~Conv2DInterface.add_variable
+      ~Conv2DInterface.add_weight
+      ~Conv2DInterface.apply
+      ~Conv2DInterface.build
+      ~Conv2DInterface.call
+      ~Conv2DInterface.compile
+      ~Conv2DInterface.compute_mask
+      ~Conv2DInterface.compute_output_shape
+      ~Conv2DInterface.compute_output_signature
+      ~Conv2DInterface.count_params
+      ~Conv2DInterface.evaluate
+      ~Conv2DInterface.evaluate_generator
+      ~Conv2DInterface.fit
+      ~Conv2DInterface.fit_generator
+      ~Conv2DInterface.from_config
+      ~Conv2DInterface.get_config
+      ~Conv2DInterface.get_input_at
+      ~Conv2DInterface.get_input_mask_at
+      ~Conv2DInterface.get_input_shape_at
+      ~Conv2DInterface.get_layer
+      ~Conv2DInterface.get_losses_for
+      ~Conv2DInterface.get_output_at
+      ~Conv2DInterface.get_output_mask_at
+      ~Conv2DInterface.get_output_shape_at
+      ~Conv2DInterface.get_updates_for
+      ~Conv2DInterface.get_weights
+      ~Conv2DInterface.load_weights
+      ~Conv2DInterface.predict
+      ~Conv2DInterface.predict_generator
+      ~Conv2DInterface.predict_on_batch
+      ~Conv2DInterface.reset_metrics
+      ~Conv2DInterface.reset_states
+      ~Conv2DInterface.save
+      ~Conv2DInterface.save_weights
+      ~Conv2DInterface.set_weights
+      ~Conv2DInterface.summary
+      ~Conv2DInterface.test_on_batch
+      ~Conv2DInterface.to_json
+      ~Conv2DInterface.to_yaml
+      ~Conv2DInterface.train_on_batch
+      ~Conv2DInterface.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Conv2DInterface.activity_regularizer
+      ~Conv2DInterface.dtype
+      ~Conv2DInterface.dynamic
+      ~Conv2DInterface.inbound_nodes
+      ~Conv2DInterface.input
+      ~Conv2DInterface.input_mask
+      ~Conv2DInterface.input_shape
+      ~Conv2DInterface.input_spec
+      ~Conv2DInterface.layers
+      ~Conv2DInterface.losses
+      ~Conv2DInterface.metrics
+      ~Conv2DInterface.metrics_names
+      ~Conv2DInterface.name
+      ~Conv2DInterface.name_scope
+      ~Conv2DInterface.non_trainable_variables
+      ~Conv2DInterface.non_trainable_weights
+      ~Conv2DInterface.outbound_nodes
+      ~Conv2DInterface.output
+      ~Conv2DInterface.output_mask
+      ~Conv2DInterface.output_shape
+      ~Conv2DInterface.run_eagerly
+      ~Conv2DInterface.sample_weights
+      ~Conv2DInterface.state_updates
+      ~Conv2DInterface.stateful
+      ~Conv2DInterface.submodules
+      ~Conv2DInterface.trainable
+      ~Conv2DInterface.trainable_variables
+      ~Conv2DInterface.trainable_weights
+      ~Conv2DInterface.updates
+      ~Conv2DInterface.variables
+      ~Conv2DInterface.weights
+   
+   

@@ -1,0 +1,108 @@
+FCNNBaseDecoder
+===================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.decoders.FCNNBaseDecoder
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.decoders
+
+----
+
+.. autoclass:: FCNNBaseDecoder
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FCNNBaseDecoder.__init__
+      ~FCNNBaseDecoder.add_loss
+      ~FCNNBaseDecoder.add_metric
+      ~FCNNBaseDecoder.add_update
+      ~FCNNBaseDecoder.add_variable
+      ~FCNNBaseDecoder.add_weight
+      ~FCNNBaseDecoder.apply
+      ~FCNNBaseDecoder.build
+      ~FCNNBaseDecoder.call
+      ~FCNNBaseDecoder.compile
+      ~FCNNBaseDecoder.compute_mask
+      ~FCNNBaseDecoder.compute_output_shape
+      ~FCNNBaseDecoder.compute_output_signature
+      ~FCNNBaseDecoder.count_params
+      ~FCNNBaseDecoder.evaluate
+      ~FCNNBaseDecoder.evaluate_generator
+      ~FCNNBaseDecoder.fit
+      ~FCNNBaseDecoder.fit_generator
+      ~FCNNBaseDecoder.from_config
+      ~FCNNBaseDecoder.get_config
+      ~FCNNBaseDecoder.get_input_at
+      ~FCNNBaseDecoder.get_input_mask_at
+      ~FCNNBaseDecoder.get_input_shape_at
+      ~FCNNBaseDecoder.get_layer
+      ~FCNNBaseDecoder.get_losses_for
+      ~FCNNBaseDecoder.get_output_at
+      ~FCNNBaseDecoder.get_output_mask_at
+      ~FCNNBaseDecoder.get_output_shape_at
+      ~FCNNBaseDecoder.get_updates_for
+      ~FCNNBaseDecoder.get_weights
+      ~FCNNBaseDecoder.load_weights
+      ~FCNNBaseDecoder.predict
+      ~FCNNBaseDecoder.predict_generator
+      ~FCNNBaseDecoder.predict_on_batch
+      ~FCNNBaseDecoder.reset_metrics
+      ~FCNNBaseDecoder.reset_states
+      ~FCNNBaseDecoder.save
+      ~FCNNBaseDecoder.save_weights
+      ~FCNNBaseDecoder.set_weights
+      ~FCNNBaseDecoder.summary
+      ~FCNNBaseDecoder.test_on_batch
+      ~FCNNBaseDecoder.to_json
+      ~FCNNBaseDecoder.to_yaml
+      ~FCNNBaseDecoder.train_on_batch
+      ~FCNNBaseDecoder.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FCNNBaseDecoder.activity_regularizer
+      ~FCNNBaseDecoder.dtype
+      ~FCNNBaseDecoder.dynamic
+      ~FCNNBaseDecoder.inbound_nodes
+      ~FCNNBaseDecoder.input
+      ~FCNNBaseDecoder.input_mask
+      ~FCNNBaseDecoder.input_shape
+      ~FCNNBaseDecoder.input_spec
+      ~FCNNBaseDecoder.layers
+      ~FCNNBaseDecoder.losses
+      ~FCNNBaseDecoder.metrics
+      ~FCNNBaseDecoder.metrics_names
+      ~FCNNBaseDecoder.name
+      ~FCNNBaseDecoder.name_scope
+      ~FCNNBaseDecoder.non_trainable_variables
+      ~FCNNBaseDecoder.non_trainable_weights
+      ~FCNNBaseDecoder.outbound_nodes
+      ~FCNNBaseDecoder.output
+      ~FCNNBaseDecoder.output_mask
+      ~FCNNBaseDecoder.output_shape
+      ~FCNNBaseDecoder.run_eagerly
+      ~FCNNBaseDecoder.sample_weights
+      ~FCNNBaseDecoder.state_updates
+      ~FCNNBaseDecoder.stateful
+      ~FCNNBaseDecoder.submodules
+      ~FCNNBaseDecoder.trainable
+      ~FCNNBaseDecoder.trainable_variables
+      ~FCNNBaseDecoder.trainable_weights
+      ~FCNNBaseDecoder.updates
+      ~FCNNBaseDecoder.variables
+      ~FCNNBaseDecoder.weights
+   
+   

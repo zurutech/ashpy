@@ -1,0 +1,108 @@
+BaseEncoder
+===============================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.encoders.BaseEncoder
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.encoders
+
+----
+
+.. autoclass:: BaseEncoder
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseEncoder.__init__
+      ~BaseEncoder.add_loss
+      ~BaseEncoder.add_metric
+      ~BaseEncoder.add_update
+      ~BaseEncoder.add_variable
+      ~BaseEncoder.add_weight
+      ~BaseEncoder.apply
+      ~BaseEncoder.build
+      ~BaseEncoder.call
+      ~BaseEncoder.compile
+      ~BaseEncoder.compute_mask
+      ~BaseEncoder.compute_output_shape
+      ~BaseEncoder.compute_output_signature
+      ~BaseEncoder.count_params
+      ~BaseEncoder.evaluate
+      ~BaseEncoder.evaluate_generator
+      ~BaseEncoder.fit
+      ~BaseEncoder.fit_generator
+      ~BaseEncoder.from_config
+      ~BaseEncoder.get_config
+      ~BaseEncoder.get_input_at
+      ~BaseEncoder.get_input_mask_at
+      ~BaseEncoder.get_input_shape_at
+      ~BaseEncoder.get_layer
+      ~BaseEncoder.get_losses_for
+      ~BaseEncoder.get_output_at
+      ~BaseEncoder.get_output_mask_at
+      ~BaseEncoder.get_output_shape_at
+      ~BaseEncoder.get_updates_for
+      ~BaseEncoder.get_weights
+      ~BaseEncoder.load_weights
+      ~BaseEncoder.predict
+      ~BaseEncoder.predict_generator
+      ~BaseEncoder.predict_on_batch
+      ~BaseEncoder.reset_metrics
+      ~BaseEncoder.reset_states
+      ~BaseEncoder.save
+      ~BaseEncoder.save_weights
+      ~BaseEncoder.set_weights
+      ~BaseEncoder.summary
+      ~BaseEncoder.test_on_batch
+      ~BaseEncoder.to_json
+      ~BaseEncoder.to_yaml
+      ~BaseEncoder.train_on_batch
+      ~BaseEncoder.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BaseEncoder.activity_regularizer
+      ~BaseEncoder.dtype
+      ~BaseEncoder.dynamic
+      ~BaseEncoder.inbound_nodes
+      ~BaseEncoder.input
+      ~BaseEncoder.input_mask
+      ~BaseEncoder.input_shape
+      ~BaseEncoder.input_spec
+      ~BaseEncoder.layers
+      ~BaseEncoder.losses
+      ~BaseEncoder.metrics
+      ~BaseEncoder.metrics_names
+      ~BaseEncoder.name
+      ~BaseEncoder.name_scope
+      ~BaseEncoder.non_trainable_variables
+      ~BaseEncoder.non_trainable_weights
+      ~BaseEncoder.outbound_nodes
+      ~BaseEncoder.output
+      ~BaseEncoder.output_mask
+      ~BaseEncoder.output_shape
+      ~BaseEncoder.run_eagerly
+      ~BaseEncoder.sample_weights
+      ~BaseEncoder.state_updates
+      ~BaseEncoder.stateful
+      ~BaseEncoder.submodules
+      ~BaseEncoder.trainable
+      ~BaseEncoder.trainable_variables
+      ~BaseEncoder.trainable_weights
+      ~BaseEncoder.updates
+      ~BaseEncoder.variables
+      ~BaseEncoder.weights
+   
+   

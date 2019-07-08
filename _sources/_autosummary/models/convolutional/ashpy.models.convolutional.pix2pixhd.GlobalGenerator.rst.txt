@@ -1,0 +1,108 @@
+GlobalGenerator
+====================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.pix2pixhd.GlobalGenerator
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.pix2pixhd
+
+----
+
+.. autoclass:: GlobalGenerator
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GlobalGenerator.__init__
+      ~GlobalGenerator.add_loss
+      ~GlobalGenerator.add_metric
+      ~GlobalGenerator.add_update
+      ~GlobalGenerator.add_variable
+      ~GlobalGenerator.add_weight
+      ~GlobalGenerator.apply
+      ~GlobalGenerator.build
+      ~GlobalGenerator.call
+      ~GlobalGenerator.compile
+      ~GlobalGenerator.compute_mask
+      ~GlobalGenerator.compute_output_shape
+      ~GlobalGenerator.compute_output_signature
+      ~GlobalGenerator.count_params
+      ~GlobalGenerator.evaluate
+      ~GlobalGenerator.evaluate_generator
+      ~GlobalGenerator.fit
+      ~GlobalGenerator.fit_generator
+      ~GlobalGenerator.from_config
+      ~GlobalGenerator.get_config
+      ~GlobalGenerator.get_input_at
+      ~GlobalGenerator.get_input_mask_at
+      ~GlobalGenerator.get_input_shape_at
+      ~GlobalGenerator.get_layer
+      ~GlobalGenerator.get_losses_for
+      ~GlobalGenerator.get_output_at
+      ~GlobalGenerator.get_output_mask_at
+      ~GlobalGenerator.get_output_shape_at
+      ~GlobalGenerator.get_updates_for
+      ~GlobalGenerator.get_weights
+      ~GlobalGenerator.load_weights
+      ~GlobalGenerator.predict
+      ~GlobalGenerator.predict_generator
+      ~GlobalGenerator.predict_on_batch
+      ~GlobalGenerator.reset_metrics
+      ~GlobalGenerator.reset_states
+      ~GlobalGenerator.save
+      ~GlobalGenerator.save_weights
+      ~GlobalGenerator.set_weights
+      ~GlobalGenerator.summary
+      ~GlobalGenerator.test_on_batch
+      ~GlobalGenerator.to_json
+      ~GlobalGenerator.to_yaml
+      ~GlobalGenerator.train_on_batch
+      ~GlobalGenerator.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GlobalGenerator.activity_regularizer
+      ~GlobalGenerator.dtype
+      ~GlobalGenerator.dynamic
+      ~GlobalGenerator.inbound_nodes
+      ~GlobalGenerator.input
+      ~GlobalGenerator.input_mask
+      ~GlobalGenerator.input_shape
+      ~GlobalGenerator.input_spec
+      ~GlobalGenerator.layers
+      ~GlobalGenerator.losses
+      ~GlobalGenerator.metrics
+      ~GlobalGenerator.metrics_names
+      ~GlobalGenerator.name
+      ~GlobalGenerator.name_scope
+      ~GlobalGenerator.non_trainable_variables
+      ~GlobalGenerator.non_trainable_weights
+      ~GlobalGenerator.outbound_nodes
+      ~GlobalGenerator.output
+      ~GlobalGenerator.output_mask
+      ~GlobalGenerator.output_shape
+      ~GlobalGenerator.run_eagerly
+      ~GlobalGenerator.sample_weights
+      ~GlobalGenerator.state_updates
+      ~GlobalGenerator.stateful
+      ~GlobalGenerator.submodules
+      ~GlobalGenerator.trainable
+      ~GlobalGenerator.trainable_variables
+      ~GlobalGenerator.trainable_weights
+      ~GlobalGenerator.updates
+      ~GlobalGenerator.variables
+      ~GlobalGenerator.weights
+   
+   

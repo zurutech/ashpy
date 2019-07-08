@@ -1,0 +1,4 @@
+<map id="inheritance8faf4719bf" name="inheritance8faf4719bf">
+<area shape="rect" id="node1" href="../losses/classifier/ashpy.losses.classifier.ClassifierLoss.html#ashpy.losses.classifier.ClassifierLoss" target="_top" title="Classifier Loss Executor using the classifier model, instantiated with a fn" alt="" coords="132,5,243,31"/>
+<area shape="rect" id="node2" href="../losses/executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" target="_top" title="Carry a function and the wa of executing it. Given a context." alt="" coords="5,5,84,31"/>
+</map>

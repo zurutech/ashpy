@@ -1,0 +1,4 @@
+<map id="inheritance145449ff67" name="inheritance145449ff67">
+<area shape="rect" id="node1" href="../executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" target="_top" title="Carry a function and the wa of executing it. Given a context." alt="" coords="5,5,84,31"/>
+<area shape="rect" id="node2" href="#ashpy.losses.gan.GANExecutor" target="_top" title="Executor for GANs. Implements the basic functions needed by the GAN losses" alt="" coords="132,5,240,31"/>
+</map>

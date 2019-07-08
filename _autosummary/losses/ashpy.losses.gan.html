@@ -1,0 +1,1471 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>gan &mdash; ASH alpha 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ashpy.losses.gan.get_adversarial_loss_discriminator" href="gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html" />
+    <link rel="prev" title="SumExecutor" href="executor/ashpy.losses.executor.SumExecutor.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ASH
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../write_the_docs.html">Write The Docs!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#the-whys">The Whys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-rest">Why reST?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-google-style-for-docstrings">Why Google Style for Docstrings?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#documentation-architecture">Documentation Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#tutorials-guides-complex-examples">Tutorials, Guides, Complex Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#api-reference">API Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../write_the_docs.html#automate-all-the-docs">Automate all the docs!</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../write_the_docs.html#autosummary-submodules-with-imports-a-painful-story">Autosummary &amp; submodules with imports: A painful story</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#inheritance-diagrams">Inheritance Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#additional-materials">Additional Materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-dataset">Creating a new Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#gans">GANs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#dummy">Dummy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.convolutional.html">convolutional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.fc.html">fc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.interfaces.FCInterface.html">FCInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.decoders.BaseDecoder.html">BaseDecoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.encoders.BaseEncoder.html">BaseEncoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.interfaces.html">interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.decoders.html">decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.encoders.html">encoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.recurrent.html">recurrent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/ashpy.models.gans.html">gans</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.contexts.html">ashpy.contexts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.base_context.html">base_context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/base_context/ashpy.contexts.base_context.BaseContext.html">BaseContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/classifier/ashpy.contexts.classifier.ClassifierContext.html">ClassifierContext</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../contexts/ashpy.contexts.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html">GANContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANEncoderContext.html">GANEncoderContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.trainers.html">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.BaseTrainer.html">BaseTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.EncoderTrainer.html">EncoderTrainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.base_trainer.html">base_trainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html">BaseTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html">ClassifierTrainer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../trainers/ashpy.trainers.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/gan/ashpy.trainers.gan.AdversarialTrainer.html">AdversarialTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../trainers/gan/ashpy.trainers.gan.EncoderTrainer.html">EncoderTrainer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.layers.html">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../ashpy.losses.html">ashpy.losses</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ashpy.losses.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classifier/ashpy.losses.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ashpy.losses.executor.html">executor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="executor/ashpy.losses.executor.Executor.html">Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="executor/ashpy.losses.executor.SumExecutor.html">SumExecutor</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html">ashpy.losses.gan.get_adversarial_loss_discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.get_adversarial_loss_generator.html">ashpy.losses.gan.get_adversarial_loss_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossD.html">AdversarialLossD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html">AdversarialLossG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossType.html">AdversarialLossType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.CategoricalCrossEntropy.html">CategoricalCrossEntropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.DiscriminatorLSGAN.html">DiscriminatorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.DiscriminatorMinMax.html">DiscriminatorMinMax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.EncoderBCE.html">EncoderBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html">FeatureMatchingLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.GANExecutor.html">GANExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.GeneratorBCE.html">GeneratorBCE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.GeneratorL1.html">GeneratorL1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.GeneratorLSGAN.html">GeneratorLSGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.Pix2PixLoss.html">Pix2PixLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gan/ashpy.losses.gan.Pix2PixLossSemantic.html">Pix2PixLossSemantic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ashpy.metrics.html">ashpy.metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../metrics/ashpy.metrics.classifier.html">classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/classifier/ashpy.metrics.classifier.ClassifierLoss.html">ClassifierLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/classifier/ashpy.metrics.classifier.ClassifierMetric.html">ClassifierMetric</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../metrics/ashpy.metrics.gan.html">gan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/gan/ashpy.metrics.gan.DiscriminatorLoss.html">DiscriminatorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/gan/ashpy.metrics.gan.EncoderLoss.html">EncoderLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/gan/ashpy.metrics.gan.EncodingAccuracy.html">EncodingAccuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/gan/ashpy.metrics.gan.GeneratorLoss.html">GeneratorLoss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/gan/ashpy.metrics.gan.InceptionScore.html">InceptionScore</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../metrics/ashpy.metrics.metric.html">metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../metrics/metric/ashpy.metrics.metric.Metric.html">Metric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dependencies_graph.html">Dependencies Graph</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dependencies_graph.html#ashpy-models">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#convolutional">Convolutional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#gans">GANs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dependencies_graph.html#ashpy-trainers">ashpy.trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#adversarial">Adversarial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dependencies_graph.html#classifier">Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ASH</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../api.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="../ashpy.losses.html">ashpy.losses</a> &raquo;</li>
+        
+      <li>gan</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/_autosummary/losses/ashpy.losses.gan.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ashpy.losses.gan">
+<span id="gan"></span><h1>gan<a class="headerlink" href="#module-ashpy.losses.gan" title="Permalink to this headline">¶</a></h1>
+<p>GAN losses.</p>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html#ashpy.losses.gan.get_adversarial_loss_discriminator" title="ashpy.losses.gan.get_adversarial_loss_discriminator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adversarial_loss_discriminator</span></code></a></p></td>
+<td><p>Returns the correct loss fot the discriminator</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.get_adversarial_loss_generator.html#ashpy.losses.gan.get_adversarial_loss_generator" title="ashpy.losses.gan.get_adversarial_loss_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adversarial_loss_generator</span></code></a></p></td>
+<td><p>Returns the correct loss fot the generator</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossD.html#ashpy.losses.gan.AdversarialLossD" title="ashpy.losses.gan.AdversarialLossD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdversarialLossD</span></code></a></p></td>
+<td><p>Base class for the adversarial loss of the discriminator</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdversarialLossG</span></code></a></p></td>
+<td><p>Base class for the adversarial loss of the generator</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossType.html#ashpy.losses.gan.AdversarialLossType" title="ashpy.losses.gan.AdversarialLossType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdversarialLossType</span></code></a></p></td>
+<td><p>An enumeration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.CategoricalCrossEntropy.html#ashpy.losses.gan.CategoricalCrossEntropy" title="ashpy.losses.gan.CategoricalCrossEntropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CategoricalCrossEntropy</span></code></a></p></td>
+<td><p>Categorical Cross Entropy between generator output and target.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.DiscriminatorLSGAN.html#ashpy.losses.gan.DiscriminatorLSGAN" title="ashpy.losses.gan.DiscriminatorLSGAN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiscriminatorLSGAN</span></code></a></p></td>
+<td><p>Least square Loss for discriminator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.DiscriminatorMinMax.html#ashpy.losses.gan.DiscriminatorMinMax" title="ashpy.losses.gan.DiscriminatorMinMax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiscriminatorMinMax</span></code></a></p></td>
+<td><p>The min-max game played by the discriminator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.EncoderBCE.html#ashpy.losses.gan.EncoderBCE" title="ashpy.losses.gan.EncoderBCE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EncoderBCE</span></code></a></p></td>
+<td><p>The Binary Cross Entropy computed among the encoder and the 0 label.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureMatchingLoss</span></code></a></p></td>
+<td><p>Conditional GAN Feature matching loss.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor" title="ashpy.losses.gan.GANExecutor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GANExecutor</span></code></a></p></td>
+<td><p>Executor for GANs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.GeneratorBCE.html#ashpy.losses.gan.GeneratorBCE" title="ashpy.losses.gan.GeneratorBCE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeneratorBCE</span></code></a></p></td>
+<td><p>The Binary CrossEntropy computed among the generator and the 1 label.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1" title="ashpy.losses.gan.GeneratorL1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeneratorL1</span></code></a></p></td>
+<td><p>L1 loss between the generator output and the target.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.GeneratorLSGAN.html#ashpy.losses.gan.GeneratorLSGAN" title="ashpy.losses.gan.GeneratorLSGAN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeneratorLSGAN</span></code></a></p></td>
+<td><p>Least Square GAN Loss for generator Reference: <a class="reference external" href="https://arxiv.org/abs/1611.04076">https://arxiv.org/abs/1611.04076</a> Basically the Mean Squared Error between the discriminator output when evaluated in fake and 1</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.Pix2PixLoss.html#ashpy.losses.gan.Pix2PixLoss" title="ashpy.losses.gan.Pix2PixLoss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pix2PixLoss</span></code></a></p></td>
+<td><p>Weighted sum of <a class="reference internal" href="gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1" title="ashpy.losses.gan.GeneratorL1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GeneratorL1</span></code></a>, <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a> and <a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="gan/ashpy.losses.gan.Pix2PixLossSemantic.html#ashpy.losses.gan.Pix2PixLossSemantic" title="ashpy.losses.gan.Pix2PixLossSemantic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pix2PixLossSemantic</span></code></a></p></td>
+<td><p>Weighted sum of <a class="reference internal" href="gan/ashpy.losses.gan.CategoricalCrossEntropy.html#ashpy.losses.gan.CategoricalCrossEntropy" title="ashpy.losses.gan.CategoricalCrossEntropy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.CategoricalCrossEntropy</span></code></a>, <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a> and <a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="ashpy.losses.gan.AdversarialLossD">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">AdversarialLossD</code><span class="sig-paren">(</span><em>loss_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#AdversarialLossD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor" title="ashpy.losses.gan.GANExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GANExecutor</span></code></a></p>
+<p>Base class for the adversarial loss of the discriminator</p>
+<dl class="method">
+<dt id="ashpy.losses.gan.AdversarialLossD.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>loss_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#AdversarialLossD.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossD.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>to call passing</strong> (<em>loss_fn</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.AdversarialLossD.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossD.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.AdversarialLossD.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.AdversarialLossD.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.AdversarialLossD.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossD.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.AdversarialLossD.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossD.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.AdversarialLossG">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">AdversarialLossG</code><span class="sig-paren">(</span><em>loss_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#AdversarialLossG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor" title="ashpy.losses.gan.GANExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GANExecutor</span></code></a></p>
+<p>Base class for the adversarial loss of the generator</p>
+<dl class="method">
+<dt id="ashpy.losses.gan.AdversarialLossG.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>loss_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#AdversarialLossG.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossG.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>loss_fn</strong> – loss_fn to call passing (tf.ones_like(d_fake_i), d_fake_i)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.AdversarialLossG.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossG.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.AdversarialLossG.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.AdversarialLossG.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.AdversarialLossG.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossG.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.AdversarialLossG.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossG.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.AdversarialLossType">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">AdversarialLossType</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#AdversarialLossType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.AdversarialLossType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.CategoricalCrossEntropy">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">CategoricalCrossEntropy</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#CategoricalCrossEntropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.CategoricalCrossEntropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" title="ashpy.losses.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.Executor</span></code></a></p>
+<p>Categorical Cross Entropy between generator output and target.
+Useful when the output of the generator is a distribution over classes
+The target must be represented in one hot notation</p>
+<dl class="attribute">
+<dt id="ashpy.losses.gan.CategoricalCrossEntropy.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.CategoricalCrossEntropy.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.CategoricalCrossEntropy.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.CategoricalCrossEntropy.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.CategoricalCrossEntropy.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.CategoricalCrossEntropy.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">DiscriminatorLSGAN</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#DiscriminatorLSGAN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossD.html#ashpy.losses.gan.AdversarialLossD" title="ashpy.losses.gan.AdversarialLossD"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossD</span></code></a></p>
+<p>Least square Loss for discriminator.</p>
+<p>Reference: Least Squares Generative Adversarial Networks <a href="#id5"><span class="problematic" id="id1">[1]_</span></a> .</p>
+<p>Basically the Mean Squared Error between
+the discriminator output when evaluated in fake and 0
+and the discriminator output when evaluated in real and 1:</p>
+<div class="math notranslate nohighlight">
+\[L_{D} = \frac{1}{2} E[(D(x) - 1)^2 + (0 - D(G(z))^2]\]</div>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://arxiv.org/abs/1611.04076">https://arxiv.org/abs/1611.04076</a></p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss">
+<em class="property">class </em><code class="descname">LeastSquareLoss</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#DiscriminatorLSGAN.LeastSquareLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.losses.Loss</span></code></p>
+<dl class="method">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss._get_reduction">
+<code class="descname">_get_reduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss._get_reduction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles <cite>AUTO</cite> reduction cases and returns the reduction value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>d_real</em>, <em>d_fake</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#DiscriminatorLSGAN.LeastSquareLoss.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invokes the <cite>Loss</cite> instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> – Ground truth values, with the same shape as ‘y_pred’.</p></li>
+<li><p><strong>y_pred</strong> – The predicted values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss.from_config">
+<em class="property">classmethod </em><code class="descname">from_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.LeastSquareLoss.from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a <cite>Loss</cite> from its config (output of <cite>get_config()</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – Output of <cite>get_config()</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>Loss</cite> instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.DiscriminatorLSGAN.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorLSGAN.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">DiscriminatorMinMax</code><span class="sig-paren">(</span><em>from_logits=True</em>, <em>label_smoothing=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#DiscriminatorMinMax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossD.html#ashpy.losses.gan.AdversarialLossD" title="ashpy.losses.gan.AdversarialLossD"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossD</span></code></a></p>
+<p>The min-max game played by the discriminator.</p>
+<div class="math notranslate nohighlight">
+\[L_{D} =  - \frac{1}{2} E [\log(D(x)) + \log (1 - D(G(z))]\]</div>
+<dl class="class">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.GANLoss">
+<em class="property">class </em><code class="descname">GANLoss</code><span class="sig-paren">(</span><em>from_logits=True</em>, <em>label_smoothing=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#DiscriminatorMinMax.GANLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.GANLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.losses.Loss</span></code></p>
+<dl class="method">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.GANLoss._get_reduction">
+<code class="descname">_get_reduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.GANLoss._get_reduction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles <cite>AUTO</cite> reduction cases and returns the reduction value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.GANLoss.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>d_real</em>, <em>d_fake</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#DiscriminatorMinMax.GANLoss.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.GANLoss.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play the DiscriminatorMinMax game between the discriminator computed in real
+and the discriminator compute with fake inputs.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.GANLoss.from_config">
+<em class="property">classmethod </em><code class="descname">from_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.GANLoss.from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a <cite>Loss</cite> from its config (output of <cite>get_config()</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – Output of <cite>get_config()</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>Loss</cite> instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.DiscriminatorMinMax.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.DiscriminatorMinMax.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.EncoderBCE">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">EncoderBCE</code><span class="sig-paren">(</span><em>from_logits=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#EncoderBCE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.EncoderBCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" title="ashpy.losses.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.Executor</span></code></a></p>
+<p>The Binary Cross Entropy computed among the encoder and the 0 label.
+TODO: Check if this supports condition</p>
+<dl class="attribute">
+<dt id="ashpy.losses.gan.EncoderBCE.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.EncoderBCE.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.EncoderBCE.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.EncoderBCE.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.EncoderBCE.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.EncoderBCE.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">FeatureMatchingLoss</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#FeatureMatchingLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1" title="ashpy.losses.gan.GeneratorL1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GeneratorL1</span></code></a></p>
+<p>Conditional GAN Feature matching loss.
+The loss is computed for each example and it’s the L1 (MAE) of the feature difference.
+Implementation of pix2pix HD: <a class="reference external" href="https://github.com/NVIDIA/pix2pixHD">https://github.com/NVIDIA/pix2pixHD</a></p>
+<div class="math notranslate nohighlight">
+\[\text{FM} = \sum_{i=0}^N \frac{1}{M_i} ||D_i(x, c) - D_i(G(c), c) ||_1\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p>D_i is the i-th layer of the discriminator</p></li>
+<li><p>N is the total number of layer of the discriminator</p></li>
+<li><p>M_i is the number of components for the i-th layer</p></li>
+<li><p>x is the target image</p></li>
+<li><p>c is the condition</p></li>
+<li><p>G(c) is the generated image from the condition c</p></li>
+<li><p>|| ||_1 stands for norm 1.</p></li>
+</ul>
+<p>This is for a single example: basically for each layer of the discriminator we compute the absolute error between
+the layer evaluated in real examples and in fake examples.
+Then we average along the batch. In the case where D_i is a multidimensional tensor we simply calculate the mean
+over the axis 1,2,3.</p>
+<dl class="class">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss">
+<em class="property">class </em><code class="descname">L1Loss</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.losses.Loss</span></code></p>
+<dl class="method">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss._get_reduction">
+<code class="descname">_get_reduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss._get_reduction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles <cite>AUTO</cite> reduction cases and returns the reduction value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>For each element the mean of the l1 between x and y</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss.from_config">
+<em class="property">classmethod </em><code class="descname">from_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss.from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a <cite>Loss</cite> from its config (output of <cite>get_config()</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – Output of <cite>get_config()</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>Loss</cite> instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.FeatureMatchingLoss.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.GANExecutor">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">GANExecutor</code><span class="sig-paren">(</span><em>fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GANExecutor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GANExecutor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" title="ashpy.losses.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.Executor</span></code></a></p>
+<p>Executor for GANs. Implements the basic functions needed by the GAN losses</p>
+<dl class="method">
+<dt id="ashpy.losses.gan.GANExecutor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>fn=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GANExecutor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Executor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fn</strong> (<a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/keras/losses/Loss" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.losses.Loss</span></code></a>) – A Keras Loss to execute.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.GANExecutor.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>context</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GANExecutor.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the function, using the information provided by the context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.BaseContext</span></code>) – The function execution Context.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GANExecutor.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.GANExecutor.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GANExecutor.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GANExecutor.get_discriminator_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GANExecutor.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GANExecutor.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.GANExecutor.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GANExecutor.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GANExecutor.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.GeneratorBCE">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">GeneratorBCE</code><span class="sig-paren">(</span><em>from_logits=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GeneratorBCE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GeneratorBCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a></p>
+<p>The Binary CrossEntropy computed among the generator and the 1 label.</p>
+<div class="math notranslate nohighlight">
+\[L_{G} =  E [\log (D( G(z))]\]</div>
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GeneratorBCE.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.GeneratorBCE.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GeneratorBCE.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.GeneratorBCE.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GeneratorBCE.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.GeneratorBCE.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GeneratorBCE.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GeneratorBCE.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.GeneratorL1">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">GeneratorL1</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GeneratorL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.GANExecutor.html#ashpy.losses.gan.GANExecutor" title="ashpy.losses.gan.GANExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GANExecutor</span></code></a></p>
+<p>L1 loss between the generator output and the target.</p>
+<div class="math notranslate nohighlight">
+\[L_G = E ||x - G(z)||_1\]</div>
+<p>where x is the target and G(z) is generated image.</p>
+<dl class="class">
+<dt id="ashpy.losses.gan.GeneratorL1.L1Loss">
+<em class="property">class </em><code class="descname">L1Loss</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GeneratorL1.L1Loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.L1Loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.losses.Loss</span></code></p>
+<dl class="method">
+<dt id="ashpy.losses.gan.GeneratorL1.L1Loss._get_reduction">
+<code class="descname">_get_reduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.L1Loss._get_reduction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles <cite>AUTO</cite> reduction cases and returns the reduction value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.GeneratorL1.L1Loss.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GeneratorL1.L1Loss.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.L1Loss.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>For each element the mean of the l1 between x and y</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ashpy.losses.gan.GeneratorL1.L1Loss.from_config">
+<em class="property">classmethod </em><code class="descname">from_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.L1Loss.from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a <cite>Loss</cite> from its config (output of <cite>get_config()</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – Output of <cite>get_config()</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>Loss</cite> instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GeneratorL1.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GeneratorL1.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GeneratorL1.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GeneratorL1.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GeneratorL1.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.GeneratorLSGAN">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">GeneratorLSGAN</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#GeneratorLSGAN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.GeneratorLSGAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a></p>
+<p>Least Square GAN Loss for generator
+Reference: <a class="reference external" href="https://arxiv.org/abs/1611.04076">https://arxiv.org/abs/1611.04076</a>
+Basically the Mean Squared Error between
+the discriminator output when evaluated in fake and 1</p>
+<div class="math notranslate nohighlight">
+\[L_{G} =  \frac{1}{2} E [(1 - D(G(z))^2]\]</div>
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GeneratorLSGAN.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.GeneratorLSGAN.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GeneratorLSGAN.get_discriminator_inputs">
+<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.GeneratorLSGAN.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the discriminator inputs. If needed it uses the encoder.
+The current implementation uses the number of inputs to determine
+whether the discriminator is conditioned or not.
+:param context: context for GAN models
+:type context: <a class="reference internal" href="../contexts/gan/ashpy.contexts.gan.GANContext.html#ashpy.contexts.gan.GANContext" title="ashpy.contexts.gan.GANContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.gan.GANContext</span></code></a>
+:param fake_or_real: discriminator input tensor, it can be fake (generated) or real
+:type fake_or_real: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param condition: discriminator condition (it can also be generator noise)
+:type condition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>
+:param training: whether is training phase or not
+:type training: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The discriminator inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.GeneratorLSGAN.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.GeneratorLSGAN.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.GeneratorLSGAN.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.GeneratorLSGAN.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.Pix2PixLoss">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">Pix2PixLoss</code><span class="sig-paren">(</span><em>l1_loss_weight=100.0</em>, <em>adversarial_loss_weight=1.0</em>, <em>feature_matching_weight=10.0</em>, <em>adversarial_loss_type: ashpy.losses.gan.AdversarialLossType = &lt;AdversarialLossType.GAN: 0&gt;</em>, <em>use_feature_matching_loss: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#Pix2PixLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="executor/ashpy.losses.executor.SumExecutor.html#ashpy.losses.executor.SumExecutor" title="ashpy.losses.executor.SumExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.SumExecutor</span></code></a></p>
+<p>Weighted sum of <a class="reference internal" href="gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1" title="ashpy.losses.gan.GeneratorL1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GeneratorL1</span></code></a>, <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a> and
+<a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a>.
+Used by Pix2Pix [1] and Pix2PixHD [2]</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets">1</span></dt>
+<dd><p>Image-to-Image Translation with Conditional Adversarial Networks
+<a class="reference external" href="https://arxiv.org/abs/1611.07004">https://arxiv.org/abs/1611.07004</a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets">2</span></dt>
+<dd><p>High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
+<a class="reference external" href="https://arxiv.org/abs/1711.11585">https://arxiv.org/abs/1711.11585</a></p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ashpy.losses.gan.Pix2PixLoss.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>l1_loss_weight=100.0</em>, <em>adversarial_loss_weight=1.0</em>, <em>feature_matching_weight=10.0</em>, <em>adversarial_loss_type: ashpy.losses.gan.AdversarialLossType = &lt;AdversarialLossType.GAN: 0&gt;</em>, <em>use_feature_matching_loss: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#Pix2PixLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weighted sum of <a class="reference internal" href="gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1" title="ashpy.losses.gan.GeneratorL1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GeneratorL1</span></code></a>, <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a> and
+<a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1_loss_weight</strong> – weight of L1 loss (scalar, <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>, callable)</p></li>
+<li><p><strong>adversarial_loss_weight</strong> – weight of adversarial loss (scalar, <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>, callable)</p></li>
+<li><p><strong>feature_matching_weight</strong> – weight of the feature matching loss (scalar, <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>, callable)</p></li>
+<li><p><strong>adversarial_loss_type</strong> (<a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossType.html#ashpy.losses.gan.AdversarialLossType" title="ashpy.losses.gan.AdversarialLossType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType</span></code></a>) – Adversarial loss type
+(<code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType.GAN</span></code>
+or <code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType.LSGAN</span></code>)</p></li>
+<li><p><strong>use_feature_matching_loss</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if True use also <a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.Pix2PixLoss.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate and sum together the Executors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.Pix2PixLoss.executors">
+<code class="descname">executors</code><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss.executors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the array of Executors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.Pix2PixLoss.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.Pix2PixLoss.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.Pix2PixLoss.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLoss.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic">
+<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">Pix2PixLossSemantic</code><span class="sig-paren">(</span><em>cross_entropy_weight=100.0</em>, <em>adversarial_loss_weight=1.0</em>, <em>feature_matching_weight=10.0</em>, <em>adversarial_loss_type: ashpy.losses.gan.AdversarialLossType = &lt;AdversarialLossType.GAN: 0&gt;</em>, <em>use_feature_matching_loss: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#Pix2PixLossSemantic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="executor/ashpy.losses.executor.SumExecutor.html#ashpy.losses.executor.SumExecutor" title="ashpy.losses.executor.SumExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.SumExecutor</span></code></a></p>
+<p>Weighted sum of <a class="reference internal" href="gan/ashpy.losses.gan.CategoricalCrossEntropy.html#ashpy.losses.gan.CategoricalCrossEntropy" title="ashpy.losses.gan.CategoricalCrossEntropy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.CategoricalCrossEntropy</span></code></a>, <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a> and
+<a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a></p>
+<dl class="method">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cross_entropy_weight=100.0</em>, <em>adversarial_loss_weight=1.0</em>, <em>feature_matching_weight=10.0</em>, <em>adversarial_loss_type: ashpy.losses.gan.AdversarialLossType = &lt;AdversarialLossType.GAN: 0&gt;</em>, <em>use_feature_matching_loss: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#Pix2PixLossSemantic.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weighted sum of <a class="reference internal" href="gan/ashpy.losses.gan.CategoricalCrossEntropy.html#ashpy.losses.gan.CategoricalCrossEntropy" title="ashpy.losses.gan.CategoricalCrossEntropy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.CategoricalCrossEntropy</span></code></a>, <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossG.html#ashpy.losses.gan.AdversarialLossG" title="ashpy.losses.gan.AdversarialLossG"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossG</span></code></a> and
+<a class="reference internal" href="gan/ashpy.losses.gan.FeatureMatchingLoss.html#ashpy.losses.gan.FeatureMatchingLoss" title="ashpy.losses.gan.FeatureMatchingLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.FeatureMatchingLoss</span></code></a>
+:param cross_entropy_weight: weight of the categorical cross entropy loss (scalar, <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>, callable)
+:param adversarial_loss_weight: weight of the adversarial loss (scalar, <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>, callable)
+:param feature_matching_weight: weight of the feature matching loss (scalar, <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/Tensor" title="(in TensorFlow v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tf.Tensor</span></code></a>, callable)
+:param adversarial_loss_type: type of adversarial loss,</p>
+<blockquote>
+<div><p>see <a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossType.html#ashpy.losses.gan.AdversarialLossType" title="ashpy.losses.gan.AdversarialLossType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType</span></code></a></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>use_feature_matching_loss</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – whether to use feature matching loss or not</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate and sum together the Executors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic.executors">
+<code class="descname">executors</code><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic.executors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the array of Executors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic.fn">
+<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic.fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the function to execute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic.global_batch_size">
+<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global batch size.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ashpy.losses.gan.Pix2PixLossSemantic.reduce_loss">
+<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.Pix2PixLossSemantic.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
+<p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
+by the batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>call_fn</strong> – the executor call method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>py:func: The function decorated</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="ashpy.losses.gan.get_adversarial_loss_discriminator">
+<code class="descclassname">ashpy.losses.gan.</code><code class="descname">get_adversarial_loss_discriminator</code><span class="sig-paren">(</span><em>adversarial_loss_type: Union[ashpy.losses.gan.AdversarialLossType</em>, <em>int] = &lt;AdversarialLossType.GAN: 0&gt;</em><span class="sig-paren">)</span> &#x2192; Type[ashpy.losses.executor.Executor]<a class="reference internal" href="../../_modules/ashpy/losses/gan.html#get_adversarial_loss_discriminator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.get_adversarial_loss_discriminator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the correct loss fot the discriminator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>adversarial_loss_type</strong> (<a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossType.html#ashpy.losses.gan.AdversarialLossType" title="ashpy.losses.gan.AdversarialLossType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType</span></code></a>) – Type of loss (<code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType.GAN</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType.LSGAN</span></code>)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The correct (<a class="reference internal" href="executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" title="ashpy.losses.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.Executor</span></code></a>) (to be instantiated)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ashpy.losses.gan.get_adversarial_loss_generator">
+<code class="descclassname">ashpy.losses.gan.</code><code class="descname">get_adversarial_loss_generator</code><span class="sig-paren">(</span><em>adversarial_loss_type: Union[ashpy.losses.gan.AdversarialLossType</em>, <em>int] = &lt;AdversarialLossType.GAN: 0&gt;</em><span class="sig-paren">)</span> &#x2192; Type[ashpy.losses.executor.Executor]<a class="reference internal" href="../../_modules/ashpy/losses/gan.html#get_adversarial_loss_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.get_adversarial_loss_generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the correct loss fot the generator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>adversarial_loss_type</strong> (<a class="reference internal" href="gan/ashpy.losses.gan.AdversarialLossType.html#ashpy.losses.gan.AdversarialLossType" title="ashpy.losses.gan.AdversarialLossType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType</span></code></a>) – Type of loss (<code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType.GAN</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.AdversarialLossType.LSGAN</span></code>)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The correct (<a class="reference internal" href="executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" title="ashpy.losses.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.Executor</span></code></a>) (to be instantiated)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gan/ashpy.losses.gan.get_adversarial_loss_discriminator.html" class="btn btn-neutral float-right" title="ashpy.losses.gan.get_adversarial_loss_discriminator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="executor/ashpy.losses.executor.SumExecutor.html" class="btn btn-neutral float-left" title="SumExecutor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

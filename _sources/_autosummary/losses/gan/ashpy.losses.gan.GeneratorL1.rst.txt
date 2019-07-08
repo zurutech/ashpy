@@ -1,0 +1,39 @@
+GeneratorL1
+============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.losses.gan.GeneratorL1
+   :parts: 1
+
+.. currentmodule:: ashpy.losses.gan
+
+----
+
+.. autoclass:: GeneratorL1
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GeneratorL1.__init__
+      ~GeneratorL1.call
+      ~GeneratorL1.get_discriminator_inputs
+      ~GeneratorL1.reduce_loss
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GeneratorL1.fn
+      ~GeneratorL1.global_batch_size
+      ~GeneratorL1.weight
+   
+   

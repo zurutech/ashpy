@@ -1,0 +1,5 @@
+<map id="inheritancebc48af8746" name="inheritancebc48af8746">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node3" href="../metrics/metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" target="_top" title="Metric is the abstract class that every ash metric must implement." alt="" coords="125,5,197,31"/>
+<area shape="rect" id="node2" href="../metrics/gan/ashpy.metrics.gan.EncoderLoss.html#ashpy.metrics.gan.EncoderLoss" target="_top" title="The ash way of measuring the generator loss value." alt="" coords="245,5,348,31"/>
+</map>

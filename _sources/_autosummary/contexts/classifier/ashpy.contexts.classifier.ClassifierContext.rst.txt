@@ -1,0 +1,41 @@
+ClassifierContext
+===========================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.contexts.classifier.ClassifierContext
+   :parts: 1
+
+.. currentmodule:: ashpy.contexts.classifier
+
+----
+
+.. autoclass:: ClassifierContext
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ClassifierContext.__init__
+      ~ClassifierContext.measure_metrics
+      ~ClassifierContext.model_selection
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ClassifierContext.classifier_model
+      ~ClassifierContext.dataset
+      ~ClassifierContext.global_step
+      ~ClassifierContext.log_eval_mode
+      ~ClassifierContext.loss
+      ~ClassifierContext.metrics
+   
+   

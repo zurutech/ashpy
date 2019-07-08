@@ -1,0 +1,108 @@
+PatchDiscriminator
+============================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.convolutional.discriminators.PatchDiscriminator
+   :parts: 1
+
+.. currentmodule:: ashpy.models.convolutional.discriminators
+
+----
+
+.. autoclass:: PatchDiscriminator
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PatchDiscriminator.__init__
+      ~PatchDiscriminator.add_loss
+      ~PatchDiscriminator.add_metric
+      ~PatchDiscriminator.add_update
+      ~PatchDiscriminator.add_variable
+      ~PatchDiscriminator.add_weight
+      ~PatchDiscriminator.apply
+      ~PatchDiscriminator.build
+      ~PatchDiscriminator.call
+      ~PatchDiscriminator.compile
+      ~PatchDiscriminator.compute_mask
+      ~PatchDiscriminator.compute_output_shape
+      ~PatchDiscriminator.compute_output_signature
+      ~PatchDiscriminator.count_params
+      ~PatchDiscriminator.evaluate
+      ~PatchDiscriminator.evaluate_generator
+      ~PatchDiscriminator.fit
+      ~PatchDiscriminator.fit_generator
+      ~PatchDiscriminator.from_config
+      ~PatchDiscriminator.get_config
+      ~PatchDiscriminator.get_input_at
+      ~PatchDiscriminator.get_input_mask_at
+      ~PatchDiscriminator.get_input_shape_at
+      ~PatchDiscriminator.get_layer
+      ~PatchDiscriminator.get_losses_for
+      ~PatchDiscriminator.get_output_at
+      ~PatchDiscriminator.get_output_mask_at
+      ~PatchDiscriminator.get_output_shape_at
+      ~PatchDiscriminator.get_updates_for
+      ~PatchDiscriminator.get_weights
+      ~PatchDiscriminator.load_weights
+      ~PatchDiscriminator.predict
+      ~PatchDiscriminator.predict_generator
+      ~PatchDiscriminator.predict_on_batch
+      ~PatchDiscriminator.reset_metrics
+      ~PatchDiscriminator.reset_states
+      ~PatchDiscriminator.save
+      ~PatchDiscriminator.save_weights
+      ~PatchDiscriminator.set_weights
+      ~PatchDiscriminator.summary
+      ~PatchDiscriminator.test_on_batch
+      ~PatchDiscriminator.to_json
+      ~PatchDiscriminator.to_yaml
+      ~PatchDiscriminator.train_on_batch
+      ~PatchDiscriminator.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PatchDiscriminator.activity_regularizer
+      ~PatchDiscriminator.dtype
+      ~PatchDiscriminator.dynamic
+      ~PatchDiscriminator.inbound_nodes
+      ~PatchDiscriminator.input
+      ~PatchDiscriminator.input_mask
+      ~PatchDiscriminator.input_shape
+      ~PatchDiscriminator.input_spec
+      ~PatchDiscriminator.layers
+      ~PatchDiscriminator.losses
+      ~PatchDiscriminator.metrics
+      ~PatchDiscriminator.metrics_names
+      ~PatchDiscriminator.name
+      ~PatchDiscriminator.name_scope
+      ~PatchDiscriminator.non_trainable_variables
+      ~PatchDiscriminator.non_trainable_weights
+      ~PatchDiscriminator.outbound_nodes
+      ~PatchDiscriminator.output
+      ~PatchDiscriminator.output_mask
+      ~PatchDiscriminator.output_shape
+      ~PatchDiscriminator.run_eagerly
+      ~PatchDiscriminator.sample_weights
+      ~PatchDiscriminator.state_updates
+      ~PatchDiscriminator.stateful
+      ~PatchDiscriminator.submodules
+      ~PatchDiscriminator.trainable
+      ~PatchDiscriminator.trainable_variables
+      ~PatchDiscriminator.trainable_weights
+      ~PatchDiscriminator.updates
+      ~PatchDiscriminator.variables
+      ~PatchDiscriminator.weights
+   
+   

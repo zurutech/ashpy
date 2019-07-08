@@ -1,0 +1,45 @@
+GANEncoderContext
+====================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.contexts.gan.GANEncoderContext
+   :parts: 1
+
+.. currentmodule:: ashpy.contexts.gan
+
+----
+
+.. autoclass:: GANEncoderContext
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GANEncoderContext.__init__
+      ~GANEncoderContext.measure_metrics
+      ~GANEncoderContext.model_selection
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GANEncoderContext.dataset
+      ~GANEncoderContext.discriminator_loss
+      ~GANEncoderContext.discriminator_model
+      ~GANEncoderContext.encoder_loss
+      ~GANEncoderContext.encoder_model
+      ~GANEncoderContext.generator_loss
+      ~GANEncoderContext.generator_model
+      ~GANEncoderContext.global_step
+      ~GANEncoderContext.log_eval_mode
+      ~GANEncoderContext.metrics
+   
+   
