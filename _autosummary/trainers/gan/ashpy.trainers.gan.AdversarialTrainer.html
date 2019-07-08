@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>AdversarialTrainer &mdash; ASH alpha 0.0.0 documentation</title>
+  <title>AdversarialTrainer &mdash; AshPy 1.0.1 documentation</title>
   
 
   
@@ -52,7 +52,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> ASH
+            <a href="../../../index.html" class="icon icon-home"> AshPy
           
 
           
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.0.0
+                1.0.1
               </div>
             
           
@@ -313,7 +313,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">ASH</a>
+          <a href="../../../index.html">AshPy</a>
         
       </nav>
 
@@ -379,7 +379,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.trainers.gan.AdversarialTrainer">
-<em class="property">class </em><code class="descclassname">ashpy.trainers.gan.</code><code class="descname">AdversarialTrainer</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#AdversarialTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.AdversarialTrainer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.trainers.gan.</code><code class="descname">AdversarialTrainer</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#AdversarialTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.AdversarialTrainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_trainer/ashpy.trainers.base_trainer.BaseTrainer.html#ashpy.trainers.base_trainer.BaseTrainer" title="ashpy.trainers.base_trainer.BaseTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.trainers.base_trainer.BaseTrainer</span></code></a></p>
 <p>Primitive Trainer for GANs subclassed from <a class="reference internal" href="../ashpy.trainers.BaseTrainer.html#ashpy.trainers.BaseTrainer" title="ashpy.trainers.BaseTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.trainers.BaseTrainer</span></code></a>.</p>
 <p class="rubric">Examples</p>
@@ -495,7 +495,7 @@ Epoch 2 completed.
 </table>
 <dl class="method">
 <dt id="ashpy.trainers.gan.AdversarialTrainer.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#AdversarialTrainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.AdversarialTrainer.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#AdversarialTrainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.AdversarialTrainer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate a <a class="reference internal" href="#ashpy.trainers.gan.AdversarialTrainer" title="ashpy.trainers.gan.AdversarialTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdversarialTrainer</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -650,7 +650,7 @@ self._global_batch_size variable where needed.
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+        &copy; Copyright 2019 Zuru Tech HK Limited, All rights reserved.
 
     </p>
   </div>

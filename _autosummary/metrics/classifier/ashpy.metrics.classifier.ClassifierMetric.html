@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ClassifierMetric &mdash; ASH alpha 0.0.0 documentation</title>
+  <title>ClassifierMetric &mdash; AshPy 1.0.1 documentation</title>
   
 
   
@@ -52,7 +52,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> ASH
+            <a href="../../../index.html" class="icon icon-home"> AshPy
           
 
           
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.0.0
+                1.0.1
               </div>
             
           
@@ -313,7 +313,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">ASH</a>
+          <a href="../../../index.html">AshPy</a>
         
       </nav>
 
@@ -379,7 +379,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.metrics.classifier.ClassifierMetric">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierMetric</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/classifier.html#ClassifierMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierMetric</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/classifier.html#ClassifierMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>A wrapper for the classification metric that requires to apply argmax
 to the classifier output to extract the predictions.</p>
@@ -447,7 +447,7 @@ to the classifier output to extract the predictions.</p>
 </table>
 <dl class="method">
 <dt id="ashpy.metrics.classifier.ClassifierMetric.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -592,7 +592,7 @@ the information from the context object.
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+        &copy; Copyright 2019 Zuru Tech HK Limited, All rights reserved.
 
     </p>
   </div>

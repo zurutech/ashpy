@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EncoderTrainer &mdash; ASH alpha 0.0.0 documentation</title>
+  <title>EncoderTrainer &mdash; AshPy 1.0.1 documentation</title>
   
 
   
@@ -52,7 +52,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> ASH
+            <a href="../../index.html" class="icon icon-home"> AshPy
           
 
           
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.0.0
+                1.0.1
               </div>
             
           
@@ -313,7 +313,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">ASH</a>
+          <a href="../../index.html">AshPy</a>
         
       </nav>
 
@@ -378,7 +378,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.trainers.EncoderTrainer">
-<em class="property">class </em><code class="descclassname">ashpy.trainers.</code><code class="descname">EncoderTrainer</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>encoder: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>encoder_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>encoder_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/trainers/gan.html#EncoderTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.EncoderTrainer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.trainers.</code><code class="descname">EncoderTrainer</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>encoder: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>encoder_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>encoder_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/trainers/gan.html#EncoderTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.EncoderTrainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="gan/ashpy.trainers.gan.AdversarialTrainer.html#ashpy.trainers.gan.AdversarialTrainer" title="ashpy.trainers.gan.AdversarialTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.trainers.gan.AdversarialTrainer</span></code></a></p>
 <p>Primitive Trainer for GANs using an Encoder sub-network.
 The implementation is thought to be used with the BCE losses. To use another loss function
@@ -490,7 +490,7 @@ Epoch 2 completed.
 </table>
 <dl class="method">
 <dt id="ashpy.trainers.EncoderTrainer.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>encoder: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>encoder_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>encoder_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/trainers/gan.html#EncoderTrainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.EncoderTrainer.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>encoder: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>encoder_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>encoder_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/trainers/gan.html#EncoderTrainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.EncoderTrainer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate a <a class="reference internal" href="#ashpy.trainers.EncoderTrainer" title="ashpy.trainers.EncoderTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">EncoderTrainer</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -645,7 +645,7 @@ self._global_batch_size variable where needed.
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+        &copy; Copyright 2019 Zuru Tech HK Limited, All rights reserved.
 
     </p>
   </div>

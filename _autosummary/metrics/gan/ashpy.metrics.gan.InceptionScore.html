@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>InceptionScore &mdash; ASH alpha 0.0.0 documentation</title>
+  <title>InceptionScore &mdash; AshPy 1.0.1 documentation</title>
   
 
   
@@ -52,7 +52,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> ASH
+            <a href="../../../index.html" class="icon icon-home"> AshPy
           
 
           
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.0.0
+                1.0.1
               </div>
             
           
@@ -313,7 +313,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">ASH</a>
+          <a href="../../../index.html">AshPy</a>
         
       </nav>
 
@@ -379,7 +379,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.metrics.gan.InceptionScore">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">InceptionScore</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#InceptionScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">InceptionScore</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#InceptionScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>The ash way of measuring the inception score.</p>
 <p class="rubric">Methods</p>
@@ -452,7 +452,7 @@
 </table>
 <dl class="method">
 <dt id="ashpy.metrics.gan.InceptionScore.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#InceptionScore.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#InceptionScore.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class is an implementation of the inception score for evaluating a GAN.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -480,7 +480,7 @@ the model selection, if needed.</p></li>
 
 <dl class="staticmethod">
 <dt id="ashpy.metrics.gan.InceptionScore.get_or_train_inception">
-<em class="property">static </em><code class="descname">get_or_train_inception</code><span class="sig-paren">(</span><em>dataset</em>, <em>name</em>, <em>num_classes</em>, <em>epochs</em>, <em>fine_tuning=False</em>, <em>loss_fn=&lt;tensorflow.python.keras.losses.SparseCategoricalCrossentropy object&gt;</em>, <em>optimizer=&lt;tensorflow.python.keras.optimizer_v2.adam.Adam object&gt;</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#InceptionScore.get_or_train_inception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.get_or_train_inception" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">get_or_train_inception</code><span class="sig-paren">(</span><em>dataset</em>, <em>name</em>, <em>num_classes</em>, <em>epochs</em>, <em>fine_tuning=False</em>, <em>loss_fn=&lt;tensorflow.python.keras.losses.SparseCategoricalCrossentropy object&gt;</em>, <em>optimizer=&lt;tensorflow.python.keras.optimizer_v2.adam.Adam object&gt;</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#InceptionScore.get_or_train_inception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.get_or_train_inception" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or train and save the inception model.</p>
 </dd></dl>
 
@@ -614,7 +614,7 @@ the information from the context object.
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2019, Zuru Tech HK Limited, All rights reserved.
+        &copy; Copyright 2019 Zuru Tech HK Limited, All rights reserved.
 
     </p>
   </div>
