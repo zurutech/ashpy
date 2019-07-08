@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Package Ash."""
+"""Package AshPy."""
 
 from setuptools import find_packages, setup
 
@@ -32,7 +32,7 @@ TEST_REQUIREMENTS = ["pytest"]
 
 setup(
     name="ashpy",
-    version="0.0.0",
+    version="1.0.0",
     description="TensorFlow 2.0 library for distributed training, evaluation, model selection, and fast prototyping.",
     long_description=README + "\n\n" + DOCLINK,
     author=["Machine Learning Team @ Zuru Tech"],
@@ -42,7 +42,7 @@ setup(
     include_package_data=True,
     install_requires=REQUIREMENTS,
     tests_require=TEST_REQUIREMENTS,
-    license="MIT",
+    license="Apache License, Version 2.0",
     zip_safe=False,
     keywords=["ashpy", "ai", "tensorflow", "tensorflow-2.0", "deeplearning"],
     classifiers=[
