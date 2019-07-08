@@ -28,6 +28,10 @@ The following README aims to help you understand what you need to do to setup As
 ## Set up
 
 ```
+# Depending on GPU support you might want to install
+# tensorflow-gpu or tensorflow
+pip install tensorflow-gpu==2.0.0beta1
+#pip install tensorflow==2.0.0beta1
 pip install ashpy
 ```
 
