@@ -384,12 +384,12 @@
 </table>
 <dl class="class">
 <dt id="ashpy.metrics.metric.Metric">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.metric.</code><code class="descname">Metric</code><span class="sig-paren">(</span><em>name</em>, <em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/metric.html#Metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.metric.Metric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.metric.</code><code class="descname">Metric</code><span class="sig-paren">(</span><em>name</em>, <em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/metric.html#Metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.metric.Metric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
 <p>Metric is the abstract class that every ash metric must implement.</p>
 <dl class="method">
 <dt id="ashpy.metrics.metric.Metric.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em>, <em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/metric.html#Metric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.metric.Metric.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em>, <em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/metric.html#Metric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.metric.Metric.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct the Metric object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

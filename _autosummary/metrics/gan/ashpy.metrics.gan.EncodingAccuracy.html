@@ -380,7 +380,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.metrics.gan.EncodingAccuracy">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">EncodingAccuracy</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#EncodingAccuracy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">EncodingAccuracy</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#EncodingAccuracy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../classifier/ashpy.metrics.classifier.ClassifierMetric.html#ashpy.metrics.classifier.ClassifierMetric" title="ashpy.metrics.classifier.ClassifierMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.classifier.ClassifierMetric</span></code></a></p>
 <p>Measures the Generator and Encoder performance together, by classifying:
 G(E(x)), y using a pre-trained classified (on the dataset of x).</p>
@@ -443,7 +443,7 @@ G(E(x)), y using a pre-trained classified (on the dataset of x).</p>
 </table>
 <dl class="method">
 <dt id="ashpy.metrics.gan.EncodingAccuracy.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#EncodingAccuracy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/metrics/gan.html#EncodingAccuracy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Measures the Generator and Encoder performance together, by classifying:
 G(E(x)), y using a pre-trained classified (on the dataset of x).</p>
 <dl class="field-list simple">

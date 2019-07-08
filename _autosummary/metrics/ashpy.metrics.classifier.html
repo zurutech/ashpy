@@ -387,12 +387,12 @@
 </table>
 <dl class="class">
 <dt id="ashpy.metrics.classifier.ClassifierLoss">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>A handy way to measure the classification loss.</p>
 <dl class="method">
 <dt id="ashpy.metrics.classifier.ClassifierLoss.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierLoss.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -513,13 +513,13 @@ the information from the context object.
 
 <dl class="class">
 <dt id="ashpy.metrics.classifier.ClassifierMetric">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierMetric</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.classifier.</code><code class="descname">ClassifierMetric</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>A wrapper for the classification metric that requires to apply argmax
 to the classifier output to extract the predictions.</p>
 <dl class="method">
 <dt id="ashpy.metrics.classifier.ClassifierMetric.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>metric</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>processing_predictions={'fn': &lt;function argmax_v2&gt;</em>, <em>'kwargs': {'axis': -1}}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/classifier.html#ClassifierMetric.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.classifier.ClassifierMetric.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

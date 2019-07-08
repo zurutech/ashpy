@@ -396,12 +396,12 @@
 </table>
 <dl class="class">
 <dt id="ashpy.metrics.gan.DiscriminatorLoss">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">DiscriminatorLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#DiscriminatorLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.DiscriminatorLoss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">DiscriminatorLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#DiscriminatorLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.DiscriminatorLoss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>The ash way of measuring the discriminator loss value.</p>
 <dl class="method">
 <dt id="ashpy.metrics.gan.DiscriminatorLoss.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#DiscriminatorLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.DiscriminatorLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#DiscriminatorLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.DiscriminatorLoss.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -519,12 +519,12 @@ the information from the context object.
 
 <dl class="class">
 <dt id="ashpy.metrics.gan.EncoderLoss">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">EncoderLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncoderLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncoderLoss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">EncoderLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncoderLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncoderLoss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>The ash way of measuring the generator loss value.</p>
 <dl class="method">
 <dt id="ashpy.metrics.gan.EncoderLoss.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncoderLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncoderLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncoderLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncoderLoss.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -643,13 +643,13 @@ the information from the context object.
 
 <dl class="class">
 <dt id="ashpy.metrics.gan.EncodingAccuracy">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">EncodingAccuracy</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncodingAccuracy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">EncodingAccuracy</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncodingAccuracy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="classifier/ashpy.metrics.classifier.ClassifierMetric.html#ashpy.metrics.classifier.ClassifierMetric" title="ashpy.metrics.classifier.ClassifierMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.classifier.ClassifierMetric</span></code></a></p>
 <p>Measures the Generator and Encoder performance together, by classifying:
 G(E(x)), y using a pre-trained classified (on the dataset of x).</p>
 <dl class="method">
 <dt id="ashpy.metrics.gan.EncodingAccuracy.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncodingAccuracy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#EncodingAccuracy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.EncodingAccuracy.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Measures the Generator and Encoder performance together, by classifying:
 G(E(x)), y using a pre-trained classified (on the dataset of x).</p>
 <dl class="field-list simple">
@@ -770,12 +770,12 @@ the information from the context object.
 
 <dl class="class">
 <dt id="ashpy.metrics.gan.GeneratorLoss">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">GeneratorLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#GeneratorLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.GeneratorLoss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">GeneratorLoss</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#GeneratorLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.GeneratorLoss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>The ash way of measuring the generator loss value.</p>
 <dl class="method">
 <dt id="ashpy.metrics.gan.GeneratorLoss.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#GeneratorLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.GeneratorLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#GeneratorLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.GeneratorLoss.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -893,12 +893,12 @@ the information from the context object.
 
 <dl class="class">
 <dt id="ashpy.metrics.gan.InceptionScore">
-<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">InceptionScore</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#InceptionScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ashpy.metrics.gan.</code><code class="descname">InceptionScore</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#InceptionScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="metric/ashpy.metrics.metric.Metric.html#ashpy.metrics.metric.Metric" title="ashpy.metrics.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.metric.Metric</span></code></a></p>
 <p>The ash way of measuring the inception score.</p>
 <dl class="method">
 <dt id="ashpy.metrics.gan.InceptionScore.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#InceptionScore.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>inception: tf.keras.Model</em>, <em>model_selection_operator=None</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#InceptionScore.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class is an implementation of the inception score for evaluating a GAN.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -926,7 +926,7 @@ the model selection, if needed.</p></li>
 
 <dl class="staticmethod">
 <dt id="ashpy.metrics.gan.InceptionScore.get_or_train_inception">
-<em class="property">static </em><code class="descname">get_or_train_inception</code><span class="sig-paren">(</span><em>dataset</em>, <em>name</em>, <em>num_classes</em>, <em>epochs</em>, <em>fine_tuning=False</em>, <em>loss_fn=&lt;tensorflow.python.keras.losses.SparseCategoricalCrossentropy object&gt;</em>, <em>optimizer=&lt;tensorflow.python.keras.optimizer_v2.adam.Adam object&gt;</em>, <em>logdir='/data/pgaleone/sources/ml/ash/docs/source/log'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#InceptionScore.get_or_train_inception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.get_or_train_inception" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">get_or_train_inception</code><span class="sig-paren">(</span><em>dataset</em>, <em>name</em>, <em>num_classes</em>, <em>epochs</em>, <em>fine_tuning=False</em>, <em>loss_fn=&lt;tensorflow.python.keras.losses.SparseCategoricalCrossentropy object&gt;</em>, <em>optimizer=&lt;tensorflow.python.keras.optimizer_v2.adam.Adam object&gt;</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/metrics/gan.html#InceptionScore.get_or_train_inception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.metrics.gan.InceptionScore.get_or_train_inception" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get or train and save the inception model.</p>
 </dd></dl>
 
