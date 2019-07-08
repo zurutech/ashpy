@@ -35,8 +35,9 @@ setup(
     version="1.0.0",
     description="TensorFlow 2.0 library for distributed training, evaluation, model selection, and fast prototyping.",
     long_description=README + "\n\n" + DOCLINK,
+    long_description_content_type="text/markdown",
     author=["Machine Learning Team @ Zuru Tech"],
-    author_email=["ml@zuru.tech"],
+    author_email="ml@zuru.tech",
     url=REPO,
     packages=find_packages(),
     include_package_data=True,
@@ -45,9 +46,5 @@ setup(
     license="Apache License, Version 2.0",
     zip_safe=False,
     keywords=["ashpy", "ai", "tensorflow", "tensorflow-2.0", "deeplearning"],
-    classifiers=[
-        "Programming Language :: Python :: 3.7",
-        "TensorFlow :: 2.0",
-        "Formatter :: black",
-    ],
+    classifiers=["Programming Language :: Python :: 3.7"],
 )
