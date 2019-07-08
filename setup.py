@@ -27,7 +27,7 @@ The full documentation is at {REPO}.
 """
 
 # Requirements
-REQUIREMENTS = []
+REQUIREMENTS = ["numpy>=1.16.3", "tensorflow_hub>=0.4.0"]
 TEST_REQUIREMENTS = ["pytest"]
 
 setup(
