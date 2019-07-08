@@ -325,7 +325,7 @@ trainer = EncoderTrainer(
 
 Note that the `EncoderTrainer` indicates a trainer of a GAN network with an Encoder and not a trainer of an Encoder itself.
 
-### Datset Output format
+### Dataset Output Format
 
 In order to standardize the GAN training, AshPy requires the input dataset to be in a common format. In particular, the dataset return type must always be in the format showed below, where the fist element of the tuple is the discriminator input, and the second is the generator input.
 

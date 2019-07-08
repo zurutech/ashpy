@@ -22,3 +22,8 @@ from . import metrics
 from . import models
 from . import trainers
 from .modes import LogEvalMode
+
+__version__ = "1.0.1"
+__url__ = "https://github.com/zurutech/ashpy"
+__author__ = "Machine Learning Team @ Zuru Tech"
+__email__ = "ml@zuru.tech"

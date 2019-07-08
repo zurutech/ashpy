@@ -13,18 +13,15 @@
 # limitations under the License.
 
 """Package AshPy."""
-
+import re
 from setuptools import find_packages, setup
 
-# Info
-REPO = "https://github.com/zurutech/ashpy"
-README = open("README.md").read()
-DOCLINK = f"""
-Documentation
--------------
+# Meta
+INIT_PY = open("ashpy/__init__.py").read()
+METADATA = dict(re.findall(r"__([a-z]+)__ = \"([^\"]+)\"", INIT_PY))
 
-The full documentation is at {REPO}.
-"""
+# Info
+README = open("README.md").read()
 
 # Requirements
 REQUIREMENTS = ["numpy>=1.16.3", "tensorflow_hub>=0.4.0"]
@@ -32,13 +29,16 @@ TEST_REQUIREMENTS = ["pytest"]
 
 setup(
     name="ashpy",
-    version="1.0.1",
-    description="TensorFlow 2.0 library for distributed training, evaluation, model selection, and fast prototyping.",
-    long_description=README + "\n\n" + DOCLINK,
+    version=METADATA["version"],
+    description=(
+        "TensorFlow 2.0 library for distributed training, "
+        "evaluation, model selection, and fast prototyping."
+    ),
+    long_description=README,
     long_description_content_type="text/markdown",
-    author=["Machine Learning Team @ Zuru Tech"],
-    author_email="ml@zuru.tech",
-    url=REPO,
+    author=METADATA["author"],
+    author_email=METADATA["email"],
+    url=METADATA["url"],
     packages=find_packages(),
     include_package_data=True,
     install_requires=REQUIREMENTS,
