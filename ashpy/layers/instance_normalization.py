@@ -12,28 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Ash Custom layers.
-
-.. currentmodule:: ashpy.layers
-
-.. rubric:: Layers
-
-.. autosummary::
-    :nosignatures:
-    :toctree: layers
-
-    InstanceNormalization
-    Attention
-
-"""
 import tensorflow as tf
 
 
 class InstanceNormalization(tf.keras.layers.Layer):
     r"""
     Instance Normalization Layer (used by Pix2Pix [1]_ and Pix2PixHD [2]_ )
-    Basically it's a batch normalization done at instance level.
+    Basically it's a normalization done at instance level.
     The implementation follows the basic implementation of the Batch Normalization Layer.
 
     .. [1] Image-to-Image Translation with Conditional Adversarial Networks
@@ -85,45 +70,3 @@ class InstanceNormalization(tf.keras.layers.Layer):
             scale=self.gamma,
             variance_epsilon=self._eps,
         )
-
-
-class Attention(tf.keras.Model):
-    r"""
-    Attention Layer from Self-Attention GAN [1]_
-
-    .. [1] Self-Attention Generative Adversarial Networks https://arxiv.org/abs/1805.08318
-
-    """
-
-    def __init__(self, filters: int):
-        """
-        Builds the Attention Layer
-
-        Args:
-            filters (int): number of filters of the input tensor
-        """
-        super().__init__()
-        initializer = tf.random_normal_initializer(0.0, 0.02)
-
-        self.f_conv = tf.keras.layers.Conv2D(
-            filters // 8, 1, strides=1, padding="same", kernel_initializer=initializer
-        )
-        self.g_conv = tf.keras.layers.Conv2D(
-            filters // 8, 1, strides=1, padding="same", kernel_initializer=initializer
-        )
-        self.h_conv = tf.keras.layers.Conv2D(
-            filters, 1, strides=1, padding="same", kernel_initializer=initializer
-        )
-
-        self.gamma = tf.Variable(0, dtype=tf.float32)
-
-    def call(self, inputs, training=False):
-        f = self.f_conv(inputs)
-        g = self.g_conv(inputs)
-        h = self.h_conv(inputs)
-
-        s = tf.matmul(g, f, transpose_b=True)
-        beta = tf.nn.softmax(s, axis=-1)
-        o = tf.matmul(beta, h)
-        x = self.gamma * o + inputs
-        return x

@@ -15,7 +15,7 @@
 """
 GANs Models.
 
-.. currentmodule:: ashpy.models.gan
+.. currentmodule:: ashpy.models.gans
 
 .. rubric:: Generators
 

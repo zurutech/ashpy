@@ -23,11 +23,12 @@ Ash Custom layers.
     :nosignatures:
     :toctree: layers
 
-    layers.InstanceNormalization
-    layers.Attention
+    instance_normalization.InstanceNormalization
+    attention.Attention
 
 """
 
-from ashpy.layers.layers import Attention, InstanceNormalization
+from ashpy.layers.attention import Attention
+from ashpy.layers.instance_normalization import InstanceNormalization
 
 __ALL__ = ["Attention", "InstanceNormalization"]
