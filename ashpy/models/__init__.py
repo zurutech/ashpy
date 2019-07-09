@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-ASH Models.
+Collection of Models.
 
 .. currentmodule:: ashpy.models
 
@@ -26,7 +26,6 @@ ASH Models.
 
     convolutional
     fc
-    recurrent
 
 -----
 

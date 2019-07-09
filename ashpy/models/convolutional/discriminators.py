@@ -21,7 +21,7 @@ from typing import List, Tuple, Union
 import tensorflow as tf
 from tensorflow import keras
 
-from ashpy.layers.layers import Attention, InstanceNormalization
+from ashpy.layers import Attention, InstanceNormalization
 from ashpy.models.convolutional.encoders import BaseEncoder
 from ashpy.models.gans import Discriminator
 

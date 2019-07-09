@@ -20,7 +20,7 @@ import typing
 import tensorflow as tf
 from tensorflow import keras
 
-from ashpy.layers.layers import Attention, InstanceNormalization
+from ashpy.layers import Attention, InstanceNormalization
 from ashpy.models.convolutional.interfaces import Conv2DInterface
 
 __ALL__ = ["UNet", "SUNet"]

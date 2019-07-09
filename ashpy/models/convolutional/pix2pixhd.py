@@ -24,7 +24,7 @@ import typing
 import tensorflow as tf
 from tensorflow import keras
 
-from ashpy.layers.layers import InstanceNormalization
+from ashpy.layers import InstanceNormalization
 from ashpy.models.convolutional.interfaces import Conv2DInterface
 
 __ALL__ = ["LocalEnhancer", "GlobalGenerator"]

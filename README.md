@@ -1,6 +1,6 @@
 # AshPy
 
-TensorFlow 2.0 library for (distributed) training, evaluation, model selection, and fast prototyping.
+TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
 
 ---
 
@@ -24,6 +24,8 @@ In general AshPy aims to:
 - General usability by new project
 
 The following README aims to help you understand what you need to do to setup AshPy on your system and, with some examples, what you need to do to setup a complete training of your network. Moreover, it will explain some fundamental modules you need to understand to fully exploit the potential of the library.
+
+Read the documentation on [the official website](https://blog.zuru.tech/ashpy/).
 
 ## Set up
 
@@ -141,7 +143,7 @@ import operator
 import tensorflow as tf
 from ashpy.models.gans import Generator, Discriminator
 from ashpy.metrics import InceptionScore
-from ashpy.losses.gans import DiscriminatorMinMax, GeneratorBCE
+from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE
 
 generator = Generator(
     layer_spec_input_res=(7, 7),
@@ -352,18 +354,18 @@ AshPy it is heavily based on the concept of Executor, Context and Metric.
 
 ```python
 strategy = tf.distribute.MirroredStrategy()
-    with strategy.scope():
+with strategy.scope():
 
-        generator = Generator(
-            layer_spec_input_res=(7, 7),
-            layer_spec_target_res=(28, 28),
-            kernel_size=(5, 5),
-            initial_filters=256,
-            filters_cap=16,
-            channels=1,
-        )
-        # rest of the code
-        # with trainer definition and so on
+    generator = Generator(
+        layer_spec_input_res=(7, 7),
+        layer_spec_target_res=(28, 28),
+        kernel_size=(5, 5),
+        initial_filters=256,
+        filters_cap=16,
+        channels=1,
+    )
+    # rest of the code
+    # with trainer definition and so on
 ```
 
 i.e., create the strategy and put the rest of the code inside its scope.
