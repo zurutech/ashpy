@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>AshPy &mdash; AshPy 1.0.1 documentation</title>
+  <title>Welcome To AshPy! &mdash; AshPy 1.0.1 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Write The Docs!" href="write_the_docs.html" />
-    <link rel="prev" title="Welcome to ASH’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Welcome to ASHPY’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,17 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">AshPy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#set-up">Set up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ashpy-usage">AshPy usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#classifier">Classifier</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Welcome To AshPy!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ashpy">AshPy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-up">Set up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classifier">Classifier</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dataset-output-format">Dataset Output Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dataset-output-format">Dataset Output Format</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="write_the_docs.html">Write The Docs!</a><ul>
@@ -146,18 +149,10 @@
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/models/ashpy.models.fc.html">fc</a><ul>
@@ -171,8 +166,10 @@
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/models/fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/models/ashpy.models.gans.html">gans</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/models/ashpy.models.gans.Generator.html">Generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/models/ashpy.models.gans.Discriminator.html">Discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/models/models/ashpy.models.gans.Encoder.html">Encoder</a></li>
 </ul>
 </li>
 </ul>
@@ -217,8 +214,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/ashpy.layers.html">ashpy.layers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/layers/ashpy.layers.instance_normalization.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/layers/ashpy.layers.attention.Attention.html">Attention</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/ashpy.losses.html">ashpy.losses</a><ul>
@@ -358,7 +355,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>AshPy</li>
+      <li>Welcome To AshPy!</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -377,9 +374,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ashpy">
-<h1>AshPy<a class="headerlink" href="#ashpy" title="Permalink to this headline">¶</a></h1>
-<p>TensorFlow 2.0 library for (distributed) training, evaluation, model selection, and fast prototyping.</p>
+  <div class="section" id="welcome-to-ashpy">
+<h1>Welcome To AshPy!<a class="headerlink" href="#welcome-to-ashpy" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>AshPy is still a work in progress and may change substantially before the first proper release.
+The API is not mature enough to be considered stable, but we’ll try to keep breaking changes to a minimum.</p>
+</div>
+<div class="section" id="ashpy">
+<h2>AshPy<a class="headerlink" href="#ashpy" title="Permalink to this headline">¶</a></h2>
+<p>TensorFlow 2.0 library for (<strong>distributed</strong>) training, evaluation, model selection, and fast prototyping.</p>
 <hr class="docutils" />
 <p>AshPy is a library designed to ease the burden of setting up all the nuances of the architectures built to train complex custom deep learning models. It provides both fully convolutional and fully connected models such as:</p>
 <ul class="simple">
@@ -400,8 +404,9 @@
 <li><p>General usability by new project</p></li>
 </ul>
 <p>The following README aims to help you understand what you need to do to setup AshPy on your system and, with some examples, what you need to do to setup a complete training of your network. Moreover, it will explain some fundamental modules you need to understand to fully exploit the potential of the library.</p>
+<p>Read the documentation on <a class="reference external" href="https://blog.zuru.tech/ashpy/">the official website</a>.</p>
 <div class="section" id="set-up">
-<h2>Set up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
+<h3>Set up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Depending on GPU support you might want to install</span>
 <span class="c1"># tensorflow-gpu or tensorflow</span>
 pip install tensorflow-gpu<span class="o">==</span><span class="m">2</span>.0.0beta1
@@ -411,10 +416,10 @@ pip install ashpy
 </div>
 </div>
 <div class="section" id="ashpy-usage">
-<h2>AshPy usage<a class="headerlink" href="#ashpy-usage" title="Permalink to this headline">¶</a></h2>
+<h3>AshPy usage<a class="headerlink" href="#ashpy-usage" title="Permalink to this headline">¶</a></h3>
 <p>Let’s quickly start with some examples.</p>
 <div class="section" id="classifier">
-<h3>Classifier<a class="headerlink" href="#classifier" title="Permalink to this headline">¶</a></h3>
+<h4>Classifier<a class="headerlink" href="#classifier" title="Permalink to this headline">¶</a></h4>
 <p>Let’s say we want to train a classifier.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">operator</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
@@ -488,7 +493,7 @@ pip install ashpy
 </div>
 </div>
 <div class="section" id="gan-generative-adversarial-network">
-<h2>GAN - Generative Adversarial Network<a class="headerlink" href="#gan-generative-adversarial-network" title="Permalink to this headline">¶</a></h2>
+<h3>GAN - Generative Adversarial Network<a class="headerlink" href="#gan-generative-adversarial-network" title="Permalink to this headline">¶</a></h3>
 <p>AshPy is equipped with two types of GAN network architectures:</p>
 <ul class="simple">
 <li><p>A plain GAN network with the classic structure Generator - Discriminator.</p></li>
@@ -499,7 +504,7 @@ pip install ashpy
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
 <span class="kn">from</span> <span class="nn">ashpy.models.gans</span> <span class="kn">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Discriminator</span>
 <span class="kn">from</span> <span class="nn">ashpy.metrics</span> <span class="kn">import</span> <span class="n">InceptionScore</span>
-<span class="kn">from</span> <span class="nn">ashpy.losses.gans</span> <span class="kn">import</span> <span class="n">DiscriminatorMinMax</span><span class="p">,</span> <span class="n">GeneratorBCE</span>
+<span class="kn">from</span> <span class="nn">ashpy.losses.gan</span> <span class="kn">import</span> <span class="n">DiscriminatorMinMax</span><span class="p">,</span> <span class="n">GeneratorBCE</span>
 
 <span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span>
     <span class="n">layer_spec_input_res</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
@@ -666,7 +671,7 @@ pip install ashpy
 </div>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">EncoderTrainer</span></code> indicates a trainer of a GAN network with an Encoder and not a trainer of an Encoder itself.</p>
 <div class="section" id="dataset-output-format">
-<h3>Dataset Output Format<a class="headerlink" href="#dataset-output-format" title="Permalink to this headline">¶</a></h3>
+<h4>Dataset Output Format<a class="headerlink" href="#dataset-output-format" title="Permalink to this headline">¶</a></h4>
 <p>In order to standardize the GAN training, AshPy requires the input dataset to be in a common format. In particular, the dataset return type must always be in the format showed below, where the fist element of the tuple is the discriminator input, and the second is the generator input.</p>
 <div class="highlight-guess notranslate"><div class="highlight"><pre><span></span><span class="n">tuple</span><span class="p">(</span><span class="n">tuple</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span> <span class="n">noise</span><span class="p">)</span>
 </pre></div>
@@ -676,28 +681,29 @@ pip install ashpy
 </div>
 </div>
 <div class="section" id="executor-context-metric-and-strategies">
-<h2>Executor, Context, Metric and Strategies<a class="headerlink" href="#executor-context-metric-and-strategies" title="Permalink to this headline">¶</a></h2>
+<h3>Executor, Context, Metric and Strategies<a class="headerlink" href="#executor-context-metric-and-strategies" title="Permalink to this headline">¶</a></h3>
 <p>AshPy it is heavily based on the concept of Executor, Context and Metric.</p>
 <p><strong>Executor</strong> An Executor is a class that helps to better generalize a training loop. With an Executor you can construct, for example, a custom loss function and put whatever computation you need inside it. You should define a <code class="docutils literal notranslate"><span class="pre">call</span></code> function inside your class and decorate it with <code class="docutils literal notranslate"><span class="pre">&#64;Executor.reduce</span></code> header. Inside the <code class="docutils literal notranslate"><span class="pre">call</span></code> function you can take advantage of a context.</p>
 <p><strong>Context</strong> A Context is a useful class in which all the models, metrics, dataset and mode of your network are set. Passing the context around means that you can any time access to all what you need in order to performs any type of computation.</p>
 <p><strong>Metric</strong> A Metric is a class from which you can inherit to create your custom metric that can automatically keep track of the best performance of the model during training and, automatically save the best one doing what is called the <em>model selection</em>.</p>
 <p><strong>Strategies</strong> If you want to distribute your training across multiple GPUs, there is the <code class="docutils literal notranslate"><span class="pre">tf.distribute.Strategy</span></code> TensorFlow API with which you can distribute your models and training code with minimal code changes. AshPy implements this type of strategies internally and will check everything for you to apply the distribution strategy correctly. All you need to do is as simple as doing the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">strategy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">MirroredStrategy</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">strategy</span><span class="o">.</span><span class="n">scope</span><span class="p">():</span>
+<span class="k">with</span> <span class="n">strategy</span><span class="o">.</span><span class="n">scope</span><span class="p">():</span>
 
-        <span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span>
-            <span class="n">layer_spec_input_res</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
-            <span class="n">layer_spec_target_res</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
-            <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-            <span class="n">initial_filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
-            <span class="n">filters_cap</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
-            <span class="n">channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="c1"># rest of the code</span>
-        <span class="c1"># with trainer definition and so on</span>
+    <span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span>
+        <span class="n">layer_spec_input_res</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+        <span class="n">layer_spec_target_res</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+        <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="n">initial_filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+        <span class="n">filters_cap</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+        <span class="n">channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># rest of the code</span>
+    <span class="c1"># with trainer definition and so on</span>
 </pre></div>
 </div>
 <p>i.e., create the strategy and put the rest of the code inside its scope.</p>
+</div>
 </div>
 </div>
 
@@ -712,7 +718,7 @@ pip install ashpy
         <a href="write_the_docs.html" class="btn btn-neutral float-right" title="Write The Docs!" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to ASH’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to ASHPY’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

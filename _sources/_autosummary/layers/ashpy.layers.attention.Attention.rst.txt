@@ -1,0 +1,108 @@
+Attention
+================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.layers.attention.Attention
+   :parts: 1
+
+.. currentmodule:: ashpy.layers.attention
+
+----
+
+.. autoclass:: Attention
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Attention.__init__
+      ~Attention.add_loss
+      ~Attention.add_metric
+      ~Attention.add_update
+      ~Attention.add_variable
+      ~Attention.add_weight
+      ~Attention.apply
+      ~Attention.build
+      ~Attention.call
+      ~Attention.compile
+      ~Attention.compute_mask
+      ~Attention.compute_output_shape
+      ~Attention.compute_output_signature
+      ~Attention.count_params
+      ~Attention.evaluate
+      ~Attention.evaluate_generator
+      ~Attention.fit
+      ~Attention.fit_generator
+      ~Attention.from_config
+      ~Attention.get_config
+      ~Attention.get_input_at
+      ~Attention.get_input_mask_at
+      ~Attention.get_input_shape_at
+      ~Attention.get_layer
+      ~Attention.get_losses_for
+      ~Attention.get_output_at
+      ~Attention.get_output_mask_at
+      ~Attention.get_output_shape_at
+      ~Attention.get_updates_for
+      ~Attention.get_weights
+      ~Attention.load_weights
+      ~Attention.predict
+      ~Attention.predict_generator
+      ~Attention.predict_on_batch
+      ~Attention.reset_metrics
+      ~Attention.reset_states
+      ~Attention.save
+      ~Attention.save_weights
+      ~Attention.set_weights
+      ~Attention.summary
+      ~Attention.test_on_batch
+      ~Attention.to_json
+      ~Attention.to_yaml
+      ~Attention.train_on_batch
+      ~Attention.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Attention.activity_regularizer
+      ~Attention.dtype
+      ~Attention.dynamic
+      ~Attention.inbound_nodes
+      ~Attention.input
+      ~Attention.input_mask
+      ~Attention.input_shape
+      ~Attention.input_spec
+      ~Attention.layers
+      ~Attention.losses
+      ~Attention.metrics
+      ~Attention.metrics_names
+      ~Attention.name
+      ~Attention.name_scope
+      ~Attention.non_trainable_variables
+      ~Attention.non_trainable_weights
+      ~Attention.outbound_nodes
+      ~Attention.output
+      ~Attention.output_mask
+      ~Attention.output_shape
+      ~Attention.run_eagerly
+      ~Attention.sample_weights
+      ~Attention.state_updates
+      ~Attention.stateful
+      ~Attention.submodules
+      ~Attention.trainable
+      ~Attention.trainable_variables
+      ~Attention.trainable_weights
+      ~Attention.updates
+      ~Attention.variables
+      ~Attention.weights
+   
+   

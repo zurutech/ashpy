@@ -36,9 +36,7 @@
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="SUNet" href="ashpy.models.convolutional.unet.SUNet.html" />
-    <link rel="prev" title="FCNNBaseAutoencoder" href="../fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html" /> 
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,19 +85,21 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../home.html">HOME</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../home.html#ashpy">AshPy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../home.html#set-up">Set up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../home.html#ashpy-usage">AshPy usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../home.html#classifier">Classifier</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../home.html">Welcome To AshPy!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../home.html#set-up">Set up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../home.html#classifier">Classifier</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../home.html#dataset-output-format">Dataset Output Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../home.html#dataset-output-format">Dataset Output Format</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../write_the_docs.html">Write The Docs!</a><ul>
@@ -137,9 +137,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../../api.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../../ashpy.models.html">ashpy.models</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../ashpy.models.convolutional.html">convolutional</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ashpy.models.html">ashpy.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ashpy.models.convolutional.html">convolutional</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.interfaces.Conv2DInterface.html">Conv2DInterface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.decoders.BaseDecoder.html">BaseDecoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.decoders.FCNNBaseDecoder.html">FCNNBaseDecoder</a></li>
@@ -147,18 +147,10 @@
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">UNet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.interfaces.html">interfaces</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.decoders.html">decoders</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.encoders.html">encoders</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.unet.html">unet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ashpy.models.convolutional.discriminators.html">discriminators</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../ashpy.models.fc.html">fc</a><ul>
@@ -172,8 +164,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../ashpy.models.recurrent.html">recurrent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../ashpy.models.gans.html">gans</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="../ashpy.models.gans.html">gans</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../models/ashpy.models.gans.Generator.html">Generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/ashpy.models.gans.Discriminator.html">Discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../models/ashpy.models.gans.Encoder.html">Encoder</a></li>
 </ul>
 </li>
 </ul>
@@ -218,8 +212,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../ashpy.layers.html">ashpy.layers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../layers/ashpy.layers.instance_normalization.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../layers/ashpy.layers.attention.Attention.html">Attention</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../ashpy.losses.html">ashpy.losses</a><ul>
@@ -312,6 +306,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#classifier">Classifier</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dependencies_graph.html#ashpy-layers">ashpy.layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#layers">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dependencies_graph.html#id1">GANs</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -359,12 +358,6 @@
     
       <li><a href="../../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../../../api.html">API Reference</a> &raquo;</li>
-        
-          <li><a href="../../ashpy.models.html">ashpy.models</a> &raquo;</li>
-        
-          <li><a href="../ashpy.models.convolutional.html">convolutional</a> &raquo;</li>
-        
       <li>UNet</li>
     
     
@@ -394,7 +387,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.models.convolutional.unet.UNet">
-<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.convolutional.unet.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">input_res: int</em>, <em class="sig-param">min_res: int</em>, <em class="sig-param">kernel_size: int</em>, <em class="sig-param">initial_filters: int</em>, <em class="sig-param">filters_cap: int</em>, <em class="sig-param">channels: int</em>, <em class="sig-param">use_dropout_encoder: bool = True</em>, <em class="sig-param">use_dropout_decoder: bool = True</em>, <em class="sig-param">dropout_prob: float = 0.3</em>, <em class="sig-param">encoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em>, <em class="sig-param">decoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.ReLU'&gt;</em>, <em class="sig-param">normalization_layer: Type[tf.keras.layers.Layer] = &lt;class 'ashpy.layers.layers.InstanceNormalization'&gt;</em>, <em class="sig-param">last_activation: &lt;module 'tf.keras.activations' from '/home/emanuele/development/venvs/ashpy/lib/python3.6/site-packages/tf.keras.activations/__init__.py'&gt; = &lt;function tanh&gt;</em>, <em class="sig-param">use_attention: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/models/convolutional/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.convolutional.unet.UNet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.convolutional.unet.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">input_res: int</em>, <em class="sig-param">min_res: int</em>, <em class="sig-param">kernel_size: int</em>, <em class="sig-param">initial_filters: int</em>, <em class="sig-param">filters_cap: int</em>, <em class="sig-param">channels: int</em>, <em class="sig-param">use_dropout_encoder: bool = True</em>, <em class="sig-param">use_dropout_decoder: bool = True</em>, <em class="sig-param">dropout_prob: float = 0.3</em>, <em class="sig-param">encoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em>, <em class="sig-param">decoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.ReLU'&gt;</em>, <em class="sig-param">normalization_layer: Type[tf.keras.layers.Layer] = &lt;class 'ashpy.layers.instance_normalization.InstanceNormalization'&gt;</em>, <em class="sig-param">last_activation: &lt;module 'tf.keras.activations' from 'tf.keras.activations/__init__.py'&gt; = &lt;function tanh&gt;</em>, <em class="sig-param">use_attention: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/models/convolutional/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.convolutional.unet.UNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" title="ashpy.models.convolutional.interfaces.Conv2DInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.models.convolutional.interfaces.Conv2DInterface</span></code></a></p>
 <p>UNet Architecture <a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
 <p class="rubric">Examples</p>
@@ -684,7 +677,7 @@
 </table>
 <dl class="method">
 <dt id="ashpy.models.convolutional.unet.UNet.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">input_res: int</em>, <em class="sig-param">min_res: int</em>, <em class="sig-param">kernel_size: int</em>, <em class="sig-param">initial_filters: int</em>, <em class="sig-param">filters_cap: int</em>, <em class="sig-param">channels: int</em>, <em class="sig-param">use_dropout_encoder: bool = True</em>, <em class="sig-param">use_dropout_decoder: bool = True</em>, <em class="sig-param">dropout_prob: float = 0.3</em>, <em class="sig-param">encoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em>, <em class="sig-param">decoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.ReLU'&gt;</em>, <em class="sig-param">normalization_layer: Type[tf.keras.layers.Layer] = &lt;class 'ashpy.layers.layers.InstanceNormalization'&gt;</em>, <em class="sig-param">last_activation: &lt;module 'tf.keras.activations' from '/home/emanuele/development/venvs/ashpy/lib/python3.6/site-packages/tf.keras.activations/__init__.py'&gt; = &lt;function tanh&gt;</em>, <em class="sig-param">use_attention: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/models/convolutional/unet.html#UNet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.convolutional.unet.UNet.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">input_res: int</em>, <em class="sig-param">min_res: int</em>, <em class="sig-param">kernel_size: int</em>, <em class="sig-param">initial_filters: int</em>, <em class="sig-param">filters_cap: int</em>, <em class="sig-param">channels: int</em>, <em class="sig-param">use_dropout_encoder: bool = True</em>, <em class="sig-param">use_dropout_decoder: bool = True</em>, <em class="sig-param">dropout_prob: float = 0.3</em>, <em class="sig-param">encoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em>, <em class="sig-param">decoder_non_linearity: Type[tf.keras.layers.Layer] = &lt;class 'tf.keras.layers.Layer.ReLU'&gt;</em>, <em class="sig-param">normalization_layer: Type[tf.keras.layers.Layer] = &lt;class 'ashpy.layers.instance_normalization.InstanceNormalization'&gt;</em>, <em class="sig-param">last_activation: &lt;module 'tf.keras.activations' from 'tf.keras.activations/__init__.py'&gt; = &lt;function tanh&gt;</em>, <em class="sig-param">use_attention: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/models/convolutional/unet.html#UNet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.convolutional.unet.UNet.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -3635,15 +3628,6 @@ names included the module name:</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="ashpy.models.convolutional.unet.SUNet.html" class="btn btn-neutral float-right" title="SUNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html" class="btn btn-neutral float-left" title="FCNNBaseAutoencoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

@@ -1,9 +1,5 @@
 Write The Docs!
 ###############
-.. sectionauthor:: Michele "Ubik" De Simoni
-
-*Author:* Michele "Ubik" De Simoni
-
 
 **Ash** being a project built with a **Documentation Driven** approach means that a solid,
 automated documentation procedure is a mandatory requirement.
@@ -34,7 +30,7 @@ Why Sphinx?
 
 Sphinx is the most used documentation framework for Python, developed for the Standard
 library itself it's now adopted by all the most known third party libraries. What makes
-Sphinx so great is the cobination of extensibility via themes, extensions and what not,
+Sphinx so great is the combination of extensibility via themes, extensions and what not,
 coupled with a plethora of builtin functionalities that make writing decs a breeze.:
 
 An example from Sphinx Site:
@@ -53,12 +49,12 @@ Why reST?
 More than why reST, the real question is *Why not Markdown?*
 
 While Markdown can be easier and slightly quicker to write, it does not offer the same
-level of fine grained control, neccessary for an effort as complex as technical writing,
+level of fine grained control, necessary for an effort as complex as technical writing,
 without sacrificing portability.
 
 *Eric Holscher* has an aptly named article: `Why You Shouldn’t Use “Markdown” for Documentation`_,
 he is one of the greatest documentation advocate out there. Go and read his articles, they
-are beautful.
+are beautiful.
 
 Why Google Style for Docstrings?
 ================================

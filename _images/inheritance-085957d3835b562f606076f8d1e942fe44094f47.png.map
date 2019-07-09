@@ -1,0 +1,14 @@
+<map id="inheritancea674d51496" name="inheritancea674d51496">
+<area shape="rect" id="node1" href="_autosummary/layers/ashpy.layers.attention.Attention.html#ashpy.layers.attention.Attention" target="_top" title="Attention Layer from Self&#45;Attention GAN [1]_" alt="" coords="490,3,540,19"/>
+<area shape="rect" id="node2" title="`Model` groups layers into an object with training and inference features." alt="" coords="403,19,446,34"/>
+<area shape="rect" id="node6" href="_autosummary/models/convolutional/interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="475,33,554,48"/>
+<area shape="rect" id="node3" title="Manages dependencies on other objects." alt="" coords="83,19,152,34"/>
+<area shape="rect" id="node11" title="Base neural network module class." alt="" coords="182,19,225,34"/>
+<area shape="rect" id="node4" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="3,19,54,34"/>
+<area shape="rect" id="node5" href="_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.convolutional.decoders.BaseDecoder" target="_top" title="Primitive Model for all decoder (i.e., transpose convolution) based architecture." alt="" coords="583,18,649,33"/>
+<area shape="rect" id="node8" href="_autosummary/models/convolutional/decoders/ashpy.models.convolutional.decoders.FCNNBaseDecoder.html#ashpy.models.convolutional.decoders.FCNNBaseDecoder" target="_top" title="Fully Convolutional Decoder. Expected input is a feature map." alt="" coords="678,18,765,33"/>
+<area shape="rect" id="node7" href="_autosummary/models/convolutional/encoders/ashpy.models.convolutional.encoders.BaseEncoder.html#ashpy.models.convolutional.encoders.BaseEncoder" target="_top" title="Primitive Model for all encoder (i.e., convolution) based architecture." alt="" coords="584,48,648,63"/>
+<area shape="rect" id="node9" href="_autosummary/models/convolutional/encoders/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html#ashpy.models.convolutional.encoders.FCNNBaseEncoder" target="_top" title="Fully Convolutional Encoder. Output a 1x1xencoding_size vector." alt="" coords="678,48,764,63"/>
+<area shape="rect" id="node10" title="Base layer class." alt="" coords="254,19,298,34"/>
+<area shape="rect" id="node12" title="A `Network` is a composition of layers." alt="" coords="327,19,374,34"/>
+</map>

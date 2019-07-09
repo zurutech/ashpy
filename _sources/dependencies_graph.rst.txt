@@ -2,7 +2,7 @@ Dependencies Graph
 ##################
 
 ashpy.models
-**********
+************
 
 Convolutional
 =============
@@ -21,7 +21,7 @@ GANs
 ----
 
 ashpy.trainers
-************
+**************
 
 Adversarial
 ===========
@@ -36,3 +36,15 @@ Classifier
 
 .. inheritance-diagram:: ashpy.trainers.base_trainer ashpy.trainers.classifier
     :parts: 1
+
+----
+
+ashpy.layers
+************
+
+Layers
+======
+
+.. inheritance-diagram:: ashpy.layers.attention ashpy.layers.instance_normalization
+   :parts: 1
+

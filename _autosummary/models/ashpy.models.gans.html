@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Generator" href="models/ashpy.models.gans.Generator.html" />
-    <link rel="prev" title="recurrent" href="ashpy.models.recurrent.html" /> 
+    <link rel="prev" title="BaseAutoencoder" href="fc/autoencoders/ashpy.models.fc.autoencoders.BaseAutoencoder.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,17 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../home.html">AshPy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../home.html#set-up">Set up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../home.html#ashpy-usage">AshPy usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../home.html#classifier">Classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../home.html">Welcome To AshPy!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#set-up">Set up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../home.html#classifier">Classifier</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../home.html#dataset-output-format">Dataset Output Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../home.html#dataset-output-format">Dataset Output Format</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../write_the_docs.html">Write The Docs!</a><ul>
@@ -146,18 +149,10 @@
 <li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.encoders.FCNNBaseEncoder.html">FCNNBaseEncoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="fc/ashpy.models.convolutional.autoencoders.BaseAutoencoder.html">BaseAutoencoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="fc/ashpy.models.convolutional.autoencoders.FCNNBaseAutoencoder.html">FCNNBaseAutoencoder</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.unet.UNet.html">UNet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.unet.SUNet.html">SUNet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html">MultiScaleDiscriminator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.discriminators.PatchDiscriminator.html">PatchDiscriminator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.pix2pixhd.LocalEnhancer.html">LocalEnhancer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.pix2pixhd.GlobalGenerator.html">GlobalGenerator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.interfaces.html">interfaces</a></li>
 <li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.decoders.html">decoders</a></li>
 <li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.encoders.html">encoders</a></li>
 <li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.autoencoders.html">autoencoders</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.unet.html">unet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="convolutional/ashpy.models.convolutional.discriminators.html">discriminators</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="ashpy.models.fc.html">fc</a><ul>
@@ -171,7 +166,6 @@
 <li class="toctree-l4"><a class="reference internal" href="fc/ashpy.models.fc.autoencoders.html">autoencoders</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="ashpy.models.recurrent.html">recurrent</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">gans</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="models/ashpy.models.gans.Generator.html">Generator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="models/ashpy.models.gans.Discriminator.html">Discriminator</a></li>
@@ -220,8 +214,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../ashpy.layers.html">ashpy.layers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.layers.InstanceNormalization.html">InstanceNormalization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.layers.Attention.html">Attention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.instance_normalization.InstanceNormalization.html">InstanceNormalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../layers/ashpy.layers.attention.Attention.html">Attention</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../ashpy.losses.html">ashpy.losses</a><ul>
@@ -445,12 +439,12 @@
 </table>
 <dl class="class">
 <dt id="ashpy.models.gans.Discriminator">
-<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.gans.</code><code class="sig-name descname">Discriminator</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tensorflow.python.keras.layers.advanced_activations.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/models/gans.html#Discriminator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.gans.Discriminator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.gans.</code><code class="sig-name descname">Discriminator</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/models/gans.html#Discriminator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.gans.Discriminator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="convolutional/encoders/ashpy.models.convolutional.encoders.BaseEncoder.html#ashpy.models.convolutional.encoders.BaseEncoder" title="ashpy.models.convolutional.encoders.BaseEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.models.convolutional.encoders.BaseEncoder</span></code></a></p>
 <p>GAN Discriminator Model.</p>
 <dl class="method">
 <dt id="ashpy.models.gans.Discriminator.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tensorflow.python.keras.layers.advanced_activations.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.models.gans.Discriminator.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.models.gans.Discriminator.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate the <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDecoder</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3423,12 +3417,12 @@ names included the module name:</p>
 
 <dl class="class">
 <dt id="ashpy.models.gans.Encoder">
-<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.gans.</code><code class="sig-name descname">Encoder</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tensorflow.python.keras.layers.advanced_activations.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/models/gans.html#Encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.gans.Encoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.gans.</code><code class="sig-name descname">Encoder</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/models/gans.html#Encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.gans.Encoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="convolutional/encoders/ashpy.models.convolutional.encoders.BaseEncoder.html#ashpy.models.convolutional.encoders.BaseEncoder" title="ashpy.models.convolutional.encoders.BaseEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.models.convolutional.encoders.BaseEncoder</span></code></a></p>
 <p>GAN Encoder Model.</p>
 <dl class="method">
 <dt id="ashpy.models.gans.Encoder.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tensorflow.python.keras.layers.advanced_activations.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.models.gans.Encoder.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">output_shape</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.models.gans.Encoder.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate the <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDecoder</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -6401,12 +6395,12 @@ names included the module name:</p>
 
 <dl class="class">
 <dt id="ashpy.models.gans.Generator">
-<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.gans.</code><code class="sig-name descname">Generator</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">channels</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tensorflow.python.keras.layers.advanced_activations.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/models/gans.html#Generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.gans.Generator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.models.gans.</code><code class="sig-name descname">Generator</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">channels</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/models/gans.html#Generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.gans.Generator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="convolutional/decoders/ashpy.models.convolutional.decoders.BaseDecoder.html#ashpy.models.convolutional.decoders.BaseDecoder" title="ashpy.models.convolutional.decoders.BaseDecoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.models.convolutional.decoders.BaseDecoder</span></code></a></p>
 <p>GAN Generator Model.</p>
 <dl class="method">
 <dt id="ashpy.models.gans.Generator.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">channels</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tensorflow.python.keras.layers.advanced_activations.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.models.gans.Generator.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">layer_spec_input_res</em>, <em class="sig-param">layer_spec_target_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">channels</em>, <em class="sig-param">use_dropout=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.models.gans.Generator.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate the <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDecoder</span></code>.</p>
 <dl>
 <dt>Model Assembly:</dt><dd><p>1. <code class="xref py py-func docutils literal notranslate"><span class="pre">_add_malkuth_block()</span></code>: Ingest the <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/keras/Model" title="(in TensorFlow v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tf.keras.Model</span></code></a>
@@ -9421,7 +9415,7 @@ names included the module name:</p>
         <a href="models/ashpy.models.gans.Generator.html" class="btn btn-neutral float-right" title="Generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ashpy.models.recurrent.html" class="btn btn-neutral float-left" title="recurrent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="fc/autoencoders/ashpy.models.fc.autoencoders.BaseAutoencoder.html" class="btn btn-neutral float-left" title="BaseAutoencoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

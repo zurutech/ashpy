@@ -1,0 +1,83 @@
+InstanceNormalization
+=========================================================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.layers.instance_normalization.InstanceNormalization
+   :parts: 1
+
+.. currentmodule:: ashpy.layers.instance_normalization
+
+----
+
+.. autoclass:: InstanceNormalization
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~InstanceNormalization.__init__
+      ~InstanceNormalization.add_loss
+      ~InstanceNormalization.add_metric
+      ~InstanceNormalization.add_update
+      ~InstanceNormalization.add_variable
+      ~InstanceNormalization.add_weight
+      ~InstanceNormalization.apply
+      ~InstanceNormalization.build
+      ~InstanceNormalization.call
+      ~InstanceNormalization.compute_mask
+      ~InstanceNormalization.compute_output_shape
+      ~InstanceNormalization.compute_output_signature
+      ~InstanceNormalization.count_params
+      ~InstanceNormalization.from_config
+      ~InstanceNormalization.get_config
+      ~InstanceNormalization.get_input_at
+      ~InstanceNormalization.get_input_mask_at
+      ~InstanceNormalization.get_input_shape_at
+      ~InstanceNormalization.get_losses_for
+      ~InstanceNormalization.get_output_at
+      ~InstanceNormalization.get_output_mask_at
+      ~InstanceNormalization.get_output_shape_at
+      ~InstanceNormalization.get_updates_for
+      ~InstanceNormalization.get_weights
+      ~InstanceNormalization.set_weights
+      ~InstanceNormalization.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~InstanceNormalization.activity_regularizer
+      ~InstanceNormalization.dtype
+      ~InstanceNormalization.dynamic
+      ~InstanceNormalization.inbound_nodes
+      ~InstanceNormalization.input
+      ~InstanceNormalization.input_mask
+      ~InstanceNormalization.input_shape
+      ~InstanceNormalization.input_spec
+      ~InstanceNormalization.losses
+      ~InstanceNormalization.metrics
+      ~InstanceNormalization.name
+      ~InstanceNormalization.name_scope
+      ~InstanceNormalization.non_trainable_variables
+      ~InstanceNormalization.non_trainable_weights
+      ~InstanceNormalization.outbound_nodes
+      ~InstanceNormalization.output
+      ~InstanceNormalization.output_mask
+      ~InstanceNormalization.output_shape
+      ~InstanceNormalization.submodules
+      ~InstanceNormalization.trainable
+      ~InstanceNormalization.trainable_variables
+      ~InstanceNormalization.trainable_weights
+      ~InstanceNormalization.updates
+      ~InstanceNormalization.variables
+      ~InstanceNormalization.weights
+   
+   

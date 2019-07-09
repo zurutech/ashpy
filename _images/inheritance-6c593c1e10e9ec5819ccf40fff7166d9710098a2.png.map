@@ -1,0 +1,12 @@
+<map id="inheritance2fd317d49a" name="inheritance2fd317d49a">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="72,3,133,16"/>
+<area shape="rect" id="node8" title="Base neural network module class." alt="" coords="158,3,196,16"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="3,3,47,16"/>
+<area shape="rect" id="node3" href="encoders/ashpy.models.convolutional.encoders.BaseEncoder.html#ashpy.models.convolutional.encoders.BaseEncoder" target="_top" title="Primitive Model for all encoder (i.e., convolution) based architecture." alt="" coords="507,3,563,16"/>
+<area shape="rect" id="node6" href="../models/ashpy.models.gans.Discriminator.html#ashpy.models.gans.Discriminator" target="_top" title="GAN Discriminator Model." alt="" coords="588,3,647,16"/>
+<area shape="rect" id="node4" href="interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="413,3,482,16"/>
+<area shape="rect" id="node5" title="`Model` groups layers into an object with training and inference features." alt="" coords="350,3,388,16"/>
+<area shape="rect" id="node10" href="discriminators/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator" target="_top" title="Multiscale discriminator:" alt="" coords="672,3,765,16"/>
+<area shape="rect" id="node7" title="Base layer class." alt="" coords="221,3,259,16"/>
+<area shape="rect" id="node9" title="A `Network` is a composition of layers." alt="" coords="284,3,325,16"/>
+</map>

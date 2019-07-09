@@ -1,0 +1,5 @@
+<map id="inheritancee0178644f4" name="inheritancee0178644f4">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node2" href="_autosummary/trainers/ashpy.trainers.base_trainer.html#ashpy.trainers.base_trainer.BaseTrainer" target="_top" title=":py:class:`BaseTrainer` provide an interface for all trainers to inherit from." alt="" coords="125,5,224,31"/>
+<area shape="rect" id="node3" href="_autosummary/trainers/classifier/ashpy.trainers.classifier.ClassifierTrainer.html#ashpy.trainers.classifier.ClassifierTrainer" target="_top" title=":py:class:`ClassifierTrainer` provide the standard training loop for a classifier." alt="" coords="272,5,399,31"/>
+</map>

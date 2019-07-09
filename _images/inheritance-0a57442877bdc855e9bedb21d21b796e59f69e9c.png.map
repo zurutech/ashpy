@@ -1,0 +1,9 @@
+<map id="inheritancefa0fc4643c" name="inheritancefa0fc4643c">
+<area shape="rect" id="node1" href="#ashpy.layers.attention.Attention" target="_top" title="Attention Layer from Self&#45;Attention GAN [1]_" alt="" coords="691,5,763,27"/>
+<area shape="rect" id="node2" title="`Model` groups layers into an object with training and inference features." alt="" coords="585,5,648,27"/>
+<area shape="rect" id="node3" title="Manages dependencies on other objects." alt="" coords="121,5,222,27"/>
+<area shape="rect" id="node6" title="Base neural network module class." alt="" coords="264,5,327,27"/>
+<area shape="rect" id="node4" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="5,5,79,27"/>
+<area shape="rect" id="node5" title="Base layer class." alt="" coords="369,5,433,27"/>
+<area shape="rect" id="node7" title="A `Network` is a composition of layers." alt="" coords="475,5,543,27"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="inheritancee39eb478d0" name="inheritancee39eb478d0">
+<area shape="rect" id="node1" href="_autosummary/layers/ashpy.layers.attention.Attention.html#ashpy.layers.attention.Attention" target="_top" title="Attention Layer from Self&#45;Attention GAN [1]_" alt="" coords="698,43,764,64"/>
+<area shape="rect" id="node2" title="`Model` groups layers into an object with training and inference features." alt="" coords="603,43,660,64"/>
+<area shape="rect" id="node3" title="Manages dependencies on other objects." alt="" coords="109,24,200,45"/>
+<area shape="rect" id="node7" title="Base neural network module class." alt="" coords="239,24,296,45"/>
+<area shape="rect" id="node4" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="4,24,71,45"/>
+<area shape="rect" id="node5" href="_autosummary/layers/ashpy.layers.instance_normalization.InstanceNormalization.html#ashpy.layers.instance_normalization.InstanceNormalization" target="_top" title="Instance Normalization Layer (used by Pix2Pix [1]_ and Pix2PixHD [2]_ )" alt="" coords="430,4,564,24"/>
+<area shape="rect" id="node6" title="Base layer class." alt="" coords="334,24,391,45"/>
+<area shape="rect" id="node8" title="A `Network` is a composition of layers." alt="" coords="466,43,528,64"/>
+</map>
