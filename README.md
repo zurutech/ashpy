@@ -4,6 +4,10 @@
     <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" style="width: auto !important" />
 </a>
 
+<a href="https://github.com/zurutech/ashpy">
+    <img src="https://img.shields.io/pypi/pyversions/ashpy.svg" style="width: auto !important" />
+</a>
+
 TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
 
 ---
