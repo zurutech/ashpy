@@ -88,6 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../home.html">HOME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -113,9 +127,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -377,11 +392,11 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.losses.classifier.ClassifierLoss">
-<em class="property">class </em><code class="descclassname">ashpy.losses.classifier.</code><code class="descname">ClassifierLoss</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/classifier.html#ClassifierLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.losses.classifier.</code><code class="sig-name descname">ClassifierLoss</code><span class="sig-paren">(</span><em class="sig-param">fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/classifier.html#ClassifierLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../losses/executor/ashpy.losses.executor.Executor.html#ashpy.losses.executor.Executor" title="ashpy.losses.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.executor.Executor</span></code></a></p>
 <p>Classifier Loss Executor using the classifier model, instantiated with a fn</p>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -399,7 +414,7 @@
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -418,26 +433,26 @@
 </table>
 <dl class="method">
 <dt id="ashpy.losses.classifier.ClassifierLoss.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/classifier.html#ClassifierLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/losses/classifier.html#ClassifierLoss.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of <a class="reference internal" href="../losses/classifier/ashpy.losses.classifier.ClassifierLoss.html#ashpy.losses.classifier.ClassifierLoss" title="ashpy.losses.classifier.ClassifierLoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierLoss</span></code></a>
 :param fn: Classification Loss function, should take as input labels and prediction</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.losses.classifier.ClassifierLoss.fn">
-<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.fn" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">fn</code><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.fn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the function to execute.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.losses.classifier.ClassifierLoss.global_batch_size">
-<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.global_batch_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the global batch size.</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="ashpy.losses.classifier.ClassifierLoss.reduce_loss">
-<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">reduce_loss</code><span class="sig-paren">(</span><em class="sig-param">call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.classifier.ClassifierLoss.reduce_loss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
 <p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
 by the batch size.</p>

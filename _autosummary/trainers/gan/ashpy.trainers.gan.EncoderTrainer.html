@@ -88,6 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../home.html">HOME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -113,9 +127,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getting_started.html#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../getting_started.html#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../getting_started.html#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -380,7 +395,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.trainers.gan.EncoderTrainer">
-<em class="property">class </em><code class="descclassname">ashpy.trainers.gan.</code><code class="descname">EncoderTrainer</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>encoder: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>encoder_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>encoder_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.trainers.gan.</code><code class="sig-name descname">EncoderTrainer</code><span class="sig-paren">(</span><em class="sig-param">generator: tf.keras.Model</em>, <em class="sig-param">discriminator: tf.keras.Model</em>, <em class="sig-param">encoder: tf.keras.Model</em>, <em class="sig-param">generator_optimizer: tf.keras.Optimizer</em>, <em class="sig-param">discriminator_optimizer: tf.keras.Optimizer</em>, <em class="sig-param">encoder_optimizer: tf.keras.Optimizer</em>, <em class="sig-param">generator_loss: ashpy.losses.executor.Executor</em>, <em class="sig-param">discriminator_loss: ashpy.losses.executor.Executor</em>, <em class="sig-param">encoder_loss: ashpy.losses.executor.Executor</em>, <em class="sig-param">epochs</em>, <em class="sig-param">metrics</em>, <em class="sig-param">logdir=os.path.join(os.getcwd(), "log")</em>, <em class="sig-param">post_process_callback=None</em>, <em class="sig-param">log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em class="sig-param">global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em class="sig-param">numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="ashpy.trainers.gan.AdversarialTrainer.html#ashpy.trainers.gan.AdversarialTrainer" title="ashpy.trainers.gan.AdversarialTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.trainers.gan.AdversarialTrainer</span></code></a></p>
 <p>Primitive Trainer for GANs using an Encoder sub-network.
 The implementation is thought to be used with the BCE losses. To use another loss function
@@ -473,7 +488,7 @@ Epoch 2 completed.
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -492,7 +507,7 @@ Epoch 2 completed.
 </table>
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>generator: tf.keras.Model</em>, <em>discriminator: tf.keras.Model</em>, <em>encoder: tf.keras.Model</em>, <em>generator_optimizer: tf.keras.Optimizer</em>, <em>discriminator_optimizer: tf.keras.Optimizer</em>, <em>encoder_optimizer: tf.keras.Optimizer</em>, <em>generator_loss: ashpy.losses.executor.Executor</em>, <em>discriminator_loss: ashpy.losses.executor.Executor</em>, <em>encoder_loss: ashpy.losses.executor.Executor</em>, <em>epochs</em>, <em>metrics</em>, <em>logdir=os.path.join(os.getcwd(), "log")</em>, <em>post_process_callback=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">generator: tf.keras.Model</em>, <em class="sig-param">discriminator: tf.keras.Model</em>, <em class="sig-param">encoder: tf.keras.Model</em>, <em class="sig-param">generator_optimizer: tf.keras.Optimizer</em>, <em class="sig-param">discriminator_optimizer: tf.keras.Optimizer</em>, <em class="sig-param">encoder_optimizer: tf.keras.Optimizer</em>, <em class="sig-param">generator_loss: ashpy.losses.executor.Executor</em>, <em class="sig-param">discriminator_loss: ashpy.losses.executor.Executor</em>, <em class="sig-param">encoder_loss: ashpy.losses.executor.Executor</em>, <em class="sig-param">epochs</em>, <em class="sig-param">metrics</em>, <em class="sig-param">logdir=os.path.join(os.getcwd(), "log")</em>, <em class="sig-param">post_process_callback=None</em>, <em class="sig-param">log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em class="sig-param">global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em class="sig-param">numpy=0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiate a <a class="reference internal" href="#ashpy.trainers.gan.EncoderTrainer" title="ashpy.trainers.gan.EncoderTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">EncoderTrainer</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -519,7 +534,7 @@ Epoch 2 completed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._current_epoch">
-<code class="descname">_current_epoch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._current_epoch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_current_epoch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._current_epoch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current epoch using the (restored) variables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -530,7 +545,7 @@ Epoch 2 completed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._epoch_completed">
-<code class="descname">_epoch_completed</code><span class="sig-paren">(</span><em>epoch</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._epoch_completed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_epoch_completed</code><span class="sig-paren">(</span><em class="sig-param">epoch</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._epoch_completed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle the end of the training epoch.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -541,7 +556,7 @@ Epoch 2 completed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._log">
-<code class="descname">_log</code><span class="sig-paren">(</span><em>name</em>, <em>out</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_log</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">out</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log the out tensor using name as its name in tensorboard.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -555,7 +570,7 @@ Epoch 2 completed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._measure_performance">
-<code class="descname">_measure_performance</code><span class="sig-paren">(</span><em>dataset</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer._measure_performance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._measure_performance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_measure_performance</code><span class="sig-paren">(</span><em class="sig-param">dataset</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer._measure_performance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._measure_performance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Measure performance on dataset
 :param dataset:
 :type dataset: <a class="reference external" href="https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/data/Dataset" title="(in TensorFlow v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tf.data.Dataset</span></code></a></p>
@@ -563,31 +578,31 @@ Epoch 2 completed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._reduce">
-<code class="descname">_reduce</code><span class="sig-paren">(</span><em>per_replica_tensor</em>, <em>reduce_op</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._reduce" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_reduce</code><span class="sig-paren">(</span><em class="sig-param">per_replica_tensor</em>, <em class="sig-param">reduce_op</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._reduce" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given the input tensor, reduces it in a distributed fashion, using the specified op.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._restore_or_init">
-<code class="descname">_restore_or_init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._restore_or_init" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_restore_or_init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._restore_or_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Restores or initializes the persistence layer (checkpoint).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._save">
-<code class="descname">_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._save" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the current checkpointable object status.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="ashpy.trainers.gan.EncoderTrainer._train_step">
-<code class="descname">_train_step</code><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer._train_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._train_step" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_train_step</code><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer._train_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._train_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>The training step that uses the distribution strategy.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer._update_global_batch_size">
-<code class="descname">_update_global_batch_size</code><span class="sig-paren">(</span><em>dataset</em>, <em>executors=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._update_global_batch_size" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_update_global_batch_size</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">executors=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer._update_global_batch_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a dataset and the current distribution strategy sets the
 self._global_batch_size variable where needed.
 :param dataset: a dataset from wich the batch size will be extracted.
@@ -596,7 +611,7 @@ self._global_batch_size variable where needed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer.call">
-<code class="descname">call</code><span class="sig-paren">(</span><em>dataset: tf.data.Dataset</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer.call" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">dataset: tf.data.Dataset</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer.call" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform the adversarial training.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -607,7 +622,7 @@ self._global_batch_size variable where needed.
 
 <dl class="method">
 <dt id="ashpy.trainers.gan.EncoderTrainer.train_step">
-<code class="descname">train_step</code><span class="sig-paren">(</span><em>real_xy</em>, <em>g_inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer.train_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer.train_step" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">train_step</code><span class="sig-paren">(</span><em class="sig-param">real_xy</em>, <em class="sig-param">g_inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ashpy/trainers/gan.html#EncoderTrainer.train_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.trainers.gan.EncoderTrainer.train_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adversarial training step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

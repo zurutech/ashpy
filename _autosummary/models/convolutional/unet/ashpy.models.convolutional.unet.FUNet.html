@@ -88,6 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">HOME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -113,9 +127,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../getting_started.html#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../getting_started.html#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -375,7 +390,7 @@
 <h1>ashpy.models.convolutional.unet.FUNet<a class="headerlink" href="#ashpy-models-convolutional-unet-funet" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="ashpy.models.convolutional.unet.FUNet">
-<code class="descclassname">ashpy.models.convolutional.unet.</code><code class="descname">FUNet</code><span class="sig-paren">(</span><em>input_res</em>, <em>min_res</em>, <em>kernel_size</em>, <em>initial_filters</em>, <em>filters_cap</em>, <em>channels</em>, <em>use_dropout_encoder=True</em>, <em>use_dropout_decoder=True</em>, <em>dropout_prob=0.3</em>, <em>encoder_non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em>, <em>decoder_non_linearity=&lt;class 'tf.keras.layers.Layer.ReLU'&gt;</em>, <em>last_activation=&lt;function tanh&gt;</em>, <em>use_attention=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/ashpy/models/convolutional/unet.html#FUNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.convolutional.unet.FUNet" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ashpy.models.convolutional.unet.</code><code class="sig-name descname">FUNet</code><span class="sig-paren">(</span><em class="sig-param">input_res</em>, <em class="sig-param">min_res</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">initial_filters</em>, <em class="sig-param">filters_cap</em>, <em class="sig-param">channels</em>, <em class="sig-param">use_dropout_encoder=True</em>, <em class="sig-param">use_dropout_decoder=True</em>, <em class="sig-param">dropout_prob=0.3</em>, <em class="sig-param">encoder_non_linearity=&lt;class 'tf.keras.layers.Layer.LeakyReLU'&gt;</em>, <em class="sig-param">decoder_non_linearity=&lt;class 'tf.keras.layers.Layer.ReLU'&gt;</em>, <em class="sig-param">last_activation=&lt;function tanh&gt;</em>, <em class="sig-param">use_attention=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/ashpy/models/convolutional/unet.html#FUNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.models.convolutional.unet.FUNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Functional UNET</p>
 </dd></dl>
 

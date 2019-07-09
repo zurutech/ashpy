@@ -10,6 +10,7 @@ Welcome to ASH's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   home
    write_the_docs
    getting_started
    api

@@ -88,6 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../home.html">HOME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -113,9 +127,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -374,7 +389,7 @@
 collections of variable encapsulated in a Python Class as a way to seamlessly
 handle information transfer.</p>
 <p class="rubric">Classes</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -387,12 +402,12 @@ handle information transfer.</p>
 </table>
 <dl class="class">
 <dt id="ashpy.contexts.base_context.BaseContext">
-<em class="property">class </em><code class="descclassname">ashpy.contexts.base_context.</code><code class="descname">BaseContext</code><span class="sig-paren">(</span><em>metrics=None</em>, <em>dataset=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em>, <em>ckpt=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.contexts.base_context.</code><code class="sig-name descname">BaseContext</code><span class="sig-paren">(</span><em class="sig-param">metrics=None</em>, <em class="sig-param">dataset=None</em>, <em class="sig-param">log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em class="sig-param">global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em class="sig-param">numpy=0&gt;</em>, <em class="sig-param">ckpt=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p><a class="reference internal" href="base_context/ashpy.contexts.base_context.BaseContext.html#ashpy.contexts.base_context.BaseContext" title="ashpy.contexts.base_context.BaseContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.base_context.BaseContext</span></code></a> provide an interface for all contexts to inherit from.</p>
 <dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>metrics=None</em>, <em>dataset=None</em>, <em>log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em>global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em>numpy=0&gt;</em>, <em>ckpt=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">metrics=None</em>, <em class="sig-param">dataset=None</em>, <em class="sig-param">log_eval_mode=&lt;LogEvalMode.TEST: 0&gt;</em>, <em class="sig-param">global_step=&lt;tf.Variable 'global_step:0' shape=() dtype=int64</em>, <em class="sig-param">numpy=0&gt;</em>, <em class="sig-param">ckpt=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p><a class="reference internal" href="base_context/ashpy.contexts.base_context.BaseContext.html#ashpy.contexts.base_context.BaseContext" title="ashpy.contexts.base_context.BaseContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.contexts.base_context.BaseContext</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -410,43 +425,43 @@ contains everything needed to use the model in this context.</p></li>
 
 <dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext._validate_metrics">
-<code class="descname">_validate_metrics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext._validate_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext._validate_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_validate_metrics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext._validate_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext._validate_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if every metric is an <code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.metrics.Metric</span></code>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.dataset">
-<code class="descname">dataset</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.dataset" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">dataset</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return dataset.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.global_step">
-<code class="descname">global_step</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.global_step" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">global_step</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.global_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the global_step.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.log_eval_mode">
-<code class="descname">log_eval_mode</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.log_eval_mode" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">log_eval_mode</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.log_eval_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Model(s) mode.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.measure_metrics">
-<code class="descname">measure_metrics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext.measure_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.measure_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">measure_metrics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext.measure_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.measure_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Measure the metrics.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.metrics">
-<code class="descname">metrics</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.metrics" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">metrics</code><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the metrics.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ashpy.contexts.base_context.BaseContext.model_selection">
-<code class="descname">model_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext.model_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.model_selection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">model_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ashpy/contexts/base_context.html#BaseContext.model_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.contexts.base_context.BaseContext.model_selection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use the metrics to perform model selection.</p>
 </dd></dl>
 

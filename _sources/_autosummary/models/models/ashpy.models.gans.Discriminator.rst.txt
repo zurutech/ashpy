@@ -1,0 +1,108 @@
+Discriminator
+===============================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.gans.Discriminator
+   :parts: 1
+
+.. currentmodule:: ashpy.models.gans
+
+----
+
+.. autoclass:: Discriminator
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Discriminator.__init__
+      ~Discriminator.add_loss
+      ~Discriminator.add_metric
+      ~Discriminator.add_update
+      ~Discriminator.add_variable
+      ~Discriminator.add_weight
+      ~Discriminator.apply
+      ~Discriminator.build
+      ~Discriminator.call
+      ~Discriminator.compile
+      ~Discriminator.compute_mask
+      ~Discriminator.compute_output_shape
+      ~Discriminator.compute_output_signature
+      ~Discriminator.count_params
+      ~Discriminator.evaluate
+      ~Discriminator.evaluate_generator
+      ~Discriminator.fit
+      ~Discriminator.fit_generator
+      ~Discriminator.from_config
+      ~Discriminator.get_config
+      ~Discriminator.get_input_at
+      ~Discriminator.get_input_mask_at
+      ~Discriminator.get_input_shape_at
+      ~Discriminator.get_layer
+      ~Discriminator.get_losses_for
+      ~Discriminator.get_output_at
+      ~Discriminator.get_output_mask_at
+      ~Discriminator.get_output_shape_at
+      ~Discriminator.get_updates_for
+      ~Discriminator.get_weights
+      ~Discriminator.load_weights
+      ~Discriminator.predict
+      ~Discriminator.predict_generator
+      ~Discriminator.predict_on_batch
+      ~Discriminator.reset_metrics
+      ~Discriminator.reset_states
+      ~Discriminator.save
+      ~Discriminator.save_weights
+      ~Discriminator.set_weights
+      ~Discriminator.summary
+      ~Discriminator.test_on_batch
+      ~Discriminator.to_json
+      ~Discriminator.to_yaml
+      ~Discriminator.train_on_batch
+      ~Discriminator.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Discriminator.activity_regularizer
+      ~Discriminator.dtype
+      ~Discriminator.dynamic
+      ~Discriminator.inbound_nodes
+      ~Discriminator.input
+      ~Discriminator.input_mask
+      ~Discriminator.input_shape
+      ~Discriminator.input_spec
+      ~Discriminator.layers
+      ~Discriminator.losses
+      ~Discriminator.metrics
+      ~Discriminator.metrics_names
+      ~Discriminator.name
+      ~Discriminator.name_scope
+      ~Discriminator.non_trainable_variables
+      ~Discriminator.non_trainable_weights
+      ~Discriminator.outbound_nodes
+      ~Discriminator.output
+      ~Discriminator.output_mask
+      ~Discriminator.output_shape
+      ~Discriminator.run_eagerly
+      ~Discriminator.sample_weights
+      ~Discriminator.state_updates
+      ~Discriminator.stateful
+      ~Discriminator.submodules
+      ~Discriminator.trainable
+      ~Discriminator.trainable_variables
+      ~Discriminator.trainable_weights
+      ~Discriminator.updates
+      ~Discriminator.variables
+      ~Discriminator.weights
+   
+   

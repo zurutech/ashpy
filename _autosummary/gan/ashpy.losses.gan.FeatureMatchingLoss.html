@@ -88,6 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../home.html">HOME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -113,9 +127,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../getting_started.html#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -379,7 +394,7 @@
 </map><hr class="docutils" />
 <dl class="class">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss">
-<em class="property">class </em><code class="descclassname">ashpy.losses.gan.</code><code class="descname">FeatureMatchingLoss</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#FeatureMatchingLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ashpy.losses.gan.</code><code class="sig-name descname">FeatureMatchingLoss</code><a class="reference internal" href="../../_modules/ashpy/losses/gan.html#FeatureMatchingLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../losses/gan/ashpy.losses.gan.GeneratorL1.html#ashpy.losses.gan.GeneratorL1" title="ashpy.losses.gan.GeneratorL1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ashpy.losses.gan.GeneratorL1</span></code></a></p>
 <p>Conditional GAN Feature matching loss.
 The loss is computed for each example and it’s the L1 (MAE) of the feature difference.
@@ -401,7 +416,7 @@ the layer evaluated in real examples and in fake examples.
 Then we average along the batch. In the case where D_i is a multidimensional tensor we simply calculate the mean
 over the axis 1,2,3.</p>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -422,7 +437,7 @@ over the axis 1,2,3.</p>
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -441,23 +456,23 @@ over the axis 1,2,3.</p>
 </table>
 <dl class="class">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss">
-<em class="property">class </em><code class="descname">L1Loss</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">L1Loss</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.losses.Loss</span></code></p>
 <dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss._get_reduction">
-<code class="descname">_get_reduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss._get_reduction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_reduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss._get_reduction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles <cite>AUTO</cite> reduction cases and returns the reduction value.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss.call">
-<code class="descname">call</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss.call" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss.call" title="Permalink to this definition">¶</a></dt>
 <dd><p>For each element the mean of the l1 between x and y</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.L1Loss.from_config">
-<em class="property">classmethod </em><code class="descname">from_config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss.from_config" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_config</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.L1Loss.from_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiates a <cite>Loss</cite> from its config (output of <cite>get_config()</cite>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -471,15 +486,15 @@ over the axis 1,2,3.</p>
 
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.fn">
-<code class="descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.fn" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">fn</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.fn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the function to execute.</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.get_discriminator_inputs">
-<em class="property">static </em><code class="descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em>context: ashpy.contexts.gan.GANContext</em>, <em>fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em>condition: tensorflow.python.framework.ops.Tensor</em>, <em>training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">get_discriminator_inputs</code><span class="sig-paren">(</span><em class="sig-param">context: ashpy.contexts.gan.GANContext</em>, <em class="sig-param">fake_or_real: tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">condition: tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">training: bool</em><span class="sig-paren">)</span> &#x2192; Union[tensorflow.python.framework.ops.Tensor, List[tensorflow.python.framework.ops.Tensor]]<a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.get_discriminator_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the discriminator inputs. If needed it uses the encoder.
 The current implementation uses the number of inputs to determine
 whether the discriminator is conditioned or not.
@@ -498,15 +513,15 @@ whether the discriminator is conditioned or not.
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.global_batch_size">
-<code class="descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.global_batch_size" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">global_batch_size</code><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.global_batch_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the global batch size.</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="method">
 <dt id="ashpy.losses.gan.FeatureMatchingLoss.reduce_loss">
-<em class="property">static </em><code class="descname">reduce_loss</code><span class="sig-paren">(</span><em>call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.reduce_loss" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">reduce_loss</code><span class="sig-paren">(</span><em class="sig-param">call_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#ashpy.losses.gan.FeatureMatchingLoss.reduce_loss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Decorator to reduce Losses. Use to simplify things.</p>
 <p>Apply a <code class="docutils literal notranslate"><span class="pre">reduce</span> <span class="pre">sum</span></code> operation to the loss and divide the result
 by the batch size.</p>

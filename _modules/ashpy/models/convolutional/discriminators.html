@@ -86,6 +86,19 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -111,9 +124,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../getting_started.html#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../getting_started.html#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../getting_started.html#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../getting_started.html#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -156,7 +170,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.recurrent.html">recurrent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="../../../../_autosummary/models/ashpy.models.gans.html">gans</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/models/ashpy.models.gans.Generator.html">Generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/models/ashpy.models.gans.Discriminator.html">Discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_autosummary/models/models/ashpy.models.gans.Encoder.html">Encoder</a></li>
 </ul>
 </li>
 </ul>
@@ -390,13 +407,13 @@
 <span class="n">__ALL__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PatchDiscriminator&quot;</span><span class="p">,</span> <span class="s2">&quot;MultiScaleDiscriminator&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="PatchDiscriminator"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.PatchDiscriminator.html#ashpy.models.convolutional.discriminators.PatchDiscriminator">[docs]</a><span class="k">class</span> <span class="nc">PatchDiscriminator</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">):</span>
+<div class="viewcode-block" id="PatchDiscriminator"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.PatchDiscriminator">[docs]</a><span class="k">class</span> <span class="nc">PatchDiscriminator</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pix2Pix discriminator:</span>
 <span class="sd">    The last layer is an image in which each pixels is the probability of being fake or real.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PatchDiscriminator.__init__"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.PatchDiscriminator.html#ashpy.models.convolutional.discriminators.PatchDiscriminator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="PatchDiscriminator.__init__"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.PatchDiscriminator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">input_res</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">min_res</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -443,7 +460,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">concatenate</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="PatchDiscriminator._add_final_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.PatchDiscriminator.html#ashpy.models.convolutional.discriminators.PatchDiscriminator._add_final_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_final_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">):</span>
+<div class="viewcode-block" id="PatchDiscriminator._add_final_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.PatchDiscriminator._add_final_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_final_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">):</span>
         <span class="n">initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal_initializer</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
         <span class="c1"># last layer mapping to one channel with Linear activation</span>
         <span class="c1"># Notice: The activation is linear since we use the BCE from logits</span>
@@ -470,14 +487,14 @@
             <span class="p">)</span>
         <span class="p">)</span>  <span class="c1"># (bs, 30, 30, 1)</span></div>
 
-<div class="viewcode-block" id="PatchDiscriminator.call"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.PatchDiscriminator.html#ashpy.models.convolutional.discriminators.PatchDiscriminator.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_features</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="PatchDiscriminator.call"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.PatchDiscriminator.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_features</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
             <span class="n">inputs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span>
             <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">,</span>
             <span class="n">return_features</span><span class="o">=</span><span class="n">return_features</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PatchDiscriminator._add_building_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.PatchDiscriminator.html#ashpy.models.convolutional.discriminators.PatchDiscriminator._add_building_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_building_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">use_bn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="PatchDiscriminator._add_building_block"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.PatchDiscriminator._add_building_block">[docs]</a>    <span class="k">def</span> <span class="nf">_add_building_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">use_bn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the core of the :py:obj:`tf.keras.model`.</span>
 
@@ -514,13 +531,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">layer_count</span> <span class="o">+=</span> <span class="mi">1</span></div></div>
 
 
-<div class="viewcode-block" id="MultiScaleDiscriminator"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator">[docs]</a><span class="k">class</span> <span class="nc">MultiScaleDiscriminator</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiScaleDiscriminator"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator">[docs]</a><span class="k">class</span> <span class="nc">MultiScaleDiscriminator</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Multiscale discriminator:</span>
 <span class="sd">    The last layer is an image in which each pixels is the probability of being fake or real.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MultiScaleDiscriminator.__init__"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="MultiScaleDiscriminator.__init__"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">input_res</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">min_res</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -591,7 +608,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">d</span>
 
-<div class="viewcode-block" id="MultiScaleDiscriminator.call"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/discriminators/ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
+<div class="viewcode-block" id="MultiScaleDiscriminator.call"><a class="viewcode-back" href="../../../../_autosummary/models/convolutional/ashpy.models.convolutional.discriminators.html#ashpy.models.convolutional.discriminators.MultiScaleDiscriminator.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_features</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>

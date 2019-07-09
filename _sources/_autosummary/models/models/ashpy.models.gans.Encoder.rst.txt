@@ -1,0 +1,108 @@
+Encoder
+=========================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.gans.Encoder
+   :parts: 1
+
+.. currentmodule:: ashpy.models.gans
+
+----
+
+.. autoclass:: Encoder
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Encoder.__init__
+      ~Encoder.add_loss
+      ~Encoder.add_metric
+      ~Encoder.add_update
+      ~Encoder.add_variable
+      ~Encoder.add_weight
+      ~Encoder.apply
+      ~Encoder.build
+      ~Encoder.call
+      ~Encoder.compile
+      ~Encoder.compute_mask
+      ~Encoder.compute_output_shape
+      ~Encoder.compute_output_signature
+      ~Encoder.count_params
+      ~Encoder.evaluate
+      ~Encoder.evaluate_generator
+      ~Encoder.fit
+      ~Encoder.fit_generator
+      ~Encoder.from_config
+      ~Encoder.get_config
+      ~Encoder.get_input_at
+      ~Encoder.get_input_mask_at
+      ~Encoder.get_input_shape_at
+      ~Encoder.get_layer
+      ~Encoder.get_losses_for
+      ~Encoder.get_output_at
+      ~Encoder.get_output_mask_at
+      ~Encoder.get_output_shape_at
+      ~Encoder.get_updates_for
+      ~Encoder.get_weights
+      ~Encoder.load_weights
+      ~Encoder.predict
+      ~Encoder.predict_generator
+      ~Encoder.predict_on_batch
+      ~Encoder.reset_metrics
+      ~Encoder.reset_states
+      ~Encoder.save
+      ~Encoder.save_weights
+      ~Encoder.set_weights
+      ~Encoder.summary
+      ~Encoder.test_on_batch
+      ~Encoder.to_json
+      ~Encoder.to_yaml
+      ~Encoder.train_on_batch
+      ~Encoder.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Encoder.activity_regularizer
+      ~Encoder.dtype
+      ~Encoder.dynamic
+      ~Encoder.inbound_nodes
+      ~Encoder.input
+      ~Encoder.input_mask
+      ~Encoder.input_shape
+      ~Encoder.input_spec
+      ~Encoder.layers
+      ~Encoder.losses
+      ~Encoder.metrics
+      ~Encoder.metrics_names
+      ~Encoder.name
+      ~Encoder.name_scope
+      ~Encoder.non_trainable_variables
+      ~Encoder.non_trainable_weights
+      ~Encoder.outbound_nodes
+      ~Encoder.output
+      ~Encoder.output_mask
+      ~Encoder.output_shape
+      ~Encoder.run_eagerly
+      ~Encoder.sample_weights
+      ~Encoder.state_updates
+      ~Encoder.stateful
+      ~Encoder.submodules
+      ~Encoder.trainable
+      ~Encoder.trainable_variables
+      ~Encoder.trainable_weights
+      ~Encoder.updates
+      ~Encoder.variables
+      ~Encoder.weights
+   
+   

@@ -88,6 +88,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="home.html">HOME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="home.html#ashpy">AshPy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="home.html#set-up">Set up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="home.html#ashpy-usage">AshPy usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="home.html#classifier">Classifier</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="home.html#gan-generative-adversarial-network">GAN - Generative Adversarial Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="home.html#dataset-output-format">Dataset Output Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="home.html#executor-context-metric-and-strategies">Executor, Context, Metric and Strategies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="write_the_docs.html">Write The Docs!</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="write_the_docs.html#the-whys">The Whys</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="write_the_docs.html#why-sphinx">Why Sphinx?</a></li>
@@ -113,9 +127,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-new-model">Creating a new Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-new-trainer">Creating a new Trainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#complete-examples">Complete Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classifier">Classifier</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gans">GANs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dummy">Dummy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#fashion-mnist">Fashion MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bigan">BiGAN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mnist">MNIST</a></li>
 </ul>
 </li>
 </ul>
@@ -377,13 +392,607 @@
 <hr class="docutils" />
 <div class="section" id="complete-examples">
 <h2>Complete Examples<a class="headerlink" href="#complete-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classifier">
+<h3>Classifier<a class="headerlink" href="#classifier" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">ashpy.losses.classifier</span> <span class="kn">import</span> <span class="n">ClassifierLoss</span>
+<span class="kn">from</span> <span class="nn">ashpy.metrics</span> <span class="kn">import</span> <span class="n">ClassifierMetric</span>
+<span class="kn">from</span> <span class="nn">ashpy.trainers.classifier</span> <span class="kn">import</span> <span class="n">ClassifierTrainer</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;How to use ash to train a classifier, measure the</span>
+<span class="sd">    performance and perform model selection.&quot;&quot;&quot;</span>
+
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">MirroredStrategy</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">strategy</span><span class="o">.</span><span class="n">scope</span><span class="p">():</span>
+        <span class="n">train</span><span class="p">,</span> <span class="n">validation</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="n">data_images</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">images</span><span class="p">))</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,))</span>
+            <span class="p">)</span>
+            <span class="n">data_images</span> <span class="o">=</span> <span class="n">data_images</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">convert_image_dtype</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">data_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">labels</span><span class="p">))</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">zip</span><span class="p">((</span><span class="n">data_images</span><span class="p">,</span> <span class="n">data_labels</span><span class="p">))</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dataset</span>
+
+        <span class="n">train</span><span class="p">,</span> <span class="n">validation</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">process</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">process</span><span class="p">(</span><span class="n">validation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">validation</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="p">)</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">),</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">ClassifierLoss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">logdir</span> <span class="o">=</span> <span class="s2">&quot;testlog&quot;</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">ClassifierMetric</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">Accuracy</span><span class="p">(),</span> <span class="n">model_selection_operator</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">gt</span>
+            <span class="p">),</span>
+            <span class="n">ClassifierMetric</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">BinaryAccuracy</span><span class="p">(),</span> <span class="n">model_selection_operator</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">gt</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="n">trainer</span> <span class="o">=</span> <span class="n">ClassifierTrainer</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">logdir</span><span class="o">=</span><span class="n">logdir</span>
+        <span class="p">)</span>
+        <span class="n">trainer</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">validation</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 <div class="section" id="gans">
 <h3>GANs<a class="headerlink" href="#gans" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="dummy">
-<h4>Dummy<a class="headerlink" href="#dummy" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="bigan">
+<h4>BiGAN<a class="headerlink" href="#bigan" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Bigan dummy implementation.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
+
+<span class="kn">from</span> <span class="nn">ashpy.losses.gan</span> <span class="kn">import</span> <span class="n">DiscriminatorMinMax</span><span class="p">,</span> <span class="n">EncoderBCE</span><span class="p">,</span> <span class="n">GeneratorBCE</span>
+<span class="kn">from</span> <span class="nn">ashpy.metrics</span> <span class="kn">import</span> <span class="n">EncodingAccuracy</span>
+<span class="kn">from</span> <span class="nn">ashpy.trainers</span> <span class="kn">import</span> <span class="n">EncoderTrainer</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main train loop and models definition.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">real_gen</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;generator of real values.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="p">((</span><span class="mf">10.0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,))</span>
+
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="n">generator</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)])</span>
+
+    <span class="n">left_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">elu</span><span class="p">)(</span><span class="n">left_input</span><span class="p">)</span>
+
+    <span class="n">right_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,))</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">elu</span><span class="p">)(</span><span class="n">right_input</span><span class="p">)</span>
+
+    <span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">()([</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">net</span><span class="p">)</span>
+
+    <span class="n">discriminator</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">left_input</span><span class="p">,</span> <span class="n">right_input</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">out</span><span class="p">])</span>
+
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">)])</span>
+    <span class="n">generator_bce</span> <span class="o">=</span> <span class="n">GeneratorBCE</span><span class="p">()</span>
+    <span class="n">encoder_bce</span> <span class="o">=</span> <span class="n">EncoderBCE</span><span class="p">()</span>
+    <span class="n">minmax</span> <span class="o">=</span> <span class="n">DiscriminatorMinMax</span><span class="p">()</span>
+
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">logdir</span> <span class="o">=</span> <span class="s2">&quot;log/adversarial/encoder&quot;</span>
+
+    <span class="c1"># Fake pre-trained classifier</span>
+    <span class="n">classifier</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">EncodingAccuracy</span><span class="p">(</span>
+            <span class="n">classifier</span><span class="p">,</span> <span class="n">model_selection_operator</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">gt</span><span class="p">,</span> <span class="n">logdir</span><span class="o">=</span><span class="n">logdir</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">EncoderTrainer</span><span class="p">(</span>
+        <span class="n">generator</span><span class="p">,</span>
+        <span class="n">discriminator</span><span class="p">,</span>
+        <span class="n">encoder</span><span class="p">,</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">),</span>
+        <span class="n">generator_bce</span><span class="p">,</span>
+        <span class="n">minmax</span><span class="p">,</span>
+        <span class="n">encoder_bce</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="p">,</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+        <span class="n">logdir</span><span class="o">=</span><span class="n">logdir</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">discriminator_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_generator</span><span class="p">(</span>
+        <span class="n">real_gen</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">discriminator_input</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)))</span>
+    <span class="p">)</span>
+
+    <span class="n">trainer</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
 </div>
-<div class="section" id="fashion-mnist">
-<h4>Fashion MNIST<a class="headerlink" href="#fashion-mnist" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="mnist">
+<h4>MNIST<a class="headerlink" href="#mnist" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Adverserial trainer example.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
+
+<span class="kn">from</span> <span class="nn">ashpy.losses.gan</span> <span class="kn">import</span> <span class="n">DiscriminatorMinMax</span><span class="p">,</span> <span class="n">GeneratorBCE</span>
+<span class="kn">from</span> <span class="nn">ashpy.metrics</span> <span class="kn">import</span> <span class="n">InceptionScore</span>
+<span class="kn">from</span> <span class="nn">ashpy.models.gans</span> <span class="kn">import</span> <span class="n">Discriminator</span><span class="p">,</span> <span class="n">Generator</span>
+<span class="kn">from</span> <span class="nn">ashpy.trainers.gan</span> <span class="kn">import</span> <span class="n">AdversarialTrainer</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main.&quot;&quot;&quot;</span>
+
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">MirroredStrategy</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">strategy</span><span class="o">.</span><span class="n">scope</span><span class="p">():</span>
+
+        <span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span>
+            <span class="n">layer_spec_input_res</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+            <span class="n">layer_spec_target_res</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+            <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="n">initial_filters</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+            <span class="n">filters_cap</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+            <span class="n">channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">discriminator</span> <span class="o">=</span> <span class="n">Discriminator</span><span class="p">(</span>
+            <span class="n">layer_spec_input_res</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+            <span class="n">layer_spec_target_res</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+            <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="n">initial_filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+            <span class="n">filters_cap</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">output_shape</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Losses</span>
+        <span class="n">generator_bce</span> <span class="o">=</span> <span class="n">GeneratorBCE</span><span class="p">()</span>
+        <span class="n">minmax</span> <span class="o">=</span> <span class="n">DiscriminatorMinMax</span><span class="p">()</span>
+
+        <span class="c1"># Trainer</span>
+        <span class="n">logdir</span> <span class="o">=</span> <span class="s2">&quot;log/adversarial&quot;</span>
+
+        <span class="c1"># InceptionScore: keep commented until the issues</span>
+        <span class="c1"># https://github.com/tensorflow/tensorflow/issues/28599</span>
+        <span class="c1"># https://github.com/tensorflow/hub/issues/295</span>
+        <span class="c1"># Haven&#39;t been solved and merged into tf2</span>
+
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="c1"># InceptionScore(</span>
+            <span class="c1">#    InceptionScore.get_or_train_inception(</span>
+            <span class="c1">#        mnist_dataset,</span>
+            <span class="c1">#        &quot;mnist&quot;,</span>
+            <span class="c1">#        num_classes=10,</span>
+            <span class="c1">#        epochs=1,</span>
+            <span class="c1">#        fine_tuning=False,</span>
+            <span class="c1">#        logdir=logdir,</span>
+            <span class="c1">#    ),</span>
+            <span class="c1">#    model_selection_operator=operator.gt,</span>
+            <span class="c1">#    logdir=logdir,</span>
+            <span class="c1"># )</span>
+        <span class="p">]</span>
+
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="n">trainer</span> <span class="o">=</span> <span class="n">AdversarialTrainer</span><span class="p">(</span>
+            <span class="n">generator</span><span class="p">,</span>
+            <span class="n">discriminator</span><span class="p">,</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">),</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">),</span>
+            <span class="n">generator_bce</span><span class="p">,</span>
+            <span class="n">minmax</span><span class="p">,</span>
+            <span class="n">epochs</span><span class="p">,</span>
+            <span class="n">metrics</span><span class="p">,</span>
+            <span class="n">logdir</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">512</span>
+
+        <span class="c1"># Real data</span>
+        <span class="n">mnist_x</span><span class="p">,</span> <span class="n">mnist_y</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">iterator</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;Iterator in order to do not load in memory all the dataset.&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mnist_x</span><span class="p">,</span> <span class="n">mnist_y</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">convert_image_dtype</span><span class="p">(</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span>
+                <span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">real_data</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_generator</span><span class="p">(</span>
+                <span class="n">iterator</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="p">((</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add noise in the same dataset, just by mapping.</span>
+        <span class="c1"># The return type of the dataset must be: tuple(tuple(a,b), noise)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">real_data</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">100</span><span class="p">)))</span>
+        <span class="p">)</span>
+
+        <span class="n">trainer</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
 </div>
 </div>
 </div>

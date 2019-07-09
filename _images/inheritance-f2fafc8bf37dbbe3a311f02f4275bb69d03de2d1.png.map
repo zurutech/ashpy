@@ -1,0 +1,11 @@
+<map id="inheritance26bf3fd239" name="inheritance26bf3fd239">
+<area shape="rect" id="node1" title="Manages dependencies on other objects." alt="" coords="85,3,157,19"/>
+<area shape="rect" id="node8" title="Base neural network module class." alt="" coords="187,3,231,19"/>
+<area shape="rect" id="node2" title="Base class for `Trackable` objects without automatic dependencies." alt="" coords="3,3,56,19"/>
+<area shape="rect" id="node3" href="../convolutional/encoders/ashpy.models.convolutional.encoders.BaseEncoder.html#ashpy.models.convolutional.encoders.BaseEncoder" target="_top" title="Primitive Model for all encoder (i.e., convolution) based architecture." alt="" coords="600,3,666,19"/>
+<area shape="rect" id="node6" href="#ashpy.models.gans.Discriminator" target="_top" title="GAN Discriminator Model." alt="" coords="696,3,765,19"/>
+<area shape="rect" id="node4" href="../convolutional/interfaces/ashpy.models.convolutional.interfaces.Conv2DInterface.html#ashpy.models.convolutional.interfaces.Conv2DInterface" target="_top" title="Primitive Interface to be used by all :mod:`ashpy.models`." alt="" coords="489,3,570,19"/>
+<area shape="rect" id="node5" title="`Model` groups layers into an object with training and inference features." alt="" coords="414,3,459,19"/>
+<area shape="rect" id="node7" title="Base layer class." alt="" coords="261,3,306,19"/>
+<area shape="rect" id="node9" title="A `Network` is a composition of layers." alt="" coords="336,3,384,19"/>
+</map>

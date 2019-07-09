@@ -1,0 +1,108 @@
+Generator
+===========================
+
+.. rubric:: Inheritance Diagram
+
+.. inheritance-diagram:: ashpy.models.gans.Generator
+   :parts: 1
+
+.. currentmodule:: ashpy.models.gans
+
+----
+
+.. autoclass:: Generator
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Generator.__init__
+      ~Generator.add_loss
+      ~Generator.add_metric
+      ~Generator.add_update
+      ~Generator.add_variable
+      ~Generator.add_weight
+      ~Generator.apply
+      ~Generator.build
+      ~Generator.call
+      ~Generator.compile
+      ~Generator.compute_mask
+      ~Generator.compute_output_shape
+      ~Generator.compute_output_signature
+      ~Generator.count_params
+      ~Generator.evaluate
+      ~Generator.evaluate_generator
+      ~Generator.fit
+      ~Generator.fit_generator
+      ~Generator.from_config
+      ~Generator.get_config
+      ~Generator.get_input_at
+      ~Generator.get_input_mask_at
+      ~Generator.get_input_shape_at
+      ~Generator.get_layer
+      ~Generator.get_losses_for
+      ~Generator.get_output_at
+      ~Generator.get_output_mask_at
+      ~Generator.get_output_shape_at
+      ~Generator.get_updates_for
+      ~Generator.get_weights
+      ~Generator.load_weights
+      ~Generator.predict
+      ~Generator.predict_generator
+      ~Generator.predict_on_batch
+      ~Generator.reset_metrics
+      ~Generator.reset_states
+      ~Generator.save
+      ~Generator.save_weights
+      ~Generator.set_weights
+      ~Generator.summary
+      ~Generator.test_on_batch
+      ~Generator.to_json
+      ~Generator.to_yaml
+      ~Generator.train_on_batch
+      ~Generator.with_name_scope
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Generator.activity_regularizer
+      ~Generator.dtype
+      ~Generator.dynamic
+      ~Generator.inbound_nodes
+      ~Generator.input
+      ~Generator.input_mask
+      ~Generator.input_shape
+      ~Generator.input_spec
+      ~Generator.layers
+      ~Generator.losses
+      ~Generator.metrics
+      ~Generator.metrics_names
+      ~Generator.name
+      ~Generator.name_scope
+      ~Generator.non_trainable_variables
+      ~Generator.non_trainable_weights
+      ~Generator.outbound_nodes
+      ~Generator.output
+      ~Generator.output_mask
+      ~Generator.output_shape
+      ~Generator.run_eagerly
+      ~Generator.sample_weights
+      ~Generator.state_updates
+      ~Generator.stateful
+      ~Generator.submodules
+      ~Generator.trainable
+      ~Generator.trainable_variables
+      ~Generator.trainable_weights
+      ~Generator.updates
+      ~Generator.variables
+      ~Generator.weights
+   
+   

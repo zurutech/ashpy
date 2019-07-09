@@ -16,19 +16,26 @@ Creating a new Trainer
 Complete Examples
 =================
 
-GANs
-++++
+Classifier
+++++++++++
 
-Dummy
------
-
-.. literalinclude:: ../../examples/gans/dummy.py
+.. literalinclude:: ../../examples/classifier.py
    :language: python
    :linenos:
 
-Fashion MNIST
--------------
+GANs
+++++
 
-.. literalinclude:: ../../examples/gans/fashion_mnist.py
+BiGAN
+-----
+
+.. literalinclude:: ../../examples/gans/bigan.py
+   :language: python
+   :linenos:
+
+MNIST
+-----
+
+.. literalinclude:: ../../examples/gans/mnist.py
    :language: python
    :linenos:
