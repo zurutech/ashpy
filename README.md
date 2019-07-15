@@ -1,13 +1,9 @@
 # AshPy
 
 ![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
-
 ![Python - Version](https://img.shields.io/pypi/pyversions/ashpy.svg)
-
 ![PyPy - Version](https://badge.fury.io/py/ashpy.svg)
-
 ![PyPI - License](https://img.shields.io/pypi/l/ashpy.svg)
-
 ![Ashpy - Badge](https://img.shields.io/badge/package-ashpy-brightgreen.svg)
 
 AshPy is a TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
