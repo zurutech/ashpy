@@ -12,7 +12,7 @@ babel==2.7.0              # via sphinx
 certifi==2019.6.16        # via requests
 chardet==3.0.4            # via doc8, requests
 doc8==0.8.0
-docutils==0.14            # via doc8, restructuredtext-lint, sphinx
+docutils==0.14            # via doc8, m2r, restructuredtext-lint, sphinx
 gast==0.2.2               # via tensorflow
 google-pasta==0.1.7       # via tensorflow
 grpcio==1.22.0            # via tb-nightly, tensorflow
@@ -23,8 +23,10 @@ jinja2==2.10.1            # via sphinx
 keras-applications==1.0.8  # via tensorflow
 keras-preprocessing==1.1.0  # via tensorflow
 livereload==2.6.1         # via sphinx-autobuild
+m2r==0.2.1
 markdown==3.1.1           # via tb-nightly
 markupsafe==1.1.1         # via jinja2
+mistune==0.8.4            # via m2r
 numpy==1.17.0rc1          # via h5py, keras-applications, keras-preprocessing, tb-nightly, tensorflow, tensorflow-hub
 packaging==19.0           # via sphinx
 pathtools==0.1.2          # via sphinx-autobuild, watchdog
