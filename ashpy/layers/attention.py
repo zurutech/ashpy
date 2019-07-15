@@ -19,6 +19,74 @@ class Attention(tf.keras.Model):
     r"""
     Attention Layer from Self-Attention GAN [1]_
 
+    First we extract features from the previous layer:
+
+    .. math::
+        f(x) = W_f x
+
+    .. math::
+        g(x) = W_g x
+
+    .. math::
+        h(x) = W_h x
+
+    Then we calculate the importance matrix:
+
+    .. math::
+        \beta_{j,i} = \frac{\exp(s_{i,j})}{\sum_{i=1}^{N}\exp(s_{ij})}
+
+    :math:`\beta_{j,i}` indicates the extent to which the model attends to the :math:`i^{th}`
+    location when synthethizing the :math:`j^{th}` region.
+
+    Then we calculate the output of the attention layer :math:`(o_1, ..., o_N) \in \mathbb{R}^{C \times N}`:
+
+    .. math::
+        o_j = \sum_{i=1}^{N} \beta_{j,i} h(x_i)
+
+    Finally we combine the (scaled) attention and the input to get the final output of
+    the layer:
+
+    .. math::
+        y_i = \gamma o_i + x_i
+
+    where :math:`\gamma` is initialized as 0.
+
+    Examples:
+        * Direct Usage:
+
+            .. testcode::
+
+                x = tf.ones((1, 10, 10, 64))
+
+                # instantiate attention layer as model
+                attention = Attention(64)
+
+                # evaluate passing x
+                output = attention(x)
+
+                # the output shape is
+                # the same as the input shape
+                print(output.shape)
+
+        * Inside a Model:
+
+            .. testcode::
+
+                def MyModel():
+                    inputs = tf.keras.layers.Input(shape=[None, None, 64])
+                    attention = Attention(64)
+                    return tf.keras.Model(inputs=inputs, outputs=attention(inputs))
+
+                x = tf.ones((1, 10, 10, 64))
+                model = MyModel()
+                output = model(x)
+
+                print(output.shape)
+
+            .. testoutput::
+
+                (1, 10, 10, 64)
+
     .. [1] Self-Attention Generative Adversarial Networks https://arxiv.org/abs/1805.08318
 
     """
@@ -28,7 +96,7 @@ class Attention(tf.keras.Model):
         Builds the Attention Layer
 
         Args:
-            filters (int): number of filters of the input tensor
+            filters (int): number of filters of the input tensor. It should be preferably a multiple of 8.
         """
         super().__init__()
         initializer = tf.random_normal_initializer(0.0, 0.02)

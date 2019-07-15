@@ -28,7 +28,9 @@ __ALL__ = ["UNet", "SUNet"]
 
 class UNet(Conv2DInterface):
     """
-    UNet Architecture [1]_
+    UNet Architecture
+
+    Used in Image-to-Image Translation with Conditional Adversarial Nets [1]_
 
     Examples:
         * Direct Usage:
@@ -47,11 +49,11 @@ class UNet(Conv2DInterface):
                 print(len(u_net.trainable_variables)>0)
 
             .. testoutput::
+
                 (1, 512, 512, 3)
                 True
 
-    .. [1] Image-to-Image Translation with Conditional Adversarial Nets
-            https://arxiv.org/abs/1611.04076
+    .. [1] Image-to-Image Translation with Conditional Adversarial Nets https://arxiv.org/abs/1611.04076
 
     """
 
@@ -185,6 +187,16 @@ class UNet(Conv2DInterface):
         return block
 
     def get_encoder_block(self, filters, use_bn=True, use_attention=False):
+        """
+        Returns a block to be used in the encoder part of the UNET
+        Args:
+            filters: number of filters
+            use_bn: whether to use batch normalization
+            use_attention: whether to use attention
+
+        Returns:
+            A block to be used in the encoder part
+        """
         return self._get_block(
             filters,
             conv_layer=keras.layers.Conv2D,
@@ -197,6 +209,17 @@ class UNet(Conv2DInterface):
     def get_decoder_block(
         self, filters, use_bn=True, use_dropout=False, use_attention=False
     ):
+        """
+        Returns a block to be used in the decoder part of the UNET
+        Args:
+            filters: number of filters
+            use_bn: whether to use batch normalization
+            use_dropout: whether to use dropout
+            use_attention: whether to use attention
+
+        Returns:
+            A block to be used in the decoder part
+        """
         return self._get_block(
             filters,
             conv_layer=keras.layers.Conv2DTranspose,
@@ -286,6 +309,7 @@ def FUNet(
     initial_filters,
     filters_cap,
     channels,
+    input_channels=3,
     use_dropout_encoder=True,
     use_dropout_decoder=True,
     dropout_prob=0.3,
@@ -389,7 +413,7 @@ def FUNet(
         activation=last_activation,
         kernel_initializer=initializer,
     )
-    inputs = tf.keras.layers.Input(shape=[input_res, input_res, 1])
+    inputs = tf.keras.layers.Input(shape=[input_res, input_res, input_channels])
     x = inputs
     skips = []
 

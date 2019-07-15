@@ -14,7 +14,7 @@
 
 import tensorflow as tf
 
-from ashpy.models.convolutional.unet import UNet
+from ashpy.models import UNet
 
 
 def main():

@@ -16,9 +16,9 @@ import operator
 
 import tensorflow as tf
 
-from ashpy.losses.classifier import ClassifierLoss
+from ashpy.losses import ClassifierLoss
 from ashpy.metrics import ClassifierMetric
-from ashpy.trainers.classifier import ClassifierTrainer
+from ashpy.trainers import ClassifierTrainer
 
 
 def main():

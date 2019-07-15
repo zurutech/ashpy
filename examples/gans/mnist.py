@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Adverserial trainer example."""
+"""Adversarial trainer example."""
 
 import tensorflow as tf
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
-from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE
+from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
 from ashpy.metrics import InceptionScore
-from ashpy.models.gans import Discriminator, Generator
-from ashpy.trainers.gan import AdversarialTrainer
+from ashpy.models import Discriminator, Generator
+from ashpy.trainers import AdversarialTrainer
 
 
 def main():

@@ -44,6 +44,7 @@ Collection of Losses.
     :nosignatures:
     :toctree: gan
 
+    gan.GANExecutor
     gan.AdversarialLossType
     gan.AdversarialLossG
     gan.AdversarialLossD

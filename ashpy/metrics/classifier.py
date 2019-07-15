@@ -80,7 +80,7 @@ class ClassifierMetric(Metric):
             metric: The metric for the classifier (e.g.: Accuracy()).
             model_selection_operator: The operation, if needed, to be used
                 to confront the metric value (e.g.: operator.gt).
-            logdir: The logdir.
+            logdir: The logdir in which to save logs.
             processing_predictions: A dict in the form of
                 {"fn": tf.argmax, "kwargs": {"axis": -1}} with a function "fn"
                 to be used for predictions processing purposes and its "kwargs" as an inner dict.

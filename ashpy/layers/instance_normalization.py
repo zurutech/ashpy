@@ -21,6 +21,41 @@ class InstanceNormalization(tf.keras.layers.Layer):
     Basically it's a normalization done at instance level.
     The implementation follows the basic implementation of the Batch Normalization Layer.
 
+    * Direct Usage:
+
+            .. testcode::
+
+                x = tf.ones((1, 10, 10, 64))
+
+                # instantiate attention layer as model
+                normalization = InstanceNormalization()
+
+                # evaluate passing x
+                output = normalization(x)
+
+                # the output shape is
+                # the same as the input shape
+                print(output.shape)
+
+        * Inside a Model:
+
+            .. testcode::
+
+                def MyModel():
+                    inputs = tf.keras.layers.Input(shape=[None, None, 64])
+                    normalization = InstanceNormalization()
+                    return tf.keras.Model(inputs=inputs, outputs=normalization(inputs))
+
+                x = tf.ones((1, 10, 10, 64))
+                model = MyModel()
+                output = model(x)
+
+                print(output.shape)
+
+            .. testoutput::
+
+                (1, 10, 10, 64)
+
     .. [1] Image-to-Image Translation with Conditional Adversarial Networks
              https://arxiv.org/abs/1611.07004
     .. [2] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs

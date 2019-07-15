@@ -83,15 +83,15 @@ class BaseDecoder(Conv2DInterface):
         Instantiate the :class:`BaseDecoder`.
 
         Model Assembly:
-            1. :func:`_add_malkuth_block`: Ingest the :py:obj:`tf.keras.Model`
-            inputs and prepare them for :func:`_add_yesod_block`.
+            1. :func:`_add_initial_block`: Ingest the :py:obj:`tf.keras.Model`
+            inputs and prepare them for :func:`_add_building_block`.
 
-            2. :func:`_add_yesod_block`: Core of the model, the layers specified
+            2. :func:`_add_building_block`: Core of the model, the layers specified
             here get added to the :py:obj:`tf.keras.Model` multiple times consuming the
             hyperparameters generated in the :func:`_get_layer_spec`.
 
-            3. :func:`_add_daat_block`: Final block of our :py:obj:`tf.keras.Model`,
-            take the model after :func:`_add_yesod_block` and prepare them for the
+            3. :func:`_add_final_block`: Final block of our :py:obj:`tf.keras.Model`,
+            take the model after :func:`_add_building_block` and prepare them for the
             for the final output.
 
         Args:
@@ -145,7 +145,7 @@ class BaseDecoder(Conv2DInterface):
 
     def _add_initial_block(self, initial_filters, input_res):
         """
-        Ingest the :py:obj:`tf.keras.Model` inputs and prepare them for :func:`_add_yesod_block`.
+        Ingest the :py:obj:`tf.keras.Model` inputs and prepare them for :func:`_add_building_block`.
 
         Args:
             initial_filters (int): Numbers of filters to used as a base value.
@@ -170,7 +170,7 @@ class BaseDecoder(Conv2DInterface):
         consuming the hyperparameters generated in the :func:`_get_layer_spec`.
 
         Args:
-            filters (int): Number of filters to use for this iteration of the Yesod Block.
+            filters (int): Number of filters to use for this iteration of the Building Block.
         """
         self.model_layers.extend(
             [
@@ -188,7 +188,7 @@ class BaseDecoder(Conv2DInterface):
 
     def _add_final_block(self, channels):
         """
-        Take the results of :func:`_add_yesod_block` and prepare them for the for the final output.
+        Take the results of :func:`_add_building_block` and prepare them for the for the final output.
 
         Args:
             channels (int): Channels of the output images (1 for Grayscale, 3 for RGB).
@@ -260,7 +260,7 @@ class FCNNBaseDecoder(BaseDecoder):
 
     def _add_initial_block(self, initial_filters, input_res):
         """
-        Ingest the :py:obj:`tf.keras.Model` inputs and prepare them for :func:`_add_yesod_block`.
+        Ingest the :py:obj:`tf.keras.Model` inputs and prepare them for :func:`_add_building_block`.
 
         Args:
             initial_filters (int): Numbers of filters to used as a base value.

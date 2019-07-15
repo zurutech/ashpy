@@ -13,6 +13,8 @@
 # limitations under the License.
 
 """Collection of Encoders (i.e., GANs' Discriminators) models."""
+from typing import Union, Tuple, Type
+
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.models.convolutional.interfaces import Conv2DInterface
@@ -70,15 +72,15 @@ class BaseEncoder(Conv2DInterface):
 
     def __init__(
         self,
-        layer_spec_input_res,
-        layer_spec_target_res,
-        kernel_size,
-        initial_filters,
-        filters_cap,
-        output_shape,
-        use_dropout=True,
-        dropout_prob=0.3,
-        non_linearity=keras.layers.LeakyReLU,
+        layer_spec_input_res: Union[int, Tuple[int, int]],
+        layer_spec_target_res: Union[int, Tuple[int, int]],
+        kernel_size: Union[int, Tuple[int, int]],
+        initial_filters: int,
+        filters_cap: int,
+        output_shape: int,
+        use_dropout: bool = True,
+        dropout_prob: float = 0.3,
+        non_linearity: Type[keras.layers.Activation] = keras.layers.LeakyReLU,
     ):
         """
         Instantiate the :py:class:`BaseDecoder`.

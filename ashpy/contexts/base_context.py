@@ -42,11 +42,11 @@ class BaseContext:
         :py:class:`ashpy.contexts.base_context.BaseContext`
 
         Args:
-            metrics ([:py:class:`ashpy.metrics.metric.Metric`]): array of :py:class:`ashpy.metrics.metric.Metric` objects.
+            metrics ([:py:class:`ashpy.metrics.metric.Metric`]): list of :py:class:`ashpy.metrics.metric.Metric` objects.
             dataset (:py:class:`tf.data.Dataset`): The dataset to use, that
                 contains everything needed to use the model in this context.
             log_eval_mode: models' mode to use when evaluating and logging.
-            global_step: tf.Variable that keeps track of the training steps.
+            global_step (:py:class:`tf.Variable`): keeps track of the training steps.
             ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of models status.
         """
         self._distribute_strategy = tf.distribute.get_strategy()

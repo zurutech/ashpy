@@ -88,11 +88,13 @@ class ClassifierTrainer(BaseTrainer):
                 shutil.rmtree(logdir)
 
             .. testoutput::
+
                 Initializing checkpoint.
                 [500] Saved checkpoint: testlog/ckpts/ckpt-1
                 Epoch 1 completed.
                 [1000] Saved checkpoint: testlog/ckpts/ckpt-2
                 Epoch 2 completed.
+
         """
         super().__init__(
             epochs=epochs,

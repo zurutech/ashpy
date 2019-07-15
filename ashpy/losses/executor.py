@@ -19,12 +19,13 @@ Given a context.
 """
 
 import abc
+from typing import List
 
 import tensorflow as tf
 
 
 class Executor:
-    """Carry a function and the wa of executing it. Given a context."""
+    """Carry a function and the way of executing it. Given a context."""
 
     def __init__(self, fn=None):
         """
@@ -48,6 +49,8 @@ class Executor:
 
     @property
     def weight(self):
+        """Return the loss weight. This weight is multiplied by the loss value.
+        This is useful when working with multiples losses"""
         return self._weight
 
     @property
@@ -67,7 +70,7 @@ class Executor:
             call_fn: the executor call method
 
         Return:
-            :py:func: The function decorated
+            The function decorated
 
         """
         # decorator definition
@@ -81,7 +84,8 @@ class Executor:
 
     @property
     def global_batch_size(self):
-        """Return the global batch size."""
+        """Global batch size comprises the batch size for each cpu.
+        Calculated as batch_size_for_replica*replica_numbers"""
         return self._global_batch_size
 
     @global_batch_size.setter
@@ -106,7 +110,7 @@ class Executor:
         Execute the function, using the information provided by the context.
 
         Args:
-            context (:py:class:`ashpy.contexts.BaseContext`): The function execution Context.
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): The function execution Context.
         """
 
     def __call__(self, context, **kwargs):
@@ -114,7 +118,7 @@ class Executor:
         Invoke the function using the Context.
 
         Args:
-            context (:py:class:`ashpy.contexts.BaseContext`): The function execution Context.
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): The function execution Context.
 
         """
         return self._weight(context.global_step) * self.call(context, **kwargs)
@@ -156,8 +160,8 @@ class SumExecutor(Executor):
         Initialize the SumExecutor.
 
         Args:
-            executors (:py:obj:`list` of :py:class:`ashpy.executors.Executor`): Array of
-                :py:obj:`ashpy.executors.Executor` to sum evaluate and sum together.
+            executors (:py:obj:`list` of :py:class:`ashpy.executors.executor.Executor`): Array of
+                :py:obj:`ashpy.executors.executor.Executor` to sum evaluate and sum together.
 
         Returns:
             :py:obj:`None`
@@ -168,8 +172,8 @@ class SumExecutor(Executor):
         self._global_batch_size = 1
 
     @property
-    def executors(self):
-        """Return the array of Executors."""
+    def executors(self) -> List[Executor]:
+        """Return the List of Executors."""
         return self._executors
 
     @Executor.global_batch_size.setter

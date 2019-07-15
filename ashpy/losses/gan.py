@@ -13,6 +13,7 @@
 # limitations under the License.
 
 """GAN losses."""
+from abc import ABC
 from enum import Enum
 from typing import List, Union, Type
 
@@ -23,11 +24,15 @@ from ashpy.losses.executor import Executor, SumExecutor
 
 
 class AdversarialLossType(Enum):
+    """
+    Enumeration for Adversarial Losses. Implemented: GAN and LSGAN.
+    """
+
     GAN = 0  # classical gan loss (minmax)
     LSGAN = 1  # Least Square GAN
 
 
-class GANExecutor(Executor):
+class GANExecutor(Executor, ABC):
     """
     Executor for GANs. Implements the basic functions needed by the GAN losses
     """
@@ -39,15 +44,16 @@ class GANExecutor(Executor):
         condition: tf.Tensor,
         training: bool,
     ) -> Union[tf.Tensor, List[tf.Tensor]]:
-        r"""
+        """
         Returns the discriminator inputs. If needed it uses the encoder.
         The current implementation uses the number of inputs to determine
         whether the discriminator is conditioned or not.
+
         Args:
             context (:py:class:`ashpy.contexts.gan.GANContext`): context for GAN models
             fake_or_real (:py:class:`tf.Tensor`): discriminator input tensor, it can be fake (generated) or real
             condition (:py:class:`tf.Tensor`): discriminator condition (it can also be generator noise)
-            training (bool): whether is training phase or not
+            training (:py:class:`bool`): whether is training phase or not
 
         Returns:
             The discriminator inputs.
@@ -310,7 +316,9 @@ class Pix2PixLoss(SumExecutor):
         l1_loss_weight=100.0,
         adversarial_loss_weight=1.0,
         feature_matching_weight=10.0,
-        adversarial_loss_type: AdversarialLossType = AdversarialLossType.GAN,
+        adversarial_loss_type: Union[
+            AdversarialLossType, int
+        ] = AdversarialLossType.GAN,
         use_feature_matching_loss: bool = False,
     ):
         r"""
@@ -504,11 +512,21 @@ class DiscriminatorLSGAN(AdversarialLossD):
     Reference: Least Squares Generative Adversarial Networks [1]_ .
 
     Basically the Mean Squared Error between
-    the discriminator output when evaluated in fake and 0
-    and the discriminator output when evaluated in real and 1:
+    the discriminator output when evaluated in fake samples and 0
+    and the discriminator output when evaluated in real samples and 1:
+    For the unconditioned case this is:
 
     .. math::
         L_{D} = \frac{1}{2} E[(D(x) - 1)^2 + (0 - D(G(z))^2]
+
+    where x are real samples and z is the latent vector.
+
+    For the conditioned case this is:
+
+    .. math::
+        L_{D} = \frac{1}{2} E[(D(x, c) - 1)^2 + (0 - D(G(c), c)^2]
+
+    where c is the condition and x are real samples.
 
     .. [1] https://arxiv.org/abs/1611.04076
 
@@ -573,7 +591,7 @@ def get_adversarial_loss_discriminator(
         return DiscriminatorLSGAN
     else:
         raise ValueError(
-            "Loss type not supported, the implemented losses are DiscriminatorMinMax or LSGAN"
+            "Loss type not supported, the implemented losses are GAN or LSGAN"
         )
 
 
@@ -581,7 +599,7 @@ def get_adversarial_loss_generator(
     adversarial_loss_type: Union[AdversarialLossType, int] = AdversarialLossType.GAN
 ) -> Type[Executor]:
     r"""
-    Returns the correct loss fot the generator
+    Returns the correct loss for the generator
 
     Args:
         adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Type of loss (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN` or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)
@@ -601,5 +619,5 @@ def get_adversarial_loss_generator(
         return GeneratorLSGAN
     else:
         raise ValueError(
-            "Loss type not supported, the implemented losses are DiscriminatorMinMax or LSGAN"
+            "Loss type not supported, the implemented losses are GAN or LSGAN"
         )

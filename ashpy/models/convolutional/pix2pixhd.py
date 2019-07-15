@@ -14,10 +14,12 @@
 
 """
 Pix2Pix HD Implementation
-See: High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
-https://arxiv.org/abs/1711.11585
+See: "High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs" [1]_
 
 Global Generator + Local Enhancer
+
+.. [1] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs: https://arxiv.org/abs/1711.11585
+
 """
 import typing
 
@@ -32,7 +34,27 @@ __ALL__ = ["LocalEnhancer", "GlobalGenerator"]
 
 class LocalEnhancer(keras.Model):
     """
-    Local Enhancer
+    Local Enhancer module of the Pix2PixHD architecture.
+
+    Example:
+
+        .. testcode::
+
+            # instantiate the model
+            model = LocalEnhancer()
+
+            # call the model passing inputs
+            inputs = tf.ones((1, 512, 512, 3))
+            output = model(inputs)
+
+            # the output shape is
+            # the same as the input shape
+            print(output.shape)
+
+        .. testoutput::
+
+            (1, 512, 512, 3)
+
     """
 
     def __init__(
@@ -51,7 +73,9 @@ class LocalEnhancer(keras.Model):
         num_internal_resnet_blocks: int = 2,
     ):
         """
-        See Pix2PixHD for more details: https://arxiv.org/abs/1711.11585
+        Build the LocalEnhancer module of the Pix2PixHD architecture.
+
+        See Pix2PixHD [2]_ for more details.
 
         Args:
             input_res (int): input resolution
@@ -67,6 +91,8 @@ class LocalEnhancer(keras.Model):
             kernel_size_resnet (int): kernel size used in resnets
             kernel_size_front_back (int): kernel size used for the front and back convolution
             num_internal_resnet_blocks (int): number of internal blocks of the resnet
+
+        .. [2] https://arxiv.org/abs/1711.11585
 
         """
         super(LocalEnhancer, self).__init__()

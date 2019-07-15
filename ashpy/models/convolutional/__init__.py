@@ -108,5 +108,6 @@ Collection of Convolutional Models constructors.
     autoencoders
     unet
     discriminators
+    pix2pixhd
 
 """

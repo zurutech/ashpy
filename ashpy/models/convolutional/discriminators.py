@@ -32,6 +32,30 @@ class PatchDiscriminator(Discriminator):
     """
     Pix2Pix discriminator:
     The last layer is an image in which each pixels is the probability of being fake or real.
+
+    Examples:
+        .. testcode::
+
+            x = tf.ones((1, 64, 64, 3))
+
+            # instantiate the PathDiscriminator
+            patchDiscriminator = PatchDiscriminator(input_res=64,
+                                                    min_res=16,
+                                                    kernel_size=5,
+                                                    initial_filters=64,
+                                                    filters_cap=512,
+                                                    )
+
+            # evaluate passing x
+            output = patchDiscriminator(x)
+
+            # the output shape is the same as the input shape
+            print(output.shape)
+
+        .. testoutput::
+
+            (1, 12, 12, 1)
+
     """
 
     def __init__(
@@ -85,7 +109,7 @@ class PatchDiscriminator(Discriminator):
         initializer = tf.random_normal_initializer(0.0, 0.02)
         # last layer mapping to one channel with Linear activation
         # Notice: The activation is linear since we use the BCE from logits
-        self.model_layers.append(tf.keras.layers.ZeroPadding2D())  # (bs, 34, 34, 256)
+        self.model_layers.append(tf.keras.layers.ZeroPadding2D())
         self.model_layers.append(
             tf.keras.layers.Conv2D(
                 512,
@@ -94,23 +118,25 @@ class PatchDiscriminator(Discriminator):
                 kernel_initializer=initializer,
                 use_bias=False,
             )
-        )  # (bs, 31, 31, 512)
+        )
 
         self.model_layers.append(self.normalization_layer())
 
         self.model_layers.append(self.non_linearity())
 
-        self.model_layers.append(tf.keras.layers.ZeroPadding2D())  # (bs, 33, 33, 512)
+        self.model_layers.append(tf.keras.layers.ZeroPadding2D())
 
         self.model_layers.append(
             tf.keras.layers.Conv2D(
                 1, self.kernel_size, strides=1, kernel_initializer=initializer
             )
-        )  # (bs, 30, 30, 1)
+        )
 
-    def call(self, inputs, training=False, return_features=False):
+    def call(
+        self, inputs: Union[List, tf.Tensor], training=False, return_features=False
+    ):
         return super().call(
-            inputs=self.concatenate(inputs),
+            inputs=self.concatenate(inputs) if len(inputs) == 2 else inputs,
             training=training,
             return_features=return_features,
         )
@@ -154,8 +180,41 @@ class PatchDiscriminator(Discriminator):
 
 class MultiScaleDiscriminator(Discriminator):
     """
-    Multiscale discriminator:
-    The last layer is an image in which each pixels is the probability of being fake or real.
+    Multi-Scale discriminator.
+    This discriminator architecture is composed by multiple
+    discriminators working at different scales.
+    Each discriminator is a
+    :py:class:`ashpy.models.convolutional.discriminators.PatchDiscriminator`.
+
+    Examples:
+        .. testcode::
+
+            x = tf.ones((1, 256, 256, 3))
+
+            # instantiate the PathDiscriminator
+            multiScaleDiscriminator = MultiScaleDiscriminator(input_res=256,
+                                                              min_res=16,
+                                                              kernel_size=5,
+                                                              initial_filters=64,
+                                                              filters_cap=512,
+                                                              n_discriminators=3
+                                                              )
+
+            # evaluate passing x
+            outputs = multiScaleDiscriminator(x)
+
+            # the output shape is
+            # the same as the input shape
+            print(len(outputs))
+            for output in outputs:
+                print(output.shape)
+
+        .. testoutput::
+
+            3
+            (1, 12, 12, 1)
+            (1, 12, 12, 1)
+            (1, 12, 12, 1)
     """
 
     def __init__(
@@ -173,7 +232,10 @@ class MultiScaleDiscriminator(Discriminator):
         n_discriminators: int = 1,
     ):
         """
-        Multi Scale Discriminator, used by Pix2PixHD [1]_.
+        Multi Scale Discriminator. Different generator for different scales of the
+        input image.
+
+        Used by Pix2PixHD [1]_ .
 
         Args:
             input_res (int): input resolution
@@ -215,6 +277,13 @@ class MultiScaleDiscriminator(Discriminator):
         self.inputs = [1, 1]
 
     def build_discriminator(self, input_res) -> Discriminator:
+        """
+        Build a single discriminator using parameters defined in this object
+        Args:
+            input_res: input resolution of the discriminator
+        Returns:
+            A Discriminator (PatchDiscriminator).
+        """
         d = PatchDiscriminator(
             input_res=input_res,
             min_res=self.min_res,
@@ -230,22 +299,28 @@ class MultiScaleDiscriminator(Discriminator):
         return d
 
     def call(
-        self, inputs, training=True, return_features=False
+        self, inputs: Union[List, tf.Tensor], training=True, return_features=False
     ) -> Union[List[tf.Tensor], Tuple[List[tf.Tensor], List[tf.Tensor]]]:
         """
         Args:
-            inputs: input tensor
+            inputs (:py:class:`tf.Tensor`): input tensor
             training (bool): whether is training or not
             return_features (bool): whether to return features or not
 
         Returns:
-            - A List of Tensors containing the value of D_i for each input.
-            - A List of features for each discriminator if `return_features`
+            ([:py:class:`tf.Tensor`]): A List of Tensors containing the value of D_i for each input.
+            ([:py:class:`tf.Tensor`]): A List of features for each discriminator if `return_features`
 
         """
-        xs, condition = (
-            inputs
-        )  # inputs is a tuple containing the generated images and the conditions
+        is_conditioned = isinstance(inputs, list)
+
+        if is_conditioned:
+            xs, condition = (
+                inputs
+            )  # inputs is a tuple containing the generated images and the conditions
+        else:
+            xs = inputs
+            condition = None
         outs = []
         features = []
 
@@ -253,7 +328,11 @@ class MultiScaleDiscriminator(Discriminator):
         condition_i = condition
         for i, d in enumerate(self.discriminators):
             # compute value of the i-th discriminator
-            out, feat = d([x_i, condition_i], training=training, return_features=True)
+            out, feat = d(
+                [x_i, condition_i] if condition_i is not None else x_i,
+                training=training,
+                return_features=True,
+            )
 
             # append output and features
             outs.append(out)
@@ -261,7 +340,9 @@ class MultiScaleDiscriminator(Discriminator):
             # reduce input size
             if i != len(self.discriminators) - 1:
                 x_i = self.subsampling(x_i)
-                condition_i = self.subsampling(condition_i)
+                condition_i = (
+                    self.subsampling(condition_i) if condition_i is not None else None
+                )
 
         # handle output values
         if return_features:

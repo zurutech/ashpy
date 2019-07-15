@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Ash Custom layers.
+Collection of layers.
 
 .. currentmodule:: ashpy.layers
 

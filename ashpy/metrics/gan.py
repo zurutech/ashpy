@@ -33,7 +33,7 @@ class DiscriminatorLoss(Metric):
         Args:
             model_selection_operator: The operation to be used when model_selection
                 is on to compare the metrics. E.g.: operator.gt.
-            logdir: The log dir.
+            logdir: The log dir in which to save logs.
         """
 
         super().__init__(

@@ -27,3 +27,5 @@ def add_common_namespaces(doctest_namespace):
     doctest_namespace["trainers"] = ashpy.trainers
     doctest_namespace["models"] = ashpy.models
     doctest_namespace["metrics"] = ashpy.metrics
+    doctest_namespace["layers"] = ashpy.layers
+    doctest_namespace["losses"] = ashpy.losses

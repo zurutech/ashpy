@@ -1,25 +1,94 @@
 # AshPy
 
-<a href="https://github.com/zurutech/ashpy/">
-    <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" style="width: auto !important" />
-</a>
+![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
-<a href="https://github.com/zurutech/ashpy/">
-    <img src="https://img.shields.io/pypi/pyversions/ashpy.svg" style="width: auto !important" />
-</a>
+![Python - Version](https://img.shields.io/pypi/pyversions/ashpy.svg)
 
-<a href="https://github.com/zurutech/ashpy/">
-    <img src="https://badge.fury.io/py/ashpy.svg" style="width: auto !important" />
-</a>
+![PyPy - Version](https://badge.fury.io/py/ashpy.svg)
 
-TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
+![PyPI - License](https://img.shields.io/pypi/l/ashpy.svg)
 
----
+![Ashpy - Badge](https://img.shields.io/badge/package-ashpy-brightgreen.svg)
+
+AshPy is a TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
+It is designed to ease the burden of setting up all the nuances of the architectures built to train complex custom deep learning models.
+
+[Quick Example](#quick-example) | [Features](#features) | [Set Up](#set-up) | [Usage](#usage) | [Dataset Output Format](#dataset-output-format) | [Test](#test)
+
+## Quick Example
+
+```python
+# define a distribution strategy
+strategy = tf.distribute.MirroredStrategy()
+
+# work inside the scope of the created strategy
+with strategy.scope():
+    
+    # get the MNIST dataset
+    train, validation = tf.keras.datasets.mnist.load_data()
+
+    # process data if needed 
+    def process(images, labels):
+        data_images = tf.data.Dataset.from_tensor_slices((images)).map(
+            lambda x: tf.reshape(x, (28 * 28,))
+        )
+        data_images = data_images.map(
+            lambda x: tf.image.convert_image_dtype(x, tf.float32)
+        )
+        data_labels = tf.data.Dataset.from_tensor_slices((labels))
+        dataset = tf.data.Dataset.zip((data_images, data_labels))
+        dataset = dataset.batch(1024 * 1)
+        return dataset
+
+    # apply the process function to the data
+    train, validation = (
+        process(train[0], train[1]),
+        process(validation[0], validation[1]),
+    )
+
+    # create the model
+    model = tf.keras.Sequential(
+        [
+            tf.keras.layers.Dense(10, activation=tf.nn.sigmoid),
+            tf.keras.layers.Dense(10),
+        ]
+    )
+    
+    # define the optimizer
+    optimizer = tf.optimizers.Adam(1e-3)
+    
+    # the loss is provided by the AshPy library
+    loss = ClassifierLoss(tf.losses.SparseCategoricalCrossentropy(from_logits=True))
+    logdir = "testlog"
+    epochs = 10
+
+    # the metrics are provided by the AshPy library
+    # and every metric with model_selection_operator != None performs
+    # model selection, saving the best model in a different folder per metric.
+    metrics = [
+        ClassifierMetric(
+            tf.metrics.Accuracy(), model_selection_operator=operator.gt
+        ),
+        ClassifierMetric(
+            tf.metrics.BinaryAccuracy(), model_selection_operator=operator.gt
+        ),
+    ]
+    
+    # define the AshPy trainer
+    trainer = ClassifierTrainer(
+        model, optimizer, loss, epochs, metrics, logdir=logdir
+    )
+    
+    # run the training process
+    trainer(train, validation)
+```
+
+## Features
 
 AshPy is a library designed to ease the burden of setting up all the nuances of the architectures built to train complex custom deep learning models. It provides both fully convolutional and fully connected models such as:
 
-- autoencoder 
-- decoder 
+- autoencoder
+- decoder
 - encoder
 
 and a fully convolutional:
@@ -28,6 +97,36 @@ and a fully convolutional:
 
 Moreover, it provides already prepared trainers for a classifier model and GAN networks. In particular, in regards of the latter, it offers a basic GAN architecture with a Generator-Discriminator structure and an enhanced GAN architecture version made up of a Encoder-Generator-Discriminator structure.
 
+---
+
+AshPy it is developed around the concepts of _Executor_, _Context_, _Metric_, and _Strategies_ that represents its foundations.
+
+**Executor** An Executor is a class that helps to better generalize a training loop. With an Executor you can construct, for example, a custom loss function and put whatever computation you need inside it. You should define a `call` function inside your class and decorate it with `@Executor.reduce` header. Inside the `call` function you can take advantage of a context.
+
+**Context** A Context is a useful class in which all the models, metrics, dataset and mode of your network are set. Passing the context around means that you can any time access to all what you need in order to performs any type of computation.
+
+**Metric** A Metric is a class from which you can inherit to create your custom metric that can automatically keep track of the best performance of the model during training and, automatically save the best one doing what is called the *model selection*.
+
+**Strategies** If you want to distribute your training across multiple GPUs, there is the `tf.distribute.Strategy` TensorFlow API with which you can distribute your models and training code with minimal code changes. AshPy implements this type of strategies internally and will check everything for you to apply the distribution strategy correctly. All you need to do is as simple as doing the following:
+
+```python
+strategy = tf.distribute.MirroredStrategy()
+with strategy.scope():
+
+    generator = Generator(
+        layer_spec_input_res=(7, 7),
+        layer_spec_target_res=(28, 28),
+        kernel_size=(5, 5),
+        initial_filters=256,
+        filters_cap=16,
+        channels=1,
+    )
+    # rest of the code
+    # with trainer definition and so on
+```
+
+i.e., create the strategy and put the rest of the code inside its scope.
+
 In general AshPy aims to:
 
 - Rapid model prototyping
@@ -35,12 +134,13 @@ In general AshPy aims to:
 - Remove duplicated and boilerplate code
 - General usability by new project
 
-The following README aims to help you understand what you need to do to setup AshPy on your system and, with some examples, what you need to do to setup a complete training of your network. Moreover, it will explain some fundamental modules you need to understand to fully exploit the potential of the library.
+**NOTE:** We invite you to read the full documentation on [the official website](https://blog.zuru.tech/ashpy/).
 
-Read the documentation on [the official website](https://blog.zuru.tech/ashpy/).
+The following README aims to help you understand what you need to do to setup AshPy on your system and, with some examples, what you need to do to setup a complete training of your network. Moreover, it will explain some fundamental modules you need to understand to fully exploit the potential of the library.
 
 ## Set up
 
+### Pip install
 ```bash
 # Depending on GPU support you might want to install
 # tensorflow-gpu or tensorflow
@@ -49,13 +149,20 @@ pip install tensorflow-gpu==2.0.0beta1
 pip install ashpy
 ```
 
-## AshPy usage
+### Source install
+
+Clone this repo, go inside the downloaded folder and install with:
+```bash
+pip install -e .
+```
+
+## Usage
 
 Let's quickly start with some examples.
 
 ### Classifier
 
-Let's say we want to train a classifier. 
+Let's say we want to train a classifier.
 
 ```python
 import operator
@@ -79,12 +186,12 @@ loss = ClassifierLoss(tf.losses.SparseCategoricalCrossentropy(from_logits=True))
 logdir = "testlog"
 epochs = 2
 
-metrics = [ 
+metrics = [
     ClassifierMetric(tf.metrics.Accuracy(), model_selection_operator=operator.gt),
     ClassifierMetric(tf.metrics.BinaryAccuracy(), model_selection_operator=operator.gt),
 ]
 
-trainer = ClassifierTrainer(model, optimizer, loss, epochs, metrics, logdir=logdir) 
+trainer = ClassifierTrainer(model, optimizer, loss, epochs, metrics, logdir=logdir)
 
 train, validation = toy_dataset(), toy_dataset()
 trainer(train, validation)
@@ -103,7 +210,7 @@ model = tf.keras.Sequential([
 optimizer = tf.optimizers.Adam(1e-3)
 ```
 
-Then we define the loss: 
+Then we define the loss:
 
 ```python
 loss = ClassifierLoss(tf.losses.SparseCategoricalCrossentropy(from_logits=True))
@@ -117,7 +224,7 @@ This works in conjunction with the following line (we will speak about the "_met
 trainer = ClassifierTrainer(model, optimizer, loss, epochs, metrics, logdir=logdir)
 ```
 
-where a `ClassifierTrainer` is an object designed to run a specific training procedure adjusted, in this case, for a classifier. 
+where a `ClassifierTrainer` is an object designed to run a specific training procedure adjusted, in this case, for a classifier.
 
 The arguments of this function are the model, the optimizer, the loss, the number of epochs, the metrics and the logdir. We have already seen the definition of the model, the optimizer and of the loss. The definition of epochs, metrics and logdir happens here:
 
@@ -125,7 +232,7 @@ The arguments of this function are the model, the optimizer, the loss, the numbe
 logdir = "testlog"
 epochs = 2
 
-metrics = [ 
+metrics = [
     ClassifierMetric(tf.metrics.Accuracy(), model_selection_operator=operator.gt),
     ClassifierMetric(
     tf.metrics.BinaryAccuracy(),model_selection_operator=operator.gt),
@@ -259,10 +366,10 @@ and then we define the losses:
 ```python
 # Losses
 generator_bce = GeneratorBCE()
-minmax = MinMax()
+minmax = DiscriminatorMinMax()
 ```
 
-where `GeneratorBCE()` and `DiscriminatorMinMax()` are the losses defined inheriting `Executor`. Again, as we have seen in the previous classifier example, you can customize this type (the ones inheriting from the `Executor`) of losses. 
+where `GeneratorBCE()` and `DiscriminatorMinMax()` are the losses defined inheriting `Executor`. Again, as we have seen in the previous classifier example, you can customize this type (the ones inheriting from the `Executor`) of losses.
 
 The metrics are defined as follow:
 
@@ -339,7 +446,7 @@ trainer = EncoderTrainer(
 
 Note that the `EncoderTrainer` indicates a trainer of a GAN network with an Encoder and not a trainer of an Encoder itself.
 
-### Dataset Output Format
+## Dataset Output Format
 
 In order to standardize the GAN training, AshPy requires the input dataset to be in a common format. In particular, the dataset return type must always be in the format showed below, where the fist element of the tuple is the discriminator input, and the second is the generator input.
 
@@ -351,33 +458,15 @@ Where `a` is the input sample, `b` is the label/condition (if any, otherwise fil
 
 To train Pix2Pix-like architecture, that have no `noise` as Generator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator output.
 
+## Test
+In order to run the doctests first you need to install the pytest-sphinx package:
 
-Executor, Context, Metric and Strategies
-----------------------------
-AshPy it is heavily based on the concept of Executor, Context and Metric.
-
-**Executor** An Executor is a class that helps to better generalize a training loop. With an Executor you can construct, for example, a custom loss function and put whatever computation you need inside it. You should define a `call` function inside your class and decorate it with `@Executor.reduce` header. Inside the `call` function you can take advantage of a context.
-
-**Context** A Context is a useful class in which all the models, metrics, dataset and mode of your network are set. Passing the context around means that you can any time access to all what you need in order to performs any type of computation.
-
-**Metric** A Metric is a class from which you can inherit to create your custom metric that can automatically keep track of the best performance of the model during training and, automatically save the best one doing what is called the *model selection*.
-
-**Strategies** If you want to distribute your training across multiple GPUs, there is the `tf.distribute.Strategy` TensorFlow API with which you can distribute your models and training code with minimal code changes. AshPy implements this type of strategies internally and will check everything for you to apply the distribution strategy correctly. All you need to do is as simple as doing the following:
-
-```python
-strategy = tf.distribute.MirroredStrategy()
-with strategy.scope():
-
-    generator = Generator(
-        layer_spec_input_res=(7, 7),
-        layer_spec_target_res=(28, 28),
-        kernel_size=(5, 5),
-        initial_filters=256,
-        filters_cap=16,
-        channels=1,
-    )
-    # rest of the code
-    # with trainer definition and so on
+```bash
+bash -c "pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest"
 ```
 
-i.e., create the strategy and put the rest of the code inside its scope.
+Then you can choose the name of the module you want to test and run:
+
+```bash
+pytest -x -s -vvv --doctest-modules $module
+```
