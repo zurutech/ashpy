@@ -1,0 +1,9 @@
+tensorflow==2.0.0beta1
+sphinx
+sphinx-autobuild
+sphinx-rtd-theme
+pydocstyle
+doc8
+sphinxcontrib-websupport
+sphinx-autobuild
+sphinx-autodoc-typehints
