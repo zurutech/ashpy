@@ -1,0 +1,59 @@
+dist: xenial
+language: python
+addons:
+  artifacts: true
+python:
+- '3.7'
+stages:
+  - Tests
+  - Black
+  - Pylint
+  - Deploy
+before_install:
+  - sudo apt-get install -y --no-install-recommends bc
+addons:
+  apt:
+    update: true
+install: &requirements
+- pip install -r dev-requirements.txt
+- pip install -e .
+jobs:
+  include:
+  - stage: Tests
+    install: *requirements
+    script:
+    - pip install codecov
+    - pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest
+    - pip --no-cache-dir install pytest-cov
+    - module=""
+    - for d in $(ls -d */); do if [ -f "$d"__init__.py ]; then module=${d::-1}; fi
+      done
+    - pytest -x -s -vvv --doctest-modules $module --cov=$module
+    after_success:
+    - codecov
+  - stage: Black
+    install: *requirements
+    script:
+    - echo excluding $(git config --file .gitmodules --get-regexp path | awk '{ print
+      $2 }')
+    - black --exclude $(git config --file .gitmodules --get-regexp path | awk '{ print
+      $2 }') --check .
+  - stage: Pylint
+    install: *requirements
+    script:
+    - pip --no-cache-dir install pylint-runner
+    - pylint_runner --rcfile=.pylintrc --output-format=text . | tee pylint.txt
+    - score=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint.txt)
+    - if (( $(echo "$score < 8" |bc -l) )); then echo "Your Pylint score is too low, $score < 8!"; exit 1; fi
+  - stage: Deploy
+    script: skip
+    deploy:
+      provider: pypi
+      user: emanueleghelfi
+      password:
+        secure: S6XvndLnBDs64vjouhjw1l5N1eAMrCfxZt64KnNdJnn481BBoaEzY/CNV5Bp4GqPi8T7vu+AY78yT1LPT5YNazya0ywo2p3KCeQSQpgzz3gTjLbsKA6q0YXiNeLtw9X5xmpV5RoqR06+zukf8Hs/gk6HGpvW2SKG9FhTTSLKzmR4G9VJaveb9vZ8FaoK8lpuRyEYbneM92artjVV9eCYUXXa/1fNJPRhGW+q/mShtCrL/2zEVDCCXZ8oY3KgW1zNXUoPKDtg+o20002FveYrUw/0AofTMQutz+tkyvsNed3mWctA+W2YFohF70OgdiyeN8UCWWPqNOAnvvOFsWH0KSBvDmR/YUaGzk59v7WYG677j2uwD5AdZSvAMJjVqJ3D+HoHPgGj5IWpj/Ncyn65/7uQNvG4oD6i7BDKeqGoCgXTK+8TqkdzIRQEemQ4kEmbHy5EoZdQwZBASWct+jtM2hTBkkZaOwbQgKk7I+Q5RXlzg8BoNZKZGtZSG5HM5JV4b6SUUDjE/JWukHh3V1hVtgtha9yefN4TwrZ8mG0ntfsr7aPwYvmNjUi0hcdgV+/IsmHdn/fsGUfzvr8aW20aG3FeGiKO8tPAzieIHDywDBZa+tKFck1Uvei5x/nK10pSEo0zFDC3p/HjBGnoB8+JPT/TeCWrfRQW5klsPiLZ3hU=
+      on:
+        tags: true
+        all_branches: true
+    # deploy only if tag is a release tag (e.g. r0.0.1)
+    if: tag =~ /^r(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
