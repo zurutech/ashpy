@@ -1,0 +1,26 @@
+# Core packages
+tensorflow
+tfds-nightly
+opencv-python
+tensorflow-hub
+
+# Code Style
+black
+pylint
+flake8
+isort
+rope
+mypy
+
+# Documentation
+sphinx
+sphinx-autobuild
+sphinx-rtd-theme
+pydocstyle
+doc8
+
+# Testing
+pytest
+
+# pytest-sphix
+#git+https://github.com/thisch/pytest-sphinx.git
