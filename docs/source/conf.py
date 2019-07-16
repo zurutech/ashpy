@@ -25,11 +25,10 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 
 import os
 import sys
-
-sys.path.insert(0, os.path.abspath("../../"))
 import ashpy
 
 # -- Project information -----------------------------------------------------
@@ -68,6 +67,7 @@ extensions = [
     "sphinx.ext.inheritance_diagram",
     "sphinx.ext.graphviz",
     "m2r",
+    "sphinx_autodoc_typehints",
 ]
 
 # Autodoc
@@ -75,7 +75,6 @@ autodoc_default_flags = ["members"]
 autodoc_default_flags = [
     # Make sure that any autodoc declarations show the right members
     "members",
-    # "inherited-members",
     "private-members",
     "show-inheritance",
 ]
