@@ -4,20 +4,19 @@ language: python
 python:
   - "3.7"
 
-stages:
-    - tests
-
 # command to install dependencies
-install:
+install: &requirements
   - pip install -r requirements-no-gpu.txt
   - pip install -e .
 
-doctest:
-    stage: tests
-    script:
-        - bash -c "pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest"
-        # install pytest coverage extension
-        - pip --no-cache-dir install pytest-cov
-        - module=""
-        - for d in $(ls -d */); do if [ -f "$d"__init__.py ]; then module=${d::-1}; fi done
-        - pytest -x -s -vvv --doctest-modules $module --cov=$module
+jobs:
+    include:
+      - stage: Tests
+        install: *requirements
+        script:
+          - bash -c "pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest"
+          # install pytest coverage extension
+          - pip --no-cache-dir install pytest-cov
+          - module=""
+          - for d in $(ls -d */); do if [ -f "$d"__init__.py ]; then module=${d::-1}; fi done
+          - pytest -x -s -vvv --doctest-modules $module --cov=$module
