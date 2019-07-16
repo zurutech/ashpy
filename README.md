@@ -5,6 +5,7 @@
 ![PyPy - Version](https://badge.fury.io/py/ashpy.svg)
 ![PyPI - License](https://img.shields.io/pypi/l/ashpy.svg)
 ![Ashpy - Badge](https://img.shields.io/badge/package-ashpy-brightgreen.svg)
+[![codecov](https://codecov.io/gh/EmanueleGhelfi/ashpy/branch/master/graph/badge.svg)](https://codecov.io/gh/EmanueleGhelfi/ashpy)
 
 AshPy is a TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
 It is designed to ease the burden of setting up all the nuances of the architectures built to train complex custom deep learning models.
@@ -19,11 +20,11 @@ strategy = tf.distribute.MirroredStrategy()
 
 # work inside the scope of the created strategy
 with strategy.scope():
-    
+
     # get the MNIST dataset
     train, validation = tf.keras.datasets.mnist.load_data()
 
-    # process data if needed 
+    # process data if needed
     def process(images, labels):
         data_images = tf.data.Dataset.from_tensor_slices((images)).map(
             lambda x: tf.reshape(x, (28 * 28,))
@@ -49,10 +50,10 @@ with strategy.scope():
             tf.keras.layers.Dense(10),
         ]
     )
-    
+
     # define the optimizer
     optimizer = tf.optimizers.Adam(1e-3)
-    
+
     # the loss is provided by the AshPy library
     loss = ClassifierLoss(tf.losses.SparseCategoricalCrossentropy(from_logits=True))
     logdir = "testlog"
@@ -69,12 +70,12 @@ with strategy.scope():
             tf.metrics.BinaryAccuracy(), model_selection_operator=operator.gt
         ),
     ]
-    
+
     # define the AshPy trainer
     trainer = ClassifierTrainer(
         model, optimizer, loss, epochs, metrics, logdir=logdir
     )
-    
+
     # run the training process
     trainer(train, validation)
 ```

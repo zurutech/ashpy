@@ -16,12 +16,16 @@ jobs:
       - stage: Tests
         install: *requirements
         script:
+          - pip install codecov
           - bash -c "pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest"
           # install pytest coverage extension
           - pip --no-cache-dir install pytest-cov
           - module=""
           - for d in $(ls -d */); do if [ -f "$d"__init__.py ]; then module=${d::-1}; fi done
           - pytest -x -s -vvv --doctest-modules $module --cov=$module
+        # Push the results back to codecov
+        after_success:
+          - codecov
       - stage: Black
         install: *requirements
         script:
@@ -32,9 +36,6 @@ jobs:
       - stage: Pylint
         install: *requirements
         script:
-          - apt-get install -y --no-install-recommends bc
-          - pip --no-cache-dir install anybadge pylint-runner
+          - pip --no-cache-dir install pylint-runner
           - bash -c "pylint_runner --rcfile=.pylintrc --output-format=text . | tee pylint.txt"
           - score=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint.txt)
-          - anybadge --value=$score --file=pylint.svg pylint
-          - if (( $(echo "$score < 4" |bc -l) )); then echo "SHAME. $score < 4!"; exit 1; fi
