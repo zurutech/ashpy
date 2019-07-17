@@ -1,0 +1,19 @@
+# Core packages
+# uncomment the following line to install the gpu-version
+# tensorflow-gpu==2.0.0b1
+tensorflow==2.0.0b1
+tensorflow_hub
+
+# Code Style
+black
+pylint
+flake8
+isort
+rope
+mypy
+
+# Testing
+pytest
+
+# pytest-sphix
+#git+https://github.com/thisch/pytest-sphinx.git
