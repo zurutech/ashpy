@@ -458,14 +458,15 @@ Where `a` is the input sample, `b` is the label/condition (if any, otherwise fil
 To train Pix2Pix-like architecture, that have no `noise` as Generator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator output.
 
 ## Test
-In order to run the doctests first you need to install the pytest-sphinx package:
+In order to run the doctests first you need to install the `pytest-sphinx` package and `pytest-cov` package:
 
 ```bash
-bash -c "pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest"
+pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest
+pip install pytest-cov
 ```
 
-Then you can choose the name of the module you want to test and run:
+Then you can run tests with coverage statistics with:
 
 ```bash
-pytest -x -s -vvv --doctest-modules $module
+pytest -x -s -vvv --doctest-modules ashpy --cov=ashpy
 ```
