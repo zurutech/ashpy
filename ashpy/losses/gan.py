@@ -13,20 +13,23 @@
 # limitations under the License.
 
 """GAN losses."""
-from abc import ABC
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
 from enum import Enum
-from typing import List, Union, Type
+from typing import TYPE_CHECKING, List, Type, Union
 
 import tensorflow as tf
-from ashpy.contexts import GANContext
 
+from ashpy.contexts import GANContext, GANEncoderContext
 from ashpy.losses.executor import Executor, SumExecutor
+
+if TYPE_CHECKING:
+    from ashpy.types import TWeight
 
 
 class AdversarialLossType(Enum):
-    """
-    Enumeration for Adversarial Losses. Implemented: GAN and LSGAN.
-    """
+    """Enumeration for Adversarial Losses. Implemented: GAN and LSGAN."""
 
     GAN = 0  # classical gan loss (minmax)
     LSGAN = 1  # Least Square GAN
@@ -34,8 +37,25 @@ class AdversarialLossType(Enum):
 
 class GANExecutor(Executor, ABC):
     """
-    Executor for GANs. Implements the basic functions needed by the GAN losses
+    Executor for GANs.
+
+    Implements the basic functions needed by the GAN losses.
     """
+
+    @abstractmethod
+    def call(self, context, **kwargs):
+        """
+        Execute the function, using the information provided by the context.
+
+        Args:
+            context (:py:class:`ashpy.contexts.BaseContext`): The function
+                execution Context.
+
+        Returns:
+            :py:obj:`tf.Tensor`: Output Tensor.
+
+        """
+        super(GANExecutor, self).call(context, **kwargs)
 
     @staticmethod
     def get_discriminator_inputs(
@@ -45,14 +65,17 @@ class GANExecutor(Executor, ABC):
         training: bool,
     ) -> Union[tf.Tensor, List[tf.Tensor]]:
         """
-        Returns the discriminator inputs. If needed it uses the encoder.
+        Return the discriminator inputs. If needed it uses the encoder.
+
         The current implementation uses the number of inputs to determine
         whether the discriminator is conditioned or not.
 
         Args:
-            context (:py:class:`ashpy.contexts.gan.GANContext`): context for GAN models
-            fake_or_real (:py:class:`tf.Tensor`): discriminator input tensor, it can be fake (generated) or real
-            condition (:py:class:`tf.Tensor`): discriminator condition (it can also be generator noise)
+            context (:py:class:`ashpy.contexts.gan.GANContext`): Context for GAN models.
+            fake_or_real (:py:class:`tf.Tensor`): Discriminator input tensor,
+                it can be fake (generated) or real.
+            condition (:py:class:`tf.Tensor`): Discriminator condition
+                (it can also be generator noise).
             training (:py:class:`bool`): whether is training phase or not
 
         Returns:
@@ -61,8 +84,8 @@ class GANExecutor(Executor, ABC):
         """
         num_inputs = len(context.discriminator_model.inputs)
 
-        # Handle encoder
-        if hasattr(context, "encoder_model"):
+        # Handle Encoder
+        if isinstance(context, GANEncoderContext):
             if num_inputs == 2:
                 d_inputs = [
                     fake_or_real,
@@ -87,38 +110,51 @@ class GANExecutor(Executor, ABC):
         return d_inputs
 
 
+# TODO: Think about a better name.
 class AdversarialLossG(GANExecutor):
-    r"""
-    Base class for the adversarial loss of the generator
-    """
+    r"""Base class for the adversarial loss of the generator."""
 
-    def __init__(self, loss_fn=None):
+    def __init__(self, loss_fn: tf.keras.losses.Loss = None) -> None:
         """
+        Initialize the Executor.
+
         Args:
-            loss_fn: loss_fn to call passing (tf.ones_like(d_fake_i), d_fake_i)
+            loss_fn (:py:class:`tf.keras.losses.Loss`): Keras Loss function to call
+                passing (tf.ones_like(d_fake_i), d_fake_i).
+
         """
         super().__init__(loss_fn)
 
     @Executor.reduce_loss
-    def call(self, context, *, fake, condition, training, **kwargs):
+    def call(
+        self,
+        context: GANContext,
+        *,
+        fake: tf.Tensor,
+        condition: tf.Tensor,
+        training: bool,
+        **kwargs,
+    ) -> tf.Tensor:
         r"""
-        Call: setup the discriminator inputs and calls `loss_fn`
-        Args:
-            context: GAN Context
-            fake: fake images
-            condition: generator condition
-            training: if training or evaluation
-        Returns:
-            The loss for each example
-        """
+        Configure the discriminator inputs and calls `loss_fn`.
 
+        Args:
+            context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
+            fake (:py:class:`tf.Tensor`): Fake images.
+            condition (:py:class:`tf.Tensor`): Generator conditioning.
+            training (bool): If training or evaluation.
+
+        Returns:
+            :py:class:`tf.Tensor`: The loss for each example.
+
+        """
         fake_inputs = self.get_discriminator_inputs(
             context=context, fake_or_real=fake, condition=condition, training=training
         )
 
         d_fake = context.discriminator_model(fake_inputs, training=training)
 
-        # support for Multiscale discriminator
+        # Support for Multiscale discriminator
         # TODO: Improve
         if isinstance(d_fake, list):
             value = tf.add_n(
@@ -130,14 +166,14 @@ class AdversarialLossG(GANExecutor):
                 ]
             )
             return value
-        else:
-            value = self._fn(tf.ones_like(d_fake), d_fake)
-            value = tf.cond(
-                tf.equal(tf.rank(d_fake), tf.constant(4)),
-                lambda: value,
-                lambda: tf.expand_dims(tf.expand_dims(value, axis=-1), axis=-1),
-            )
-            return tf.reduce_mean(value, axis=[1, 2])
+
+        value = self._fn(tf.ones_like(d_fake), d_fake)
+        value = tf.cond(
+            tf.equal(tf.rank(d_fake), tf.constant(4)),
+            lambda: value,
+            lambda: tf.expand_dims(tf.expand_dims(value, axis=-1), axis=-1),
+        )
+        return tf.reduce_mean(value, axis=[1, 2])
 
 
 class GeneratorBCE(AdversarialLossG):
@@ -149,24 +185,29 @@ class GeneratorBCE(AdversarialLossG):
 
     """
 
-    def __init__(self, from_logits=True):
+    def __init__(self, from_logits: bool = True) -> None:
+        """Initialize the BCE Loss for the Generator."""
         self.name = "GeneratorBCE"
-        super().__init__(tf.losses.BinaryCrossentropy(from_logits=from_logits))
+        super().__init__(tf.keras.losses.BinaryCrossentropy(from_logits=from_logits))
 
 
 class GeneratorLSGAN(AdversarialLossG):
     r"""
-    Least Square GAN Loss for generator
+    Least Square GAN Loss for generator.
+
     Reference: https://arxiv.org/abs/1611.04076
-    Basically the Mean Squared Error between
-    the discriminator output when evaluated in fake and 1
+
+    .. note::
+        Basically the Mean Squared Error between the discriminator output when evaluated
+        in fake and 1.
 
     .. math::
         L_{G} =  \frac{1}{2} E [(1 - D(G(z))^2]
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the Least Square Loss for the Generator."""
         super().__init__(tf.keras.losses.MeanSquaredError())
         self.name = "GeneratorLSGAN"
 
@@ -178,41 +219,63 @@ class GeneratorL1(GANExecutor):
     .. math::
         L_G = E ||x - G(z)||_1
 
-    where x is the target and G(z) is generated image.
+    Where x is the target and G(z) is generated image.
 
     """
 
-    class L1Loss(tf.losses.Loss):
-        def __init__(self):
+    class L1Loss(tf.keras.losses.Loss):
+        """L1 Loss implementation as :py:class:`tf.keras.losses.Loss`."""
+
+        def __init__(self) -> None:
+            """Initialize the Loss."""
             super().__init__()
-            self._reduction = tf.losses.Reduction.SUM_OVER_BATCH_SIZE
+            self._reduction = tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE
 
         @property
-        def reduction(self):
+        def reduction(self) -> tf.keras.losses.Reduction:
+            """Return the current `reduction` for this type of loss."""
             return self._reduction
 
         @reduction.setter
-        def reduction(self, value):
+        def reduction(self, value: tf.keras.losses.Reduction) -> None:
+            """
+            Set the `reduction`.
+
+            Args:
+                value (:py:class:`tf.keras.losses.Reduction`): Reduction to use for the loss.
+
+            """
             self._reduction = value
 
-        def call(self, x, y):
-            """
-            For each element the mean of the l1 between x and y
-            """
-            if self._reduction == tf.losses.Reduction.SUM_OVER_BATCH_SIZE:
+        def call(self, x: tf.Tensor, y: tf.Tensor) -> tf.Tensor:
+            """Compute the mean of the l1 between x and y."""
+            if self._reduction == tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE:
                 axis = None
-            elif self._reduction == tf.losses.Reduction.NONE:
+            elif self._reduction == tf.keras.losses.Reduction.NONE:
                 axis = (1, 2, 3)
             else:
                 raise ValueError("L1Loss: unhandled reduction type")
 
             return tf.reduce_mean(tf.abs(x - y), axis=axis)
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the Executor."""
         super().__init__(GeneratorL1.L1Loss())
 
     @Executor.reduce_loss
-    def call(self, context, *, fake, real, **kwargs):
+    def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
+        """
+        Call the carried loss on `fake` and `real`.
+
+        Args:
+            context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
+            fake (:py:class:`tf.Tensor`): Fake data (generated).
+            real (:py:class:`tf.Tensor`): Real data.
+
+        Returns:
+            :py:class:`tf.Tensor`: Output Tensor.
+
+        """
         mae = self._fn(fake, real)
         return mae
 
@@ -220,6 +283,7 @@ class GeneratorL1(GANExecutor):
 class FeatureMatchingLoss(GeneratorL1):
     r"""
     Conditional GAN Feature matching loss.
+
     The loss is computed for each example and it's the L1 (MAE) of the feature difference.
     Implementation of pix2pix HD: https://github.com/NVIDIA/pix2pixHD
 
@@ -236,14 +300,39 @@ class FeatureMatchingLoss(GeneratorL1):
     - G(c) is the generated image from the condition c
     - || ||_1 stands for norm 1.
 
-    This is for a single example: basically for each layer of the discriminator we compute the absolute error between
+    This is for a single example: basically for each layer
+    of the discriminator we compute the absolute error between
     the layer evaluated in real examples and in fake examples.
-    Then we average along the batch. In the case where D_i is a multidimensional tensor we simply calculate the mean
+    Then we average along the batch. In the case where D_i is
+    a multidimensional tensor we simply calculate the mean
     over the axis 1,2,3.
     """
 
     @Executor.reduce_loss
-    def call(self, context, *, fake, real, condition, training, **kwargs):
+    def call(
+        self,
+        context: GANContext,
+        *,
+        fake: tf.Tensor,
+        real: tf.Tensor,
+        condition: tf.Tensor,
+        training: bool,
+        **kwargs,
+    ) -> tf.Tensor:
+        """
+        Configure the discriminator inputs and calls `loss_fn`.
+
+        Args:
+            context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
+            fake (): Fake data.
+            real (): Real data.
+            condition (): Generator conditioning.
+            training (bool): If training or evaluation.
+
+        Returns:
+            :py:class:`tf.Tensor`: The loss for each example.
+
+        """
         fake_inputs = self.get_discriminator_inputs(
             context, fake_or_real=fake, condition=condition, training=training
         )
@@ -272,26 +361,31 @@ class FeatureMatchingLoss(GeneratorL1):
 class CategoricalCrossEntropy(Executor):
     r"""
     Categorical Cross Entropy between generator output and target.
-    Useful when the output of the generator is a distribution over classes
-    The target must be represented in one hot notation
+
+    Useful when the output of the generator is a distribution over classes.
+
+    ..note::
+        The target must be represented in one hot notation.
+
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the Categorical Cross Entropy Executor."""
         self.name = "CrossEntropy"
         super().__init__(tf.keras.losses.CategoricalCrossentropy())
 
     @Executor.reduce_loss
-    def call(self, context, *, fake, real, **kwargs):
+    def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
         """
-        Compute the categorical cross entropy loss
+        Compute the categorical cross entropy loss.
+
         Args:
-            context: unused
-            fake: fake images G(condition)
-            real: Real images x(c)
-            **kwargs:
+            context: Unused.
+            fake (:py:class:`tf.Tensor`): Fake data G(condition).
+            real (:py:class:`tf.Tensor`): Real data x(c).
 
         Returns:
-            The categorical cross entropy loss for each example
+            The categorical cross entropy loss for each example.
 
         """
         loss_value = tf.reduce_mean(self._fn(real, fake), axis=[1, 2])
@@ -300,8 +394,12 @@ class CategoricalCrossEntropy(Executor):
 
 class Pix2PixLoss(SumExecutor):
     r"""
-    Weighted sum of :py:class:`ashpy.losses.gan.GeneratorL1`, :py:class:`ashpy.losses.gan.AdversarialLossG` and
+    Pix2Pix Loss.
+
+    Weighted sum of :py:class:`ashpy.losses.gan.GeneratorL1`,
+    :py:class:`ashpy.losses.gan.AdversarialLossG` and
     :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.
+
     Used by Pix2Pix [1] and Pix2PixHD [2]
 
     .. [1] Image-to-Image Translation with Conditional Adversarial Networks
@@ -313,26 +411,31 @@ class Pix2PixLoss(SumExecutor):
 
     def __init__(
         self,
-        l1_loss_weight=100.0,
-        adversarial_loss_weight=1.0,
-        feature_matching_weight=10.0,
+        l1_loss_weight: TWeight = 100.0,
+        adversarial_loss_weight: TWeight = 1.0,
+        feature_matching_weight: TWeight = 10.0,
         adversarial_loss_type: Union[
             AdversarialLossType, int
         ] = AdversarialLossType.GAN,
         use_feature_matching_loss: bool = False,
-    ):
+    ) -> None:
         r"""
-        Weighted sum of :py:class:`ashpy.losses.gan.GeneratorL1`, :py:class:`ashpy.losses.gan.AdversarialLossG` and
+        Initialize the loss.
+
+        Weighted sum of :py:class:`ashpy.losses.gan.GeneratorL1`,
+        :py:class:`ashpy.losses.gan.AdversarialLossG` and
         :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.
 
         Args:
-            l1_loss_weight: weight of L1 loss (scalar, :py:class:`tf.Tensor`, callable)
-            adversarial_loss_weight: weight of adversarial loss (scalar, :py:class:`tf.Tensor`, callable)
-            feature_matching_weight: weight of the feature matching loss (scalar, :py:class:`tf.Tensor`, callable)
-            adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Adversarial loss type
-                                                                     (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN`
-                                                                     or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)
-            use_feature_matching_loss (bool): if True use also :py:class:`ashpy.losses.gan.FeatureMatchingLoss`
+            l1_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of L1 loss.
+            adversarial_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of adversarial loss.
+            feature_matching_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+                feature matching loss.
+            adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Adversarial
+                loss type (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN`
+                or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`).
+            use_feature_matching_loss (bool): if True use also uses
+                :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.
 
         """
         executors = [
@@ -348,29 +451,41 @@ class Pix2PixLoss(SumExecutor):
 
 
 class Pix2PixLossSemantic(SumExecutor):
-    """
-    Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`, :py:class:`ashpy.losses.gan.AdversarialLossG` and
-    :py:class:`ashpy.losses.gan.FeatureMatchingLoss`
+    r"""
+    Semantic Pix2Pix Loss.
+
+    Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`,
+    :py:class:`ashpy.losses.gan.AdversarialLossG` and
+    :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.
+
     """
 
     def __init__(
         self,
-        cross_entropy_weight=100.0,
-        adversarial_loss_weight=1.0,
-        feature_matching_weight=10.0,
+        cross_entropy_weight: TWeight = 100.0,
+        adversarial_loss_weight: TWeight = 1.0,
+        feature_matching_weight: TWeight = 10.0,
         adversarial_loss_type: AdversarialLossType = AdversarialLossType.GAN,
         use_feature_matching_loss: bool = False,
     ):
         r"""
-        Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`, :py:class:`ashpy.losses.gan.AdversarialLossG` and
-        :py:class:`ashpy.losses.gan.FeatureMatchingLoss`
+        Initialize the Executor.
+
+        Weighted sum of :py:class:`ashpy.losses.gan.CategoricalCrossEntropy`,
+        :py:class:`ashpy.losses.gan.AdversarialLossG`
+        and :py:class:`ashpy.losses.gan.FeatureMatchingLoss`
+
         Args:
-            cross_entropy_weight: weight of the categorical cross entropy loss (scalar, :py:class:`tf.Tensor`, callable)
-            adversarial_loss_weight: weight of the adversarial loss (scalar, :py:class:`tf.Tensor`, callable)
-            feature_matching_weight: weight of the feature matching loss (scalar, :py:class:`tf.Tensor`, callable)
-            adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): type of adversarial loss,
-                                                                     see :py:class:`ashpy.losses.gan.AdversarialLossType`
+            cross_entropy_weight (:py:obj:`ashpy.types.TWeight`): Weight of the categorical
+                cross entropy loss.
+            adversarial_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+                adversarial loss.
+            feature_matching_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+                feature matching loss.
+            adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): type of
+                adversarial loss, see :py:class:`ashpy.losses.gan.AdversarialLossType`
             use_feature_matching_loss (bool): whether to use feature matching loss or not
+
         """
         executors = [
             CategoricalCrossEntropy() * cross_entropy_weight,
@@ -383,49 +498,66 @@ class Pix2PixLossSemantic(SumExecutor):
         super().__init__(executors)
 
 
+# TODO: Check if this supports condition
 class EncoderBCE(Executor):
-    """The Binary Cross Entropy computed among the encoder and the 0 label.
-    TODO: Check if this supports condition
-    """
+    """The Binary Cross Entropy computed among the encoder and the 0 label."""
 
-    def __init__(self, from_logits=True):
-        super().__init__(tf.losses.BinaryCrossentropy(from_logits=from_logits))
+    def __init__(self, from_logits: bool = True) -> None:
+        """Initialize the Executor."""
+        super().__init__(tf.keras.losses.BinaryCrossentropy(from_logits=from_logits))
 
     @Executor.reduce_loss
-    def call(self, context, *, real, training, **kwargs):
+    def call(
+        self, context: GANEncoderContext, *, real: tf.Tensor, training: bool, **kwargs
+    ):
+        """
+        Compute the Encoder BCE.
+
+        Args:
+            context (:py:class:`ashpy.contexts.GANEncoderContext`): GAN Context
+                with Encoder support.
+            real (:py:class:`tf.Tensor`): Real images.
+            training (bool): If training or evaluation.
+
+        Returns:
+            :py:class:`tf.Tensor`: The loss for each example.
+
+        """
         encode = context.encoder_model(real, training=training)
         d_real = context.discriminator_model([real, encode], training=training)
         return self._fn(tf.zeros_like(d_real), d_real)
 
 
 class AdversarialLossD(GANExecutor):
-    r"""
-    Base class for the adversarial loss of the discriminator
-    """
+    r"""Base class for the adversarial loss of the discriminator."""
 
-    def __init__(self, loss_fn=None):
+    def __init__(self, loss_fn: tf.keras.losses.Loss = None) -> None:
         r"""
+        Initialize the Executor.
+
         Args:
-            loss_fn to call passing (d_real, d_fake)
+            loss_fn (:py:class:`tf.keras.losses.Loss`): Loss function call passing
+            (d_real, d_fake).
+
         """
         super().__init__(loss_fn)
 
     @Executor.reduce_loss
-    def call(self, context, *, fake, real, condition, training, **kwargs):
+    def call(self, context: GANContext, *, fake, real, condition, training, **kwargs):
         r"""
-        Call: setup the discriminator inputs and calls `loss_fn`
+        Call: setup the discriminator inputs and calls `loss_fn`.
 
         Args:
-            context: GAN Context
-            fake: fake images corresponding to the condition G(c)
-            real: real images corresponding to the condition x(c)
-            condition: condition for the generator and discriminator
-            training: if training or evaluation
+            context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
+            fake (:py:class:`tf.Tensor`): Fake images corresponding to the condition G(c).
+            real (:py:class:`tf.Tensor`): Real images corresponding to the condition x(c).
+            condition (:py:class:`tf.Tensor`): Condition for the generator and discriminator.
+            training (bool): if training or evaluation
 
         Returns:
-            The loss for each example
-        """
+            :py:class:`tf.Tensor`: The loss for each example.
 
+        """
         fake_inputs = self.get_discriminator_inputs(
             context, fake_or_real=fake, condition=condition, training=training
         )
@@ -445,14 +577,13 @@ class AdversarialLossD(GANExecutor):
                 ]
             )
             return value
-        else:
-            value = self._fn(d_real, d_fake)
-            value = tf.cond(
-                tf.equal(tf.rank(d_fake), tf.constant(4)),
-                lambda: value,
-                lambda: tf.expand_dims(tf.expand_dims(value, axis=-1), axis=-1),
-            )
-            return tf.reduce_mean(value, axis=[1, 2])
+        value = self._fn(d_real, d_fake)
+        value = tf.cond(
+            tf.equal(tf.rank(d_fake), tf.constant(4)),
+            lambda: value,
+            lambda: tf.expand_dims(tf.expand_dims(value, axis=-1), axis=-1),
+        )
+        return tf.reduce_mean(value, axis=[1, 2])
 
 
 class DiscriminatorMinMax(AdversarialLossD):
@@ -464,40 +595,64 @@ class DiscriminatorMinMax(AdversarialLossD):
 
     """
 
-    class GANLoss(tf.losses.Loss):
-        def __init__(self, from_logits=True, label_smoothing=0.0):
-            self._positive_bce = tf.losses.BinaryCrossentropy(
+    class GANLoss(tf.keras.losses.Loss):
+        """Implementation of MinMax loss as :py:class:`tf.keras.losses.Loss`."""
+
+        def __init__(
+            self, from_logits: bool = True, label_smoothing: float = 0.0
+        ) -> None:
+            """Initialize the loss."""
+            self._positive_bce = tf.keras.losses.BinaryCrossentropy(
                 from_logits=from_logits,
                 label_smoothing=label_smoothing,
-                reduction=tf.losses.Reduction.NONE,
+                reduction=tf.keras.losses.Reduction.NONE,
             )
 
-            self._negative_bce = tf.losses.BinaryCrossentropy(
+            self._negative_bce = tf.keras.losses.BinaryCrossentropy(
                 from_logits=from_logits,
                 label_smoothing=0.0,
-                reduction=tf.losses.Reduction.NONE,
+                reduction=tf.keras.losses.Reduction.NONE,
             )
             super().__init__()
 
         @property
-        def reduction(self):
+        def reduction(self) -> tf.keras.losses.Reduction:
+            """
+            Return the reduction type of this loss.
+
+            Returns:
+                :py:classes:`tf.keras.losses.Reduction`: Reduction.
+
+            """
             return self._positive_bce.reduction
 
         @reduction.setter
-        def reduction(self, value):
+        def reduction(self, value: tf.keras.losses.Reduction) -> None:
             self._positive_bce.reduction = value
             self._negative_bce.reduction = value
 
-        def call(self, d_real, d_fake):
-            """Play the DiscriminatorMinMax game between the discriminator computed in real
-            and the discriminator compute with fake inputs."""
+        def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
+            """
+            Compute the MinMax Loss.
 
+            Play the DiscriminatorMinMax game between the discriminator
+            computed in real and the discriminator compute with fake inputs.
+
+            Args:
+                d_real (:py:class:`tf.Tensor`): Real data.
+                d_fake (:py:class:`tf.Tensor`): Fake (generated) data.
+
+            Returns:
+                :py:class:`tf.Tensor`: Output Tensor.
+
+            """
             return 0.5 * (
                 self._positive_bce(tf.ones_like(d_real), d_real)
                 + self._negative_bce(tf.zeros_like(d_fake), d_fake)
             )
 
     def __init__(self, from_logits=True, label_smoothing=0.0):
+        """Initialize Loss."""
         super().__init__(
             DiscriminatorMinMax.GANLoss(
                 from_logits=from_logits, label_smoothing=label_smoothing
@@ -532,32 +687,54 @@ class DiscriminatorLSGAN(AdversarialLossD):
 
     """
 
-    class LeastSquareLoss(tf.losses.Loss):
-        def __init__(self):
+    class LeastSquareLoss(tf.keras.losses.Loss):
+        """Least Square Loss as :py:class:`tf.keras.losses.Loss`."""
+
+        def __init__(self) -> None:
+            """Initialize the Loss."""
             self._positive_mse = tf.keras.losses.MeanSquaredError(
-                reduction=tf.losses.Reduction.NONE
+                reduction=tf.keras.losses.Reduction.NONE
             )
             self._negative_mse = tf.keras.losses.MeanSquaredError(
-                reduction=tf.losses.Reduction.NONE
+                reduction=tf.keras.losses.Reduction.NONE
             )
             super().__init__()
 
         @property
-        def reduction(self):
+        def reduction(self) -> tf.keras.losses.Reduction:
+            """
+            Return the reduction type for this loss.
+
+            Returns:
+                :py:class:`tf.keras.losses.Reduction`: Reduction.
+
+            """
             return self._positive_mse.reduction
 
         @reduction.setter
-        def reduction(self, value):
+        def reduction(self, value) -> None:
             self._positive_mse.reduction = value
             self._negative_mse.reduction = value
 
-        def call(self, d_real, d_fake):
+        def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
+            """
+            Compute the Least Square Loss.
+
+            Args:
+                d_real (:py:class:`tf.Tensor`): Discriminator evaluated in real samples.
+                d_fake (:py:class:`tf.Tensor`): Discriminator evaluated in fake samples.
+
+            Returns:
+                :py:class:`tf.Tensor`: Loss.
+
+            """
             return 0.5 * (
                 self._positive_mse(tf.ones_like(d_real), d_real)
                 + self._negative_mse(tf.zeros_like(d_fake), d_fake)
             )
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize loss."""
         super().__init__(DiscriminatorLSGAN.LeastSquareLoss())
         self.name = "DiscriminatorLSGAN"
 
@@ -571,53 +748,57 @@ def get_adversarial_loss_discriminator(
     adversarial_loss_type: Union[AdversarialLossType, int] = AdversarialLossType.GAN
 ) -> Type[Executor]:
     r"""
-    Returns the correct loss fot the discriminator
+    Return the correct loss fot the Discriminator.
 
     Args:
-        adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Type of loss (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN` or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)
+        adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Type of loss
+            (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN` or
+            :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)
 
     Returns:
-        The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated)
+        The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated).
+
     """
-    if (
-        adversarial_loss_type == AdversarialLossType.GAN
-        or adversarial_loss_type == AdversarialLossType.GAN.value
-    ):
+    if adversarial_loss_type in [
+        AdversarialLossType.GAN,
+        AdversarialLossType.GAN.value,
+    ]:
         return DiscriminatorMinMax
-    elif (
-        adversarial_loss_type == AdversarialLossType.LSGAN
-        or adversarial_loss_type == AdversarialLossType.LSGAN.value
-    ):
+    if adversarial_loss_type in [
+        AdversarialLossType.LSGAN,
+        AdversarialLossType.LSGAN.value,
+    ]:
         return DiscriminatorLSGAN
-    else:
-        raise ValueError(
-            "Loss type not supported, the implemented losses are GAN or LSGAN"
-        )
+    raise ValueError(
+        "Loss type not supported, the implemented losses are GAN or LSGAN."
+    )
 
 
 def get_adversarial_loss_generator(
     adversarial_loss_type: Union[AdversarialLossType, int] = AdversarialLossType.GAN
 ) -> Type[Executor]:
     r"""
-    Returns the correct loss for the generator
+    Return the correct loss for the Generator.
 
     Args:
-        adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Type of loss (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN` or :py:class:`ashpy.losses.gan.AdversarialLossType.LSGAN`)
+        adversarial_loss_type (:py:class:`ashpy.losses.AdversarialLossType`): Type of loss
+            (:py:class:`ashpy.losses.AdversarialLossType.GAN` or
+            :py:class:`ashpy.losses.AdversarialLossType.LSGAN`).
 
     Returns:
-        The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated)
+        The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated).
+
     """
-    if (
-        adversarial_loss_type == AdversarialLossType.GAN
-        or adversarial_loss_type == AdversarialLossType.GAN.value
+    if adversarial_loss_type in (
+        AdversarialLossType.GAN,
+        AdversarialLossType.GAN.value,
     ):
         return GeneratorBCE
-    elif (
-        adversarial_loss_type == AdversarialLossType.LSGAN
-        or adversarial_loss_type == AdversarialLossType.LSGAN.value
+    if adversarial_loss_type in (
+        AdversarialLossType.LSGAN,
+        AdversarialLossType.LSGAN.value,
     ):
         return GeneratorLSGAN
-    else:
-        raise ValueError(
-            "Loss type not supported, the implemented losses are GAN or LSGAN"
-        )
+    raise ValueError(
+        "Loss type not supported, the implemented losses are GAN or LSGAN."
+    )

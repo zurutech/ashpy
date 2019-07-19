@@ -11,3 +11,5 @@ API Reference
    ashpy.layers
    ashpy.losses
    ashpy.metrics
+   ashpy.modes
+   ashpy.types

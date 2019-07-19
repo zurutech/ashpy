@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Attention Layer implementation."""
+
 import tensorflow as tf
 
 
 class Attention(tf.keras.Model):
     r"""
-    Attention Layer from Self-Attention GAN [1]_
+    Attention Layer from Self-Attention GAN [1]_.
 
     First we extract features from the previous layer:
 
@@ -38,7 +40,8 @@ class Attention(tf.keras.Model):
     :math:`\beta_{j,i}` indicates the extent to which the model attends to the :math:`i^{th}`
     location when synthethizing the :math:`j^{th}` region.
 
-    Then we calculate the output of the attention layer :math:`(o_1, ..., o_N) \in \mathbb{R}^{C \times N}`:
+    Then we calculate the output of the attention layer
+    :math:`(o_1, ..., o_N) \in \mathbb{R}^{C \times N}`:
 
     .. math::
         o_j = \sum_{i=1}^{N} \beta_{j,i} h(x_i)
@@ -91,12 +94,14 @@ class Attention(tf.keras.Model):
 
     """
 
-    def __init__(self, filters: int):
+    def __init__(self, filters: int) -> None:
         """
-        Builds the Attention Layer
+        Build the Attention Layer.
 
         Args:
-            filters (int): number of filters of the input tensor. It should be preferably a multiple of 8.
+            filters (int): Number of filters of the input tensor.
+                It should be preferably a multiple of 8.
+
         """
         super().__init__()
         initializer = tf.random_normal_initializer(0.0, 0.02)
@@ -113,7 +118,18 @@ class Attention(tf.keras.Model):
 
         self.gamma = tf.Variable(0, dtype=tf.float32)
 
-    def call(self, inputs, training=False):
+    def call(self, inputs: tf.Tensor, training: bool = False) -> tf.Tensor:
+        """
+        Perform the computation.
+
+        Args:
+            inputs (:py:class:`tf.Tensor`): Inputs for the computation.
+            training (bool): Controls for training or evaluation mode.
+
+        Returns:
+            :py:class:`tf.Tensor`: Output Tensor.
+
+        """
         f = self.f_conv(inputs)
         g = self.g_conv(inputs)
         h = self.h_conv(inputs)
