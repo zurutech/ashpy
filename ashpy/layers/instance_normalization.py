@@ -32,14 +32,14 @@ class InstanceNormalization(tf.keras.layers.Layer):
 
                 x = tf.ones((1, 10, 10, 64))
 
-                # instantiate attention layer as model
+                # Instantiate attention layer as model.
                 normalization = InstanceNormalization()
 
-                # evaluate passing x
+                # Evaluate passing x.
                 output = normalization(x)
 
-                # the output shape is
-                # the same as the input shape
+                # The output shape is.
+                # The same as the input shape.
                 print(output.shape)
 
         * Inside a Model:
