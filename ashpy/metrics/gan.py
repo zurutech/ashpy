@@ -278,14 +278,16 @@ class InceptionScore(Metric):
                 ),
                 :,
             ]
-            kl = part * (
+            kl_divergence = part * (
                 tf.math.log(part)
                 - tf.math.log(
                     tf.expand_dims(tf.math.reduce_mean(part, axis=0), axis=[0])
                 )
             )
-            kl = tf.math.reduce_mean(tf.math.reduce_sum(kl, axis=1))
-            scores.append(tf.math.exp(kl))
+            kl_divergence = tf.math.reduce_mean(
+                tf.math.reduce_sum(kl_divergence, axis=1)
+            )
+            scores.append(tf.math.exp(kl_divergence))
         return tf.math.reduce_mean(scores).numpy(), tf.math.reduce_std(scores).numpy()
 
     @staticmethod

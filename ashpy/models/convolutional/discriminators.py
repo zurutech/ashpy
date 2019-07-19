@@ -84,7 +84,8 @@ class PatchDiscriminator(Discriminator):
             use_dropout (bool): whether to use dropout
             dropout_prob (float): probability of dropout
             non_linearity (:class:`tf.keras.layers.Layer`): non linearity used in the model
-            normalization_layer (:class:`tf.keras.layers.Layer`): normalization layer used in the model
+            normalization_layer (:class:`tf.keras.layers.Layer`): normalization
+                layer used in the model
             use_attention (bool): whether to use attention
         """
         self.use_attention = use_attention
@@ -241,12 +242,14 @@ class MultiScaleDiscriminator(Discriminator):
             input_res (int): input resolution
             min_res (int): minimum resolution reached by the discriminators
             kernel_size (int): kernel size of discriminators
-            initial_filters (int): number of initial filters in the first layer of the discriminators
+            initial_filters (int): number of initial filters in the first layer
+                of the discriminators
             filters_cap (int): maximum number of filters in the discriminators
             use_dropout (bool): whether to use dropout
             dropout_prob (float): probability of dropout
             non_linearity (:class:`tf.keras.layers.Layer`): non linearity used in discriminators
-            normalization_layer (:class:`tf.keras.layers.Layer`): normalization used by the discriminators
+            normalization_layer (:class:`tf.keras.layers.Layer`): normalization used by the
+                discriminators
             use_attention (bool): whether to use attention
             n_discriminators (int): Number of discriminators
 
@@ -284,7 +287,7 @@ class MultiScaleDiscriminator(Discriminator):
         Returns:
             A Discriminator (PatchDiscriminator).
         """
-        d = PatchDiscriminator(
+        return PatchDiscriminator(
             input_res=input_res,
             min_res=self.min_res,
             kernel_size=self.kernel_size,
@@ -296,7 +299,6 @@ class MultiScaleDiscriminator(Discriminator):
             use_attention=self.use_attention,
             normalization_layer=self.normalization_layer,
         )
-        return d
 
     def call(
         self, inputs: Union[List, tf.Tensor], training=True, return_features=False
@@ -308,28 +310,32 @@ class MultiScaleDiscriminator(Discriminator):
             return_features (bool): whether to return features or not
 
         Returns:
-            ([:py:class:`tf.Tensor`]): A List of Tensors containing the value of D_i for each input.
-            ([:py:class:`tf.Tensor`]): A List of features for each discriminator if `return_features`
+            ([:py:class:`tf.Tensor`]): A List of Tensors containing the
+                value of D_i for each input
+            ([:py:class:`tf.Tensor`]): A List of features for each discriminator if
+                `return_features`
 
         """
         is_conditioned = isinstance(inputs, list)
 
         if is_conditioned:
-            xs, condition = (
+            fake_or_real, condition = (
                 inputs
             )  # inputs is a tuple containing the generated images and the conditions
         else:
-            xs = inputs
+            fake_or_real = inputs
             condition = None
         outs = []
         features = []
 
-        x_i = xs
+        fake_or_real_i = fake_or_real
         condition_i = condition
-        for i, d in enumerate(self.discriminators):
+        for i, discriminator in enumerate(self.discriminators):
             # compute value of the i-th discriminator
-            out, feat = d(
-                [x_i, condition_i] if condition_i is not None else x_i,
+            out, feat = discriminator(
+                [fake_or_real_i, condition_i]
+                if condition_i is not None
+                else fake_or_real_i,
                 training=training,
                 return_features=True,
             )
@@ -339,7 +345,7 @@ class MultiScaleDiscriminator(Discriminator):
             features.extend(feat)
             # reduce input size
             if i != len(self.discriminators) - 1:
-                x_i = self.subsampling(x_i)
+                fake_or_real_i = self.subsampling(fake_or_real_i)
                 condition_i = (
                     self.subsampling(condition_i) if condition_i is not None else None
                 )

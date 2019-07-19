@@ -29,7 +29,10 @@ if TYPE_CHECKING:
 
 
 class ClassifierContext(BaseContext):
-    r""":py:class:`ashpy.contexts.classifier.ClassifierContext` provide the standard functions to test a classifier."""
+    r"""
+    :py:class:`ashpy.contexts.classifier.ClassifierContext` provide
+    the standard functions to test a classifier.
+    """
 
     def __init__(
         self,

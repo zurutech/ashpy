@@ -23,7 +23,7 @@ from tensorflow import keras
 from ashpy.layers import Attention, InstanceNormalization
 from ashpy.models.convolutional.interfaces import Conv2DInterface
 
-__ALL__ = ["UNet", "SUNet"]
+__ALL__ = ["UNet", "SUNet", "FunctionalUNet"]
 
 
 class UNet(Conv2DInterface):
@@ -53,7 +53,8 @@ class UNet(Conv2DInterface):
                 (1, 512, 512, 3)
                 True
 
-    .. [1] Image-to-Image Translation with Conditional Adversarial Nets https://arxiv.org/abs/1611.04076
+    .. [1] Image-to-Image Translation with Conditional Adversarial Nets
+        https://arxiv.org/abs/1611.04076
 
     """
 
@@ -71,7 +72,7 @@ class UNet(Conv2DInterface):
         encoder_non_linearity: typing.Type[keras.layers.Layer] = keras.layers.LeakyReLU,
         decoder_non_linearity: typing.Type[keras.layers.Layer] = keras.layers.ReLU,
         normalization_layer: typing.Type[keras.layers.Layer] = InstanceNormalization,
-        last_activation: keras.activations = keras.activations.tanh,  # tanh or softmax (for semantic images)
+        last_activation: keras.activations = keras.activations.tanh,
         use_attention: bool = False,
     ):
         """
@@ -88,7 +89,7 @@ class UNet(Conv2DInterface):
             dropout_prob: probability of dropout
             encoder_non_linearity: non linearity of encoder
             decoder_non_linearity: non linearity of decoder
-            last_activation: last activation function
+            last_activation: last activation function, tanh or softmax (for semantic images)
             use_attention: whether to use attention
         """
         super().__init__()
@@ -121,7 +122,7 @@ class UNet(Conv2DInterface):
             decoder_layer_spec.insert(0, filters)
             block = self.get_encoder_block(
                 filters,
-                use_bn=(i != 0 and i != (len(encoder_layers_spec) - 1)),
+                use_bn=(i not in (0, len(encoder_layers_spec) - 1)),
                 use_attention=i == 2,
             )
             self.encoder_layers.append(block)
@@ -239,8 +240,8 @@ class UNet(Conv2DInterface):
 
         for block in self.encoder_layers:
             for layer in block:
-                if isinstance(layer, keras.layers.BatchNormalization) or isinstance(
-                    layer, keras.layers.Dropout
+                if isinstance(
+                    layer, (keras.layers.BatchNormalization, keras.layers.Dropout)
                 ):
                     x = layer(x, training=training)
                 else:
@@ -252,8 +253,8 @@ class UNet(Conv2DInterface):
 
         for i, block in enumerate(self.decoder_layers):
             for layer in block:
-                if isinstance(layer, keras.layers.BatchNormalization) or isinstance(
-                    layer, keras.layers.Dropout
+                if isinstance(
+                    layer, (keras.layers.BatchNormalization, keras.layers.Dropout)
                 ):
                     x = layer(x, training=training)
                 else:
@@ -319,7 +320,7 @@ def FUNet(
     use_attention=False,
 ):
     """
-    Functional UNET
+    Functional UNET Implementation
     """
     # ########### Encoder creation
     encoder_layers_spec = Conv2DInterface._get_layer_spec(
@@ -378,7 +379,7 @@ def FUNet(
             kernel_size,
             filters,
             conv_layer=keras.layers.Conv2D,
-            use_bn=(i != 0 and i != (len(encoder_layers_spec) - 1)),
+            use_bn=(i not in (0, len(encoder_layers_spec) - 1)),
             use_dropout=use_dropout_encoder,
             non_linearity=encoder_non_linearity,
             use_attention=(i == 2 and use_attention),
