@@ -168,7 +168,7 @@ def main(
         )
 
         metrics = []
-        logdir = f'{"log"}/{dataset_name}/run_multi_23324'
+        logdir = f'{"log"}/{dataset_name}/run_multi'
 
         if not os.path.exists(logdir):
             os.makedirs(logdir)
@@ -176,8 +176,12 @@ def main(
         trainer = AdversarialTrainer(
             generator=generator,
             discriminator=discriminator,
-            generator_optimizer=tf.optimizers.Adam(learning_rate_g, beta_1=0.5),
-            discriminator_optimizer=tf.optimizers.Adam(learning_rate_d, beta_1=0.5),
+            generator_optimizer=tf.optimizers.Adam(
+                learning_rate_g * strategy.num_replicas_in_sync, beta_1=0.5
+            ),
+            discriminator_optimizer=tf.optimizers.Adam(
+                learning_rate_d * strategy.num_replicas_in_sync, beta_1=0.5
+            ),
             generator_loss=generator_loss,
             discriminator_loss=discriminator_loss,
             epochs=epochs,
