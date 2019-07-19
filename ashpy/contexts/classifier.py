@@ -13,10 +13,19 @@
 # limitations under the License.
 
 """Classifier Context."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, List, Optional
+
 import tensorflow as tf
 
 from ashpy.contexts.base_context import BaseContext
+from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
+
+if TYPE_CHECKING:
+    from ashpy.losses.executor import Executor
 
 
 class ClassifierContext(BaseContext):
@@ -24,44 +33,51 @@ class ClassifierContext(BaseContext):
 
     def __init__(
         self,
-        classifier_model=None,
-        loss=None,
-        dataset=None,
-        metrics=None,
-        log_eval_mode=LogEvalMode.TEST,
-        global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
-        ckpt=None,
-    ):
+        classifier_model: tf.keras.Model = None,
+        loss: Executor = None,
+        dataset: tf.data.Dataset = None,
+        metrics: List[Metric] = None,
+        log_eval_mode: LogEvalMode = LogEvalMode.TEST,
+        global_step: tf.Variable = tf.Variable(
+            0, name="global_step", trainable=False, dtype=tf.int64
+        ),
+        ckpt: tf.train.Checkpoint = None,
+    ) -> None:
         r"""
         Instantiate the :py:class:`ashpy.contexts.classifier.ClassifierContext` context.
 
         Args:
             classifier_model (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
                 model.
-            loss (callable): loss function, format f(y_true, y_pred)
+            loss (:py:class:`ashpy.losses.Executor`): Loss function, format f(y_true, y_pred).
             dataset (:py:class:`tf.data.Dataset`): The test dataset.
-            metrics: List of python objects (of Metric class) with which to measure
-                training and validation data performances.
-            log_eval_mode: models' mode to  use when evaluating and logging.
-            global_step: tf.Variable that keeps track of the training steps.
-            ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of models status.
+            metrics (:obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`]): List of
+                :py:class:`ashpy.metrics.metric.Metric` with which to measure training
+                and validation data performances.
+            log_eval_mode (:py:obj:`ashpy.modes.LogEvalMode`): Models' mode to  use when
+                evaluating and logging.
+            global_step (:py:obj:`tf.Variable`): tf.Variable that keeps track of the
+                training steps.
+            ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
+                models status.
+
         """
         super().__init__(metrics, dataset, log_eval_mode, global_step, ckpt)
         self._classifier_model = classifier_model
         self._loss = loss
 
     @property
-    def loss(self):
+    def loss(self) -> Optional[Executor]:
         """Return the loss value."""
         return self._loss
 
     @property
-    def classifier_model(self):
+    def classifier_model(self) -> tf.keras.Model:
         r"""
         Return the Model Object.
 
         Returns:
-            :py:class:`tf.keras.Model`
+            :py:class:`tf.keras.Model`.
 
         """
         return self._classifier_model

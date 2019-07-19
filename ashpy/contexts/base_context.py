@@ -20,34 +20,39 @@ collections of variable encapsulated in a Python Class as a way to seamlessly
 handle information transfer.
 """
 
+from typing import List
+
 import tensorflow as tf
+
 from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 
 
 class BaseContext:
-    r"""
-    :py:class:`ashpy.contexts.base_context.BaseContext` provide an interface for all contexts to inherit from.
-    """
+    """:py:class:`ashpy.contexts.base_context.BaseContext` provide an interface for all contexts to inherit from."""
 
     def __init__(
         self,
-        metrics=None,
-        dataset=None,
-        log_eval_mode=LogEvalMode.TEST,
+        metrics: List[Metric] = None,
+        dataset: tf.data.Dataset = None,
+        log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
-        ckpt=None,
-    ):
-        r"""
-        :py:class:`ashpy.contexts.base_context.BaseContext`
+        ckpt: tf.train.Checkpoint = None,
+    ) -> None:
+        """
+        Initialize :py:class:`ashpy.contexts.base_context.BaseContext`.
 
         Args:
-            metrics ([:py:class:`ashpy.metrics.metric.Metric`]): list of :py:class:`ashpy.metrics.metric.Metric` objects.
+            metrics (:obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`]): List of
+                :py:class:`ashpy.metrics.metric.Metric` objects.
             dataset (:py:class:`tf.data.Dataset`): The dataset to use, that
                 contains everything needed to use the model in this context.
-            log_eval_mode: models' mode to use when evaluating and logging.
-            global_step (:py:class:`tf.Variable`): keeps track of the training steps.
-            ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of models status.
+            log_eval_mode (:py:class:`ashpy.modes.LogEvalMode`): Models' mode to use when
+                evaluating and logging.
+            global_step (:py:class:`tf.Variable`): Keeps track of the training steps.
+            ckpt (:py:class:`tf.train.Checkpoint`): Checkpoint to use to keep track of
+                models status.
+
         """
         self._distribute_strategy = tf.distribute.get_strategy()
         self._metrics = metrics if metrics else []
@@ -65,32 +70,56 @@ class BaseContext:
                     "Metric " + str(metric) + " is not a ashpy.metrics.Metric"
                 )
 
-    def measure_metrics(self):
+    def measure_metrics(self) -> None:
         """Measure the metrics."""
         for metric in self._metrics:
             metric.update_state(self)
 
-    def model_selection(self):
+    def model_selection(self) -> None:
         """Use the metrics to perform model selection."""
         for metric in self._metrics:
             metric.model_selection(self._ckpt)
 
     @property
-    def log_eval_mode(self):
-        """Model(s) mode."""
+    def log_eval_mode(self) -> LogEvalMode:
+        """
+        Model(s) mode.
+
+        Returns:
+            :py:class:`ashpy.modes.LogEvalMode`.
+
+        """
         return self._log_eval_mode
 
     @property
-    def dataset(self):
-        """Return dataset."""
+    def dataset(self) -> tf.data.Dataset:
+        """
+        Return dataset.
+
+        Returns:
+            :py:class:`tf.data.Dataset`.
+
+        """
         return self._dataset
 
     @property
-    def metrics(self):
-        """Return the metrics."""
+    def metrics(self) -> List[Metric]:
+        """
+        Return the metrics.
+
+        Returns:
+            :obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`].
+
+        """
         return self._metrics
 
     @property
-    def global_step(self):
-        """Return the global_step."""
+    def global_step(self) -> tf.Variable:
+        """
+        Return the global_step.
+
+        Returns:
+            :py:class:`tf.Variable`.
+
+        """
         return self._global_step

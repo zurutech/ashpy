@@ -12,12 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Instance Noramalization Layer implementation."""
+
+from typing import Tuple
+
 import tensorflow as tf
 
 
 class InstanceNormalization(tf.keras.layers.Layer):
     r"""
-    Instance Normalization Layer (used by Pix2Pix [1]_ and Pix2PixHD [2]_ )
+    Instance Normalization Layer (used by Pix2Pix [1]_ and Pix2PixHD [2]_ ).
+
     Basically it's a normalization done at instance level.
     The implementation follows the basic implementation of the Batch Normalization Layer.
 
@@ -67,13 +72,15 @@ class InstanceNormalization(tf.keras.layers.Layer):
         eps: float = 1e-6,
         beta_initializer: str = "zeros",
         gamma_initializer: str = "ones",
-    ):
+    ) -> None:
         r"""
+        Initialize the layer.
 
         Args:
-            eps (float): variance_epsilon used by batch_norm layer
-            beta_initializer (str): initializer for the beta variable
-            gamma_initializer (str): initializer for the gamma variable
+            eps (float): Variance_epsilon used by batch_norm layer.
+            beta_initializer (str): Initializer for the beta variable.
+            gamma_initializer (str): Initializer for the gamma variable.
+
         """
         super().__init__()
         self._eps = eps
@@ -82,7 +89,15 @@ class InstanceNormalization(tf.keras.layers.Layer):
         self.beta_initializer = tf.keras.initializers.get(beta_initializer)
         self.gamma_initializer = tf.keras.initializers.get(gamma_initializer)
 
-    def build(self, input_shape):
+    def build(self, input_shape: Tuple[int]) -> None:
+        """
+        Assemble the layer.
+
+        Args:
+            input_shape (:obj:`tuple` of (:obj:`int`)): Specifies the shape of the input
+                accepted by the layer.
+
+        """
         shape = (1, 1, 1, input_shape[-1])
         self.gamma = self.add_weight(
             shape=shape,
@@ -94,7 +109,18 @@ class InstanceNormalization(tf.keras.layers.Layer):
             shape=shape, initializer=self.beta_initializer, name="beta", trainable=True
         )
 
-    def call(self, inputs, training=False):
+    def call(self, inputs, training: bool = False) -> tf.Tensor:
+        """
+        Perform the computation.
+
+        Args:
+            inputs: Inputs for the computation.
+            training (bool): Controls for training or evaluation mode.
+
+        Returns:
+            :py:class:`tf.Tensor`: Output Tensor.
+
+        """
         mean, variance = tf.nn.moments(inputs, axes=[1, 2], keepdims=True)
 
         return tf.nn.batch_normalization(
