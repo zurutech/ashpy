@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="https://blog.zuru.tech/images/ashpy/logo_lq.png" />
+</div>
+
 # AshPy
 
 ![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
