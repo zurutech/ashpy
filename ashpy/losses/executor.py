@@ -172,7 +172,7 @@ class Executor:
         Args:
             other (Either a :py:obj:`typing.Callable` or :obj:`float`,
                 :obj:`int`, :py:class:`tf.Tensor`):
-                The value (or function returnint it) to use in the multiplication.
+                The value (or function returning it) to use in the multiplication.
 
         """
         assert isinstance(other, (float, int, tf.Tensor)) or callable(other)
@@ -186,7 +186,7 @@ class Executor:
         return self
 
     def __rmul__(self, other):
-        """See Above."""
+        """See `__mul__` method."""
         return self * other
 
 

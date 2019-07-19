@@ -51,7 +51,7 @@ class ClassifierLoss(Executor):
 
         Args:
             context (:py:class:`ashpy.ClassifierContext`): Context for classification.
-            features (:py:class:`tf.Tensors`): Inputs for the classifier model.
+            features (:py:class:`tf.Tensor`): Inputs for the classifier model.
             labels (:py:class:`tf.Tensor`): Target for the classifier model.
             training (bool): Whether is training or not.
             **kwargs:

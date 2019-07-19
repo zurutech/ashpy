@@ -61,14 +61,14 @@ class Attention(tf.keras.Model):
 
                 x = tf.ones((1, 10, 10, 64))
 
-                # Instantiate attention layer as model
+                # instantiate attention layer as model
                 attention = Attention(64)
 
-                # Evaluate passing x
+                # evaluate passing x
                 output = attention(x)
 
-                # The output shape is
-                # The same as the input shape
+                # the output shape is
+                # the same as the input shape
                 print(output.shape)
 
         * Inside a Model:
@@ -118,13 +118,12 @@ class Attention(tf.keras.Model):
 
         self.gamma = tf.Variable(0, dtype=tf.float32)
 
-    # TODO: inputs type info.
-    def call(self, inputs, training: bool = False) -> tf.Tensor:
+    def call(self, inputs: tf.Tensor, training: bool = False) -> tf.Tensor:
         """
         Perform the computation.
 
         Args:
-            inputs: Inputs for the computation.
+            inputs (:py:class:`tf.Tensor`): Inputs for the computation.
             training (bool): Controls for training or evaluation mode.
 
         Returns:

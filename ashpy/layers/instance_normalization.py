@@ -32,14 +32,14 @@ class InstanceNormalization(tf.keras.layers.Layer):
 
                 x = tf.ones((1, 10, 10, 64))
 
-                # Instantiate attention layer as model.
+                # instantiate attention layer as model.
                 normalization = InstanceNormalization()
 
-                # Evaluate passing x.
+                # evaluate passing x.
                 output = normalization(x)
 
-                # The output shape is.
-                # The same as the input shape.
+                # the output shape is.
+                # the same as the input shape.
                 print(output.shape)
 
         * Inside a Model:
@@ -109,12 +109,12 @@ class InstanceNormalization(tf.keras.layers.Layer):
             shape=shape, initializer=self.beta_initializer, name="beta", trainable=True
         )
 
-    def call(self, inputs, training: bool = False) -> tf.Tensor:
+    def call(self, inputs: tf.Tensor, training: bool = False) -> tf.Tensor:
         """
         Perform the computation.
 
         Args:
-            inputs: Inputs for the computation.
+            inputs (:py:class:`tf.Tensor`): Inputs for the computation.
             training (bool): Controls for training or evaluation mode.
 
         Returns:

@@ -476,10 +476,12 @@ class Pix2PixLossSemantic(SumExecutor):
         and :py:class:`ashpy.losses.gan.FeatureMatchingLoss`
 
         Args:
-            cross_entropy_weight (:py:class:`TWeight`): Weight of the categorical
+            cross_entropy_weight (:py:obj:`ashpy.types.TWeight`): Weight of the categorical
                 cross entropy loss.
-            adversarial_loss_weight (): Weight of the adversarial loss.
-            feature_matching_weight (): Weight of the feature matching loss.
+            adversarial_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+                adversarial loss.
+            feature_matching_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+                feature matching loss.
             adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): type of
                 adversarial loss, see :py:class:`ashpy.losses.gan.AdversarialLossType`
             use_feature_matching_loss (bool): whether to use feature matching loss or not
@@ -512,7 +514,7 @@ class EncoderBCE(Executor):
         Compute the Encoder BCE.
 
         Args:
-            context (:py:class:`ashpy.contexts.GANEncodreContext`): GAN Context
+            context (:py:class:`ashpy.contexts.GANEncoderContext`): GAN Context
                 with Encoder support.
             real (:py:class:`tf.Tensor`): Real images.
             training (bool): If training or evaluation.
