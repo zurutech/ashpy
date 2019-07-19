@@ -133,7 +133,7 @@ In general AshPy aims to:
 - Remove duplicated and boilerplate code
 - General usability by new project
 
-**NOTE:** We invite you to read the full documentation on [the official website](https://blog.zuru.tech/ashpy/).
+**NOTE:** We invite you to read the full documentation on [the official website](https://ashpy.zurutech.io/).
 
 The following README aims to help you understand what you need to do to setup AshPy on your system and, with some examples, what you need to do to setup a complete training of your network. Moreover, it will explain some fundamental modules you need to understand to fully exploit the potential of the library.
 
