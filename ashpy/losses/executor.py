@@ -13,13 +13,15 @@
 # limitations under the License.
 
 """
-The executor.
-An object that carries a function and the way of executing it.
-Given a context.
+The Executor.
+
+An object that, given an :py:class:`ashpy.contexts.BaseContext`, carries a
+function and the way of executing it.
 """
+from __future__ import annotations
 
 import abc
-from typing import List
+from typing import Callable, List, Union
 
 import tensorflow as tf
 
@@ -27,7 +29,7 @@ import tensorflow as tf
 class Executor:
     """Carry a function and the way of executing it. Given a context."""
 
-    def __init__(self, fn=None):
+    def __init__(self, fn: tf.keras.losses.Loss = None) -> None:
         """
         Initialize the Executor.
 
@@ -41,55 +43,76 @@ class Executor:
         if fn is not None:
             assert isinstance(fn, tf.keras.losses.Loss)
             self._fn = fn
-            # we always work as in a strategy context
+            # We always work as in a strategy context
             self._fn.reduction = tf.keras.losses.Reduction.NONE
         self._distribute_strategy = tf.distribute.get_strategy()
         self._global_batch_size = -1
         self._weight = lambda _: 1.0
 
     @property
-    def weight(self):
-        """Return the loss weight. This weight is multiplied by the loss value.
-        This is useful when working with multiples losses"""
+    def weight(self) -> Callable[..., float]:
+        """
+        Return the loss weight.
+
+        This weight is multiplied by the loss value.
+        This is useful when working with multiples losses.
+
+        Returns:
+            :py:obj:`typing.Callable`: Callable returning the weight (:py:obj:`float`).
+
+        """
         return self._weight
 
     @property
-    def fn(self):
-        """Retrieve the function to execute."""
+    def fn(self) -> tf.keras.losses.Loss:  # pylint: disable=invalid-name
+        """
+        Return the Keras loss function to execute.
+
+        Returns:
+            :py:obj:`tf.keras.losses.Loss`: Keras Loss.
+
+        """
         return self._fn
 
     @staticmethod
-    def reduce_loss(call_fn):
+    def reduce_loss(call_fn: Callable) -> Callable:
         """
-        Create a Decorator to reduce Losses. Use to simplify things.
+        Create a Decorator to reduce Losses. Used to simplify things.
 
         Apply a ``reduce sum`` operation to the loss and divide the result
         by the batch size.
 
         Args:
-            call_fn: the executor call method
+            call_fn (:py:obj:`typing.Callable`): The executor call method.
 
         Return:
-            The function decorated
+            :py:obj:`typing.Callable`: The decorated function.
 
         """
         # decorator definition
         def _reduce(self, *args, **kwargs):
             return tf.nn.compute_average_loss(
                 call_fn(self, *args, **kwargs),
-                global_batch_size=self._global_batch_size,
+                global_batch_size=self._global_batch_size,  # pylint: disable=protected-access
             )
 
         return _reduce
 
     @property
-    def global_batch_size(self):
-        """Global batch size comprises the batch size for each cpu.
-        Calculated as batch_size_for_replica*replica_numbers"""
+    def global_batch_size(self) -> int:
+        """
+        Global batch size comprises the batch size for each cpu.
+
+        Calculated as batch_size_for_replica*replica_numbers.
+
+        Returns:
+            :obj:`int`: Global Batch size value.
+
+        """
         return self._global_batch_size
 
     @global_batch_size.setter
-    def global_batch_size(self, global_batch_size):
+    def global_batch_size(self, global_batch_size) -> None:
         r"""
         Set the `_global_batch_size` property.
 
@@ -105,25 +128,35 @@ class Executor:
         self._global_batch_size = global_batch_size
 
     @abc.abstractmethod
-    def call(self, context, **kwargs):
+    def call(self, context, **kwargs) -> tf.Tensor:
         r"""
         Execute the function, using the information provided by the context.
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): The function execution Context.
+            context (:py:class:`ashpy.contexts.BaseContext`): The function
+                execution Context.
+
+        Returns:
+            :py:obj:`tf.Tensor`: Output Tensor.
+
         """
 
-    def __call__(self, context, **kwargs):
+    def __call__(self, context, **kwargs) -> tf.Tensor:
         r"""
         Invoke the function using the Context.
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): The function execution Context.
+            context (:py:class:`ashpy.contexts.BaseContext`): The function
+                execution Context.
+
+        Returns:
+            :py:obj:`tf.Tensor`: Output Tensor.
 
         """
         return self._weight(context.global_step) * self.call(context, **kwargs)
 
-    def __add__(self, other):
+    def __add__(self, other) -> SumExecutor:
+        """Concatenate Executors together into a SumExecutor."""
         if isinstance(other, SumExecutor):
             other_executors = other.executors
         else:
@@ -132,16 +165,28 @@ class Executor:
         all_executors = [self] + other_executors
         return SumExecutor(all_executors)
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union[Callable[..., float], float, int, tf.Tensor]):
+        """
+        Given current weight stored inside the Executor multiplies it by ``other``.
+
+        Args:
+            other (Either a :py:obj:`typing.Callable` or :obj:`float`,
+                :obj:`int`, :py:class:`tf.Tensor`):
+                The value (or function returnint it) to use in the multiplication.
+
+        """
         assert isinstance(other, (float, int, tf.Tensor)) or callable(other)
         weight = self._weight
-        if callable(other):
-            self._weight = lambda step: weight(step) * other(step)
+        if isinstance(other, (int, float, tf.Tensor)):
+            _other: Union[int, float, tf.Tensor] = other
+            self._weight = lambda step: weight(step) * _other
         else:
-            self._weight = lambda step: weight(step) * other
+            __other: Callable[..., float] = other
+            self._weight = lambda step: weight(step) * __other(step)
         return self
 
     def __rmul__(self, other):
+        """See Above."""
         return self * other
 
 
@@ -154,14 +199,13 @@ class SumExecutor(Executor):
     """
 
     # TODO: Add reference to Pix2Pix Loss in the losses.gans
-
-    def __init__(self, executors):
+    def __init__(self, executors) -> None:
         """
         Initialize the SumExecutor.
 
         Args:
-            executors (:py:obj:`list` of :py:class:`ashpy.executors.executor.Executor`): Array of
-                :py:obj:`ashpy.executors.executor.Executor` to sum evaluate and sum together.
+            executors (:py:obj:`list` of [:py:class:`ashpy.executors.Executor`]): Array of
+                :py:obj:`ashpy.executors.Executor` to sum evaluate and sum together.
 
         Returns:
             :py:obj:`None`
@@ -176,23 +220,31 @@ class SumExecutor(Executor):
         """Return the List of Executors."""
         return self._executors
 
-    @Executor.global_batch_size.setter
-    def global_batch_size(self, global_batch_size):
+    @Executor.global_batch_size.setter  # pylint: disable=no-member
+    def global_batch_size(self, global_batch_size: int) -> None:
+        """Set global batch size property."""
         assert global_batch_size > 0
         self._global_batch_size = global_batch_size
         for executor in self._executors:
             executor.global_batch_size = global_batch_size
 
-    def call(self, *args, **kwargs):
-        """Evaluate and sum together the Executors."""
+    def call(self, *args, **kwargs) -> tf.Tensor:
+        """
+        Evaluate and sum together the Executors.
+
+        Returns:
+            :py:classes:`tf.Tensor`: Output Tensor.
+
+        """
         result = tf.add_n([executor(*args, **kwargs) for executor in self._executors])
         return result
 
-    def __add__(self, other):
+    def __add__(self, other: Union[SumExecutor, Executor]):
+        """Concatenate Executors together into a SumExecutor."""
         if isinstance(other, SumExecutor):
             executors = other.executors
         else:
-            executors = [other.executors]
+            executors = [other]
 
         all_executors = self.executors + executors
         return SumExecutor(all_executors)

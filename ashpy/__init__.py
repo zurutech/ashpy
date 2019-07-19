@@ -21,6 +21,7 @@ from . import losses
 from . import metrics
 from . import models
 from . import trainers
+from . import types
 from .modes import LogEvalMode
 
 __version__ = "1.0.1"

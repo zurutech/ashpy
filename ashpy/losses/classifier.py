@@ -14,36 +14,50 @@
 
 """The classification losses."""
 
+from __future__ import annotations
+
 import tensorflow as tf
+
+from ashpy.contexts import ClassifierContext
 from ashpy.losses.executor import Executor
 
 
 class ClassifierLoss(Executor):
-    r"""
-    Classifier Loss Executor using the classifier model, instantiated with a fn
-    """
+    r"""Classifier Loss Executor using the classifier model, instantiated with a fn."""
 
-    def __init__(self, fn):
+    def __init__(self, fn: tf.keras.losses.Loss) -> None:
         r"""
-        Constructor of :py:class:`ClassifierLoss`
+        Initialize :py:class:`ClassifierLoss`.
+
         Args:
-            fn: Classification Loss function, should take as input labels and prediction
+            fn (:py:class:`tf.keras.losses.Loss`): Classification Loss function, should
+                take as input labels and prediction.
+
         """
         super().__init__(fn)
 
     @Executor.reduce_loss
-    def call(self, context, *, features, labels, training, **kwargs):
+    def call(
+        self,
+        context: ClassifierContext,
+        *,
+        features: tf.Tensor,
+        labels: tf.Tensor,
+        training: bool,
+        **kwargs
+    ) -> tf.Tensor:
         r"""
-        Compute the classifier loss
+        Compute the classifier loss.
+
         Args:
-            context (:py:class:`ashpy.contexts.classifier.ClassifierContext`): Context for classification
-            features: inputs for the classifier model
-            labels: target for the classifier model
-            training: whether is training or not
+            context (:py:class:`ashpy.ClassifierContext`): Context for classification.
+            features (:py:class:`tf.Tensors`): Inputs for the classifier model.
+            labels (:py:class:`tf.Tensor`): Target for the classifier model.
+            training (bool): Whether is training or not.
             **kwargs:
 
         Returns:
-            :py:class:`tf.Tensor` loss value
+            :py:class:`tf.Tensor`: Loss value.
 
         """
         predictions = context.classifier_model(features, training=training)
