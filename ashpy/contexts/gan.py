@@ -107,7 +107,9 @@ class GANContext(BaseContext):
 
 
 class GANEncoderContext(GANContext):
-    r""":py:class:`ashpy.contexts.gan.GANEncoderContext` measure the specified metrics on the GAN."""
+    r"""
+    :py:class:`ashpy.contexts.gan.GANEncoderContext` measure the specified metrics on the GAN.
+    """
 
     def __init__(
         self,

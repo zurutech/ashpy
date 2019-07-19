@@ -18,7 +18,8 @@ See: "High-Resolution Image Synthesis and Semantic Manipulation with Conditional
 
 Global Generator + Local Enhancer
 
-.. [1] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs: https://arxiv.org/abs/1711.11585
+.. [1] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs:
+    https://arxiv.org/abs/1711.11585
 
 """
 import typing
@@ -161,22 +162,31 @@ class LocalEnhancer(keras.Model):
             padding="same",
         )
 
+    # un-comment in order to export the model
     # @tf.function(
     #    input_signature=[tf.TensorSpec(shape=[None, 512, 512, 1], dtype=tf.float32)]
     # )
     def call(self, inputs, training=False):
+        """
+        LocalEnhancer call.
+        Args:
+            inputs (:py:class:`tf.Tensor`): Input Tensors
+            training (bool): Whether it is training phase or not
+
+        Returns:
+            (:py:class:`tf.Tensor`): Image of size (input_res, input_res, channels)
+                as specified in the init call
+        """
         downsampled = self.downsample(inputs)
 
         # call the global generator
-        global_generator_output, global_generator_features = self.global_generator(
-            downsampled
-        )
+        _, global_generator_features = self.global_generator(downsampled)
 
         # first downsample
         x = inputs
         for layer in self.downsample_block:
-            if isinstance(layer, keras.layers.BatchNormalization) or isinstance(
-                layer, keras.layers.Dropout
+            if isinstance(
+                layer, (keras.layers.BatchNormalization, keras.layers.Dropout)
             ):
                 x = layer(x, trainig=training)
             else:
@@ -190,8 +200,8 @@ class LocalEnhancer(keras.Model):
 
         # upsample
         for layer in self.upsample_block:
-            if isinstance(layer, keras.layers.BatchNormalization) or isinstance(
-                layer, keras.layers.Dropout
+            if isinstance(
+                layer, (keras.layers.BatchNormalization, keras.layers.Dropout)
             ):
                 x = layer(x, training=training)
             else:
@@ -227,10 +237,12 @@ class ResNetBlock(keras.Model):
 
         Args:
             filters (int): initial filters (same as the output filters)
-            normalization_layer (:class:`tf.keras.layers.Layer`): layer of normalization used by the residual block
+            normalization_layer (:class:`tf.keras.layers.Layer`): layer of normalization
+                used by the residual block
             non_linearity (:class:`tf.keras.layers.Layer`): non linearity used in the resnet block
             kernel_size (int): kernel size used in the resnet block
-            num_blocks (int): number of blocks, each block is composed by conv, normalization and non linearity
+            num_blocks (int): number of blocks, each block is composed by conv,
+                normalization and non linearity
         """
         super(ResNetBlock, self).__init__()
         self.model_layers = []
@@ -297,12 +309,14 @@ class GlobalGenerator(Conv2DInterface):
             initial_filters (int): number of initial filters
             filters_cap (int): maximum number of filters
             channels (int): output channels
-            normalization_layer (:class:`tf.keras.layers.Layer`): normalization layer used by the global generator
-                                                                  can be Instance Norm, Layer Norm, Batch Norm
-            non_linearity (:class:`tf.keras.layers.Layer`): non linearity used in the global generator
+            normalization_layer (:class:`tf.keras.layers.Layer`): normalization layer used
+                by the global generator, can be Instance Norm, Layer Norm, Batch Norm
+            non_linearity (:class:`tf.keras.layers.Layer`): non linearity
+                used in the global generator
             num_resnet_blocks (int): number of resnet blocks
             kernel_size_resnet (int): kernel size used in resnets conv layers
-            kernel_size_front_back (int): kernel size used by the convolutional front end and backend
+            kernel_size_front_back (int): kernel size used by the convolutional
+                frontend and backend
             num_internal_resnet_blocks (int): number of blocks used by internal resnet
         """
         super().__init__()
@@ -339,7 +353,7 @@ class GlobalGenerator(Conv2DInterface):
 
         # ResNet Block
         self.resnet_blocks = []
-        for block in range(num_resnet_blocks):
+        for _ in range(num_resnet_blocks):
             self.resnet_blocks.append(
                 ResNetBlock(
                     filters,
@@ -383,14 +397,22 @@ class GlobalGenerator(Conv2DInterface):
         self.model_layers.append(self.last_layer)
 
     def call(self, inputs, training=True):
+        """
+        Call of the Pix2Pix HD model
+        Args:
+            inputs: input tensor(s)
+            training: If True training phase
+
+        Returns:
+            :py:class:`Tuple`: Generated images.
+        """
         out = inputs
         prev = inputs
         for layer in self.model_layers:
             prev = out
-            if (
-                isinstance(layer, ResNetBlock)
-                or isinstance(layer, keras.layers.BatchNormalization)
-                or isinstance(layer, keras.layers.Dropout)
+            if isinstance(
+                layer,
+                (ResNetBlock, keras.layers.BatchNormalization, keras.layers.Dropout),
             ):
                 out = layer(prev, training=training)
             else:

@@ -17,7 +17,7 @@
 import operator
 
 import tensorflow as tf
-from tensorflow import keras  # pylint: disable=no-name-in-module
+from tensorflow import keras
 
 from ashpy.losses import DiscriminatorMinMax, EncoderBCE, GeneratorBCE
 from ashpy.metrics import EncodingAccuracy

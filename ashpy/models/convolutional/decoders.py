@@ -188,7 +188,8 @@ class BaseDecoder(Conv2DInterface):
 
     def _add_final_block(self, channels):
         """
-        Take the results of :func:`_add_building_block` and prepare them for the for the final output.
+        Take the results of :func:`_add_building_block` and prepare them
+        for the for the final output.
 
         Args:
             channels (int): Channels of the output images (1 for Grayscale, 3 for RGB).

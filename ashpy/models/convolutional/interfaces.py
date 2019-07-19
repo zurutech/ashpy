@@ -17,7 +17,6 @@
 import inspect
 
 import numpy as np
-import tensorflow as tf
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
 __ALL__ = ["Conv2DInterface"]

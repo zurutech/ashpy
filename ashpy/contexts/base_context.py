@@ -29,7 +29,10 @@ from ashpy.modes import LogEvalMode
 
 
 class BaseContext:
-    """:py:class:`ashpy.contexts.base_context.BaseContext` provide an interface for all contexts to inherit from."""
+    """
+    :py:class:`ashpy.contexts.base_context.BaseContext` provide an interface
+    for all contexts to inherit from.
+    """
 
     def __init__(
         self,

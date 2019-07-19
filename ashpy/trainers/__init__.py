@@ -46,5 +46,6 @@ The module contains a primitive Interface and specific trainers that inherits fr
 
 from ashpy.trainers.base_trainer import BaseTrainer
 from ashpy.trainers.gan import AdversarialTrainer, EncoderTrainer
+from ashpy.trainers.classifier import ClassifierTrainer
 
-__ALL__ = ["BaseTrainer", "Adversarial", "AdversarialEncoder"]
+__ALL__ = ["BaseTrainer", "Adversarial", "AdversarialEncoder", "ClassifierTrainer"]

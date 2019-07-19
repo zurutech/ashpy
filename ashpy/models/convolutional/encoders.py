@@ -151,7 +151,8 @@ class BaseEncoder(Conv2DInterface):
 
     def _add_final_block(self, output_shape):
         """
-        Take the results of :func:`_add_building_block` and prepare them for the for the final output.
+        Take the results of :func:`_add_building_block` and prepare them for the for
+        the final output.
 
         Args:
             output_shape (int): Amount of units of the last :py:obj:`tf.keras.layers.Dense`

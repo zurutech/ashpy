@@ -43,14 +43,16 @@ class ClassifierTrainer(BaseTrainer):
 
         Args:
             model (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` model.
-            optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:class:`tf.optimizers.Optimizer`.
+            optimizer (:py:class:`tf.optimizers.Optimizer`): A
+                :py:class:`tf.optimizers.Optimizer`.
             loss (:obj:`callable`): A loss function built following :py:mod:`tf.losses`.
             epochs (int): Number of training epochs.
             metrics: (List): List of python objects (dictionaries or tf.metrics objects) to
                 measure on training and validation data.
             logdir (str): Checkpoint and log directory.
             global_step: tf.Variable that keeps track of the training steps.
-            post_process_callback(:obj:`callable`): the function to postprocess the model output, if needed.
+            post_process_callback(:obj:`callable`): the function to postprocess the model output,
+                if needed.
 
         Examples:
             .. testcode::
@@ -189,7 +191,6 @@ class ClassifierTrainer(BaseTrainer):
                 self._global_batch_size, drop_remainder=tf.distribute.has_strategy()
             )
         )
-        samples = train_set.take(1)
 
         with self._train_summary_writer.as_default():
             for epoch in tf.range(current_epoch, self._epochs):

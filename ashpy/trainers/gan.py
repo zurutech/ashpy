@@ -145,16 +145,24 @@ class AdversarialTrainer(BaseTrainer):
         Instantiate a :py:class:`AdversarialTrainer`.
 
         Args:
-            generator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` describing the Generator part of a GAN.
-            discriminator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` describing the Discriminator part of a GAN.
-            generator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers` to use for the Generator.
-            discriminator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers` to use for the Discriminator.
-            generator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute the loss of the Generator.
-            discriminator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute the loss of the Discriminator.
+            generator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
+                describing the Generator part of a GAN.
+            discriminator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
+                describing the Discriminator part of a GAN.
+            generator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers`
+                to use for the Generator.
+            discriminator_optimizer (:py:class:`tf.optimizers.Optimizer`): A
+                :py:mod:`tf.optimizers` to use for the Discriminator.
+            generator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute
+                the loss of the Generator.
+            discriminator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor
+                to compute the loss of the Discriminator.
             epochs (int): number of training epochs.
-            metrics: (List): list of :py:class:`tf.metrics` to measure on training and validation data.
+            metrics: (List): list of :py:class:`tf.metrics` to measure on training and
+                validation data
             logdir: checkpoint and log directory.
-            post_process_callback(:obj:`callable`): the function to postprocess the model output, if needed.
+            post_process_callback(:obj:`callable`): the function to postprocess the model output,
+                if needed
             log_eval_mode: models' mode to use when evaluating and logging.
             global_step: tf.Variable that keeps track of the training steps.
 
@@ -214,7 +222,8 @@ class AdversarialTrainer(BaseTrainer):
             g_inputs: batch of generator_input as generated from the input dataset.
 
         Returns:
-            d_loss, g_loss, fake: discriminator, generator loss values. fake is the generator output.
+            d_loss, g_loss, fake: discriminator, generator loss values. fake is the
+                generator output.
 
         """
         real_x, real_y = real_xy
@@ -234,8 +243,8 @@ class AdversarialTrainer(BaseTrainer):
             )
 
         # check that we have some trainable_variables
-        assert len(self._generator.trainable_variables) > 0
-        assert len(self._discriminator.trainable_variables) > 0
+        assert self._generator.trainable_variables
+        assert self._discriminator.trainable_variables
 
         # calculate the gradient
         d_gradients = tape.gradient(d_loss, self._discriminator.trainable_variables)
@@ -459,15 +468,24 @@ class EncoderTrainer(AdversarialTrainer):
         Instantiate a :py:class:`EncoderTrainer`.
 
         Args:
-            generator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` describing the Generator part of a GAN.
-            discriminator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` describing the Discriminator part of a GAN.
-            encoder (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` describing the Encoder part of a GAN.
-            generator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers` to use for the Generator.
-            discriminator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers` to use for the Discriminator.
-            encoder_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers` to use for the Encoder.
-            generator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute the loss of the Generator.
-            discriminator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute the loss of the Discriminator.
-            encoder_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute the loss of the Discriminator.
+            generator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
+                describing the Generator part of a GAN.
+            discriminator (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
+                describing the Discriminator part of a GAN.
+            encoder (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model` describing
+                the Encoder part of a GAN.
+            generator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers`
+                to use for the Generator.
+            discriminator_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers`
+                to use for the Discriminator.
+            encoder_optimizer (:py:class:`tf.optimizers.Optimizer`): A :py:mod:`tf.optimizers`
+                to use for the Encoder.
+            generator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute
+                the loss of the Generator.
+            discriminator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to
+                compute the loss of the Discriminator.
+            encoder_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute
+                the loss of the Discriminator.
             epochs (int): number of training epochs.
             metrics: (List): list of tf.metrics to measure on training and validation data.
             logdir: checkpoint and log directory.
