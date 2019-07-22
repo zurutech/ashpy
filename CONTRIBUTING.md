@@ -4,8 +4,8 @@
 
 Before sending your pull requests, make sure you followed this list.
 
-- Read [contributing guidelines](CONTRIBUTING.md).
-- Read [Code of Conduct](CODE_OF_CONDUCT.md).
+- Read [contributing guidelines](https://github.com/zurutech/ashpy/blob/master/CONTRIBUTING.md).
+- Read [Code of Conduct](https://github.com/zurutech/ashpy/blob/master/CODE_OF_CONDUCT.md).
 - Check if my changes are consistent with the [guidelines](https://github.com/zurutech/ashpy/blob/master/CONTRIBUTING.md#general-guidelines-and-philosophy-for-contribution).
 - Changes are consistent with the [Coding Style](https://github.com/zurutech/ashpy/blob/master/CONTRIBUTING.md#python-coding-style).
 - Run [Tests](https://github.com/zurutech/ashpy/blob/master/CONTRIBUTING.md#running-tests).
