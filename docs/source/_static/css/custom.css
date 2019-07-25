@@ -1,7 +1,24 @@
-.wy-side-nav-search {
-    background-color: #28285b;
+:root {
+    --ashpy-blue: #28285b;
+    --ashpy-red: #d3145b;
 }
 
-.wy-side-nav-search>a {
-    color: #d3145b;
+.wy-side-nav-search {
+    background-color: var(--ashpy-blue);
+}
+
+.wy-side-nav-search > a {
+    color: var(--ashpy-red);
+}
+
+@media (orientation: portrait) {
+    .wy-nav-content {
+        max-width: 70vw;
+    }
+}
+
+@media (orientation: landscape) {
+    .wy-nav-content {
+        max-width: 45vw;
+    }
 }
