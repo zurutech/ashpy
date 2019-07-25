@@ -12,4 +12,4 @@ API Reference
    ashpy.losses
    ashpy.metrics
    ashpy.modes
-   ashpy.types
+   ashpy.ashtypes

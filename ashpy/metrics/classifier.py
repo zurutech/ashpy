@@ -14,30 +14,47 @@
 
 """The classification metrics."""
 
-import os
+from __future__ import annotations
 
-import tensorflow as tf
+import os
+from typing import TYPE_CHECKING, Any, Callable, Dict, Union
+
+import tensorflow as tf  # pylint: disable=import-error
 
 from ashpy.metrics.metric import Metric
 from ashpy.modes import LogEvalMode
+
+if TYPE_CHECKING:
+    import numpy as np
+    from ashpy.contexts import ClassifierContext  # pylint: disable=ungrouped-imports
+
+    TPRocessingPredictions = Dict[str, Union[Callable, Dict[str, Any]]]
 
 
 class ClassifierLoss(Metric):
     """A handy way to measure the classification loss."""
 
     def __init__(
-        self, model_selection_operator=None, logdir=os.path.join(os.getcwd(), "log")
-    ):
+        self,
+        model_selection_operator: Callable = None,
+        logdir: str = os.path.join(os.getcwd(), "log"),
+    ) -> None:
         """
+        Initialize the Metric.
+
         Args:
-            model_selection_operator: The operation to be used when model_selection
-                is on to compare the metrics. E.g.: operator.gt.
-            logdir: The log dir.
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
 
-        Returns:
-            :obj:`None`.
+                .. note::
+                    Model selection is done ONLY if an operator is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
         """
-
         super().__init__(
             name="loss",
             metric=tf.metrics.Mean(name="loss", dtype=tf.float32),
@@ -45,13 +62,23 @@ class ClassifierLoss(Metric):
             logdir=logdir,
         )
 
-    def result(self):
-        return self._metric.result().numpy()
+    # def result(self) -> np.ndarray:
+    #     """Return the values of the metrics."""
+    #     return self._metric.result().numpy()
 
-    def reset_states(self):
-        return self._metric.reset_states()
+    # def reset_states(self) -> None:
+    #     """Reset the state of the metric."""
+    #     return self._metric.reset_states()
 
-    def update_state(self, context):
+    def update_state(self, context: ClassifierContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
+
+        Args:
+            context (:py:class:`ashpy.contexts.ClassifierContext`): An AshPy Context
+                holding all the information the Metric needs.
+
+        """
         for features, labels in context.dataset:
             loss = context.loss(
                 context,
@@ -65,31 +92,40 @@ class ClassifierLoss(Metric):
 
 
 class ClassifierMetric(Metric):
-    """A wrapper for the classification metric that requires to apply argmax
-    to the classifier output to extract the predictions."""
+    """Wrap a metric using `argmax` to extract predictions out of a classifier's output."""
 
     def __init__(
         self,
-        metric,
-        model_selection_operator=None,
-        logdir=os.path.join(os.getcwd(), "log"),
-        processing_predictions={"fn": tf.argmax, "kwargs": {"axis": -1}},
-    ):
+        metric: tf.keras.metrics.Metric,
+        model_selection_operator: Callable = None,
+        logdir: str = os.path.join(os.getcwd(), "log"),
+        processing_predictions: TPRocessingPredictions = {
+            "fn": tf.argmax,
+            "kwargs": {"axis": -1},
+        },
+    ) -> None:
         """
+        Initialize the Metric.
+
         Args:
-            metric: The metric for the classifier (e.g.: Accuracy()).
-            model_selection_operator: The operation, if needed, to be used
-                to confront the metric value (e.g.: operator.gt).
-            logdir: The logdir in which to save logs.
-            processing_predictions: A dict in the form of
-                {"fn": tf.argmax, "kwargs": {"axis": -1}} with a function "fn"
-                to be used for predictions processing purposes and its "kwargs" as an inner dict.
+            metric (:py:class:`tf.keras.metrics.Metric`): The Keras Metric to use with
+                the classifier (e.g.: Accuracy()).
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
 
-        Returns:
-            :obj:`None`.
+                .. note::
+                    Model selection is done ONLY if an `model_selection_operator` is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+            processing_predictions (:py:obj:`typing.Dict`): A `dict` in the form of
+                `{"fn": tf.argmax, "kwargs": {"axis": -1}}` with a function `"fn"`
+                to be used for predictions processing purposes and its `"kwargs"` as its
+                keyword-arguments.
 
         """
-
         super().__init__(
             name=metric.name,
             metric=metric,
@@ -98,13 +134,29 @@ class ClassifierMetric(Metric):
         )
         self._processing_predictions = processing_predictions
 
-    def result(self):
-        return self._metric.result().numpy()
+    # def result(self) -> np.ndarray:
+    #     """
+    #     Get the result of the metric.
 
-    def reset_states(self):
-        self._metric.reset_states()
+    #     Returns:
+    #         :py:class:`numpy.ndarray`:: The current value of the metric.
 
-    def update_state(self, context):
+    #     """
+    #     return self._metric.result().numpy()
+
+    # def reset_states(self) -> None:
+    #     """Reset the state of the metric."""
+    #     self._metric.reset_states()
+
+    def update_state(self, context: ClassifierContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
+
+        Args:
+            context (:py:class:`ashpy.contexts.ClassifierContext`): An AshPy Context holding
+                all the information the Metric needs.
+
+        """
         for features, labels in context.dataset:
             predictions = context.classifier_model(
                 features, training=context.log_eval_mode == LogEvalMode.TRAIN

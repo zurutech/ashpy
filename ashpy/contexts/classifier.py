@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Optional
 
-import tensorflow as tf
+import tensorflow as tf  # pylint: disable=import-error
 
 from ashpy.contexts.base_context import BaseContext
 from ashpy.metrics import Metric
@@ -29,15 +29,12 @@ if TYPE_CHECKING:
 
 
 class ClassifierContext(BaseContext):
-    r"""
-    :py:class:`ashpy.contexts.classifier.ClassifierContext` provide
-    the standard functions to test a classifier.
-    """
+    """:py:class:`ashpy.ClassifierContext` provide the standard functions to test a classifier."""
 
     def __init__(
         self,
         classifier_model: tf.keras.Model = None,
-        loss: Executor = None,
+        loss: Executor = None,  # ?: Do we really need to default these values to None?
         dataset: tf.data.Dataset = None,
         metrics: List[Metric] = None,
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
@@ -71,13 +68,13 @@ class ClassifierContext(BaseContext):
 
     @property
     def loss(self) -> Optional[Executor]:
-        """Return the loss value."""
+        """Retrieve the loss value."""
         return self._loss
 
     @property
     def classifier_model(self) -> tf.keras.Model:
         r"""
-        Return the Model Object.
+        Retrieve the Model Object.
 
         Returns:
             :py:class:`tf.keras.Model`.

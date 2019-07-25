@@ -8,10 +8,9 @@ TWeight = :py:obj:`typing.Union` [TScalar, :py:class:`tf.Tensor`,
 
 """
 
-from typing import Union, Callable
+from typing import Callable, Union
 
-import tensorflow as tf
-
+import tensorflow as tf  # pylint: disable=import-error
 
 TScalar = Union[int, float]
 TWeight = Union[TScalar, tf.Tensor, Callable[..., TScalar]]

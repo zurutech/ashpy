@@ -281,9 +281,11 @@ class AdversarialTrainer(BaseTrainer):
 
     def _measure_performance(self, dataset):
         """
-        Measure performance on dataset
+        Measure performance on dataset.
+
         Args:
             dataset (:py:obj:`tf.data.Dataset`):
+
         """
         context = GANContext(
             dataset=dataset,

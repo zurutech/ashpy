@@ -238,6 +238,7 @@ intersphinx_mapping = {
         "https://www.tensorflow.org/versions/r2.0/api_docs/python/",
         "tf2_py_objects.inv",
     ),
+    "numpy": ("https://docs.scipy.org/doc/numpy/", None),
 }
 
 # -- Options for todo extension ----------------------------------------------

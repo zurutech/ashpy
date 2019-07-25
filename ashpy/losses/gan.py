@@ -25,7 +25,7 @@ from ashpy.contexts import GANContext, GANEncoderContext
 from ashpy.losses.executor import Executor, SumExecutor
 
 if TYPE_CHECKING:
-    from ashpy.types import TWeight
+    from ashpy.ashtypes import TWeight
 
 
 class AdversarialLossType(Enum):
@@ -427,9 +427,9 @@ class Pix2PixLoss(SumExecutor):
         :py:class:`ashpy.losses.gan.FeatureMatchingLoss`.
 
         Args:
-            l1_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of L1 loss.
-            adversarial_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of adversarial loss.
-            feature_matching_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+            l1_loss_weight (:py:obj:`ashpy.ashtypes.TWeight`): Weight of L1 loss.
+            adversarial_loss_weight (:py:obj:`ashpy.ashtypes.TWeight`): Weight of adversarial loss.
+            feature_matching_weight (:py:obj:`ashpy.ashtypes.TWeight`): Weight of the
                 feature matching loss.
             adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): Adversarial
                 loss type (:py:class:`ashpy.losses.gan.AdversarialLossType.GAN`
@@ -476,11 +476,11 @@ class Pix2PixLossSemantic(SumExecutor):
         and :py:class:`ashpy.losses.gan.FeatureMatchingLoss`
 
         Args:
-            cross_entropy_weight (:py:obj:`ashpy.types.TWeight`): Weight of the categorical
+            cross_entropy_weight (:py:obj:`ashpy.ashtypes.TWeight`): Weight of the categorical
                 cross entropy loss.
-            adversarial_loss_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+            adversarial_loss_weight (:py:obj:`ashpy.ashtypes.TWeight`): Weight of the
                 adversarial loss.
-            feature_matching_weight (:py:obj:`ashpy.types.TWeight`): Weight of the
+            feature_matching_weight (:py:obj:`ashpy.ashtypes.TWeight`): Weight of the
                 feature matching loss.
             adversarial_loss_type (:py:class:`ashpy.losses.gan.AdversarialLossType`): type of
                 adversarial loss, see :py:class:`ashpy.losses.gan.AdversarialLossType`
