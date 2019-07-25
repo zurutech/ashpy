@@ -62,14 +62,6 @@ class ClassifierLoss(Metric):
             logdir=logdir,
         )
 
-    # def result(self) -> np.ndarray:
-    #     """Return the values of the metrics."""
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self) -> None:
-    #     """Reset the state of the metric."""
-    #     return self._metric.reset_states()
-
     def update_state(self, context: ClassifierContext) -> None:
         """
         Update the internal state of the metric, using the information from the context object.
@@ -133,20 +125,6 @@ class ClassifierMetric(Metric):
             logdir=logdir,
         )
         self._processing_predictions = processing_predictions
-
-    # def result(self) -> np.ndarray:
-    #     """
-    #     Get the result of the metric.
-
-    #     Returns:
-    #         :py:class:`numpy.ndarray`:: The current value of the metric.
-
-    #     """
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self) -> None:
-    #     """Reset the state of the metric."""
-    #     self._metric.reset_states()
 
     def update_state(self, context: ClassifierContext) -> None:
         """

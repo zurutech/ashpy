@@ -34,7 +34,7 @@ class Metric(ABC):
     """
     Metric is the abstract class that every ash Metric must implement.
 
-    TODO: (ASK FEDE) AshPy metrics act as wrapper for Keras ones.
+    AshPy Metrics wrap and extend Keras Metrics.
     """
 
     def __init__(

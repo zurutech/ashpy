@@ -66,14 +66,6 @@ class DiscriminatorLoss(Metric):
             logdir=logdir,
         )
 
-    # def result(self) -> np.ndarray:
-    #     """Return the values of the metrics."""
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self):
-    #     """Reset the state of the metric."""
-    #     return self._metric.reset_states()
-
     def update_state(self, context: GANContext) -> None:
         """
         Update the internal state of the metric, using the information from the context object.
@@ -137,12 +129,6 @@ class GeneratorLoss(Metric):
             logdir=logdir,
         )
 
-    # def result(self):
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self):
-    #     return self._metric.reset_states()
-
     def update_state(self, context: GANContext) -> None:
         """
         Update the internal state of the metric, using the information from the context object.
@@ -205,12 +191,6 @@ class EncoderLoss(Metric):
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
-
-    # def result(self):
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self):
-    #     return self._metric.reset_states()
 
     def update_state(self, context: GANEncoderContext) -> None:
         """
@@ -337,12 +317,6 @@ class InceptionScore(Metric):
         self._distribute_strategy.experimental_run(
             lambda: self._metric.update_state(mean)
         )
-
-    # def result(self):
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self):
-    #     self._metric.reset_states()
 
     def inception_score(
         self, images: List[np.ndarray], splits=10
@@ -546,9 +520,3 @@ class EncodingAccuracy(ClassifierMetric):
         # Classify using the pre-trained classifier (self._classifier)
         # G(E(x)) and check the accuracy (with y)
         super().update_state(inner_context)
-
-    # def result(self):
-    #     return self._metric.result().numpy()
-
-    # def reset_states(self):
-    #     self._metric.reset_states()
