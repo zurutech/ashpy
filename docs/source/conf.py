@@ -118,6 +118,10 @@ pygments_style = None
 
 # -- Options for HTML output -------------------------------------------------
 
+# Logo
+html_logo = "_static/img/ashpy_logo.png"
+
+
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
@@ -132,6 +136,7 @@ html_theme_options = {
     "sticky_navigation": True,
     "collapse_navigation": False,
     "navigation_depth": 4,
+    "logo_only": True,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

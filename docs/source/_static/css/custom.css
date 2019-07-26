@@ -4,11 +4,29 @@
 }
 
 .wy-side-nav-search {
-    background-color: var(--ashpy-blue);
+    background-color: #efefef;
 }
 
 .wy-side-nav-search > a {
     color: var(--ashpy-red);
+}
+
+.wy-side-nav-search > div.version {
+    color: var(--ashpy-blue);
+}
+
+.wy-nav-side {
+    background-color: var(--ashpy-blue);
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+    color: var(--ashpy-red);
+}
+
+.wy-menu-vertical a:hover {
+    background: var(--ashpy-red);
+    color: #efefef;
 }
 
 @media (orientation: portrait) {
