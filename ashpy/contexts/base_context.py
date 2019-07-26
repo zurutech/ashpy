@@ -29,10 +29,7 @@ from ashpy.modes import LogEvalMode
 
 
 class BaseContext:
-    """
-    :py:class:`ashpy.contexts.base_context.BaseContext` provide an interface
-    for all contexts to inherit from.
-    """
+    """:py:class:`ashpy.contexts.BaseContext` provide an interface for all contexts."""
 
     def __init__(
         self,
@@ -43,7 +40,7 @@ class BaseContext:
         ckpt: tf.train.Checkpoint = None,
     ) -> None:
         """
-        Initialize :py:class:`ashpy.contexts.base_context.BaseContext`.
+        Initialize the Context.
 
         Args:
             metrics (:obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`]): List of
@@ -86,7 +83,7 @@ class BaseContext:
     @property
     def log_eval_mode(self) -> LogEvalMode:
         """
-        Model(s) mode.
+        Retrieve model(s) mode.
 
         Returns:
             :py:class:`ashpy.modes.LogEvalMode`.
@@ -97,7 +94,7 @@ class BaseContext:
     @property
     def dataset(self) -> tf.data.Dataset:
         """
-        Return dataset.
+        Retrieve the dataset.
 
         Returns:
             :py:class:`tf.data.Dataset`.
@@ -108,7 +105,7 @@ class BaseContext:
     @property
     def metrics(self) -> List[Metric]:
         """
-        Return the metrics.
+        Retrieve the metrics.
 
         Returns:
             :obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`].
@@ -119,7 +116,7 @@ class BaseContext:
     @property
     def global_step(self) -> tf.Variable:
         """
-        Return the global_step.
+        Retrieve the global_step.
 
         Returns:
             :py:class:`tf.Variable`.

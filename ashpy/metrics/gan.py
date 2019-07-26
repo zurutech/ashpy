@@ -13,29 +13,52 @@
 # limitations under the License.
 
 """GAN metrics."""
+from __future__ import annotations
+
 import os
 import types
+from typing import TYPE_CHECKING, Callable, List, Tuple
 
-import tensorflow as tf
-import tensorflow_hub as hub
+import tensorflow as tf  # pylint: disable=import-error
 
+import tensorflow_hub as hub  # pylint: disable=import-error
 from ashpy.metrics import ClassifierMetric, Metric
 from ashpy.modes import LogEvalMode
 
+if TYPE_CHECKING:
+    import numpy as np
+    from ashpy.contexts import (  # pylint: disable=ungrouped-imports
+        BaseContext,
+        ClassifierContext,
+        GANContext,
+        GANEncoderContext,
+    )
+
 
 class DiscriminatorLoss(Metric):
-    """The ash way of measuring the discriminator loss value."""
+    """The Discriminator loss value."""
 
     def __init__(
-        self, model_selection_operator=None, logdir=os.path.join(os.getcwd(), "log")
-    ):
+        self,
+        model_selection_operator: Callable = None,
+        logdir: str = os.path.join(os.getcwd(), "log"),
+    ) -> None:
         """
-        Args:
-            model_selection_operator: The operation to be used when model_selection
-                is on to compare the metrics. E.g.: operator.gt.
-            logdir: The log dir in which to save logs.
-        """
+        Initialize the Metric.
 
+        Args:
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
+
+                .. note::
+                    Model selection is done ONLY if an operator is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
+        """
         super().__init__(
             name="d_loss",
             metric=tf.metrics.Mean(name="d_loss", dtype=tf.float32),
@@ -43,13 +66,15 @@ class DiscriminatorLoss(Metric):
             logdir=logdir,
         )
 
-    def result(self):
-        return self._metric.result().numpy()
+    def update_state(self, context: GANContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
 
-    def reset_states(self):
-        return self._metric.reset_states()
+        Args:
+            context (:py:class:`ashpy.contexts.GANContext`): An AshPy Context Object that carries
+                all the information the Metric needs.
 
-    def update_state(self, context):
+        """
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy
 
@@ -74,18 +99,29 @@ class DiscriminatorLoss(Metric):
 
 
 class GeneratorLoss(Metric):
-    """The ash way of measuring the generator loss value."""
+    """Generator loss value."""
 
     def __init__(
-        self, model_selection_operator=None, logdir=os.path.join(os.getcwd(), "log")
+        self,
+        model_selection_operator: Callable = None,
+        logdir: str = os.path.join(os.getcwd(), "log"),
     ):
         """
-        Args:
-            model_selection_operator: The operation to be used when model_selection
-                is on to compare the metrics. E.g.: operator.gt.
-            logdir: The log dir.
-        """
+        Initialize the Metric.
 
+        Args:
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
+
+                .. note::
+                    Model selection is done ONLY if an operator is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
+        """
         super().__init__(
             name="g_loss",
             metric=tf.metrics.Mean(name="g_loss", dtype=tf.float32),
@@ -93,13 +129,15 @@ class GeneratorLoss(Metric):
             logdir=logdir,
         )
 
-    def result(self):
-        return self._metric.result().numpy()
+    def update_state(self, context: GANContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
 
-    def reset_states(self):
-        return self._metric.reset_states()
+        Args:
+            context (:py:class:`ashpy.contexts.GANContext`): An AshPy Context Object that carries
+                all the information the Metric needs.
 
-    def update_state(self, context):
+        """
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy
             g_inputs = noise
@@ -124,19 +162,29 @@ class GeneratorLoss(Metric):
 
 
 class EncoderLoss(Metric):
-    """The ash way of measuring the generator loss value."""
+    """Encoder Loss value."""
 
     def __init__(
-        self, model_selection_operator=None, logdir=os.path.join(os.getcwd(), "log")
-    ):
+        self,
+        model_selection_operator: Callable = None,
+        logdir: str = os.path.join(os.getcwd(), "log"),
+    ) -> None:
         """
-        Args:
-            model_selection_operator: The operation to be used when model_selection
-                is on to compare the metrics. E.g.: operator.gt.
-            dtype: The type.
-            logdir: The log dir.
-        """
+        Initialize the Metric.
 
+        Args:
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
+
+                .. note::
+                    Model selection is done ONLY if an operator is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
+        """
         super().__init__(
             name="e_loss",
             metric=tf.metrics.Mean(name="e_loss", dtype=tf.float32),
@@ -144,13 +192,15 @@ class EncoderLoss(Metric):
             logdir=logdir,
         )
 
-    def result(self):
-        return self._metric.result().numpy()
+    def update_state(self, context: GANEncoderContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
 
-    def reset_states(self):
-        return self._metric.reset_states()
+        Args:
+            context (:py:class:`ashpy.contexts.GANEncoderContext`): An AshPy Context Object
+                that carries all the information the Metric needs.
 
-    def update_state(self, context):
+        """
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy
             g_inputs = noise
@@ -174,7 +224,15 @@ class EncoderLoss(Metric):
 
 
 class InceptionScore(Metric):
-    """The ash way of measuring the inception score."""
+    """
+    Inception Score Metric.
+
+    This class is an implementation of the Inception Score technique for evaluating a GAN.
+
+    .. todo::
+        Add reference to the paper.
+
+    """
 
     def __init__(
         self,
@@ -183,15 +241,22 @@ class InceptionScore(Metric):
         logdir=os.path.join(os.getcwd(), "log"),
     ):
         """
-        This class is an implementation of the inception score for evaluating a GAN.
+        Initialize the Metric.
 
         Args:
-            inception: Keras ineption model.
-            model_selection_operator: An operator with which compare the results for
-                the model selection, if needed.
-            logdir: The log dir.
-        """
+            inception (:py:class:`tf.keras.Model`): Keras Inception model.
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
 
+                .. note::
+                    Model selection is done ONLY if an operator is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
+        """
         super().__init__(
             name="inception_score",
             metric=tf.metrics.Mean("inception_score"),
@@ -205,21 +270,28 @@ class InceptionScore(Metric):
                 [self._incpt_model, tf.keras.layers.Softmax()]
             )
 
-    def update_state(self, context):
+    def update_state(self, context: ClassifierContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
 
-        # generate the images created with the context's generator
+        Args:
+            context (:py:class:`ashpy.contexts.ClassifierContext`): An AshPy Context
+                holding all the information the Metric needs.
+
+        """
+        # Generate the images created with the AshPy Context's generator
         generated_images = [
             context.generator_model(
                 noise, training=context.log_eval_mode == LogEvalMode.TRAIN
             )
-            for noise in context.noise_dataset
+            for noise in context.noise_dataset  # FIXME: ?
         ]
 
         rescaled_images = [
             ((generate_image * 0.5) + 0.5) for generate_image in generated_images
         ]
 
-        # resize images to 299x299
+        # Resize images to 299x299
         resized_images = [
             tf.image.resize(rescaled_image, (299, 299))
             for rescaled_image in rescaled_images
@@ -237,39 +309,37 @@ class InceptionScore(Metric):
         # Unravel the dataset and then create small batches, each with 2 images at most.
         dataset = tf.unstack(tf.reshape(tf.stack(resized_images), (-1, 1, 299, 299, 3)))
 
-        # calculate the inception score
+        # Calculate the inception score
         mean, _ = self.inception_score(dataset)
 
-        # update the Mean metric created for this context
+        # Update the Mean metric created for this context
         # self._metric.update_state(mean)
         self._distribute_strategy.experimental_run(
             lambda: self._metric.update_state(mean)
         )
 
-    def result(self):
-        return self._metric.result().numpy()
-
-    def reset_states(self):
-        self._metric.reset_states()
-
-    def inception_score(self, images, splits=10):
+    def inception_score(
+        self, images: List[np.ndarray], splits=10
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """
+        Compute the Inception Score.
 
         Args:
-            images (ndarray): A list of ndarray of generated images of 299x299 of size.
+            images (:py:obj:`list` of [:py:class:`numpy.ndarray`]): A list of ndarray of
+                generated images of 299x299 of size.
             splits (int): The number of splits to be used during the inception score calculation.
 
         Returns:
-             :obj:`None`.
-        """
+            :obj:`tuple` of (:py:class:`numpy.ndarray`, :py:class:`numpy.ndarray`): Mean and STD.
 
+        """
         tf.print("Computing inception score...")
         predictions = []
         for inp in images:
-            pred = self._incpt_model(inp)
+            pred: tf.Tensor = self._incpt_model(inp)
             predictions.append(pred)
 
-        predictions = tf.concat(predictions, axis=0).numpy()
+        predictions: np.ndarray = tf.concat(predictions, axis=0).numpy()
         scores = []
         for i in range(splits):
             part = predictions[
@@ -292,17 +362,34 @@ class InceptionScore(Metric):
 
     @staticmethod
     def get_or_train_inception(
-        dataset,
-        name,
-        num_classes,
-        epochs,
-        fine_tuning=False,
-        loss_fn=tf.losses.SparseCategoricalCrossentropy(from_logits=True),
-        optimizer=tf.optimizers.Adam(1e-5),
-        logdir=os.path.join(os.getcwd(), "log"),
-    ):
+        dataset: tf.data.Dataset,
+        name: str,
+        num_classes: int,
+        epochs: int,
+        fine_tuning: bool = False,
+        loss_fn: tf.keras.losses.Loss = tf.keras.losses.SparseCategoricalCrossentropy(
+            from_logits=True
+        ),
+        optimizer: tf.keas.optimizers.Adam = tf.keras.optimizers.Adam(1e-5),
+        logdir: str = os.path.join(os.getcwd(), "log"),
+    ) -> tf.keras.Model:
         """
-        Get or train and save the inception model.
+        Restore or train (and save) the Inception model.
+
+        Args:
+            dataset (:py:class:`tf.data.Dataset`): Dataset to re-train Inception Model on.
+            name (str): Name of this new Inception Model, used for saving it.
+            num_classes (int): Number of classes to use for classification.
+            epochs (int): Epochs to train the Inception model for.
+            fine_tuning (bool): Controls wether the model will be fine-tuned or used as is.
+            loss_fn (:py:class:`tf.keras.losses.Loss`): Keras Loss for the model.
+            optimizer (:py:class:`tf.keras.optimizers.Optimizer`): Keras optimizer for the model.
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
+        Returns:
+            :py:class:`tf.keras.Model`: The Inception Model.
+
         """
         os.environ["TFHUB_DOWNLOAD_PROGRESS"] = "1"
         model = tf.keras.Sequential(
@@ -357,25 +444,41 @@ class InceptionScore(Metric):
 
 
 class EncodingAccuracy(ClassifierMetric):
-    """Measures the Generator and Encoder performance together, by classifying:
-    G(E(x)), y using a pre-trained classified (on the dataset of x)."""
+    """
+    Generetor and Encoder accuracy performance.
+
+    Measure the Generator and Encoder performance together, by classifying:
+    `G(E(x)), y` using a pre-trained classified (on the dataset of x).
+
+    """
 
     def __init__(
         self,
         classifier: tf.keras.Model,
-        model_selection_operator=None,
+        model_selection_operator: Callable = None,
         logdir=os.path.join(os.getcwd(), "log"),
-    ):
-        """Measures the Generator and Encoder performance together, by classifying:
-        G(E(x)), y using a pre-trained classified (on the dataset of x).
+    ) -> None:
+        """
+        Measure the Generator and Encoder performance together.
+
+        This is done by classifying: `G(E(x)), y` using a pre-trained classified
+        (on the dataset of x).
 
         Args:
-            classifier: Keras inception model.
-            model_selection_operator: An operator with which compare the results for
-                the model selection, if needed.
-            logdir: The log dir.
-        """
+            classifier (:py:class:`tf.keras.Model`): Keras Model to use as a Classifier to
+                measure the accuracy. Generally assumed to be the Inception Model.
+            model_selection_operator (:py:obj:`typing.Callable`): The operation that will
+                be used when `model_selection` is triggered to compare the metrics,
+                used by the `update_state`.
+                Any :py:obj:`typing.Callable` behaving like an :py:mod:`operator` is accepted.
 
+                .. note::
+                    Model selection is done ONLY if an operator is specified here.
+
+            logdir (str): Path to the log dir, defaults to a `log` folder in the current
+                directory.
+
+        """
         super().__init__(
             metric=tf.metrics.Accuracy("encoding_accuracy"),
             model_selection_operator=model_selection_operator,
@@ -384,16 +487,25 @@ class EncodingAccuracy(ClassifierMetric):
 
         self._classifer = classifier
 
-    def update_state(self, context):
+    def update_state(self, context: GANEncoderContext) -> None:
+        """
+        Update the internal state of the metric, using the information from the context object.
+
+        Args:
+            context (:py:class:`ashpy.contexts.GANEncoderContext`): An AshPy Context Object
+                that carries all the information the Metric needs.
+
+        """
         inner_context = types.SimpleNamespace()
         inner_context.classifier_model = self._classifer
         inner_context.log_eval_mode = LogEvalMode.TEST
         # G(E(x)), y
 
         def _gen(xy, noise):
+            # ?: noise is unused
             # TODO: find a way to move generator_model
-            # and encoder_model from GPU to CPU since tf.data.Dataset.map
-            # requires every object allocated in CPU (perhaps)
+            # And encoder_model from GPU to CPU since tf.data.Dataset.map
+            # Requires every object allocated in CPU (perhaps)
             x, y = xy
             out = context.generator_model(
                 context.encoder_model(
@@ -408,9 +520,3 @@ class EncodingAccuracy(ClassifierMetric):
         # Classify using the pre-trained classifier (self._classifier)
         # G(E(x)) and check the accuracy (with y)
         super().update_state(inner_context)
-
-    def result(self):
-        return self._metric.result().numpy()
-
-    def reset_states(self):
-        self._metric.reset_states()

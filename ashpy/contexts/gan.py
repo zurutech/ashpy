@@ -46,7 +46,7 @@ class GANContext(BaseContext):
         ckpt: tf.train.Checkpoint = None,
     ) -> None:
         """
-        Initialize the (:py:class:`ashpy.contexts.gan.GANContext`).
+        Initialize the Context.
 
         Args:
             dataset (:py:class:`tf.data.Dataset`): Dataset of tuples. [0] true dataset,
@@ -76,7 +76,7 @@ class GANContext(BaseContext):
     @property
     def generator_model(self) -> tf.keras.Model:
         """
-        Return the generator model.
+        Retrieve the generator model.
 
         Returns:
             :py:class:`tf.keras.Model`.
@@ -87,7 +87,7 @@ class GANContext(BaseContext):
     @property
     def discriminator_model(self) -> tf.keras.Model:
         """
-        Return the discriminator model.
+        Retrieve the discriminator model.
 
         Returns:
             :py:class:`tf.keras.Model`.
@@ -97,19 +97,17 @@ class GANContext(BaseContext):
 
     @property
     def generator_loss(self) -> Optional[Executor]:
-        """Return the generator loss."""
+        """Retrieve the generator loss."""
         return self._generator_loss
 
     @property
     def discriminator_loss(self) -> Optional[Executor]:
-        """Return the discriminator loss."""
+        """Retrieve the discriminator loss."""
         return self._discriminator_loss
 
 
 class GANEncoderContext(GANContext):
-    r"""
-    :py:class:`ashpy.contexts.gan.GANEncoderContext` measure the specified metrics on the GAN.
-    """
+    """:py:class:`ashpy.contexts.gan.GANEncoderContext` measure the specified metrics on the GAN."""
 
     def __init__(
         self,
@@ -128,7 +126,7 @@ class GANEncoderContext(GANContext):
         ckpt: tf.train.Checkpoint = None,
     ) -> None:
         r"""
-        Initialize the :py:class:`ashpy.contexts.gan.GANEncoderContext`.
+        Initialize the Context.
 
         Args:
             dataset (:py:class:`tf.data.Dataset`): Dataset of tuples. [0] true dataset,
@@ -166,7 +164,7 @@ class GANEncoderContext(GANContext):
     @property
     def encoder_model(self) -> tf.keras.Model:
         """
-        Return the encoder model.
+        Retrieve the encoder model.
 
         Returns:
             :py:class:`tf.keras.Model`.
@@ -176,5 +174,5 @@ class GANEncoderContext(GANContext):
 
     @property
     def encoder_loss(self) -> Optional[Executor]:
-        """Return the encoder loss."""
+        """Retrieve the encoder loss."""
         return self._encoder_loss

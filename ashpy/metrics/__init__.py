@@ -66,13 +66,13 @@ Collection of Metrics.
 """
 from ashpy.metrics.metric import Metric
 from ashpy.metrics.classifier import ClassifierLoss, ClassifierMetric
-from ashpy.metrics.gan import DiscriminatorLoss, InceptionScore, EncodingAccuracy
+from ashpy.metrics.gan import DiscriminatorLoss, EncodingAccuracy, InceptionScore
 
 __ALL__ = [
     "Metric",
     "ClassifierLoss",
     "ClassifierMetric",
     "DiscriminatorLoss",
-    "InceptionScore",
     "EncodingAccuracy",
+    "InceptionScore",
 ]
