@@ -144,7 +144,7 @@ class PatchDiscriminator(Discriminator):
 
     def _add_building_block(self, filters, use_bn=False):
         """
-        Construct the core of the :py:obj:`tf.keras.model`.
+        Construct the core of the :py:obj:`tf.keras.Model`.
 
         The layers specified here get added to the :py:obj:`tf.keras.Model` multiple times
         consuming the hyper-parameters generated in the :func:`_get_layer_spec`.

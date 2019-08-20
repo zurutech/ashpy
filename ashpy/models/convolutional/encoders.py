@@ -129,7 +129,7 @@ class BaseEncoder(Conv2DInterface):
 
     def _add_building_block(self, filters):
         """
-        Construct the core of the :py:obj:`tf.keras.model`.
+        Construct the core of the :py:obj:`tf.keras.Model`.
 
         The layers specified here get added to the :py:obj:`tf.keras.Model` multiple times
         consuming the hyper-parameters generated in the :func:`_get_layer_spec`.
