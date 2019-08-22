@@ -23,6 +23,7 @@ import tensorflow as tf
 
 from ashpy.contexts import GANContext, GANEncoderContext
 from ashpy.losses.executor import Executor, SumExecutor
+from ashpy.keras.losses import DLeastSquare, DMinMax, L1
 
 if TYPE_CHECKING:
     from ashpy.ashtypes import TWeight
@@ -223,44 +224,9 @@ class GeneratorL1(GANExecutor):
 
     """
 
-    class L1Loss(tf.keras.losses.Loss):
-        """L1 Loss implementation as :py:class:`tf.keras.losses.Loss`."""
-
-        def __init__(self) -> None:
-            """Initialize the Loss."""
-            super().__init__()
-            self._reduction = tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE
-
-        @property
-        def reduction(self) -> tf.keras.losses.Reduction:
-            """Return the current `reduction` for this type of loss."""
-            return self._reduction
-
-        @reduction.setter
-        def reduction(self, value: tf.keras.losses.Reduction) -> None:
-            """
-            Set the `reduction`.
-
-            Args:
-                value (:py:class:`tf.keras.losses.Reduction`): Reduction to use for the loss.
-
-            """
-            self._reduction = value
-
-        def call(self, x: tf.Tensor, y: tf.Tensor) -> tf.Tensor:
-            """Compute the mean of the l1 between x and y."""
-            if self._reduction == tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE:
-                axis = None
-            elif self._reduction == tf.keras.losses.Reduction.NONE:
-                axis = (1, 2, 3)
-            else:
-                raise ValueError("L1Loss: unhandled reduction type")
-
-            return tf.reduce_mean(tf.abs(x - y), axis=axis)
-
     def __init__(self) -> None:
         """Initialize the Executor."""
-        super().__init__(GeneratorL1.L1Loss())
+        super().__init__(L1())
 
     @Executor.reduce_loss
     def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
@@ -280,7 +246,7 @@ class GeneratorL1(GANExecutor):
         return mae
 
 
-class FeatureMatchingLoss(GeneratorL1):
+class FeatureMatchingLoss(GANExecutor):
     r"""
     Conditional GAN Feature matching loss.
 
@@ -307,6 +273,10 @@ class FeatureMatchingLoss(GeneratorL1):
     a multidimensional tensor we simply calculate the mean
     over the axis 1,2,3.
     """
+
+    def __init__(self) -> None:
+        """Initialize the Executor."""
+        super().__init__(L1())
 
     @Executor.reduce_loss
     def call(
@@ -604,68 +574,10 @@ class DiscriminatorMinMax(AdversarialLossD):
 
     """
 
-    class GANLoss(tf.keras.losses.Loss):
-        """Implementation of MinMax loss as :py:class:`tf.keras.losses.Loss`."""
-
-        def __init__(
-            self, from_logits: bool = True, label_smoothing: float = 0.0
-        ) -> None:
-            """Initialize the loss."""
-            self._positive_bce = tf.keras.losses.BinaryCrossentropy(
-                from_logits=from_logits,
-                label_smoothing=label_smoothing,
-                reduction=tf.keras.losses.Reduction.NONE,
-            )
-
-            self._negative_bce = tf.keras.losses.BinaryCrossentropy(
-                from_logits=from_logits,
-                label_smoothing=0.0,
-                reduction=tf.keras.losses.Reduction.NONE,
-            )
-            super().__init__()
-
-        @property
-        def reduction(self) -> tf.keras.losses.Reduction:
-            """
-            Return the reduction type of this loss.
-
-            Returns:
-                :py:classes:`tf.keras.losses.Reduction`: Reduction.
-
-            """
-            return self._positive_bce.reduction
-
-        @reduction.setter
-        def reduction(self, value: tf.keras.losses.Reduction) -> None:
-            self._positive_bce.reduction = value
-            self._negative_bce.reduction = value
-
-        def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
-            """
-            Compute the MinMax Loss.
-
-            Play the DiscriminatorMinMax game between the discriminator
-            computed in real and the discriminator compute with fake inputs.
-
-            Args:
-                d_real (:py:class:`tf.Tensor`): Real data.
-                d_fake (:py:class:`tf.Tensor`): Fake (generated) data.
-
-            Returns:
-                :py:class:`tf.Tensor`: Output Tensor.
-
-            """
-            return 0.5 * (
-                self._positive_bce(tf.ones_like(d_real), d_real)
-                + self._negative_bce(tf.zeros_like(d_fake), d_fake)
-            )
-
     def __init__(self, from_logits=True, label_smoothing=0.0):
         """Initialize Loss."""
         super().__init__(
-            DiscriminatorMinMax.GANLoss(
-                from_logits=from_logits, label_smoothing=label_smoothing
-            )
+            DMinMax(from_logits=from_logits, label_smoothing=label_smoothing)
         )
 
 
@@ -696,55 +608,9 @@ class DiscriminatorLSGAN(AdversarialLossD):
 
     """
 
-    class LeastSquareLoss(tf.keras.losses.Loss):
-        """Least Square Loss as :py:class:`tf.keras.losses.Loss`."""
-
-        def __init__(self) -> None:
-            """Initialize the Loss."""
-            self._positive_mse = tf.keras.losses.MeanSquaredError(
-                reduction=tf.keras.losses.Reduction.NONE
-            )
-            self._negative_mse = tf.keras.losses.MeanSquaredError(
-                reduction=tf.keras.losses.Reduction.NONE
-            )
-            super().__init__()
-
-        @property
-        def reduction(self) -> tf.keras.losses.Reduction:
-            """
-            Return the reduction type for this loss.
-
-            Returns:
-                :py:class:`tf.keras.losses.Reduction`: Reduction.
-
-            """
-            return self._positive_mse.reduction
-
-        @reduction.setter
-        def reduction(self, value) -> None:
-            self._positive_mse.reduction = value
-            self._negative_mse.reduction = value
-
-        def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
-            """
-            Compute the Least Square Loss.
-
-            Args:
-                d_real (:py:class:`tf.Tensor`): Discriminator evaluated in real samples.
-                d_fake (:py:class:`tf.Tensor`): Discriminator evaluated in fake samples.
-
-            Returns:
-                :py:class:`tf.Tensor`: Loss.
-
-            """
-            return 0.5 * (
-                self._positive_mse(tf.ones_like(d_real), d_real)
-                + self._negative_mse(tf.zeros_like(d_fake), d_fake)
-            )
-
     def __init__(self) -> None:
         """Initialize loss."""
-        super().__init__(DiscriminatorLSGAN.LeastSquareLoss())
+        super().__init__(DLeastSquare())
         self.name = "DiscriminatorLSGAN"
 
 
