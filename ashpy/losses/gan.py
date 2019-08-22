@@ -324,9 +324,9 @@ class FeatureMatchingLoss(GeneratorL1):
 
         Args:
             context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
-            fake (): Fake data.
-            real (): Real data.
-            condition (): Generator conditioning.
+            fake (:py:class:`tf.Tensor`): Fake data.
+            real (:py:class:`tf.Tensor`): Real data.
+            condition (:py:class:`tf.Tensor`): Generator conditioning.
             training (bool): If training or evaluation.
 
         Returns:
@@ -543,7 +543,16 @@ class AdversarialLossD(GANExecutor):
         super().__init__(loss_fn)
 
     @Executor.reduce_loss
-    def call(self, context: GANContext, *, fake, real, condition, training, **kwargs):
+    def call(
+        self,
+        context: GANContext,
+        *,
+        fake: tf.Tensor,
+        real: tf.Tensor,
+        condition: tf.Tensor,
+        training: bool,
+        **kwargs,
+    ):
         r"""
         Call: setup the discriminator inputs and calls `loss_fn`.
 
