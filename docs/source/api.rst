@@ -5,11 +5,13 @@ API Reference
    :nosignatures:
    :toctree: _autosummary
 
-   ashpy.models
+   ashpy.ashtypes
    ashpy.contexts
-   ashpy.trainers
+   ashpy.keras
    ashpy.layers
    ashpy.losses
    ashpy.metrics
+   ashpy.models
    ashpy.modes
-   ashpy.ashtypes
+   ashpy.trainers
+

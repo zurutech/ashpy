@@ -23,7 +23,7 @@ from tensorflow import keras
 from ashpy.layers import Attention, InstanceNormalization
 from ashpy.models.convolutional.interfaces import Conv2DInterface
 
-__ALL__ = ["UNet", "SUNet", "FunctionalUNet"]
+__ALL__ = ["UNet", "SUNet", "FUNet"]
 
 
 class UNet(Conv2DInterface):

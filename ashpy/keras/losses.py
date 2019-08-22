@@ -54,7 +54,8 @@ class L1(tf.keras.losses.Loss):
 
 
 class DMinMax(tf.keras.losses.Loss):
-    r"""Implementation of MinMax Discriminator loss as :py:class:`tf.keras.losses.Loss`.
+    r"""
+    Implementation of MinMax Discriminator loss as :py:class:`tf.keras.losses.Loss`.
 
     .. math::
          L_{D} =  - \frac{1}{2} E [\log(D(x)) + \log (1 - D(G(z))]
@@ -116,7 +117,8 @@ class DLeastSquare(tf.keras.losses.Loss):
     """Discriminator Least Square Loss as :py:class:`tf.keras.losses.Loss`."""
 
     def __init__(self) -> None:
-        """Least square Loss for Discriminator.
+        r"""
+        Least square Loss for Discriminator.
 
         Reference: Least Squares Generative Adversarial Networks [1]_ .
 

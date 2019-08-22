@@ -70,7 +70,7 @@ Collection of Convolutional Models constructors.
 
     unet.UNet
     unet.SUNet
-    unet.FunctionalUNet
+    unet.FUNet
 
 ----
 

@@ -22,6 +22,7 @@ from . import metrics
 from . import models
 from . import trainers
 from . import ashtypes
+from . import keras
 from .modes import LogEvalMode
 
 __version__ = "1.0.2"
