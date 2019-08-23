@@ -50,13 +50,6 @@ from ashpy.models.convolutional.decoders import BaseDecoder
 from ashpy.models.convolutional.encoders import BaseEncoder
 
 
-class Generator(BaseDecoder):
-    """GAN Generator Model."""
-
-
-class Discriminator(BaseEncoder):
-    """GAN Discriminator Model."""
-
-
-class Encoder(BaseEncoder):
-    """GAN Encoder Model."""
+Generator = BaseDecoder
+Discriminator = BaseEncoder
+Encoder = BaseEncoder
