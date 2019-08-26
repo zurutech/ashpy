@@ -75,6 +75,8 @@ class DiscriminatorLoss(Metric):
                 all the information the Metric needs.
 
         """
+        updater = lambda value: lambda: self._metric.update_state(value)
+
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy
 
@@ -93,9 +95,7 @@ class DiscriminatorLoss(Metric):
                 training=context.log_eval_mode == LogEvalMode.TRAIN,
             )
 
-            self._distribute_strategy.experimental_run_v2(
-                lambda: self._metric.update_state(loss)
-            )
+            self._distribute_strategy.experimental_run_v2(updater(loss))
 
 
 class GeneratorLoss(Metric):
@@ -138,6 +138,7 @@ class GeneratorLoss(Metric):
                 all the information the Metric needs.
 
         """
+        updater = lambda value: lambda: self._metric.update_state(value)
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy
             g_inputs = noise
@@ -156,9 +157,7 @@ class GeneratorLoss(Metric):
                 training=context.log_eval_mode == LogEvalMode.TRAIN,
             )
 
-            self._distribute_strategy.experimental_run(
-                lambda: self._metric.update_state(loss)
-            )
+            self._distribute_strategy.experimental_run_v2(updater(loss))
 
 
 class EncoderLoss(Metric):
@@ -201,6 +200,8 @@ class EncoderLoss(Metric):
                 that carries all the information the Metric needs.
 
         """
+
+        updater = lambda value: lambda: self._metric.update_state(value)
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy
             g_inputs = noise
@@ -218,9 +219,7 @@ class EncoderLoss(Metric):
                 training=context.log_eval_mode == LogEvalMode.TRAIN,
             )
 
-            self._distribute_strategy.experimental_run(
-                lambda: self._metric.update_state(loss)
-            )
+            self._distribute_strategy.experimental_run_v2(updater(loss))
 
 
 class InceptionScore(Metric):
@@ -279,6 +278,8 @@ class InceptionScore(Metric):
                 holding all the information the Metric needs.
 
         """
+        updater = lambda value: lambda: self._metric.update_state(value)
+
         # Generate the images created with the AshPy Context's generator
         generated_images = [
             context.generator_model(
@@ -314,9 +315,7 @@ class InceptionScore(Metric):
 
         # Update the Mean metric created for this context
         # self._metric.update_state(mean)
-        self._distribute_strategy.experimental_run(
-            lambda: self._metric.update_state(mean)
-        )
+        self._distribute_strategy.experimental_run_v2(updater(mean))
 
     def inception_score(
         self, images: List[np.ndarray], splits=10
@@ -370,7 +369,7 @@ class InceptionScore(Metric):
         loss_fn: tf.keras.losses.Loss = tf.keras.losses.SparseCategoricalCrossentropy(
             from_logits=True
         ),
-        optimizer: tf.keas.optimizers.Adam = tf.keras.optimizers.Adam(1e-5),
+        optimizer: tf.keras.optimizers.Adam = tf.keras.optimizers.Adam(1e-5),
         logdir: str = os.path.join(os.getcwd(), "log"),
     ) -> tf.keras.Model:
         """

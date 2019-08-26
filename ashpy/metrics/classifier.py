@@ -71,6 +71,7 @@ class ClassifierLoss(Metric):
                 holding all the information the Metric needs.
 
         """
+        updater = lambda value: lambda: self._metric.update_state(value)
         for features, labels in context.dataset:
             loss = context.loss(
                 context,
@@ -78,9 +79,7 @@ class ClassifierLoss(Metric):
                 labels=labels,
                 training=context.log_eval_mode == LogEvalMode.TRAIN,
             )
-            self._distribute_strategy.experimental_run(
-                lambda: self._metric.update_state(loss)
-            )
+            self._distribute_strategy.experimental_run_v2(updater(loss))
 
 
 class ClassifierMetric(Metric):
@@ -135,6 +134,7 @@ class ClassifierMetric(Metric):
                 all the information the Metric needs.
 
         """
+
         for features, labels in context.dataset:
             predictions = context.classifier_model(
                 features, training=context.log_eval_mode == LogEvalMode.TRAIN
