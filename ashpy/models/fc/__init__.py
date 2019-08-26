@@ -64,9 +64,9 @@ Collection of Fully Connected Models constructors.
     :toctree: fc
     :template: autosummary/submodule.rst
 
-    interfaces
+    autoencoders
     decoders
     encoders
-    autoencoders
+    interfaces
 
 """

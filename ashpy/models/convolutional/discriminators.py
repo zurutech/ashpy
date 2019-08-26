@@ -23,12 +23,12 @@ from tensorflow import keras
 
 from ashpy.layers import Attention, InstanceNormalization
 from ashpy.models.convolutional.encoders import BaseEncoder
-from ashpy.models.gans import Discriminator
+from ashpy.models.gans import ConvDiscriminator
 
 __ALL__ = ["PatchDiscriminator", "MultiScaleDiscriminator"]
 
 
-class PatchDiscriminator(Discriminator):
+class PatchDiscriminator(ConvDiscriminator):
     """
     Pix2Pix discriminator:
     The last layer is an image in which each pixels is the probability of being fake or real.
@@ -179,7 +179,7 @@ class PatchDiscriminator(Discriminator):
         self.layer_count += 1
 
 
-class MultiScaleDiscriminator(Discriminator):
+class MultiScaleDiscriminator(tf.keras.Model):
     """
     Multi-Scale discriminator.
     This discriminator architecture is composed by multiple
@@ -256,7 +256,7 @@ class MultiScaleDiscriminator(Discriminator):
         .. [1] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
              https://arxiv.org/abs/1711.11585
         """
-        super(BaseEncoder, self).__init__()
+        super().__init__()
         self.n_discriminators = n_discriminators
         self.input_res = input_res
         self.min_res = min_res
@@ -279,7 +279,7 @@ class MultiScaleDiscriminator(Discriminator):
         # hack in order to accept two inputs
         self.inputs = [1, 1]
 
-    def build_discriminator(self, input_res) -> Discriminator:
+    def build_discriminator(self, input_res) -> ConvDiscriminator:
         """
         Build a single discriminator using parameters defined in this object
         Args:

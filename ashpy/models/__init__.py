@@ -39,7 +39,3 @@ Collection of Models.
     gans
 
 """
-
-import ashpy.models.convolutional
-import ashpy.models.fc
-from ashpy.models.gans import Generator, Discriminator

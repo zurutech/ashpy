@@ -103,12 +103,12 @@ Collection of Convolutional Models constructors.
     :toctree: convolutional
     :template: autosummary/submodule.rst
 
-    interfaces
+    autoencoders
+    discriminators
     decoders
     encoders
-    autoencoders
+    interfaces
     unet
-    discriminators
     pix2pixhd
 
 """
