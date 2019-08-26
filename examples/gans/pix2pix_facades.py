@@ -28,9 +28,8 @@ from ashpy.models.convolutional.discriminators import PatchDiscriminator
 
 _URL = "https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets/facades.tar.gz"
 
-path_to_zip = tf.keras.utils.get_file("facades.tar.gz", origin=_URL, extract=True)
-
-PATH = os.path.join(os.path.dirname(path_to_zip), "facades/")
+PATH_TO_ZIP = tf.keras.utils.get_file("facades.tar.gz", origin=_URL, extract=True)
+PATH = os.path.join(os.path.dirname(PATH_TO_ZIP), "facades/")
 
 BUFFER_SIZE = 100
 BATCH_SIZE = 1
@@ -39,14 +38,15 @@ IMG_HEIGHT = 256
 
 
 def load(image_file):
+    """Load the image from file path."""
     image = tf.io.read_file(image_file)
     image = tf.image.decode_jpeg(image)
 
-    w = tf.shape(image)[1]
+    width = tf.shape(image)[1]
 
-    w = w // 2
-    real_image = image[:, :w, :]
-    input_image = image[:, w:, :]
+    width = width // 2
+    real_image = image[:, :width, :]
+    input_image = image[:, width:, :]
 
     input_image = tf.cast(input_image, tf.float32)
     real_image = tf.cast(real_image, tf.float32)
@@ -55,6 +55,7 @@ def load(image_file):
 
 
 def resize(input_image, real_image, height, width):
+    """Resize input_image and real_image to height x width."""
     input_image = tf.image.resize(
         input_image, [height, width], method=tf.image.ResizeMethod.NEAREST_NEIGHBOR
     )
@@ -66,6 +67,7 @@ def resize(input_image, real_image, height, width):
 
 
 def random_crop(input_image, real_image):
+    """Random crop both input_image and real_image."""
     stacked_image = tf.stack([input_image, real_image], axis=0)
     cropped_image = tf.image.random_crop(
         stacked_image, size=[2, IMG_HEIGHT, IMG_WIDTH, 3]
@@ -76,7 +78,7 @@ def random_crop(input_image, real_image):
 
 def normalize(input_image, real_image):
     """
-    Normalize images in [-1, 1]
+    Normalize images in [-1, 1].
     """
     input_image = (input_image / 127.5) - 1
     real_image = (real_image / 127.5) - 1
@@ -85,6 +87,7 @@ def normalize(input_image, real_image):
 
 
 def load_image_train(image_file):
+    """Load and process the image_file to be ready for the training."""
     input_image, real_image = load(image_file)
     input_image, real_image = random_jitter(input_image, real_image)
     input_image, real_image = normalize(input_image, real_image)
@@ -94,6 +97,7 @@ def load_image_train(image_file):
 
 @tf.function
 def random_jitter(input_image, real_image):
+    """Apply random jitter to both input_image and real_image."""
     # resizing to 286 x 286 x 3
     input_image, real_image = resize(input_image, real_image, 286, 286)
 

@@ -19,7 +19,7 @@ from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
 from ashpy.metrics import InceptionScore
-from ashpy.models import Discriminator, Generator
+from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer
 
 
@@ -29,7 +29,7 @@ def main():
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
 
-        generator = Generator(
+        generator = ConvGenerator(
             layer_spec_input_res=(7, 7),
             layer_spec_target_res=(28, 28),
             kernel_size=(5, 5),
@@ -38,7 +38,7 @@ def main():
             channels=1,
         )
 
-        discriminator = Discriminator(
+        discriminator = ConvDiscriminator(
             layer_spec_input_res=(28, 28),
             layer_spec_target_res=(7, 7),
             kernel_size=(5, 5),
