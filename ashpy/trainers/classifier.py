@@ -204,7 +204,7 @@ class ClassifierTrainer(BaseTrainer):
                     if tf.equal(tf.math.mod(self._global_step, 10), 0):
                         tf.print(f"[{self._global_step.numpy()}] loss: {loss}")
                         self._measure_performance(
-                            tf.data.Dataset.from_tensor_slices(example).batch(
+                            self._dataset_from_example(example, (1, 1)).batch(
                                 self._global_batch_size
                             )
                         )

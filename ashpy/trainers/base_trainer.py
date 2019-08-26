@@ -196,6 +196,32 @@ class BaseTrainer(ABC):
             tf.summary.scalar(metric_obj.name, metric_obj.result(), step=step)
             metric_obj.reset_states()
 
+    def _dataset_from_example(self, example, dims):
+        columns = []
+        for idx, dim in enumerate(dims):
+            if dim > 1:
+                columns.append(
+                    tuple(
+                        tf.concat(
+                            self._distribute_strategy.experimental_local_results(
+                                example[idx][inner]
+                            ),
+                            axis=0,
+                        )
+                        for inner in range(dim)
+                    )
+                )
+            else:
+                columns.append(
+                    tf.concat(
+                        self._distribute_strategy.experimental_local_results(
+                            example[idx]
+                        ),
+                        axis=0,
+                    )
+                )
+        return tf.data.Dataset.from_tensor_slices(tuple(columns))
+
     @abstractmethod
     def call(self, dataset: tf.data.Dataset):
         """

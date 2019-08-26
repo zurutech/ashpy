@@ -34,11 +34,11 @@ class AdversarialTrainer(BaseTrainer):
 
             import shutil
             import operator
-            from ashpy.models.gans import Generator, Discriminator
+            from ashpy.models.gans import ConvGenerator, ConvDiscriminator
             from ashpy.metrics import InceptionScore
             from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE
 
-            generator = Generator(
+            generator = ConvGenerator(
                 layer_spec_input_res=(7, 7),
                 layer_spec_target_res=(28, 28),
                 kernel_size=(5, 5),
@@ -47,7 +47,7 @@ class AdversarialTrainer(BaseTrainer):
                 channels=1,
             )
 
-            discriminator = Discriminator(
+            discriminator = ConvDiscriminator(
                 layer_spec_input_res=(28, 28),
                 layer_spec_target_res=(7, 7),
                 kernel_size=(5, 5),
@@ -70,7 +70,7 @@ class AdversarialTrainer(BaseTrainer):
             metrics = [
                 InceptionScore(
                     # Fake inception model
-                    Discriminator(
+                    ConvDiscriminator(
                         layer_spec_input_res=(299, 299),
                         layer_spec_target_res=(7, 7),
                         kernel_size=(5, 5),
@@ -338,7 +338,7 @@ class AdversarialTrainer(BaseTrainer):
                             f"[{self._global_step.numpy()}] g_loss: {g_loss} - d_loss: {d_loss}"
                         )
                         self._measure_performance(
-                            tf.data.Dataset.from_tensor_slices(example).batch(
+                            self._dataset_from_example(example, (2, 1)).batch(
                                 self._global_batch_size
                             )
                         )
@@ -658,7 +658,7 @@ class EncoderTrainer(AdversarialTrainer):
                             f"d_loss: {d_loss} - e_loss: {e_loss}"
                         )
                         self._measure_performance(
-                            tf.data.Dataset.from_tensor_slices(example).batch(
+                            self._dataset_from_example(example, (2, 1)).batch(
                                 self._global_batch_size
                             )
                         )
