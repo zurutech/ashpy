@@ -118,7 +118,7 @@ AshPy it is developed around the concepts of _Executor_, _Context_, _Metric_, an
 strategy = tf.distribute.MirroredStrategy()
 with strategy.scope():
 
-    generator = Generator(
+    generator = ConvGenerator(
         layer_spec_input_res=(7, 7),
         layer_spec_target_res=(28, 28),
         kernel_size=(5, 5),
@@ -265,11 +265,11 @@ As for the previous classifier training example, let's see for first a simple ex
 ```python
 import operator
 import tensorflow as tf
-from ashpy.models.gans import Generator, Discriminator
+from ashpy.models.gans import ConvGenerator, ConvDiscriminator
 from ashpy.metrics import InceptionScore
 from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE
 
-generator = Generator(
+generator = ConvGenerator(
     layer_spec_input_res=(7, 7),
     layer_spec_target_res=(28, 28),
     kernel_size=(5, 5),
@@ -278,7 +278,7 @@ generator = Generator(
     channels=1,
 )
 
-discriminator = Discriminator(
+discriminator = ConvDiscriminator(
     layer_spec_input_res=(28, 28),
     layer_spec_target_res=(7, 7),
     kernel_size=(5, 5),
@@ -302,7 +302,7 @@ logdir = "testlog/adversarial"
 metrics = [
     InceptionScore(
         # Fake inception model
-        Discriminator(
+        ConvDiscriminator(
             layer_spec_input_res=(299, 299),
             layer_spec_target_res=(7, 7),
             kernel_size=(5, 5),
@@ -347,7 +347,7 @@ trainer(dataset)
 First we define the generator and discriminator of the GAN architecture:
 
 ```python
-generator = Generator(
+generator = ConvGenerator(
     layer_spec_input_res=(7, 7),
     layer_spec_target_res=(28, 28),
     kernel_size=(5, 5),
@@ -356,7 +356,7 @@ generator = Generator(
     channels=1,
 )
 
-discriminator = Discriminator(
+discriminator = ConvDiscriminator(
     layer_spec_input_res=(28, 28),
     layer_spec_target_res=(7, 7),
     kernel_size=(5, 5),
@@ -382,7 +382,7 @@ The metrics are defined as follow:
 metrics = [
     InceptionScore(
     # Fake inception model
-        Discriminator(
+        ConvDiscriminator(
         layer_spec_input_res=(299, 299),
         layer_spec_target_res=(7, 7),
         kernel_size=(5, 5),
@@ -396,7 +396,7 @@ metrics = [
 ]
 ```
 
-and in particular here we have the InceptionScore metric constructed on the fly with the Discriminator class provided by AshPy.
+and in particular here we have the InceptionScore metric constructed on the fly with the ConvDiscriminator class provided by AshPy.
 
 Finally, the actual trainer is constructed and then called:
 
@@ -461,7 +461,7 @@ tuple(tuple(a,b), noise)
 
 Where `a` is the input sample, `b` is the label/condition (if any, otherwise fill it with `0`), and `noise` is the latent vector of input.
 
-To train Pix2Pix-like architecture, that have no `noise` as Generator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator output.
+To train Pix2Pix-like architecture, that have no `noise` as ConvGenerator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator output.
 
 ## Test
 In order to run the doctests first you need to install the `pytest-sphinx` package and `pytest-cov` package:
