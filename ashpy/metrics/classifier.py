@@ -89,10 +89,7 @@ class ClassifierMetric(Metric):
         metric: tf.keras.metrics.Metric,
         model_selection_operator: Callable = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
-        processing_predictions: TPRocessingPredictions = {
-            "fn": tf.argmax,
-            "kwargs": {"axis": -1},
-        },
+        processing_predictions=None,
     ) -> None:
         """
         Initialize the Metric.
@@ -122,6 +119,8 @@ class ClassifierMetric(Metric):
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
+        if processing_predictions is None:
+            processing_predictions = {"fn": tf.argmax, "kwargs": {"axis": -1}}
         self._processing_predictions = processing_predictions
 
     def update_state(self, context: ClassifierContext) -> None:
