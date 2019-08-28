@@ -21,6 +21,9 @@ Note: this is not an exact distance but an approximation through random
 projections.
 """
 
+# skip file since it's a file from tfgan
+# pylint: skip-file
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
