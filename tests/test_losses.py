@@ -1,3 +1,6 @@
+"""
+Test losses inside the AdversarialLossType Enum
+"""
 import shutil
 
 import pytest
@@ -14,6 +17,9 @@ from ashpy.trainers import AdversarialTrainer
 
 @pytest.mark.parametrize("loss_type", list(AdversarialLossType))
 def test_losses(loss_type: AdversarialLossType, logdir: str):
+    """
+    Test the integration between losses and trainer
+    """
     # test parameters
     image_resolution = (28, 28)
     kernel_size = (5, 5)

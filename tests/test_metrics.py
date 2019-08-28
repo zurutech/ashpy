@@ -1,15 +1,20 @@
+"""
+Test Metrics
+"""
 import shutil
 
-import pytest
 import tensorflow as tf
 
-from ashpy.metrics import InceptionScore, SlicedWasserseinDistance, SSIM_Multiscale
+from ashpy.metrics import SlicedWasserseinDistance, SSIM_Multiscale
 from ashpy.models.gans import ConvGenerator, ConvDiscriminator
 from ashpy.losses.gan import GeneratorBCE, DiscriminatorMinMax
 from ashpy.trainers import AdversarialTrainer
 
 
-def test_losses(logdir: str):
+def test_metrics(logdir: str):
+    """
+    Test the integration between metrics and trainer
+    """
     # test parameters
     image_resolution = (256, 256)
     kernel_size = (5, 5)
