@@ -1,10 +1,11 @@
+"""
+SlicedWasserseinDistance metric.
+"""
 from __future__ import annotations
 
 import operator
 import os
-from typing import TYPE_CHECKING, Union
-
-from collections import Callable
+from typing import TYPE_CHECKING, Union, Callable
 
 import numpy as np
 import tensorflow as tf
@@ -19,6 +20,10 @@ if TYPE_CHECKING:
 
 
 class SingleSWD(Metric):
+    """
+    SlicedWasserseinDistance for a certain level of the pyramid.
+    """
+
     def __init__(
         self,
         model_selection_operator: Callable = operator.lt,
@@ -42,6 +47,7 @@ class SingleSWD(Metric):
                 directory.
 
             level_of_pyramid (int): Level of the pyramid related to this metric
+            real_or_fake (str): string identifying this metric (real or fake distance)
 
         """
         super().__init__(
