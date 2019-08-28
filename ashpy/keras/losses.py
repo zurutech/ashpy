@@ -191,6 +191,7 @@ class DHingeLoss(tf.keras.losses.Loss):
 
     .. [1] https://arxiv.org/abs/1705.02894
     """
+
     def __init__(self) -> None:
         """Initialize the Loss."""
         super().__init__()
@@ -230,6 +231,7 @@ class GHingeLoss(tf.keras.losses.Loss):
     .. [1] https://arxiv.org/abs/1705.02894
 
     """
+
     def __init__(self) -> None:
         """Initialize the Loss."""
         super().__init__()
