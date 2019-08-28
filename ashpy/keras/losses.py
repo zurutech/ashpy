@@ -194,13 +194,14 @@ class DHingeLoss(tf.keras.losses.Loss):
 
     def __init__(self) -> None:
         """Initialize the Loss."""
+        self._hinge_loss_real = tf.keras.losses.Hinge(reduction=tf.keras.losses.Reduction.NONE)
+        self._hinge_loss_fake = tf.keras.losses.Hinge(reduction=tf.keras.losses.Reduction.NONE)
         super().__init__()
-        self._reduction = tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE
 
     @property
     def reduction(self) -> tf.keras.losses.Reduction:
         """Return the current `reduction` for this type of loss."""
-        return self._reduction
+        return self._hinge_loss_fake.reduction
 
     @reduction.setter
     def reduction(self, value: tf.keras.losses.Reduction) -> None:
@@ -211,12 +212,13 @@ class DHingeLoss(tf.keras.losses.Loss):
             value (:py:class:`tf.keras.losses.Reduction`): Reduction to use for the loss.
 
         """
-        self._reduction = value
+        self._hinge_loss_fake.reduction = value
+        self._hinge_loss_real.reduction = value
 
-    def call(self, real: tf.Tensor, fake: tf.Tensor) -> tf.Tensor:
+    def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
         """Compute the hinge loss"""
-        real_loss = tf.nn.relu(1.0 - real)
-        fake_loss = tf.nn.relu(1.0 - fake)
+        real_loss = self._hinge_loss_real(tf.ones_like(d_real), d_real)
+        fake_loss = self._hinge_loss_fake(-tf.ones_like(d_fake), d_fake)
 
         loss = real_loss + fake_loss  # shape: (batch_size, 1)
 
@@ -253,8 +255,8 @@ class GHingeLoss(tf.keras.losses.Loss):
         """
         self._reduction = value
 
-    def call(self, fake: tf.Tensor) -> tf.Tensor:
+    def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
         """Computes the hinge loss"""
-        fake_loss = -tf.nn.relu(fake)
+        fake_loss = -tf.nn.relu(d_fake)
 
         return fake_loss
