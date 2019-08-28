@@ -21,11 +21,11 @@ from typing import TYPE_CHECKING, List, Optional
 import tensorflow as tf  # pylint: disable=import-error
 
 from ashpy.contexts.base_context import BaseContext
-from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 
 if TYPE_CHECKING:
     from ashpy.losses.executor import Executor
+    from ashpy.metrics import Metric
 
 
 class ClassifierContext(BaseContext):
