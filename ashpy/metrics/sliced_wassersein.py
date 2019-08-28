@@ -45,6 +45,9 @@ _GAUSSIAN_FILTER = (
 
 
 def batch_to_space(*args, **kwargs):
+    """
+    Calls tf.batch_to_space using the correct arguments
+    """
     try:
         return tf.batch_to_space(*args, **kwargs)
     except TypeError:
