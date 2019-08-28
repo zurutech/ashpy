@@ -13,6 +13,8 @@
 # limitations under the License.
 
 """pytest configuration."""
+import os
+import shutil
 
 import pytest
 import tensorflow
@@ -29,3 +31,12 @@ def add_common_namespaces(doctest_namespace):
     doctest_namespace["metrics"] = ashpy.metrics
     doctest_namespace["layers"] = ashpy.layers
     doctest_namespace["losses"] = ashpy.losses
+
+
+@pytest.fixture(scope="module")
+def logdir():
+    test_logdir = "testlog/adversarial"
+    yield test_logdir
+    # teardown
+    if os.path.exists(test_logdir):
+        shutil.rmtree(test_logdir)
