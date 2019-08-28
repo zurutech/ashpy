@@ -23,7 +23,7 @@ import tensorflow as tf
 
 from ashpy.contexts import GANContext, GANEncoderContext
 from ashpy.losses.executor import Executor, SumExecutor
-from ashpy.keras.losses import DLeastSquare, DMinMax, L1
+from ashpy.keras.losses import DLeastSquare, DMinMax, L1, DHingeLoss, GHingeLoss
 
 if TYPE_CHECKING:
     from ashpy.ashtypes import TWeight
@@ -34,6 +34,7 @@ class AdversarialLossType(Enum):
 
     GAN = 0  # classical gan loss (minmax)
     LSGAN = 1  # Least Square GAN
+    HINGE_LOSS = 2  # Hinge loss
 
 
 class GANExecutor(Executor, ABC):
@@ -111,8 +112,7 @@ class GANExecutor(Executor, ABC):
         return d_inputs
 
 
-# TODO: Think about a better name.
-class AdversarialLossG(GANExecutor):
+class GeneratorAdversarialLoss(GANExecutor):
     r"""Base class for the adversarial loss of the generator."""
 
     def __init__(self, loss_fn: tf.keras.losses.Loss = None) -> None:
@@ -177,7 +177,7 @@ class AdversarialLossG(GANExecutor):
         return tf.reduce_mean(value, axis=[1, 2])
 
 
-class GeneratorBCE(AdversarialLossG):
+class GeneratorBCE(GeneratorAdversarialLoss):
     r"""
     The Binary CrossEntropy computed among the generator and the 1 label.
 
@@ -192,7 +192,7 @@ class GeneratorBCE(AdversarialLossG):
         super().__init__(tf.keras.losses.BinaryCrossentropy(from_logits=from_logits))
 
 
-class GeneratorLSGAN(AdversarialLossG):
+class GeneratorLSGAN(GeneratorAdversarialLoss):
     r"""
     Least Square GAN Loss for generator.
 
@@ -244,6 +244,37 @@ class GeneratorL1(GANExecutor):
         """
         mae = self._fn(fake, real)
         return mae
+
+
+class GeneratorHingeLoss(GeneratorAdversarialLoss):
+    r"""
+    Hinge loss for the Generator.
+    See Geometric GAN [1]_ for more details.
+
+    .. [1] https://arxiv.org/abs/1705.02894
+    """
+
+    def __init__(self) -> None:
+        """Initialize the Least Square Loss for the Generator."""
+        super().__init__(GHingeLoss())
+        self.name = "GeneratorHingeLoss"
+
+    @Executor.reduce_loss
+    def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
+        """
+        Call the carried loss on `fake` and `real`.
+
+        Args:
+            context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
+            fake (:py:class:`tf.Tensor`): Fake data (generated).
+            real (:py:class:`tf.Tensor`): Real data.
+
+        Returns:
+            :py:class:`tf.Tensor`: Output Tensor.
+
+        """
+        hinge_loss = self._fn(fake)
+        return hinge_loss
 
 
 class FeatureMatchingLoss(GANExecutor):
@@ -498,7 +529,7 @@ class EncoderBCE(Executor):
         return self._fn(tf.zeros_like(d_real), d_real)
 
 
-class AdversarialLossD(GANExecutor):
+class DiscriminatorAdversarialLoss(GANExecutor):
     r"""Base class for the adversarial loss of the discriminator."""
 
     def __init__(self, loss_fn: tf.keras.losses.Loss = None) -> None:
@@ -565,7 +596,7 @@ class AdversarialLossD(GANExecutor):
         return tf.reduce_mean(value, axis=[1, 2])
 
 
-class DiscriminatorMinMax(AdversarialLossD):
+class DiscriminatorMinMax(DiscriminatorAdversarialLoss):
     r"""
     The min-max game played by the discriminator.
 
@@ -581,7 +612,7 @@ class DiscriminatorMinMax(AdversarialLossD):
         )
 
 
-class DiscriminatorLSGAN(AdversarialLossD):
+class DiscriminatorLSGAN(DiscriminatorAdversarialLoss):
     r"""
     Least square Loss for discriminator.
 
@@ -614,6 +645,21 @@ class DiscriminatorLSGAN(AdversarialLossD):
         self.name = "DiscriminatorLSGAN"
 
 
+class DiscriminatorHingeLoss(DiscriminatorAdversarialLoss):
+    r"""
+    Hinge loss for the Discriminator.
+
+    See Geometric GAN [1]_ for more details.
+
+    .. [1] https://arxiv.org/abs/1705.02894
+    """
+
+    def __init__(self) -> None:
+        """Initialize the Least Square Loss for the Generator."""
+        super().__init__(DHingeLoss())
+        self.name = "DiscriminatorHingeLoss"
+
+
 ###
 # Utility functions in order to get the correct loss
 ###
@@ -644,8 +690,13 @@ def get_adversarial_loss_discriminator(
         AdversarialLossType.LSGAN.value,
     ]:
         return DiscriminatorLSGAN
+    if adversarial_loss_type in [
+        AdversarialLossType.HINGE_LOSS,
+        AdversarialLossType.HINGE_LOSS.value,
+    ]:
+        return DiscriminatorHingeLoss
     raise ValueError(
-        "Loss type not supported, the implemented losses are GAN or LSGAN."
+        "Loss type not supported, the implemented losses are GAN, LSGAN or HINGE_LOSS."
     )
 
 
@@ -674,6 +725,11 @@ def get_adversarial_loss_generator(
         AdversarialLossType.LSGAN.value,
     ):
         return GeneratorLSGAN
+    if adversarial_loss_type in (
+        AdversarialLossType.HINGE_LOSS,
+        AdversarialLossType.HINGE_LOSS.value,
+    ):
+        return GeneratorHingeLoss
     raise ValueError(
-        "Loss type not supported, the implemented losses are GAN or LSGAN."
+        "Loss type not supported, the implemented losses are GAN, LSGAN or HINGE_LOSS."
     )

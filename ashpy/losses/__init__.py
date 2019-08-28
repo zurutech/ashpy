@@ -46,11 +46,12 @@ Collection of Losses.
 
     gan.GANExecutor
     gan.AdversarialLossType
-    gan.AdversarialLossG
-    gan.AdversarialLossD
+    gan.GeneratorAdversarialLoss
+    gan.DiscriminatorAdversarialLoss
     gan.GeneratorBCE
     gan.GeneratorLSGAN
     gan.GeneratorL1
+    gan.GeneratorHingeLoss
     gan.FeatureMatchingLoss
     gan.CategoricalCrossEntropy
     gan.Pix2PixLoss
@@ -58,6 +59,7 @@ Collection of Losses.
     gan.EncoderBCE
     gan.DiscriminatorMinMax
     gan.DiscriminatorLSGAN
+    gan.DiscriminatorHingeLoss
     gan.get_adversarial_loss_discriminator
     gan.get_adversarial_loss_generator
 
@@ -79,8 +81,8 @@ Collection of Losses.
 from ashpy.losses.classifier import ClassifierLoss
 from ashpy.losses.executor import Executor, SumExecutor
 from ashpy.losses.gan import (
-    AdversarialLossD,
-    AdversarialLossG,
+    DiscriminatorAdversarialLoss,
+    GeneratorAdversarialLoss,
     AdversarialLossType,
     CategoricalCrossEntropy,
     DiscriminatorLSGAN,
@@ -98,23 +100,22 @@ from ashpy.losses.gan import (
 )
 
 __ALL__ = [
-    "AdversarialLossD",
-    "AdversarialLossD",
-    "AdversarialLossG",
+    "DiscriminatorAdversarialLoss",
+    "GeneratorAdversarialLoss",
     "AdversarialLossType",
     "CategoricalCrossEntropy",
     "ClassifierLoss",
     "ClassifierLoss",
     "DiscriminatorLSGAN",
     "DiscriminatorMinMax",
-    "EncoderBCE",
+    "DiscriminatorHingeLoss" "EncoderBCE",
     "Executor",
     "FeatureMatchingLoss",
     "GANExecutor",
     "GeneratorBCE",
     "GeneratorL1",
     "GeneratorLSGAN",
-    "get_adversarial_loss_discriminator",
+    "GeneratorHingeLoss" "get_adversarial_loss_discriminator",
     "get_adversarial_loss_generator",
     "Pix2PixLoss",
     "Pix2PixLossSemantic",
