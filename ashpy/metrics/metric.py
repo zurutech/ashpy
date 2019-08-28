@@ -191,7 +191,6 @@ class Metric(ABC):
 
         """
 
-    # @abstractmethod
     def result(self):
         """
         Get the result of the metric.
@@ -202,7 +201,9 @@ class Metric(ABC):
         """
         return self._metric.result().numpy()
 
-    # @abstractmethod
+    def log(self, step):
+        tf.summary.scalar(self.name, self.result(), step=step)
+
     def reset_states(self) -> None:
         """Reset the state of the metric."""
         self._metric.reset_states()

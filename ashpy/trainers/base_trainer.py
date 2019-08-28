@@ -193,7 +193,7 @@ class BaseTrainer(ABC):
         step = self._global_step.numpy()
 
         for metric_obj in self._metrics:
-            tf.summary.scalar(metric_obj.name, metric_obj.result(), step=step)
+            metric_obj.log(step=step)
             metric_obj.reset_states()
 
     def _dataset_from_example(self, example, dims):

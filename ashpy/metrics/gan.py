@@ -28,7 +28,6 @@ from ashpy.modes import LogEvalMode
 if TYPE_CHECKING:
     import numpy as np
     from ashpy.contexts import (  # pylint: disable=ungrouped-imports
-        BaseContext,
         ClassifierContext,
         GANContext,
         GANEncoderContext,

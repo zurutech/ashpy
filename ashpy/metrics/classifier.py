@@ -25,7 +25,6 @@ from ashpy.metrics.metric import Metric
 from ashpy.modes import LogEvalMode
 
 if TYPE_CHECKING:
-    import numpy as np
     from ashpy.contexts import ClassifierContext  # pylint: disable=ungrouped-imports
 
     TPRocessingPredictions = Dict[str, Union[Callable, Dict[str, Any]]]
