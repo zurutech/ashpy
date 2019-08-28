@@ -260,14 +260,13 @@ class GeneratorHingeLoss(GeneratorAdversarialLoss):
         self.name = "GeneratorHingeLoss"
 
     @Executor.reduce_loss
-    def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
+    def call(self, context: GANContext, *, fake: tf.Tensor, **kwargs):
         """
         Call the carried loss on `fake` and `real`.
 
         Args:
             context (:py:class:`ashpy.contexts.GANContext`): GAN Context.
             fake (:py:class:`tf.Tensor`): Fake data (generated).
-            real (:py:class:`tf.Tensor`): Real data.
 
         Returns:
             :py:class:`tf.Tensor`: Output Tensor.
