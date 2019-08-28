@@ -194,8 +194,12 @@ class DHingeLoss(tf.keras.losses.Loss):
 
     def __init__(self) -> None:
         """Initialize the Loss."""
-        self._hinge_loss_real = tf.keras.losses.Hinge(reduction=tf.keras.losses.Reduction.NONE)
-        self._hinge_loss_fake = tf.keras.losses.Hinge(reduction=tf.keras.losses.Reduction.NONE)
+        self._hinge_loss_real = tf.keras.losses.Hinge(
+            reduction=tf.keras.losses.Reduction.NONE
+        )
+        self._hinge_loss_fake = tf.keras.losses.Hinge(
+            reduction=tf.keras.losses.Reduction.NONE
+        )
         super().__init__()
 
     @property

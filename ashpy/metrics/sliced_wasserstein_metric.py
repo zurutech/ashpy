@@ -121,8 +121,9 @@ class SlicedWasserseinDistance(Metric):
         )
 
         if resolution <= resolution_min:
-            raise ValueError("Minimum resolution cannot"
-                             "be smaller than the resolution")
+            raise ValueError(
+                "Minimum resolution cannot" "be smaller than the resolution"
+            )
 
         self.resolution = resolution
         self.resolution_min = resolution_min
