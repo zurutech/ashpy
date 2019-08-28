@@ -1,10 +1,11 @@
+"""
+SlicedWasserseinDistance metric.
+"""
 from __future__ import annotations
 
 import operator
 import os
-from typing import TYPE_CHECKING, List
-
-from collections import Callable
+from typing import TYPE_CHECKING, Callable, Tuple
 
 import math
 import tensorflow as tf
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     from ashpy.contexts import GANContext  # pylint: disable=ungrouped-imports
 
 
-class SSIM_Multiscale(Metric):
+class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
     """Multiscale Structural Similarity"""
 
     def __init__(
@@ -44,8 +45,10 @@ class SSIM_Multiscale(Metric):
 
             logdir (str): Path to the log dir, defaults to a `log` folder in the current
                 directory.
-            max_val (float): The dynamic range of the images (i.e., the difference between the maximum the and minimum
-                (see https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/image/ssim_multiscale)
+            max_val (float): The dynamic range of the images
+                (i.e., the difference between the maximum the and minimum)
+                (see
+                www.tensorflow.org/versions/r2.0/api_docs/python/tf/image/ssim_multiscale)
             power_factors (List[float]): Iterable of weights for each of the scales. The number of
                 scales used is the length of the list. Index 0 is the unscaled
                 resolution's weight and each increasing scale corresponds to the image
@@ -86,7 +89,7 @@ class SSIM_Multiscale(Metric):
         """
         updater = lambda value: lambda: self._metric.update_state(value)
         for real_xy, noise in context.dataset:
-            real_x, real_y = real_xy
+            _, real_y = real_xy
 
             g_inputs = noise
             if len(context.generator_model.inputs) == 2:
@@ -112,15 +115,25 @@ class SSIM_Multiscale(Metric):
             self._distribute_strategy.experimental_run_v2(updater(ssim_multiscale))
 
     @staticmethod
-    def split_batch(batch):
+    def split_batch(batch: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
+        """
+        Split a batch into two tensors
+        Args:
+            batch: A batch of images
+
+        Returns:
+            The batch splitted in two tensors
+
+        Raises:
+            ValueError: if the batch has size 1
+        """
         batch_size = batch.shape[0]
         if batch_size % 2 == 0:
             return batch[: batch_size // 2, :, :, :], batch[batch_size // 2 :, :, :, :]
-        else:
-            split_value = math.floor(batch_size / 2)
-            if split_value == 0:
-                raise ValueError(
-                    "Batch size too small. You can use SSIM_MULTISCALE metric only with batch size > 1"
-                )
-            return batch[:split_value, :, :, :], batch[split_value:, :, :, :]
-        pass
+        split_value = math.floor(batch_size / 2)
+        if split_value == 0:
+            raise ValueError(
+                "Batch size too small."
+                "You can use SSIM_MULTISCALE metric only with batch size > 1"
+            )
+        return batch[:split_value, :, :, :], batch[split_value:, :, :, :]
