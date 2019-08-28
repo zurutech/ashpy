@@ -104,6 +104,8 @@ class SlicedWasserseinDistance(Metric):
 
             logdir (str): Path to the log dir, defaults to a `log` folder in the current
                 directory.
+            resolution (int): Image Resolution, defaults to 128
+            resolution_min (int): Min Resolution achieved by the metric
             patches_per_image: (int) Number of patches to extract per image per Laplacian level.
             patch_size: (int) Width of a square patch.
             random_sampling_count: (int) Number of random projections to average.
@@ -117,6 +119,10 @@ class SlicedWasserseinDistance(Metric):
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
+
+        if resolution <= resolution_min:
+            raise ValueError("Minimum resolution cannot"
+                             "be smaller than the resolution")
 
         self.resolution = resolution
         self.resolution_min = resolution_min
