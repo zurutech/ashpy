@@ -2,6 +2,8 @@ dist: xenial
 language: python
 addons:
   artifacts: true
+  apt:
+    update: true
 python:
 - '3.7'
 stages:
@@ -11,9 +13,6 @@ stages:
   - Deploy
 before_install:
   - sudo apt-get install -y --no-install-recommends bc
-addons:
-  apt:
-    update: true
 install: &requirements
 - pip install -r dev-requirements.txt
 - pip install -e .
@@ -25,10 +24,7 @@ jobs:
     - pip install codecov
     - pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest
     - pip --no-cache-dir install pytest-cov
-    - module=""
-    - for d in $(ls -d */); do if [ -f "$d"__init__.py ]; then module=${d::-1}; fi
-      done
-    - pytest -x -s -vvv --doctest-modules $module --cov=$module
+    - pytest -x -s -vvv --doctest-modules ashpy tests --cov=ashpy
     after_success:
     - codecov
   - stage: Black
