@@ -70,8 +70,8 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
 
         self.filter_size = filter_size
         self.filter_sigma = filter_sigma
-        self.k1 = k1
-        self.k2 = k2
+        self.k1 = k1  # pylint: disable=invalid-name
+        self.k2 = k2  # pylint: disable=invalid-name
         if power_factors is None:
             power_factors = [0.0448, 0.2856, 0.3001, 0.2363, 0.1333]
         self.power_factors = power_factors
