@@ -1,3 +1,17 @@
+# Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 SlicedWasserseinDistance metric.
 """
@@ -73,9 +87,12 @@ class SingleSWD(Metric):
 
 
 class SlicedWasserseinDistance(Metric):
-    """
+    r"""
     Sliced Wasserstein Distance.
-    Used as metric in Progressive Growing of GANs (https://arxiv.org/abs/1710.10196)
+    Used as metric in Progressive Growing of GANs [1]_.
+
+    .. [1] Progressive Growing of GANs https://arxiv.org/abs/1710.10196
+
     """
 
     def __init__(
@@ -193,11 +210,16 @@ class SlicedWasserseinDistance(Metric):
 
             self._distribute_strategy.experimental_run_v2(updater(fake_scores))
 
-    def model_selection(self, checkpoint: tf.train.Checkpoint) -> None:
-        super().model_selection(checkpoint)
+    def model_selection(
+        self, checkpoint: tf.train.Checkpoint, global_step: tf.Variable
+    ) -> None:
+        """
+        Perform model selection for each sub-metric
+        """
+        super().model_selection(checkpoint, global_step)
         for child in self.children_real_fake:
-            child[0].model_selection(checkpoint)
-            child[1].model_selection(checkpoint)
+            child[0].model_selection(checkpoint, global_step)
+            child[1].model_selection(checkpoint, global_step)
 
     def log(self, step):
         # log mean

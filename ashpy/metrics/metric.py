@@ -68,13 +68,16 @@ class Metric(ABC):
         self._model_selection_operator = model_selection_operator
         self.logdir = logdir
 
-    def model_selection(self, checkpoint: tf.train.Checkpoint) -> None:
+    def model_selection(
+        self, checkpoint: tf.train.Checkpoint, global_step: tf.Variable
+    ) -> None:
         """
         Perform model selection.
 
         Args:
             checkpoint (:py:class:`tf.train.Checkpoint`): Checkpoint object that contains
                 the model status.
+            global_step (:py:class:`tf.Variable`): current training step
 
         """
         current_value = self.result()
@@ -87,7 +90,8 @@ class Metric(ABC):
                 f"{self.name}: validation value: {previous_value} → {current_value}"
             )
             Metric.json_write(
-                self.best_model_sel_file, {self._name: str(current_value)}
+                self.best_model_sel_file,
+                {self._name: str(current_value), "step": int(global_step.numpy())},
             )
             manager = tf.train.CheckpointManager(
                 checkpoint, os.path.join(self.best_folder, "ckpts"), max_to_keep=1
@@ -125,7 +129,9 @@ class Metric(ABC):
         initial_value = (
             np.inf if self._model_selection_operator is operator.lt else -np.inf
         )
-        self.json_write(self.best_model_sel_file, {self._name: str(initial_value)})
+        self.json_write(
+            self.best_model_sel_file, {self._name: str(initial_value), "step": 0}
+        )
 
     @property
     def best_folder(self) -> str:
