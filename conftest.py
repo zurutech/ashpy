@@ -34,9 +34,20 @@ def add_common_namespaces(doctest_namespace):
 
 
 @pytest.fixture(scope="module")
-def logdir():
-    test_logdir = "testlog/adversarial"
-    yield test_logdir
+def adversarial_logdir():
+    """
+    Add the logdir parameter to tests
+    """
+    m_adversarial_logdir = "testlog/adversarial"
+
+    # clean before
+    if os.path.exists(m_adversarial_logdir):
+        shutil.rmtree(m_adversarial_logdir)
+        assert not os.path.exists(m_adversarial_logdir)
+
+    yield m_adversarial_logdir
+
     # teardown
-    if os.path.exists(test_logdir):
-        shutil.rmtree(test_logdir)
+    if os.path.exists(m_adversarial_logdir):
+        shutil.rmtree(m_adversarial_logdir)
+        assert not os.path.exists(m_adversarial_logdir)
