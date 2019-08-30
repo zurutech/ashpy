@@ -49,7 +49,7 @@ Collection of Metrics.
     gan.EncoderLoss
     gan.InceptionScore
     gan.EncodingAccuracy
-    sliced_wasserstein_metric.SlicedWasserseinDistance
+    sliced_wasserstein_metric.SlicedWassersteinDistance
     ssim_multiscale.SSIM_Multiscale
 
 ----
@@ -71,8 +71,8 @@ Collection of Metrics.
 from ashpy.metrics.metric import Metric
 from ashpy.metrics.classifier import ClassifierLoss, ClassifierMetric
 from ashpy.metrics.gan import DiscriminatorLoss, EncodingAccuracy, InceptionScore
+from ashpy.metrics.sliced_wasserstein_metric import SlicedWassersteinDistance
 from ashpy.metrics.ssim_multiscale import SSIM_Multiscale
-from ashpy.metrics.sliced_wasserstein_metric import SlicedWasserseinDistance
 
 __ALL__ = [
     "Metric",
@@ -81,6 +81,6 @@ __ALL__ = [
     "DiscriminatorLoss",
     "EncodingAccuracy",
     "InceptionScore",
-    "SlicedWasserseinDistance",
+    "SlicedWassersteinDistance",
     "SSIM_Multiscale",
 ]

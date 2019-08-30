@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-SlicedWasserseinDistance metric.
+Sliced Wasserstein Distance metric.
 """
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ import numpy as np
 import tensorflow as tf
 
 from ashpy.metrics import Metric
-from ashpy.metrics.sliced_wassersein import sliced_wasserstein_distance
+from ashpy.metrics.sliced_wasserstein import sliced_wasserstein_distance
 from ashpy import LogEvalMode
 
 
@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
 class SingleSWD(Metric):
     """
-    SlicedWasserseinDistance for a certain level of the pyramid.
+    SlicedWassersteinDistance for a certain level of the pyramid.
     """
 
     def __init__(
@@ -86,7 +86,7 @@ class SingleSWD(Metric):
         self._distribute_strategy.experimental_run_v2(updater(score))
 
 
-class SlicedWasserseinDistance(Metric):
+class SlicedWassersteinDistance(Metric):
     r"""
     Sliced Wasserstein Distance.
     Used as metric in Progressive Growing of GANs [1]_.
@@ -123,10 +123,10 @@ class SlicedWasserseinDistance(Metric):
                 directory.
             resolution (int): Image Resolution, defaults to 128
             resolution_min (int): Min Resolution achieved by the metric
-            patches_per_image: (int) Number of patches to extract per image per Laplacian level.
-            patch_size: (int) Width of a square patch.
-            random_sampling_count: (int) Number of random projections to average.
-            random_projection_dim: (int) Dimension of the random projection space.
+            patches_per_image (int): Number of patches to extract per image per Laplacian level.
+            patch_size (int): Width of a square patch.
+            random_sampling_count (int): Number of random projections to average.
+            random_projection_dim (int): Dimension of the random projection space.
             use_svd (bool): experimental method to compute a more accurate distance.
 
         """
@@ -138,9 +138,7 @@ class SlicedWasserseinDistance(Metric):
         )
 
         if resolution <= resolution_min:
-            raise ValueError(
-                "Minimum resolution cannot" "be smaller than the resolution"
-            )
+            raise ValueError("Minimum resolution cannot be smaller than the resolution")
 
         self.resolution = resolution
         self.resolution_min = resolution_min
@@ -222,15 +220,18 @@ class SlicedWasserseinDistance(Metric):
             child[1].model_selection(checkpoint, global_step)
 
     def log(self, step):
+        """
+        Log the SWD mean and each sub-metric
+        """
         # log mean
         tf.summary.scalar(self.name, self.result(), step=step)
-        # for each child log
+        # call log method of each child
         for child in self.children_real_fake:
             child[0].log(step)
             child[1].log(step)
 
     def reset_states(self) -> None:
-        """Reset the state of the metric."""
+        """Reset the state of the metric and the state of each child metric."""
         self._metric.reset_states()
         # for each child log
         for child in self.children_real_fake:
