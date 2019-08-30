@@ -21,7 +21,7 @@ import shutil
 import json
 import tensorflow as tf
 
-from ashpy.metrics import SlicedWasserseinDistance, SSIM_Multiscale, InceptionScore
+from ashpy.metrics import SlicedWassersteinDistance, SSIM_Multiscale, InceptionScore
 from ashpy.models.gans import ConvGenerator, ConvDiscriminator
 from ashpy.losses.gan import GeneratorBCE, DiscriminatorMinMax
 from ashpy.trainers import AdversarialTrainer
@@ -70,7 +70,7 @@ def test_metrics(adversarial_logdir: str):
     # Trainer
     epochs = 2
     metrics = [
-        SlicedWasserseinDistance(
+        SlicedWassersteinDistance(
             logdir=adversarial_logdir, resolution=image_resolution[0]
         ),
         SSIM_Multiscale(logdir=adversarial_logdir),
