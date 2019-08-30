@@ -207,11 +207,13 @@ class Metric(ABC):
         """
         return self._metric.result().numpy()
 
-    def log(self, step) -> None:
+    def log(self, step: int) -> None:
         """
         Log the metric
+
         Args:
             step: global step of training
+
         """
         tf.summary.scalar(self.name, self.result(), step=step)
 
