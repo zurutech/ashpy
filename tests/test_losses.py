@@ -65,7 +65,7 @@ def test_losses(loss_type: AdversarialLossType, adversarial_logdir: str):
     discriminator_loss = get_adversarial_loss_discriminator(loss_type)()
 
     # Real data
-    mnist_x, mnist_y = (
+    data_x, data_y = (
         tf.zeros((dataset_size, image_resolution[0], image_resolution[1])),
         tf.zeros((dataset_size,)),
     )
@@ -89,7 +89,7 @@ def test_losses(loss_type: AdversarialLossType, adversarial_logdir: str):
     # take only 2 samples to speed up tests
     real_data = (
         tf.data.Dataset.from_tensor_slices(
-            (tf.expand_dims(mnist_x, -1), tf.expand_dims(mnist_y, -1))
+            (tf.expand_dims(data_x, -1), tf.expand_dims(data_y, -1))
         )
         .take(batch_size)
         .batch(batch_size)
