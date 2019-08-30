@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-SlicedWasserseinDistance metric.
+Multiscale Structural Similarity metric.
 """
 from __future__ import annotations
 
@@ -138,18 +138,19 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
     @staticmethod
     def split_batch(batch: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
         """
-        Split a batch into two tensors
+        Split a batch along axis 0 into two tensors having the same size
+
         Args:
-            batch: A batch of images
+            batch (tf.Tensor): A batch of images
 
         Returns:
-            The batch splitted in two tensors
+            (Tuple[tf.Tensor, tf.Tensor]) The batch split in two tensors
 
         Raises:
             ValueError: if the batch has size 1
         """
         batch_size = batch.shape[0]
-        if batch_size % 2 == 0:
+        if tf.equal(tf.math.mod(batch_size, 2), 0):
             return batch[: batch_size // 2, :, :, :], batch[batch_size // 2 :, :, :, :]
         split_value = math.floor(batch_size / 2)
         if split_value == 0:
