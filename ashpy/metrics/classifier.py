@@ -110,7 +110,7 @@ class ClassifierMetric(Metric):
             processing_predictions (:py:obj:`typing.Dict`): A `dict` in the form of
                 `{"fn": tf.argmax, "kwargs": {"axis": -1}}` with a function `"fn"`
                 to be used for predictions processing purposes and its `"kwargs"` as its
-                keyword-arguments.
+                keyword-arguments. Defaults to {"fn": tf.argmax, "kwargs": {"axis": -1}}.
 
         """
         super().__init__(
