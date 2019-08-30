@@ -251,7 +251,7 @@ class GeneratorHingeLoss(GeneratorAdversarialLoss):
     Hinge loss for the Generator.
     See Geometric GAN [1]_ for more details.
 
-    .. [1] https://arxiv.org/abs/1705.02894
+    .. [1] Geometric GAN https://arxiv.org/abs/1705.02894
     """
 
     def __init__(self) -> None:
@@ -618,7 +618,8 @@ class DiscriminatorLSGAN(DiscriminatorAdversarialLoss):
 
     where c is the condition and x are real samples.
 
-    .. [1] https://arxiv.org/abs/1611.04076
+    .. [1] Least Squares Generative Adversarial Networks
+        https://arxiv.org/abs/1611.04076
 
     """
 
@@ -634,7 +635,7 @@ class DiscriminatorHingeLoss(DiscriminatorAdversarialLoss):
 
     See Geometric GAN [1]_ for more details.
 
-    .. [1] https://arxiv.org/abs/1705.02894
+    .. [1] Geometric GAN https://arxiv.org/abs/1705.02894
     """
 
     def __init__(self) -> None:
@@ -663,20 +664,11 @@ def get_adversarial_loss_discriminator(
         The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated).
 
     """
-    if adversarial_loss_type in [
-        AdversarialLossType.GAN,
-        AdversarialLossType.GAN.value,
-    ]:
+    if adversarial_loss_type == AdversarialLossType.GAN:
         return DiscriminatorMinMax
-    if adversarial_loss_type in [
-        AdversarialLossType.LSGAN,
-        AdversarialLossType.LSGAN.value,
-    ]:
+    if adversarial_loss_type == AdversarialLossType.LSGAN:
         return DiscriminatorLSGAN
-    if adversarial_loss_type in [
-        AdversarialLossType.HINGE_LOSS,
-        AdversarialLossType.HINGE_LOSS.value,
-    ]:
+    if adversarial_loss_type == AdversarialLossType.HINGE_LOSS:
         return DiscriminatorHingeLoss
     raise ValueError(
         "Loss type not supported, the implemented losses are GAN, LSGAN or HINGE_LOSS."
@@ -698,20 +690,11 @@ def get_adversarial_loss_generator(
         The correct (:py:class:`ashpy.losses.executor.Executor`) (to be instantiated).
 
     """
-    if adversarial_loss_type in (
-        AdversarialLossType.GAN,
-        AdversarialLossType.GAN.value,
-    ):
+    if adversarial_loss_type == AdversarialLossType.GAN:
         return GeneratorBCE
-    if adversarial_loss_type in (
-        AdversarialLossType.LSGAN,
-        AdversarialLossType.LSGAN.value,
-    ):
+    if adversarial_loss_type == AdversarialLossType.LSGAN:
         return GeneratorLSGAN
-    if adversarial_loss_type in (
-        AdversarialLossType.HINGE_LOSS,
-        AdversarialLossType.HINGE_LOSS.value,
-    ):
+    if adversarial_loss_type == AdversarialLossType.HINGE_LOSS:
         return GeneratorHingeLoss
     raise ValueError(
         "Loss type not supported, the implemented losses are GAN, LSGAN or HINGE_LOSS."

@@ -222,7 +222,9 @@ class DHingeLoss(tf.keras.losses.Loss):
     def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
         """Compute the hinge loss"""
         real_loss = self._hinge_loss_real(tf.ones_like(d_real), d_real)
-        fake_loss = self._hinge_loss_fake(tf.math.negative(tf.ones_like(d_fake)), d_fake)
+        fake_loss = self._hinge_loss_fake(
+            tf.math.negative(tf.ones_like(d_fake)), d_fake
+        )
 
         loss = real_loss + fake_loss  # shape: (batch_size, 1)
 
