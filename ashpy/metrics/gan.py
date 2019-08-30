@@ -402,15 +402,17 @@ class InceptionScore(Metric):
 
         print("Training the InceptionV3 model")
 
+        # callback checkpoint
+        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(logdir)
         model.compile(loss=loss_fn, optimizer=optimizer)
-        model.fit(dataset, epochs=epochs)
+        model.fit(dataset, epochs=epochs, callbacks=[model_checkpoint_callback])
 
         return model
 
 
 class EncodingAccuracy(ClassifierMetric):
     """
-    Generetor and Encoder accuracy performance.
+    Generator and Encoder accuracy performance.
 
     Measure the Generator and Encoder performance together, by classifying:
     `G(E(x)), y` using a pre-trained classified (on the dataset of x).
@@ -464,13 +466,9 @@ class EncodingAccuracy(ClassifierMetric):
         inner_context = types.SimpleNamespace()
         inner_context.classifier_model = self._classifer
         inner_context.log_eval_mode = LogEvalMode.TEST
-        # G(E(x)), y
 
+        # Return G(E(x)), y
         def _gen(real_xy, _):
-            # ?: noise is unused
-            # TODO: find a way to move generator_model
-            # And encoder_model from GPU to CPU since tf.data.Dataset.map
-            # Requires every object allocated in CPU (perhaps)
             real_x, real_y = real_xy
             out = context.generator_model(
                 context.encoder_model(
