@@ -15,9 +15,10 @@
 """GAN metrics."""
 from __future__ import annotations
 
+import operator
 import os
 import types
-from typing import TYPE_CHECKING, Callable, List, Tuple
+from typing import TYPE_CHECKING, Callable
 
 import tensorflow as tf  # pylint: disable=import-error
 
@@ -28,7 +29,6 @@ from ashpy.modes import LogEvalMode
 if TYPE_CHECKING:
     import numpy as np
     from ashpy.contexts import (  # pylint: disable=ungrouped-imports
-        BaseContext,
         ClassifierContext,
         GANContext,
         GANEncoderContext,
@@ -223,20 +223,21 @@ class EncoderLoss(Metric):
 
 
 class InceptionScore(Metric):
-    """
+    r"""
     Inception Score Metric.
 
     This class is an implementation of the Inception Score technique for evaluating a GAN.
 
-    .. todo::
-        Add reference to the paper.
+    See Improved Techniques for Training GANs [1]_.
+
+    .. [1] Improved Techniques for Training GANs https://arxiv.org/abs/1606.03498
 
     """
 
     def __init__(
         self,
         inception: tf.keras.Model,
-        model_selection_operator=None,
+        model_selection_operator=operator.gt,
         logdir=os.path.join(os.getcwd(), "log"),
     ):
         """
@@ -264,12 +265,14 @@ class InceptionScore(Metric):
         )
 
         self._incpt_model = inception
+
+        # add softmax layer if not present
         if "softmax" not in self._incpt_model.layers[-1].name.lower():
             self._incpt_model = tf.keras.Sequential(
                 [self._incpt_model, tf.keras.layers.Softmax()]
             )
 
-    def update_state(self, context: ClassifierContext) -> None:
+    def update_state(self, context: GANContext) -> None:
         """
         Update the internal state of the metric, using the information from the context object.
 
@@ -281,83 +284,61 @@ class InceptionScore(Metric):
         updater = lambda value: lambda: self._metric.update_state(value)
 
         # Generate the images created with the AshPy Context's generator
-        generated_images = [
-            context.generator_model(
-                noise, training=context.log_eval_mode == LogEvalMode.TRAIN
+        for real_xy, noise in context.dataset:
+            _, real_y = real_xy
+
+            g_inputs = noise
+            if len(context.generator_model.inputs) == 2:
+                g_inputs = [noise, real_y]
+
+            fake = context.generator_model(
+                g_inputs, training=context.log_eval_mode == LogEvalMode.TRAIN
             )
-            for noise in context.noise_dataset  # FIXME: ?
-        ]
 
-        rescaled_images = [
-            ((generate_image * 0.5) + 0.5) for generate_image in generated_images
-        ]
+            # rescale images between 0 and 1
+            fake = (fake + 1.0) / 2.0
 
-        # Resize images to 299x299
-        resized_images = [
-            tf.image.resize(rescaled_image, (299, 299))
-            for rescaled_image in rescaled_images
-        ]
+            # Resize images to 299x299
+            fake = tf.image.resize(fake, (299, 299))
 
-        try:
-            resized_images[:] = [
-                tf.image.grayscale_to_rgb(images) for images in resized_images
-            ]
-        except ValueError:
-            # Images are already RGB
-            pass
+            try:
+                fake = tf.image.grayscale_to_rgb(fake)
+            except ValueError:
+                # Images are already RGB
+                pass
 
-        # Instead of using multiple batches of 'batch_size' each (that causes OOM).
-        # Unravel the dataset and then create small batches, each with 2 images at most.
-        dataset = tf.unstack(tf.reshape(tf.stack(resized_images), (-1, 1, 299, 299, 3)))
+            # Calculate the inception score
+            inception_score_per_batch = self.inception_score(fake)
 
-        # Calculate the inception score
-        mean, _ = self.inception_score(dataset)
+            # Update the Mean metric created for this context
+            # self._metric.update_state(mean)
+            self._distribute_strategy.experimental_run_v2(
+                updater(inception_score_per_batch)
+            )
 
-        # Update the Mean metric created for this context
-        # self._metric.update_state(mean)
-        self._distribute_strategy.experimental_run_v2(updater(mean))
-
-    def inception_score(
-        self, images: List[np.ndarray], splits=10
-    ) -> Tuple[np.ndarray, np.ndarray]:
+    def inception_score(self, images: tf.Tensor) -> tf.Tensor:
         """
         Compute the Inception Score.
 
         Args:
             images (:py:obj:`list` of [:py:class:`numpy.ndarray`]): A list of ndarray of
                 generated images of 299x299 of size.
-            splits (int): The number of splits to be used during the inception score calculation.
 
         Returns:
             :obj:`tuple` of (:py:class:`numpy.ndarray`, :py:class:`numpy.ndarray`): Mean and STD.
 
         """
         tf.print("Computing inception score...")
-        predictions = []
-        for inp in images:
-            pred: tf.Tensor = self._incpt_model(inp)
-            predictions.append(pred)
 
-        predictions: np.ndarray = tf.concat(predictions, axis=0).numpy()
-        scores = []
-        for i in range(splits):
-            part = predictions[
-                (i * predictions.shape[0] // splits) : (
-                    (i + 1) * predictions.shape[0] // splits
-                ),
-                :,
-            ]
-            kl_divergence = part * (
-                tf.math.log(part)
-                - tf.math.log(
-                    tf.expand_dims(tf.math.reduce_mean(part, axis=0), axis=[0])
-                )
-            )
-            kl_divergence = tf.math.reduce_mean(
-                tf.math.reduce_sum(kl_divergence, axis=1)
-            )
-            scores.append(tf.math.exp(kl_divergence))
-        return tf.math.reduce_mean(scores).numpy(), tf.math.reduce_std(scores).numpy()
+        predictions: tf.Tensor = self._incpt_model(images)
+
+        kl_divergence = predictions * (
+            tf.math.log(predictions)
+            - tf.math.log(tf.math.reduce_mean(predictions, axis=0, keepdims=True))
+        )
+        kl_divergence = tf.math.reduce_mean(tf.math.reduce_sum(kl_divergence, axis=1))
+        inception_score_per_batch = tf.math.exp(kl_divergence)
+        return inception_score_per_batch
 
     @staticmethod
     def get_or_train_inception(
@@ -421,30 +402,17 @@ class InceptionScore(Metric):
 
         print("Training the InceptionV3 model")
 
-        def _train():
-            def _step(features, labels):
-                with tf.GradientTape() as tape:
-                    logits = model(features)
-                    loss = loss_fn(labels, logits)
+        # callback checkpoint
+        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(logdir)
+        model.compile(loss=loss_fn, optimizer=optimizer)
+        model.fit(dataset, epochs=epochs, callbacks=[model_checkpoint_callback])
 
-                gradients = tape.gradient(loss, model.trainable_variables)
-                optimizer.apply_gradients(zip(gradients, model.trainable_variables))
-                step.assign_add(1)
-                tf.print(step, " loss value: ", loss)
-
-            for epoch in range(epochs):
-                for features, labels in dataset:
-                    _step(features, labels)
-                tf.print("epoch ", epoch, " completed")
-                manager.save()
-
-        _train()
         return model
 
 
 class EncodingAccuracy(ClassifierMetric):
     """
-    Generetor and Encoder accuracy performance.
+    Generator and Encoder accuracy performance.
 
     Measure the Generator and Encoder performance together, by classifying:
     `G(E(x)), y` using a pre-trained classified (on the dataset of x).
@@ -498,21 +466,17 @@ class EncodingAccuracy(ClassifierMetric):
         inner_context = types.SimpleNamespace()
         inner_context.classifier_model = self._classifer
         inner_context.log_eval_mode = LogEvalMode.TEST
-        # G(E(x)), y
 
-        def _gen(xy, noise):
-            # ?: noise is unused
-            # TODO: find a way to move generator_model
-            # And encoder_model from GPU to CPU since tf.data.Dataset.map
-            # Requires every object allocated in CPU (perhaps)
-            x, y = xy
+        # Return G(E(x)), y
+        def _gen(real_xy, _):
+            real_x, real_y = real_xy
             out = context.generator_model(
                 context.encoder_model(
-                    x, training=context.log_eval_mode == LogEvalMode.TRAIN
+                    real_x, training=context.log_eval_mode == LogEvalMode.TRAIN
                 ),
                 training=context.log_eval_mode == LogEvalMode.TRAIN,
             )
-            return out, y
+            return out, real_y
 
         dataset = context.dataset.map(_gen)
         inner_context.dataset = dataset

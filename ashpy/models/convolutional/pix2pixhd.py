@@ -76,7 +76,8 @@ class LocalEnhancer(keras.Model):
         """
         Build the LocalEnhancer module of the Pix2PixHD architecture.
 
-        See Pix2PixHD [2]_ for more details.
+        See High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs [2]_
+        for more details.
 
         Args:
             input_res (int): input resolution
@@ -93,7 +94,8 @@ class LocalEnhancer(keras.Model):
             kernel_size_front_back (int): kernel size used for the front and back convolution
             num_internal_resnet_blocks (int): number of internal blocks of the resnet
 
-        .. [2] https://arxiv.org/abs/1711.11585
+        .. [2] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
+            https://arxiv.org/abs/1711.11585
 
         """
         super(LocalEnhancer, self).__init__()

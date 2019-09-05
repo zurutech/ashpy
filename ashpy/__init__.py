@@ -14,6 +14,7 @@
 
 """ASHPY Package."""
 
+from .modes import LogEvalMode
 from . import contexts
 from . import datasets
 from . import layers
@@ -23,7 +24,6 @@ from . import models
 from . import trainers
 from . import ashtypes
 from . import keras
-from .modes import LogEvalMode
 
 __version__ = "1.0.2"
 __url__ = "https://github.com/zurutech/ashpy"

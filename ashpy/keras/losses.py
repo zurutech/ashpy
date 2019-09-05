@@ -182,3 +182,87 @@ class DLeastSquare(tf.keras.losses.Loss):
             self._positive_mse(tf.ones_like(d_real), d_real)
             + self._negative_mse(tf.zeros_like(d_fake), d_fake)
         )
+
+
+class DHingeLoss(tf.keras.losses.Loss):
+    r"""
+    Discriminator Hinge Loss as Keras Metric.
+    See Geometric GAN [1]_ for more details.
+
+    .. [1] https://arxiv.org/abs/1705.02894
+    """
+
+    def __init__(self) -> None:
+        """Initialize the Loss."""
+        self._hinge_loss_real = tf.keras.losses.Hinge(
+            reduction=tf.keras.losses.Reduction.NONE
+        )
+        self._hinge_loss_fake = tf.keras.losses.Hinge(
+            reduction=tf.keras.losses.Reduction.NONE
+        )
+        super().__init__()
+
+    @property
+    def reduction(self) -> tf.keras.losses.Reduction:
+        """Return the current `reduction` for this type of loss."""
+        return self._hinge_loss_fake.reduction
+
+    @reduction.setter
+    def reduction(self, value: tf.keras.losses.Reduction) -> None:
+        """
+        Set the `reduction`.
+
+        Args:
+            value (:py:class:`tf.keras.losses.Reduction`): Reduction to use for the loss.
+
+        """
+        self._hinge_loss_fake.reduction = value
+        self._hinge_loss_real.reduction = value
+
+    def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
+        """Compute the hinge loss"""
+        real_loss = self._hinge_loss_real(tf.ones_like(d_real), d_real)
+        fake_loss = self._hinge_loss_fake(
+            tf.math.negative(tf.ones_like(d_fake)), d_fake
+        )
+
+        loss = real_loss + fake_loss  # shape: (batch_size, 1)
+
+        return loss
+
+
+class GHingeLoss(tf.keras.losses.Loss):
+    r"""
+    Generator Hinge Loss as Keras Metric.
+    See Geometric GAN [1]_ for more details.
+
+    .. [1] https://arxiv.org/abs/1705.02894
+
+    """
+
+    def __init__(self) -> None:
+        """Initialize the Loss."""
+        super().__init__()
+        self._reduction = tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE
+
+    @property
+    def reduction(self) -> tf.keras.losses.Reduction:
+        """Return the current `reduction` for this type of loss."""
+        return self._reduction
+
+    @reduction.setter
+    def reduction(self, value: tf.keras.losses.Reduction) -> None:
+        """
+        Set the `reduction`.
+
+        Args:
+            value (:py:class:`tf.keras.losses.Reduction`): Reduction to use for the loss.
+
+        """
+        self._reduction = value
+
+    def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
+        """Computes the hinge loss"""
+        fake_loss = -tf.nn.relu(d_fake)
+
+        return fake_loss

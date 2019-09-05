@@ -78,7 +78,7 @@ class AdversarialTrainer(BaseTrainer):
                         filters_cap=32,
                         output_shape=10,
                     ),
-                    #model_selection_operator=operator.gt,
+                    model_selection_operator=operator.gt,
                     logdir=logdir,
                 )
             ]
@@ -93,11 +93,6 @@ class AdversarialTrainer(BaseTrainer):
                 metrics,
                 logdir,
             )
-
-            # Dataset
-            noise_dataset = tf.data.Dataset.from_tensors(0).repeat().map(
-                lambda _: tf.random.normal(shape=(100,), dtype=tf.float32, mean=0.0, stddev=1)
-            ).batch(batch_size).prefetch(1)
 
             # take only 2 samples to speed up tests
             real_data = (

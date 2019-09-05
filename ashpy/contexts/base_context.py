@@ -78,7 +78,7 @@ class BaseContext:
     def model_selection(self) -> None:
         """Use the metrics to perform model selection."""
         for metric in self._metrics:
-            metric.model_selection(self._ckpt)
+            metric.model_selection(self._ckpt, self._global_step)
 
     @property
     def log_eval_mode(self) -> LogEvalMode:

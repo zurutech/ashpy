@@ -25,7 +25,6 @@ from ashpy.metrics.metric import Metric
 from ashpy.modes import LogEvalMode
 
 if TYPE_CHECKING:
-    import numpy as np
     from ashpy.contexts import ClassifierContext  # pylint: disable=ungrouped-imports
 
     TPRocessingPredictions = Dict[str, Union[Callable, Dict[str, Any]]]
@@ -90,10 +89,7 @@ class ClassifierMetric(Metric):
         metric: tf.keras.metrics.Metric,
         model_selection_operator: Callable = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
-        processing_predictions: TPRocessingPredictions = {
-            "fn": tf.argmax,
-            "kwargs": {"axis": -1},
-        },
+        processing_predictions=None,
     ) -> None:
         """
         Initialize the Metric.
@@ -114,7 +110,7 @@ class ClassifierMetric(Metric):
             processing_predictions (:py:obj:`typing.Dict`): A `dict` in the form of
                 `{"fn": tf.argmax, "kwargs": {"axis": -1}}` with a function `"fn"`
                 to be used for predictions processing purposes and its `"kwargs"` as its
-                keyword-arguments.
+                keyword-arguments. Defaults to {"fn": tf.argmax, "kwargs": {"axis": -1}}.
 
         """
         super().__init__(
@@ -123,6 +119,8 @@ class ClassifierMetric(Metric):
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
+        if processing_predictions is None:
+            processing_predictions = {"fn": tf.argmax, "kwargs": {"axis": -1}}
         self._processing_predictions = processing_predictions
 
     def update_state(self, context: ClassifierContext) -> None:
