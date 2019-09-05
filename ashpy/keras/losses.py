@@ -45,7 +45,7 @@ class L1(tf.keras.losses.Loss):
         """Compute the mean of the l1 between x and y."""
         if self._reduction == tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE:
             axis = None
-        elif self._reduction == tf.keras.losses.Reduction.NONE:
+        elif self._reduction == tf.keras.losses.Reduction.AUTO:
             axis = (1, 2, 3)
         else:
             raise ValueError("L1Loss: unhandled reduction type")
@@ -67,13 +67,13 @@ class DMinMax(tf.keras.losses.Loss):
         self._positive_bce = tf.keras.losses.BinaryCrossentropy(
             from_logits=from_logits,
             label_smoothing=label_smoothing,
-            reduction=tf.keras.losses.Reduction.NONE,
+            reduction=tf.keras.losses.Reduction.AUTO,
         )
 
         self._negative_bce = tf.keras.losses.BinaryCrossentropy(
             from_logits=from_logits,
             label_smoothing=0.0,
-            reduction=tf.keras.losses.Reduction.NONE,
+            reduction=tf.keras.losses.Reduction.AUTO,
         )
         super().__init__()
 
@@ -143,10 +143,10 @@ class DLeastSquare(tf.keras.losses.Loss):
 
         """
         self._positive_mse = tf.keras.losses.MeanSquaredError(
-            reduction=tf.keras.losses.Reduction.NONE
+            reduction=tf.keras.losses.Reduction.AUTO
         )
         self._negative_mse = tf.keras.losses.MeanSquaredError(
-            reduction=tf.keras.losses.Reduction.NONE
+            reduction=tf.keras.losses.Reduction.AUTO
         )
         super().__init__()
 
@@ -195,10 +195,10 @@ class DHingeLoss(tf.keras.losses.Loss):
     def __init__(self) -> None:
         """Initialize the Loss."""
         self._hinge_loss_real = tf.keras.losses.Hinge(
-            reduction=tf.keras.losses.Reduction.NONE
+            reduction=tf.keras.losses.Reduction.AUTO
         )
         self._hinge_loss_fake = tf.keras.losses.Hinge(
-            reduction=tf.keras.losses.Reduction.NONE
+            reduction=tf.keras.losses.Reduction.AUTO
         )
         super().__init__()
 
