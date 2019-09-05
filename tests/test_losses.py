@@ -20,12 +20,12 @@ import shutil
 import pytest
 import tensorflow as tf
 
-from ashpy.models.gans import ConvGenerator, ConvDiscriminator
 from ashpy.losses.gan import (
     AdversarialLossType,
-    get_adversarial_loss_generator,
     get_adversarial_loss_discriminator,
+    get_adversarial_loss_generator,
 )
+from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer
 
 

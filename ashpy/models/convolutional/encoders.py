@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """Collection of Encoders (i.e., GANs' Discriminators) models."""
-from typing import Union, Tuple, Type
+from typing import Tuple, Type, Union
 
 from tensorflow import keras  # pylint: disable=no-name-in-module
 

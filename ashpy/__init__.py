@@ -14,18 +14,20 @@
 
 """ASHPY Package."""
 
-from .modes import LogEvalMode
-from . import contexts
-from . import datasets
-from . import layers
-from . import losses
-from . import metrics
-from . import models
-from . import trainers
-from . import ashtypes
-from . import keras
+from .modes import LogEvalMode  # isort:skip
+from . import (
+    ashtypes,
+    contexts,
+    datasets,
+    keras,
+    layers,
+    losses,
+    metrics,
+    models,
+    trainers,
+)
 
-__version__ = "1.0.2"
+__version__ = "0.1.2"
 __url__ = "https://github.com/zurutech/ashpy"
 __author__ = "Machine Learning Team @ Zuru Tech"
 __email__ = "ml@zuru.tech"

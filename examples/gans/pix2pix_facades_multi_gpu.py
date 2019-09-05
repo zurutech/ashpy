@@ -22,11 +22,10 @@ import tensorflow as tf
 
 from ashpy import LogEvalMode
 from ashpy.losses.gan import Pix2PixLoss, get_adversarial_loss_discriminator
+from ashpy.models.convolutional.discriminators import PatchDiscriminator
 from ashpy.models.convolutional.unet import FUNet
 from ashpy.trainers.gan import AdversarialTrainer
-from ashpy.models.convolutional.discriminators import PatchDiscriminator
-
-from pix2pix_facades import load_image_train, PATH, BUFFER_SIZE, BATCH_SIZE, IMG_WIDTH
+from pix2pix_facades import BATCH_SIZE, BUFFER_SIZE, IMG_WIDTH, PATH, load_image_train
 
 
 def main(

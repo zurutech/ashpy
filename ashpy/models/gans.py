@@ -48,9 +48,8 @@ GANs Models.
 """
 from ashpy.models.convolutional.decoders import BaseDecoder as BaseConvDecoder
 from ashpy.models.convolutional.encoders import BaseEncoder as BaseConvEncoder
-from ashpy.models.fc.encoders import BaseEncoder as BaseDenseEncoder
 from ashpy.models.fc.decoders import BaseDecoder as BaseDenseDecoder
-
+from ashpy.models.fc.encoders import BaseEncoder as BaseDenseEncoder
 
 ConvGenerator = BaseConvDecoder
 ConvDiscriminator = BaseConvEncoder

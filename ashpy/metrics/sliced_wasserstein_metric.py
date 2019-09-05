@@ -19,15 +19,14 @@ from __future__ import annotations
 
 import operator
 import os
-from typing import TYPE_CHECKING, Union, Callable
+from typing import TYPE_CHECKING, Callable, Union
 
 import numpy as np
 import tensorflow as tf
 
+from ashpy import LogEvalMode
 from ashpy.metrics import Metric
 from ashpy.metrics.sliced_wasserstein import sliced_wasserstein_distance
-from ashpy import LogEvalMode
-
 
 if TYPE_CHECKING:
     from ashpy.contexts import GANContext  # pylint: disable=ungrouped-imports

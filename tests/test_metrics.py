@@ -15,15 +15,15 @@
 """
 Test Metrics
 """
+import json
 import os
 import shutil
 
-import json
 import tensorflow as tf
 
-from ashpy.metrics import SlicedWassersteinDistance, SSIM_Multiscale, InceptionScore
-from ashpy.models.gans import ConvGenerator, ConvDiscriminator
-from ashpy.losses.gan import GeneratorBCE, DiscriminatorMinMax
+from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE
+from ashpy.metrics import InceptionScore, SlicedWassersteinDistance, SSIM_Multiscale
+from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer
 
 

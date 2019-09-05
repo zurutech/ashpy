@@ -17,15 +17,15 @@ Multiscale Structural Similarity metric.
 """
 from __future__ import annotations
 
+import math
 import operator
 import os
 from typing import TYPE_CHECKING, Callable, Tuple
 
-import math
 import tensorflow as tf
 
-from ashpy.metrics import Metric
 from ashpy import LogEvalMode
+from ashpy.metrics import Metric
 
 if TYPE_CHECKING:
     from ashpy.contexts import GANContext  # pylint: disable=ungrouped-imports

@@ -21,8 +21,8 @@ import types
 from typing import TYPE_CHECKING, Callable
 
 import tensorflow as tf  # pylint: disable=import-error
-
 import tensorflow_hub as hub  # pylint: disable=import-error
+
 from ashpy.metrics import ClassifierMetric, Metric
 from ashpy.modes import LogEvalMode
 

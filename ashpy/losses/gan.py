@@ -22,8 +22,8 @@ from typing import TYPE_CHECKING, List, Type, Union
 import tensorflow as tf
 
 from ashpy.contexts import GANContext, GANEncoderContext
+from ashpy.keras.losses import L1, DHingeLoss, DLeastSquare, DMinMax, GHingeLoss
 from ashpy.losses.executor import Executor, SumExecutor
-from ashpy.keras.losses import DLeastSquare, DMinMax, L1, DHingeLoss, GHingeLoss
 
 if TYPE_CHECKING:
     from ashpy.ashtypes import TWeight

@@ -68,7 +68,8 @@ Collection of Metrics.
     ssim_multiscale
 
 """
-from ashpy.metrics.metric import Metric
+
+from ashpy.metrics.metric import Metric  # isort:skip
 from ashpy.metrics.classifier import ClassifierLoss, ClassifierMetric
 from ashpy.metrics.gan import DiscriminatorLoss, EncodingAccuracy, InceptionScore
 from ashpy.metrics.sliced_wasserstein_metric import SlicedWassersteinDistance

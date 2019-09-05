@@ -81,15 +81,15 @@ Collection of Losses.
 from ashpy.losses.classifier import ClassifierLoss
 from ashpy.losses.executor import Executor, SumExecutor
 from ashpy.losses.gan import (
-    DiscriminatorAdversarialLoss,
-    GeneratorAdversarialLoss,
     AdversarialLossType,
     CategoricalCrossEntropy,
+    DiscriminatorAdversarialLoss,
     DiscriminatorLSGAN,
     DiscriminatorMinMax,
     EncoderBCE,
     FeatureMatchingLoss,
     GANExecutor,
+    GeneratorAdversarialLoss,
     GeneratorBCE,
     GeneratorL1,
     GeneratorLSGAN,

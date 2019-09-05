@@ -22,9 +22,9 @@ import tensorflow as tf
 
 from ashpy import LogEvalMode
 from ashpy.losses.gan import Pix2PixLoss, get_adversarial_loss_discriminator
+from ashpy.models.convolutional.discriminators import PatchDiscriminator
 from ashpy.models.convolutional.unet import FUNet
 from ashpy.trainers.gan import AdversarialTrainer
-from ashpy.models.convolutional.discriminators import PatchDiscriminator
 
 _URL = "https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets/facades.tar.gz"
 
