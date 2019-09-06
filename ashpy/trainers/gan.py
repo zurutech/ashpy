@@ -174,8 +174,12 @@ class AdversarialTrainer(BaseTrainer):
         )
         self._generator = generator
         self._discriminator = discriminator
+
         self._g_loss = generator_loss
+        self._g_loss.reduction = tf.losses.Reduction.NONE
+
         self._d_loss = discriminator_loss
+        self._d_loss.reduction = tf.losses.Reduction.NONE
 
         losses_metrics = [
             DiscriminatorLoss(logdir=logdir),
