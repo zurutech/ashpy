@@ -33,6 +33,9 @@ class ClassifierLoss(Executor):
             fn (:py:class:`tf.keras.losses.Loss`): Classification Loss function, should
                 take as input labels and prediction.
 
+        Returns:
+            :py:obj:`None`
+
         """
         super().__init__(fn)
 
