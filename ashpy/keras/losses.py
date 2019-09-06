@@ -45,10 +45,10 @@ class L1(tf.keras.losses.Loss):
         """Compute the mean of the l1 between x and y."""
         if self._reduction == tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE:
             axis = None
-        elif self._reduction == tf.keras.losses.Reduction.AUTO:
+        elif self._reduction == tf.keras.losses.Reduction.NONE:
             axis = (1, 2, 3)
         else:
-            raise ValueError("L1Loss: unhandled reduction type")
+            raise ValueError("L1: unhandled reduction type ", self._reduction)
 
         return tf.reduce_mean(tf.abs(x - y), axis=axis)
 
