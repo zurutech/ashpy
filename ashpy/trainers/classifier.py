@@ -108,6 +108,7 @@ class ClassifierTrainer(BaseTrainer):
         self._model = model
         self._optimizer = optimizer
         self._loss = loss
+        self._loss.reduction = tf.keras.losses.Reduction.NONE
 
         self._avg_loss = ClassifierLoss()
         if metrics:
