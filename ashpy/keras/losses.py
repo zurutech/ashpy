@@ -139,7 +139,7 @@ class DLeastSquare(tf.keras.losses.Loss):
 
         where c is the condition and x are real samples.
 
-        .. [1] https://arxiv.org/abs/1611.04076
+        .. [1] Least Squares Generative Adversarial Networks https://arxiv.org/abs/1611.04076
 
         """
         self._positive_mse = tf.keras.losses.MeanSquaredError(
@@ -189,7 +189,23 @@ class DHingeLoss(tf.keras.losses.Loss):
     Discriminator Hinge Loss as Keras Metric.
     See Geometric GAN [1]_ for more details.
 
-    .. [1] https://arxiv.org/abs/1705.02894
+    The Discriminator Hinge loss is the hinge version
+    of the adversarial loss.
+    The Hinge loss is defined as:
+
+    .. math::
+        L_{\text{hinge}} = \max(0, 1 -t y)
+
+    where y is the Discriminator output
+    and t is the target class (+1 or -1 in the case of binary classification).
+
+    For the case of GANs:
+
+    .. math::
+        L_{D_{\text{hinge}}} = - \mathbb{E}_{(x,y) \sim p_data} [ \min(0, -1+D(x,y)) ] -
+            \mathbb{E}_{x \sim p_x, y \sim p_data} [ \min(0, -1 - D(G(z),y)) ]
+
+    .. [1] Geometric GAN https://arxiv.org/abs/1705.02894
     """
 
     def __init__(self) -> None:
@@ -236,7 +252,28 @@ class GHingeLoss(tf.keras.losses.Loss):
     Generator Hinge Loss as Keras Metric.
     See Geometric GAN [1]_ for more details.
 
-    .. [1] https://arxiv.org/abs/1705.02894
+    The Generator Hinge loss is the hinge version
+    of the adversarial loss.
+    The Hinge loss is defined as:
+
+    .. math::
+        L_{\text{hinge}} = \max(0, 1 - t y)
+
+    where y is the Discriminator output
+    and t is the target class (+1 or -1 in the case of binary classification).
+    The target class of the generated images is +1.
+
+    For the case of GANs
+
+    .. math::
+        L_{G_{\text{hinge}}} = - \mathbb{E}_{(x \sim p_x, y \sim p_data} [ \min(0, -1+D(G(x),y)) ]
+
+    This can be simply approximated as:
+
+    .. math::
+        L_{G_{\text{hinge}}} = - \mathbb{E}_{(x \sim p_x, y \sim p_data} [ D(G(x),y) ]
+
+    .. [1] Geometric GAN https://arxiv.org/abs/1705.02894
 
     """
 
@@ -263,6 +300,5 @@ class GHingeLoss(tf.keras.losses.Loss):
 
     def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
         """Computes the hinge loss"""
-        fake_loss = -tf.nn.relu(d_fake)
 
-        return fake_loss
+        return -d_fake
