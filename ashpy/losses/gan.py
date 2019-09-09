@@ -16,7 +16,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import Enum, auto
 from typing import TYPE_CHECKING, List, Type, Union
 
 import tensorflow as tf
@@ -32,9 +32,9 @@ if TYPE_CHECKING:
 class AdversarialLossType(Enum):
     """Enumeration for Adversarial Losses. Implemented: GAN and LSGAN."""
 
-    GAN = 0  # classical gan loss (minmax)
-    LSGAN = 1  # Least Square GAN
-    HINGE_LOSS = 2  # Hinge loss
+    GAN = auto()  # classical gan loss (minmax)
+    LSGAN = auto()  # Least Square GAN
+    HINGE_LOSS = auto()  # Hinge loss
 
 
 class GANExecutor(Executor, ABC):
