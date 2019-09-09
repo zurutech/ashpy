@@ -263,6 +263,5 @@ class GHingeLoss(tf.keras.losses.Loss):
 
     def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
         """Computes the hinge loss"""
-        fake_loss = -tf.nn.relu(d_fake)
 
-        return fake_loss
+        return -d_fake
