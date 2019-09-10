@@ -2,8 +2,6 @@ dist: xenial
 language: python
 addons:
   artifacts: true
-  apt:
-    update: true
 python:
 - '3.7'
 stages:
@@ -13,6 +11,9 @@ stages:
   - Deploy
 before_install:
   - sudo apt-get install -y --no-install-recommends bc
+addons:
+  apt:
+    update: true
 install: &requirements
 - pip install -r dev-requirements.txt
 - pip install -e .
