@@ -45,10 +45,6 @@ class Callback:
         on_exception – if an Exception was raised
 
     """
-
-    def __init__(self):
-        pass
-
     def on_train_start(self, context: BaseContext) -> None:
         """
         Method called at the beginning of the training loop
