@@ -198,7 +198,6 @@ class SumExecutor(Executor):
     then summed together.
     """
 
-    # TODO: Add reference to Pix2Pix Loss in the losses.gans
     def __init__(self, executors) -> None:
         """
         Initialize the SumExecutor.
