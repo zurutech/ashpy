@@ -21,11 +21,16 @@ import os
 import tensorflow as tf
 
 from ashpy import LogEvalMode
-from ashpy.losses.gan import Pix2PixLoss, get_adversarial_loss_discriminator
+from ashpy.losses.gan import (
+    AdversarialLossType,
+    Pix2PixLoss,
+    get_adversarial_loss_discriminator,
+)
 from ashpy.models.convolutional.discriminators import PatchDiscriminator
 from ashpy.models.convolutional.unet import FUNet
 from ashpy.trainers.gan import AdversarialTrainer
-from pix2pix_facades import BATCH_SIZE, BUFFER_SIZE, IMG_WIDTH, PATH, load_image_train
+
+from .pix2pix_facades import BATCH_SIZE, BUFFER_SIZE, IMG_WIDTH, PATH, load_image_train
 
 
 def main(
@@ -51,7 +56,7 @@ def main(
     use_attention_d=False,
     use_attention_g=False,
     channels=3,
-    gan_loss_type=1,
+    gan_loss_type=AdversarialLossType.LSGAN,
 ):
     """Main train loop and models definition."""
 

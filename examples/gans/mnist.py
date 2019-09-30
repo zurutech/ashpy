@@ -76,15 +76,15 @@ def main():
 
         epochs = 50
         trainer = AdversarialTrainer(
-            generator,
-            discriminator,
-            tf.optimizers.Adam(1e-4),
-            tf.optimizers.Adam(1e-4),
-            generator_bce,
-            minmax,
-            epochs,
-            metrics,
-            logdir,
+            generator=generator,
+            discriminator=discriminator,
+            generator_optimizer=tf.optimizers.Adam(1e-4),
+            discriminator_optimizer=tf.optimizers.Adam(1e-4),
+            generator_loss=generator_bce,
+            discriminator_loss=minmax,
+            epochs=epochs,
+            metrics=metrics,
+            logdir=logdir,
         )
 
         batch_size = 512

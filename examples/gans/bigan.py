@@ -68,16 +68,16 @@ def main():
     ]
 
     trainer = EncoderTrainer(
-        generator,
-        discriminator,
-        encoder,
-        tf.optimizers.Adam(1e-4),
-        tf.optimizers.Adam(1e-5),
-        tf.optimizers.Adam(1e-6),
-        generator_bce,
-        minmax,
-        encoder_bce,
-        epochs,
+        generator=generator,
+        discriminator=discriminator,
+        encoder=encoder,
+        generator_optimizer=tf.optimizers.Adam(1e-4),
+        discriminator_optimizer=tf.optimizers.Adam(1e-5),
+        encoder_optimizer=tf.optimizers.Adam(1e-6),
+        generator_loss=generator_bce,
+        discriminator_loss=minmax,
+        encoder_loss=encoder_bce,
+        epochs=epochs,
         metrics=metrics,
         logdir=logdir,
     )
