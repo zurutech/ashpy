@@ -50,3 +50,21 @@ def adversarial_logdir():
     if os.path.exists(m_adversarial_logdir):
         shutil.rmtree(m_adversarial_logdir)
         assert not os.path.exists(m_adversarial_logdir)
+
+
+@pytest.fixture(scope="function")
+def save_dir():
+    """Add the save_dir parameter to tests."""
+    m_save_dir = "testlog/savedir"
+
+    # clean before
+    if os.path.exists(m_save_dir):
+        shutil.rmtree(m_save_dir)
+        assert not os.path.exists(m_save_dir)
+
+    yield m_save_dir
+
+    # teardown
+    if os.path.exists(m_save_dir):
+        shutil.rmtree(m_save_dir)
+        assert not os.path.exists(m_save_dir)
