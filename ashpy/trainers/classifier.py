@@ -179,13 +179,27 @@ class ClassifierTrainer(BaseTrainer):
         )
         return self._reduce(per_replica_loss, tf.distribute.ReduceOp.SUM)
 
-    def call(self, training_set: tf.data.Dataset, validation_set: tf.data.Dataset):
+    def call(
+        self,
+        training_set: tf.data.Dataset,
+        validation_set: tf.data.Dataset,
+        log_freq: int = 10,
+        measure_performance_freq: int = 10,
+    ):
         """
         Start the training.
 
         Args:
             training_set (:py:obj:`tf.data.Dataset`): Training dataset.
             validation_set (:py:obj:`tf.data.Dataset`): Validation dataset.
+            log_freq (int): Specifies how many steps to run before logging the losses,
+                e.g. `log_frequency=10` logs every 10 steps of training.
+                Pass `log_frequency<=0` in case you don't want to log.
+            measure_performance_freq (int): Specifies how many steps to run before
+                measuring the performance, e.g. `measure_performance_freq=10`
+                measures performance every 10 steps of training.
+                Pass `measure_performance_freq<=0` in case you don't want to measure
+                performance.
         """
         # set the context properties
         self._context.training_set = training_set

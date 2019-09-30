@@ -296,12 +296,25 @@ class AdversarialTrainer(BaseTrainer):
             fake,
         )
 
-    def call(self, dataset: tf.data.Dataset):
+    def call(
+        self,
+        dataset: tf.data.Dataset,
+        log_freq: int = 10,
+        measure_performance_freq: int = 10,
+    ):
         """
         Perform the adversarial training.
 
         Args:
             dataset (:py:obj:`tf.data.Dataset`): The adversarial training dataset.
+            log_freq (int): Specifies how many steps to run before logging the losses,
+                e.g. `log_frequency=10` logs every 10 steps of training.
+                Pass `log_frequency<=0` in case you don't want to log.
+            measure_performance_freq (int): Specifies how many steps to run before
+                measuring the performance, e.g. `measure_performance_freq=10`
+                measures performance every 10 steps of training.
+                Pass `measure_performance_freq<=0` in case you don't want to measure
+                    performance.
         """
         current_epoch = self._current_epoch()
 
@@ -341,10 +354,17 @@ class AdversarialTrainer(BaseTrainer):
                     self._global_step.assign_add(1)
 
                     # print statistics
-                    if tf.equal(tf.math.mod(self._global_step, 10), 0):
+                    if log_freq > 0 and tf.equal(
+                        tf.math.mod(self._global_step, log_freq), 0
+                    ):
                         tf.print(
                             f"[{self._global_step.numpy()}] g_loss: {g_loss} - d_loss: {d_loss}"
                         )
+
+                    # measure performance
+                    if measure_performance_freq > 0 and tf.equal(
+                        tf.math.mod(self._global_step, measure_performance_freq), 0
+                    ):
 
                         # setup context
                         self._context.current_batch = self.local_example(
@@ -632,12 +652,25 @@ class EncoderTrainer(AdversarialTrainer):
             generator_of_encoder,
         )
 
-    def call(self, dataset: tf.data.Dataset):
+    def call(
+        self,
+        dataset: tf.data.Dataset,
+        log_freq: int = 10,
+        measure_performance_freq: int = 10,
+    ):
         r"""
         Perform the adversarial training.
 
         Args:
             dataset (:py:class:`tf.data.Dataset`): The adversarial training dataset.
+            log_freq (int): Specifies how many steps to run before logging the losses,
+                e.g. `log_frequency=10` logs every 10 steps of training.
+                Pass `log_frequency<=0` in case you don't want to log.
+            measure_performance_freq (int): Specifies how many steps to run before
+                measuring the performance, e.g. `measure_performance_freq=10`
+                measures performance every 10 steps of training.
+                Pass `measure_performance_freq<=0` in case you don't want to measure
+                performance.
         """
         current_epoch = self._current_epoch()
 
@@ -681,11 +714,17 @@ class EncoderTrainer(AdversarialTrainer):
                     self._global_step.assign_add(1)
 
                     # measure performance if needed
-                    if tf.equal(tf.math.mod(self._global_step, 10), 0):
+                    if log_freq >= 0 and tf.equal(
+                        tf.math.mod(self._global_step, log_freq), 0
+                    ):
                         tf.print(
                             f"[{self._global_step.numpy()}] g_loss: {g_loss} - "
                             f"d_loss: {d_loss} - e_loss: {e_loss}"
                         )
+
+                    if measure_performance_freq >= 0 and tf.equal(
+                        tf.math.mod(self._global_step, measure_performance_freq), 0
+                    ):
 
                         # setup context
                         self._context.current_batch = self.local_example(
