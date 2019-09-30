@@ -14,16 +14,16 @@
 
 """Event definition as Enum."""
 
-from enum import Enum, auto
+from enum import Enum
 
 
 class Event(Enum):
     """Define all possible events."""
 
-    ON_BATCH_START = auto()
-    ON_BATCH_END = auto()
-    ON_TRAIN_START = auto()
-    ON_TRAIN_END = auto()
-    ON_EPOCH_START = auto()
-    ON_EPOCH_END = auto()
-    ON_EXCEPTION = auto()
+    ON_BATCH_START = "ON_BATCH_START"
+    ON_BATCH_END = "ON_BATCH_END"
+    ON_TRAIN_START = "ON_TRAIN_START"
+    ON_TRAIN_END = "ON_TRAIN_END"
+    ON_EPOCH_START = "ON_EPOCH_START"
+    ON_EPOCH_END = "ON_EPOCH_END"
+    ON_EXCEPTION = "ON_EXCEPTION"
