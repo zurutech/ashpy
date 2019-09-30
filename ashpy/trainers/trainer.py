@@ -155,7 +155,8 @@ class Trainer(ABC):
         Set the `self._global_batch_size` variable where needed.
 
         Args:
-            dataset (:py:class:`tf.data.Dataset`): a dataset from which the batch size will be extracted.
+            dataset (:py:class:`tf.data.Dataset`): a dataset from which
+                the batch size will be extracted.
             executors (Union[List[:py:class:`ashpy.losses.executor.Executor`],
                 :py:class:`ashpy.losses.executor.Executor`]: a list of executor
                 with the property "global_batch_size".

@@ -162,7 +162,8 @@ class AdversarialTrainer(Trainer):
                 training and validation data.
             logdir: checkpoint and log directory.
             log_eval_mode: models' mode to use when evaluating and logging.
-            global_step (Optional[:py:class:`tf.Variable`]): tf.Variable that keeps track of the training steps.
+            global_step (Optional[:py:class:`tf.Variable`]): tf.Variable that
+                keeps track of the training steps.
 
         Returns:
             :py:obj:`None`
