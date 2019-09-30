@@ -20,16 +20,14 @@ import os
 import types
 from typing import TYPE_CHECKING, Callable
 
-import tensorflow as tf  # pylint: disable=import-error
-import tensorflow_hub as hub  # pylint: disable=import-error
+import tensorflow as tf
+import tensorflow_hub as hub
 
 from ashpy.metrics import ClassifierMetric, Metric
 from ashpy.modes import LogEvalMode
 
 if TYPE_CHECKING:
-    import numpy as np
     from ashpy.contexts import (  # pylint: disable=ungrouped-imports
-        ClassifierContext,
         GANContext,
         GANEncoderContext,
     )
@@ -264,12 +262,12 @@ class InceptionScore(Metric):
             logdir=logdir,
         )
 
-        self._incpt_model = inception
+        self._inception_model = inception
 
         # add softmax layer if not present
-        if "softmax" not in self._incpt_model.layers[-1].name.lower():
-            self._incpt_model = tf.keras.Sequential(
-                [self._incpt_model, tf.keras.layers.Softmax()]
+        if "softmax" not in self._inception_model.layers[-1].name.lower():
+            self._inception_model = tf.keras.Sequential(
+                [self._inception_model, tf.keras.layers.Softmax()]
             )
 
     def update_state(self, context: GANContext) -> None:
@@ -330,7 +328,7 @@ class InceptionScore(Metric):
         """
         tf.print("Computing inception score...")
 
-        predictions: tf.Tensor = self._incpt_model(images)
+        predictions: tf.Tensor = self._inception_model(images)
 
         kl_divergence = predictions * (
             tf.math.log(predictions)
@@ -452,7 +450,7 @@ class EncodingAccuracy(ClassifierMetric):
             logdir=logdir,
         )
 
-        self._classifer = classifier
+        self._classifier = classifier
 
     def update_state(self, context: GANEncoderContext) -> None:
         """
@@ -464,7 +462,7 @@ class EncodingAccuracy(ClassifierMetric):
 
         """
         inner_context = types.SimpleNamespace()
-        inner_context.classifier_model = self._classifer
+        inner_context.classifier_model = self._classifier
         inner_context.log_eval_mode = LogEvalMode.TEST
 
         # Return G(E(x)), y
