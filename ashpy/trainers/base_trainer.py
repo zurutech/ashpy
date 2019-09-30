@@ -37,7 +37,7 @@ class BaseTrainer(ABC):
         logdir=os.path.join(os.getcwd(), "log"),
         log_eval_mode=LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
-        post_process_callback=None,
+        post_process_fn=None,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
     ):
@@ -49,14 +49,14 @@ class BaseTrainer(ABC):
             logdir (str): Checkpoint and log directory.
             log_eval_mode: models' mode to use when evaluating and logging.
             global_step: tf.Variable that keeps track of the training steps.
-            post_process_callback: the function to postprocess the model output, if needed.
+            post_process_fn: the function to postprocess the model output, if needed.
             metrics (Optional[List[Metric]]): list of metrics
             callbacks (Optional[List[Callback]]): list of callbacks to handle events
 
         """
 
         self._distribute_strategy = tf.distribute.get_strategy()
-        self._post_process_callback = post_process_callback
+        self._post_process_callback = post_process_fn
         self._context = BaseContext()
 
         # set and validate metrics

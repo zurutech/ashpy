@@ -139,7 +139,7 @@ class AdversarialTrainer(BaseTrainer):
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
         logdir=os.path.join(os.getcwd(), "log"),
-        post_process_callback=None,
+        post_process_fn=None,
         log_eval_mode=LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
     ):
@@ -165,7 +165,7 @@ class AdversarialTrainer(BaseTrainer):
             callbacks (List): list of :py:class:`ashpy.callbacks.Callback` to measure on
                 training and validation data.
             logdir: checkpoint and log directory.
-            post_process_callback(:obj:`callable`): the function to postprocess the model output,
+            post_process_fn(:obj:`callable`): the function to postprocess the model output,
                 if needed
             log_eval_mode: models' mode to use when evaluating and logging.
             global_step: tf.Variable that keeps track of the training steps.
@@ -179,7 +179,7 @@ class AdversarialTrainer(BaseTrainer):
             logdir=logdir,
             log_eval_mode=log_eval_mode,
             global_step=global_step,
-            post_process_callback=post_process_callback,
+            post_process_fn=post_process_fn,
             callbacks=callbacks,
         )
         self._generator = generator
@@ -486,7 +486,7 @@ class EncoderTrainer(AdversarialTrainer):
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
         logdir=os.path.join(os.getcwd(), "log"),
-        post_process_callback=None,
+        post_process_fn=None,
         log_eval_mode=LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
     ):
@@ -517,7 +517,7 @@ class EncoderTrainer(AdversarialTrainer):
                 validation data.
             callbacks (List): List of ashpy.callbacks.Callback to call on events
             logdir: checkpoint and log directory.
-            post_process_callback(:obj:`callable`): a function to post-process the output.
+            post_process_fn(:obj:`callable`): a function to post-process the output.
             log_eval_mode: models' mode to use when evaluating and logging.
             global_step: tf.Variable that keeps track of the training steps.
 
@@ -533,7 +533,7 @@ class EncoderTrainer(AdversarialTrainer):
             metrics=metrics,
             callbacks=callbacks,
             logdir=logdir,
-            post_process_callback=post_process_callback,
+            post_process_fn=post_process_fn,
             log_eval_mode=log_eval_mode,
             global_step=global_step,
         )

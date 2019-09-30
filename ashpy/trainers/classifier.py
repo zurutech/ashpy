@@ -43,7 +43,7 @@ class ClassifierTrainer(BaseTrainer):
         global_step: tf.Tensor = tf.Variable(
             0, name="global_step", trainable=False, dtype=tf.int64
         ),
-        post_process_callback: Optional[callable] = None,
+        post_process_fn: Optional[callable] = None,
     ):
         r"""
         Instantiate the :py:class:`ClassifierTrainer` trainer.
@@ -61,7 +61,7 @@ class ClassifierTrainer(BaseTrainer):
                 to call on events
             logdir (str): Checkpoint and log directory.
             global_step (tf.Tensor): tf.Variable that keeps track of the training steps.
-            post_process_callback (:obj:`callable`): the function to postprocess the model output,
+            post_process_fn (:obj:`callable`): the function to postprocess the model output,
                 if needed.
 
         Examples:
@@ -120,7 +120,7 @@ class ClassifierTrainer(BaseTrainer):
             epochs=epochs,
             logdir=logdir,
             global_step=global_step,
-            post_process_callback=post_process_callback,
+            post_process_fn=post_process_fn,
             callbacks=callbacks,
         )
 
