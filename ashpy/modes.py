@@ -14,16 +14,19 @@
 
 """Various modalities used to configure certain ash behaviours."""
 
-from enum import Enum
+from enum import Enum, auto
 
 
 class LogEvalMode(Enum):
-    """Mode to use when logging end evaluating a model.
+    """
+    Mode to use when logging end evaluating a model.
+
     Models often have the same behaviour (or very similar) when evaluated
     in trainable and non trainable setting.
 
     There are some other models, see pix2pix, that instead require to be tested
-    and trained in TRAIN mode (Model with trainable=True)."""
+    and trained in TRAIN mode (Model with trainable=True).
+    """
 
-    TEST = 0
-    TRAIN = 1
+    TEST = auto()
+    TRAIN = auto()
