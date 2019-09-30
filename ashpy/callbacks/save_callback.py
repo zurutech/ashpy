@@ -27,15 +27,17 @@ from ashpy.callbacks import CounterCallback, Event
 class SaveSubFormat(Enum):
     """Save Sub-Format enum."""
 
-    TF = "tf"
-    H5 = "h5"
+    TF = "tf"  #: TensorFlow format
+    H5 = "h5"  #: H5 Format
 
 
 class SaveFormat(Flag):
     """Save Format enum."""
 
-    WEIGHTS = auto()
-    MODEL = auto()
+    WEIGHTS = auto()  #: Weights format, saved using `model.save_weights()`
+    MODEL = (
+        auto()
+    )  #: Model format (weights and architecture), saved using `model.save()`
 
     def name(self) -> str:
         """Name of the format."""

@@ -20,10 +20,10 @@ from enum import Enum
 class Event(Enum):
     """Define all possible events."""
 
-    ON_BATCH_START = "ON_BATCH_START"
-    ON_BATCH_END = "ON_BATCH_END"
-    ON_TRAIN_START = "ON_TRAIN_START"
-    ON_TRAIN_END = "ON_TRAIN_END"
-    ON_EPOCH_START = "ON_EPOCH_START"
-    ON_EPOCH_END = "ON_EPOCH_END"
-    ON_EXCEPTION = "ON_EXCEPTION"
+    ON_BATCH_START = "ON_BATCH_START"  #: On Batch Start Event
+    ON_BATCH_END = "ON_BATCH_END"  #: On Batch End Event
+    ON_TRAIN_START = "ON_TRAIN_START"  #: On Train Start Event
+    ON_TRAIN_END = "ON_TRAIN_END"  #: On Train End Event
+    ON_EPOCH_START = "ON_EPOCH_START"  #: On Epoch Start Event
+    ON_EPOCH_END = "ON_EPOCH_END"  #: On Epoch End Event
+    ON_EXCEPTION = "ON_EXCEPTION"  #: On Exception Event

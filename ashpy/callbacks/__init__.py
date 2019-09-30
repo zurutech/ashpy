@@ -15,6 +15,36 @@
 """
 Callbacks in order to gain control over the training loop.
 
+A callback is a set of functions to be called at given stages of the training procedure.
+You can use callbacks to implement logging, measure custom metrics or get insight about the
+training procedure.
+You can pass a list of callbacks (derived from :py:class:`ashpy.callbacks.callback.Callback`)
+(as the keyword argument callbacks)
+to the `.call()` method of the Trainer.
+The relevant methods of the callbacks will then be called at each stage of the training.
+
+Order:
+    .. code-block::
+
+        --on_train_start
+
+        ----on_epoch_start
+
+        ------on_batch_start
+
+        ------on_batch_end
+
+        ----on_epoch_end
+
+        --on_train_end
+
+        on_exception – if an Exception was raised
+
+        on_event - Called when an event is triggered
+
+The basic class is :py:class:`ashpy.callbacks.callback.Callback` .
+All possible events as listed as Enum inside :py:class:`ashpy.callbacks.events.Event` .
+
 .. currentmodule:: ashpy.callbacks
 
 .. rubric:: Classes
