@@ -16,7 +16,7 @@
 
 import os
 from abc import ABC, abstractmethod
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 import tensorflow as tf
 
@@ -34,6 +34,7 @@ class Trainer(ABC):
     def __init__(
         self,
         epochs: int,
+        example_dim: Tuple[int, int],
         logdir: str = os.path.join(os.getcwd(), "log"),
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
@@ -45,6 +46,11 @@ class Trainer(ABC):
 
         Args:
             epochs (int): Number of training epochs.
+            example_dim (Tuple[int, int]): Dimension of an example. In the case of GANs
+                the example has dimension (2,1) since it's composed by a tuple in which the first
+                element is a tuple with 2 components and the second component is a single element.
+                In the case of classifier the example has dimension (1, 1) since it's composed
+                by the example and the label.
             logdir (str): Checkpoint and log directory.
             log_eval_mode (py:class:`ashpy.modes.LogEvalMode`) models' mode
                 to use when evaluating and logging.
@@ -114,6 +120,8 @@ class Trainer(ABC):
         self._global_batch_size = -1.0
 
         self._log_eval_mode = log_eval_mode
+
+        self._example_dim = example_dim
 
     @property
     def context(self) -> Context:
@@ -227,6 +235,24 @@ class Trainer(ABC):
         """Use the metrics to perform model selection."""
         for metric in self._metrics:
             metric.model_selection(self._checkpoint, self._global_step)
+
+    def _measure_performance_if_needed(
+        self, example: tf.Tensor, measure_performance_freq: int
+    ):
+        # measure performance if needed
+        if measure_performance_freq > 0 and tf.equal(
+            tf.math.mod(self._global_step, measure_performance_freq), 0
+        ):
+            # setup context
+            self._context.current_batch = self.local_example(
+                example, dims=self._example_dim
+            )
+            self._context.dataset = self._dataset_from_example(
+                example, dims=self._example_dim
+            ).batch(self._global_batch_size)
+
+            # measure performance
+            self._measure_performance()
 
     def _measure_performance(self):
         """

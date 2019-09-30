@@ -174,6 +174,7 @@ class AdversarialTrainer(Trainer):
             log_eval_mode=log_eval_mode,
             global_step=global_step,
             callbacks=callbacks,
+            example_dim=(2, 1),
         )
         self._generator = generator
         self._discriminator = discriminator
@@ -288,22 +289,6 @@ class AdversarialTrainer(Trainer):
             self._reduce(per_replica_losses[1], tf.distribute.ReduceOp.SUM),
             fake,
         )
-
-    def _measure_performance_if_needed(
-        self, example: tf.Tensor, measure_performance_freq: int
-    ):
-        # measure performance if needed
-        if measure_performance_freq > 0 and tf.equal(
-            tf.math.mod(self._global_step, measure_performance_freq), 0
-        ):
-            # setup context
-            self._context.current_batch = self.local_example(example, dims=(2, 1))
-            self._context.dataset = self._dataset_from_example(
-                example, dims=(2, 1)
-            ).batch(self._global_batch_size)
-
-            # measure performance
-            self._measure_performance()
 
     def call(
         self,

@@ -113,7 +113,11 @@ class ClassifierTrainer(Trainer):
 
         """
         super().__init__(
-            epochs=epochs, logdir=logdir, global_step=global_step, callbacks=callbacks
+            epochs=epochs,
+            logdir=logdir,
+            global_step=global_step,
+            callbacks=callbacks,
+            example_dim=(1, 1),
         )
 
         self._model = model
@@ -245,15 +249,10 @@ class ClassifierTrainer(Trainer):
                         tf.print(f"[{self._global_step.numpy()}] loss: {loss}")
 
                     # measure performance
-                    if measure_performance_freq > 0 and tf.equal(
-                        tf.math.mod(self._global_step, measure_performance_freq), 0
-                    ):
-
-                        self._context.dataset = self._dataset_from_example(
-                            example, (1, 1)
-                        ).batch(self._global_batch_size)
-
-                        self._measure_performance()
+                    # this can also be moved to on_batch_end
+                    self._measure_performance_if_needed(
+                        example, measure_performance_freq
+                    )
 
                     # notify on batch end
                     self._on_batch_end()
