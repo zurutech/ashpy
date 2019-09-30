@@ -6,6 +6,7 @@ API Reference
    :toctree: _autosummary
 
    ashpy.ashtypes
+   ashpy.callbacks
    ashpy.contexts
    ashpy.keras
    ashpy.layers
