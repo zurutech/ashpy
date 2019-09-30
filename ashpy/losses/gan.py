@@ -50,7 +50,7 @@ class GANExecutor(Executor, ABC):
         Execute the function, using the information provided by the context.
 
         Args:
-            context (:py:class:`ashpy.contexts.BaseContext`): The function
+            context (:py:class:`ashpy.contexts.Context`): The function
                 execution Context.
 
         Returns:

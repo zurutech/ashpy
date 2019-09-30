@@ -28,8 +28,8 @@ from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 
 
-class BaseContext:
-    """:py:class:`ashpy.contexts.BaseContext` provide an interface for all contexts."""
+class Context:
+    """:py:class:`ashpy.contexts.Context` provide an interface for all contexts."""
 
     def __init__(
         self,

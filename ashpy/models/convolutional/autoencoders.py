@@ -15,13 +15,13 @@
 """Collection of Fully Convolutional Autoencoders"""
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
-from ashpy.models.convolutional.decoders import BaseDecoder, FCNNBaseDecoder
-from ashpy.models.convolutional.encoders import BaseEncoder, FCNNBaseEncoder
+from ashpy.models.convolutional.decoders import Decoder, FCNNDecoder
+from ashpy.models.convolutional.encoders import Encoder, FCNNEncoder
 
-__ALL__ = ["BaseAutoencoder", "FCNNBaseAutoencoder"]
+__ALL__ = ["Autoencoder", "FCNNAutoencoder"]
 
 
-class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
+class Autoencoder(keras.Model):  # pylint: disable=no-member
     """
     Primitive Model for all convolutional autoencoders.
 
@@ -30,7 +30,7 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
 
             .. testcode::
 
-                autoencoder = BaseAutoencoder(
+                autoencoder = Autoencoder(
                     layer_spec_input_res=(64, 64),
                     layer_spec_target_res=(8, 8),
                     kernel_size=5,
@@ -80,7 +80,7 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
 
         """
         super().__init__()
-        self._encoder = BaseEncoder(
+        self._encoder = Encoder(
             layer_spec_input_res,
             layer_spec_target_res,
             kernel_size,
@@ -88,7 +88,7 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
             filters_cap,
             encoding_dimension,
         )
-        self._decoder = BaseDecoder(
+        self._decoder = Decoder(
             layer_spec_target_res,
             layer_spec_input_res,
             kernel_size,
@@ -113,7 +113,7 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
         return encoding, reconstruction
 
 
-class FCNNBaseAutoencoder(keras.Model):  # pylint: disable=no-member
+class FCNNAutoencoder(keras.Model):  # pylint: disable=no-member
     """
     Primitive Model for all fully convolutional autoencoders.
 
@@ -122,7 +122,7 @@ class FCNNBaseAutoencoder(keras.Model):  # pylint: disable=no-member
 
             .. testcode::
 
-                autoencoder = FCNNBaseAutoencoder(
+                autoencoder = FCNNAutoencoder(
                     layer_spec_input_res=(64, 64),
                     layer_spec_target_res=(8, 8),
                     kernel_size=5,
@@ -172,7 +172,7 @@ class FCNNBaseAutoencoder(keras.Model):  # pylint: disable=no-member
 
         """
         super().__init__()
-        self._encoder = FCNNBaseEncoder(
+        self._encoder = FCNNEncoder(
             layer_spec_input_res,
             layer_spec_target_res,
             kernel_size,
@@ -180,7 +180,7 @@ class FCNNBaseAutoencoder(keras.Model):  # pylint: disable=no-member
             filters_cap,
             encoding_dimension,
         )
-        self._decoder = FCNNBaseDecoder(
+        self._decoder = FCNNDecoder(
             layer_spec_target_res,
             layer_spec_input_res,
             kernel_size,

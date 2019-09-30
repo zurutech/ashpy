@@ -17,10 +17,10 @@ from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.models.fc.interfaces import FCInterface
 
-__ALL__ = ["BaseDecoder"]
+__ALL__ = ["Decoder"]
 
 
-class BaseDecoder(FCInterface):
+class Decoder(FCInterface):
     """
     Primitive Model for all fully connected decoder based architecture.
 
@@ -28,7 +28,7 @@ class BaseDecoder(FCInterface):
 
         .. testcode::
 
-            decoder = BaseDecoder(
+            decoder = Decoder(
                 hidden_units=[64,128,256],
                 output_shape=55)
             print(decoder(tf.zeros((1,10))).shape)
@@ -41,7 +41,7 @@ class BaseDecoder(FCInterface):
 
     def __init__(self, hidden_units, output_shape):
         """
-        Instantiate the :py:class:`BaseDecoder`.
+        Instantiate the :py:class:`Decoder`.
 
         Args:
             hidden_units (:obj:`tuple` of :obj:`int`): Number of units per hidden layer.

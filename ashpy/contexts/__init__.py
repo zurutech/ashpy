@@ -23,7 +23,7 @@ Contexts help gaining an easier control over the model selection and testing pro
     :nosignatures:
     :toctree: contexts
 
-    base_context.BaseContext
+    context.Context
     classifier.ClassifierContext
     gan.GANContext
     gan.GANEncoderContext
@@ -37,14 +37,14 @@ Contexts help gaining an easier control over the model selection and testing pro
     :toctree: contexts
     :template: autosummary/submodule.rst
 
-    base_context
+    context
     classifier
     gan
 
 """
 
-from ashpy.contexts.base_context import BaseContext
 from ashpy.contexts.classifier import ClassifierContext
+from ashpy.contexts.context import Context
 from ashpy.contexts.gan import GANContext, GANEncoderContext
 
-__ALL__ = ["BaseContext", "ClassifierContext", "GANContext", "GANEncoderContext"]
+__ALL__ = ["Context", "ClassifierContext", "GANContext", "GANEncoderContext"]

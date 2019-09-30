@@ -27,7 +27,7 @@ import numpy as np
 import tensorflow as tf  # pylint: disable=import-error
 
 if TYPE_CHECKING:
-    from ashpy.contexts import BaseContext
+    from ashpy.contexts import Context
 
 
 class Metric(ABC):
@@ -190,12 +190,12 @@ class Metric(ABC):
             json.dump(data, fp, indent=4)
 
     @abstractmethod
-    def update_state(self, context: BaseContext) -> None:
+    def update_state(self, context: Context) -> None:
         """
         Update the internal state of the metric, using the information from the context object.
 
         Args:
-            context (:py:class:`ashpy.contexts.BaseContext`): An AshPy Context holding
+            context (:py:class:`ashpy.contexts.Context`): An AshPy Context holding
                 all the information the Metric needs.
 
         """

@@ -15,13 +15,13 @@
 """Collection of Fully Connected Autoencoders"""
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
-from ashpy.models.fc.decoders import BaseDecoder
-from ashpy.models.fc.encoders import BaseEncoder
+from ashpy.models.fc.decoders import Decoder
+from ashpy.models.fc.encoders import Encoder
 
-__ALL__ = ["BaseAutoencoder"]
+__ALL__ = ["Autoencoder"]
 
 
-class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
+class Autoencoder(keras.Model):  # pylint: disable=no-member
     """
     Primitive Model for all fully connected autoencoders.
 
@@ -30,7 +30,7 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
 
             .. testcode::
 
-                autoencoder = BaseAutoencoder(
+                autoencoder = Autoencoder(
                     hidden_units=[256,128,64],
                     encoding_dimension=100,
                     output_shape=55
@@ -48,7 +48,7 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
 
     def __init__(self, hidden_units, encoding_dimension, output_shape):
         """
-        Instantiate the :py:class:`BaseDecoder`.
+        Instantiate the :py:class:`Decoder`.
 
         Args:
             hidden_units (:obj:`tuple` of :obj:`int`): Number of units per hidden layer.
@@ -61,8 +61,8 @@ class BaseAutoencoder(keras.Model):  # pylint: disable=no-member
         """
         super().__init__()
 
-        self._encoder = BaseEncoder(hidden_units, encoding_dimension)
-        self._decoder = BaseDecoder(hidden_units[::-1], output_shape)
+        self._encoder = Encoder(hidden_units, encoding_dimension)
+        self._decoder = Decoder(hidden_units[::-1], output_shape)
 
     def call(self, inputs, training=True):
         """

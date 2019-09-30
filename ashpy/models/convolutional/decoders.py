@@ -18,10 +18,10 @@ from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.models.convolutional.interfaces import Conv2DInterface
 
-__ALL__ = ["BaseDecoder", "FCNNBaseDecoder"]
+__ALL__ = ["Decoder", "FCNNDecoder"]
 
 
-class BaseDecoder(Conv2DInterface):
+class Decoder(Conv2DInterface):
     """
     Primitive Model for all decoder (i.e., transpose convolution) based architecture.
 
@@ -33,7 +33,7 @@ class BaseDecoder(Conv2DInterface):
 
             .. testcode::
 
-                dummy_generator = BaseDecoder(
+                dummy_generator = Decoder(
                     layer_spec_input_res=(8, 8),
                     layer_spec_target_res=(64, 64),
                     kernel_size=(5, 5),
@@ -46,7 +46,7 @@ class BaseDecoder(Conv2DInterface):
 
             .. testcode::
 
-                class DummyGenerator(BaseDecoder):
+                class DummyGenerator(Decoder):
                     def call(self, input, training=True):
                         print("Dummy Generator!")
                         return input
@@ -80,7 +80,7 @@ class BaseDecoder(Conv2DInterface):
         non_linearity=keras.layers.LeakyReLU,
     ):
         r"""
-        Instantiate the :class:`BaseDecoder`.
+        Instantiate the :class:`Decoder`.
 
         Model Assembly:
             1. :func:`_add_initial_block`: Ingest the :py:obj:`tf.keras.Model`
@@ -209,7 +209,7 @@ class BaseDecoder(Conv2DInterface):
         )
 
 
-class FCNNBaseDecoder(BaseDecoder):
+class FCNNDecoder(Decoder):
     """Fully Convolutional Decoder. Expected input is a feature map.
 
     Examples:
@@ -217,7 +217,7 @@ class FCNNBaseDecoder(BaseDecoder):
 
             .. testcode::
 
-                dummy_generator = FCNNBaseDecoder(
+                dummy_generator = FCNNDecoder(
                     layer_spec_input_res=(8, 8),
                     layer_spec_target_res=(64, 64),
                     kernel_size=(5, 5),

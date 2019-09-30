@@ -15,7 +15,7 @@
 """
 The Executor.
 
-An object that, given an :py:class:`ashpy.contexts.BaseContext`, carries a
+An object that, given an :py:class:`ashpy.contexts.Context`, carries a
 function and the way of executing it.
 """
 from __future__ import annotations
@@ -133,7 +133,7 @@ class Executor:
         Execute the function, using the information provided by the context.
 
         Args:
-            context (:py:class:`ashpy.contexts.BaseContext`): The function
+            context (:py:class:`ashpy.contexts.Context`): The function
                 execution Context.
 
         Returns:
@@ -146,7 +146,7 @@ class Executor:
         Invoke the function using the Context.
 
         Args:
-            context (:py:class:`ashpy.contexts.BaseContext`): The function
+            context (:py:class:`ashpy.contexts.Context`): The function
                 execution Context.
 
         Returns:

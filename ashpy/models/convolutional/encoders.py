@@ -19,10 +19,10 @@ from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.models.convolutional.interfaces import Conv2DInterface
 
-__ALL__ = ["BaseEncoder", "FCNNBaseEncoder"]
+__ALL__ = ["Encoder", "FCNNEncoder"]
 
 
-class BaseEncoder(Conv2DInterface):
+class Encoder(Conv2DInterface):
     """
     Primitive Model for all encoder (i.e., convolution) based architecture.
 
@@ -34,7 +34,7 @@ class BaseEncoder(Conv2DInterface):
 
             .. testcode::
 
-                dummy_generator = BaseEncoder(
+                dummy_generator = Encoder(
                     layer_spec_input_res=(64, 64),
                     layer_spec_target_res=(8, 8),
                     kernel_size=5,
@@ -47,7 +47,7 @@ class BaseEncoder(Conv2DInterface):
 
             .. testcode::
 
-                class DummyDiscriminator(BaseEncoder):
+                class DummyDiscriminator(Encoder):
                     def call(self, inputs, training=True):
                         print("Dummy Discriminator!")
                         # build the model using
@@ -83,7 +83,7 @@ class BaseEncoder(Conv2DInterface):
         non_linearity: Type[keras.layers.Activation] = keras.layers.LeakyReLU,
     ):
         """
-        Instantiate the :py:class:`BaseDecoder`.
+        Instantiate the :py:class:`Decoder`.
 
         Args:
             layer_spec_input_res (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Shape of
@@ -163,7 +163,7 @@ class BaseEncoder(Conv2DInterface):
         )
 
 
-class FCNNBaseEncoder(BaseEncoder):
+class FCNNEncoder(Encoder):
     """Fully Convolutional Encoder. Output a 1x1xencoding_size vector.
     The output neurons are linear.
 
@@ -172,7 +172,7 @@ class FCNNBaseEncoder(BaseEncoder):
 
             .. testcode::
 
-                dummy_generator = FCNNBaseEncoder(
+                dummy_generator = FCNNEncoder(
                     layer_spec_input_res=(64, 64),
                     layer_spec_target_res=(8, 8),
                     kernel_size=5,
@@ -198,7 +198,7 @@ class FCNNBaseEncoder(BaseEncoder):
         encoding_dimension,
     ):
         """
-        Instantiate the :py:class:`FCNNBaseDecoder`.
+        Instantiate the :py:class:`FCNNDecoder`.
 
         Args:
             layer_spec_input_res (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Shape of

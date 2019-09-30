@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, List, Optional
 
 import tensorflow as tf  # pylint: disable=import-error
 
-from ashpy.contexts.base_context import BaseContext
+from ashpy.contexts.context import Context
 from ashpy.modes import LogEvalMode
 
 if TYPE_CHECKING:
@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from ashpy.losses import ClassifierLoss
 
 
-class ClassifierContext(BaseContext):
+class ClassifierContext(Context):
     """:py:class:`ashpy.ClassifierContext` provide the standard functions to test a classifier."""
 
     def __init__(
@@ -50,7 +50,8 @@ class ClassifierContext(BaseContext):
         Args:
             classifier_model (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
                 model.
-            loss (:py:class:`ashpy.losses.executor.Executor`): Loss function, format f(y_true, y_pred).
+            loss (:py:class:`ashpy.losses.executor.Executor`): Loss function,
+                format f(y_true, y_pred).
             dataset (:py:class:`tf.data.Dataset`): The test dataset.
             metrics (:obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`]): List of
                 :py:class:`ashpy.metrics.metric.Metric` with which to measure training
@@ -96,14 +97,11 @@ class ClassifierContext(BaseContext):
         return self._validation_set
 
     @validation_set.setter
-    def validation_set(self, _validation_set: tf.data.Dataset):
+    def validation_set(self, _validation_set: tf.data.Dataset) -> None:
         """
         Setter for the validation set
         Args:
             _validation_set (:py:class:`tf.data.Dataset`): validation set
-
-        Returns:
-
         """
         self._validation_set = _validation_set
 
@@ -118,5 +116,11 @@ class ClassifierContext(BaseContext):
         return self._training_set
 
     @training_set.setter
-    def training_set(self, _training_set: tf.data.Dataset):
+    def training_set(self, _training_set: tf.data.Dataset) -> None:
+        """
+        Set the training set
+        Args:
+            _training_set ( :py:class:`tf.data.Dataset`): training set to
+                set
+        """
         self._training_set = _training_set

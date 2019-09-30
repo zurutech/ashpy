@@ -33,8 +33,8 @@ Collection of Convolutional Models constructors.
     :nosignatures:
     :toctree: convolutional
 
-    decoders.BaseDecoder
-    decoders.FCNNBaseDecoder
+    decoders.Decoder
+    decoders.FCNNDecoder
 
 ----
 
@@ -45,8 +45,8 @@ Collection of Convolutional Models constructors.
     :toctree: convolutional
 
 
-    encoders.BaseEncoder
-    encoders.FCNNBaseEncoder
+    encoders.Encoder
+    encoders.FCNNEncoder
 
 ----
 
@@ -57,8 +57,8 @@ Collection of Convolutional Models constructors.
     :toctree: fc
 
 
-    autoencoders.BaseAutoencoder
-    autoencoders.FCNNBaseAutoencoder
+    autoencoders.Autoencoder
+    autoencoders.FCNNAutoencoder
 
 ----
 

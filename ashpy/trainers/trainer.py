@@ -21,15 +21,15 @@ from typing import List, Optional, Union
 import tensorflow as tf
 
 from ashpy.callbacks import Callback
-from ashpy.contexts import BaseContext
+from ashpy.contexts import Context
 from ashpy.losses.executor import Executor
 from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 from ashpy.utils.utils import validate_objects
 
 
-class BaseTrainer(ABC):
-    r""":py:class:`BaseTrainer` provide an interface for all trainers to inherit from."""
+class Trainer(ABC):
+    r""":py:class:`Trainer` provide an interface for all trainers to inherit from."""
 
     def __init__(
         self,
@@ -57,7 +57,7 @@ class BaseTrainer(ABC):
 
         self._distribute_strategy = tf.distribute.get_strategy()
         self._post_process_callback = post_process_fn
-        self._context = BaseContext()
+        self._context = Context()
 
         # set and validate metrics
         if metrics is None:
@@ -78,7 +78,8 @@ class BaseTrainer(ABC):
         )
         self._checkpoint = tf.train.Checkpoint()
         self._checkpoint.objects = []
-        self._checkpoint.objects.extend([self._global_step, self._steps_per_epoch])
+        self._checkpoint.objects.extend([self._global_step, self._steps_per_epoch]
+                                        + self._callbacks)
         self._logdir = logdir
         self._manager = tf.train.CheckpointManager(
             self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
@@ -101,18 +102,18 @@ class BaseTrainer(ABC):
         self._log_eval_mode = log_eval_mode
 
     @property
-    def context(self) -> BaseContext:
+    def context(self) -> Context:
         """
         Returns: the training context
         """
         return self._context
 
     @context.setter
-    def context(self, _context: BaseContext):
+    def context(self, _context: Context):
         """
         Setter for the context
         Args:
-            _context (:py:class:`ashpy.contexts.BaseContext`): Context to set
+            _context (:py:class:`ashpy.contexts.Context`): Context to set
         """
         self._context = _context
 
@@ -123,36 +124,6 @@ class BaseTrainer(ABC):
     def _validate_callbacks(self):
         """Check if every callback is an :py:class:`ashpy.callbacks.Callback`."""
         validate_objects(self._callbacks, Callback)
-
-    def _log(self, name, out):
-        """
-        Log the out tensor using name as its name in tensorboard.
-
-        Args:
-            name: summary name.
-            out: the tensor to log.
-
-        """
-        rank = tf.rank(out)
-        step = self._global_step
-
-        # handle post post_process_callback
-        if self._post_process_callback:
-            out = self._post_process_callback(out)
-
-        # log
-        if tf.equal(rank, 4):
-            # tensorboard 2.0 does not support float images in [-1, 1]
-            # only in [0,1]
-            if self._post_process_callback is None and out.dtype == tf.float32:
-                # TODO: the hypothesis is that image are in [-1,1] how to check?
-                out = (out + 1.0) / 2
-
-            tf.summary.image(
-                name, out, max_outputs=tf.math.minimum(tf.shape(out)[0], 16), step=step
-            )
-        if tf.equal(rank, 2):
-            tf.summary.histogram(name, out, step=step)
 
     def _update_global_batch_size(
         self,

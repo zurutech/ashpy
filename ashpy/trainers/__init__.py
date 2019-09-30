@@ -25,7 +25,7 @@ The module contains a primitive Interface and specific trainers that inherits fr
     :nosignatures:
     :toctree: trainers
 
-    BaseTrainer
+    Trainer
     AdversarialTrainer
     EncoderTrainer
 
@@ -38,14 +38,14 @@ The module contains a primitive Interface and specific trainers that inherits fr
     :toctree: trainers
     :template: autosummary/submodule.rst
 
-    base_trainer
+    trainer
     classifier
     gan
 
 """
 
-from ashpy.trainers.base_trainer import BaseTrainer
 from ashpy.trainers.classifier import ClassifierTrainer
 from ashpy.trainers.gan import AdversarialTrainer, EncoderTrainer
+from ashpy.trainers.trainer import Trainer
 
-__ALL__ = ["BaseTrainer", "Adversarial", "AdversarialEncoder", "ClassifierTrainer"]
+__ALL__ = ["Trainer", "Adversarial", "AdversarialEncoder", "ClassifierTrainer"]

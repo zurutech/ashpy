@@ -49,15 +49,15 @@ GANs Models.
     DenseEncoder
 
 """
-from ashpy.models.convolutional.decoders import BaseDecoder as BaseConvDecoder
-from ashpy.models.convolutional.encoders import BaseEncoder as BaseConvEncoder
-from ashpy.models.fc.decoders import BaseDecoder as BaseDenseDecoder
-from ashpy.models.fc.encoders import BaseEncoder as BaseDenseEncoder
+from ashpy.models.convolutional.decoders import Decoder as ConvDecoder
+from ashpy.models.convolutional.encoders import Encoder as ConvEncoder
+from ashpy.models.fc.decoders import Decoder as DenseDecoder
+from ashpy.models.fc.encoders import Encoder as DenseEncoder
 
-ConvGenerator = BaseConvDecoder
-ConvDiscriminator = BaseConvEncoder
-ConvEncoder = BaseConvEncoder
+ConvGenerator = ConvDecoder
+ConvDiscriminator = ConvEncoder
+ConvEncoder = ConvEncoder
 
-DenseGenerator = BaseDenseDecoder
-DenseDiscriminator = BaseDenseEncoder
-DenseEncoder = BaseDenseEncoder
+DenseGenerator = DenseDecoder
+DenseDiscriminator = DenseEncoder
+DenseEncoder = DenseEncoder

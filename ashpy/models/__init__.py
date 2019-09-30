@@ -29,7 +29,7 @@ Collection of Models.
 
 -----
 
-.. rubric: Complete Models (?)
+.. rubric: Complete Models
 
 .. autosummary::
     :nosignatures:

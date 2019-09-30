@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, List, Optional
 
 import tensorflow as tf
 
-from ashpy.contexts.base_context import BaseContext
+from ashpy.contexts.context import Context
 from ashpy.modes import LogEvalMode
 
 if TYPE_CHECKING:
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     from ashpy.metrics import Metric
 
 
-class GANContext(BaseContext):
+class GANContext(Context):
     """:py:class:`ashpy.contexts.gan.GANContext` measure the specified metrics on the GAN."""
 
     def __init__(
@@ -73,6 +73,9 @@ class GANContext(BaseContext):
         self._generator_loss = generator_loss
         self._discriminator_loss = discriminator_loss
 
+        self._fake_samples = None
+        self._generator_inputs = None
+
     @property
     def generator_model(self) -> tf.keras.Model:
         """
@@ -104,6 +107,26 @@ class GANContext(BaseContext):
     def discriminator_loss(self) -> Optional[Executor]:
         """Retrieve the discriminator loss."""
         return self._discriminator_loss
+
+    @property
+    def fake_samples(self) -> Optional[tf.Tensor]:
+        """Retrieve the fake samples, i.e. output of the generator."""
+        return self._fake_samples
+
+    @fake_samples.setter
+    def fake_samples(self, _fake_samples: Optional[tf.Tensor]):
+        """Set the fake samples, i.e. output of the generator."""
+        self._fake_samples = _fake_samples
+
+    @property
+    def generator_inputs(self) -> Optional[tf.Tensor]:
+        """Retrieve the generator inputs."""
+        return self._generator_inputs
+
+    @generator_inputs.setter
+    def generator_inputs(self, _generator_inputs: Optional[tf.Tensor]):
+        """Set the generator inputs."""
+        self._generator_inputs = _generator_inputs
 
 
 class GANEncoderContext(GANContext):
@@ -161,6 +184,9 @@ class GANEncoderContext(GANContext):
         self._encoder_model = encoder_model
         self._encoder_loss = encoder_loss
 
+        self._generator_of_encoder = None
+        self._encoder_inputs = None
+
     @property
     def encoder_model(self) -> tf.keras.Model:
         """
@@ -176,3 +202,23 @@ class GANEncoderContext(GANContext):
     def encoder_loss(self) -> Optional[Executor]:
         """Retrieve the encoder loss."""
         return self._encoder_loss
+
+    @property
+    def generator_of_encoder(self) -> tf.Tensor:
+        """Retrieve the images generated from the encoder output."""
+        return self._generator_of_encoder
+
+    @generator_of_encoder.setter
+    def generator_of_encoder(self, _generator_of_encoder: tf.Tensor):
+        """Set the images generated from the encoder output."""
+        self._generator_of_encoder = _generator_of_encoder
+
+    @property
+    def encoder_inputs(self) -> tf.Tensor:
+        """Retrieve the inputs of the encoder."""
+        return self._encoder_inputs
+
+    @encoder_inputs.setter
+    def encoder_inputs(self, _encoder_inputs: tf.Tensor):
+        """Setter for the inputs of the encoder."""
+        self._encoder_inputs = _encoder_inputs
