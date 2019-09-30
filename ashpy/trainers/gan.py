@@ -25,23 +25,20 @@ from ashpy.losses.executor import Executor
 from ashpy.metrics import Metric
 from ashpy.metrics.gan import DiscriminatorLoss, EncoderLoss, GeneratorLoss
 from ashpy.modes import LogEvalMode
-from ashpy.trainers.base_trainer import BaseTrainer
+from ashpy.trainers.trainer import Trainer
 
 
-class AdversarialTrainer(BaseTrainer):
+class AdversarialTrainer(Trainer):
     r"""
-    Primitive Trainer for GANs subclassed from :class:`ashpy.trainers.BaseTrainer`.
+    Primitive Trainer for GANs subclassed from :class:`ashpy.trainers.Trainer`.
 
     Examples:
         .. testcode::
 
             import shutil
             import operator
-            from ashpy.models.gans import ConvGenerator, ConvDiscriminator
-            from ashpy.metrics import InceptionScore
-            from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE
 
-            generator = ConvGenerator(
+            generator = models.gans.ConvGenerator(
                 layer_spec_input_res=(7, 7),
                 layer_spec_target_res=(28, 28),
                 kernel_size=(5, 5),
@@ -50,7 +47,7 @@ class AdversarialTrainer(BaseTrainer):
                 channels=1,
             )
 
-            discriminator = ConvDiscriminator(
+            discriminator = models.gans.ConvDiscriminator(
                 layer_spec_input_res=(28, 28),
                 layer_spec_target_res=(7, 7),
                 kernel_size=(5, 5),
@@ -60,8 +57,8 @@ class AdversarialTrainer(BaseTrainer):
             )
 
             # Losses
-            generator_bce = GeneratorBCE()
-            minmax = DiscriminatorMinMax()
+            generator_bce = losses.gan.GeneratorBCE()
+            minmax = losses.gan.DiscriminatorMinMax()
 
             # Real data
             batch_size = 2
@@ -71,9 +68,9 @@ class AdversarialTrainer(BaseTrainer):
             epochs = 2
             logdir = "testlog/adversarial"
             metrics = [
-                InceptionScore(
+                metrics.gan.InceptionScore(
                     # Fake inception model
-                    ConvDiscriminator(
+                    models.gans.ConvDiscriminator(
                         layer_spec_input_res=(299, 299),
                         layer_spec_target_res=(7, 7),
                         kernel_size=(5, 5),
@@ -85,7 +82,7 @@ class AdversarialTrainer(BaseTrainer):
                     logdir=logdir,
                 )
             ]
-            trainer = AdversarialTrainer(
+            trainer = trainers.gan.AdversarialTrainer(
                 generator=generator,
                 discriminator=discriminator,
                 generator_optimizer=tf.optimizers.Adam(1e-4),
@@ -135,13 +132,12 @@ class AdversarialTrainer(BaseTrainer):
         discriminator_optimizer: tf.optimizers.Optimizer,
         generator_loss: Executor,
         discriminator_loss: Executor,
-        epochs,
+        epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir=os.path.join(os.getcwd(), "log"),
-        post_process_fn=None,
-        log_eval_mode=LogEvalMode.TEST,
-        global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
+        logdir: str = os.path.join(os.getcwd(), "log"),
+        log_eval_mode: LogEvalMode = LogEvalMode.TEST,
+        global_step: Optional[tf.Variable] = None,
     ):
         r"""
         Instantiate a :py:class:`AdversarialTrainer`.
@@ -165,10 +161,8 @@ class AdversarialTrainer(BaseTrainer):
             callbacks (List): list of :py:class:`ashpy.callbacks.Callback` to measure on
                 training and validation data.
             logdir: checkpoint and log directory.
-            post_process_fn(:obj:`callable`): the function to postprocess the model output,
-                if needed
             log_eval_mode: models' mode to use when evaluating and logging.
-            global_step: tf.Variable that keeps track of the training steps.
+            global_step (Optional[:py:class:`tf.Variable`]): tf.Variable that keeps track of the training steps.
 
         Returns:
             :py:obj:`None`
@@ -179,7 +173,6 @@ class AdversarialTrainer(BaseTrainer):
             logdir=logdir,
             log_eval_mode=log_eval_mode,
             global_step=global_step,
-            post_process_fn=post_process_fn,
             callbacks=callbacks,
         )
         self._generator = generator
@@ -296,6 +289,22 @@ class AdversarialTrainer(BaseTrainer):
             fake,
         )
 
+    def _measure_performance_if_needed(
+        self, example: tf.Tensor, measure_performance_freq: int
+    ):
+        # measure performance if needed
+        if measure_performance_freq > 0 and tf.equal(
+            tf.math.mod(self._global_step, measure_performance_freq), 0
+        ):
+            # setup context
+            self._context.current_batch = self.local_example(example, dims=(2, 1))
+            self._context.dataset = self._dataset_from_example(
+                example, dims=(2, 1)
+            ).batch(self._global_batch_size)
+
+            # measure performance
+            self._measure_performance()
+
     def call(
         self,
         dataset: tf.data.Dataset,
@@ -326,15 +335,13 @@ class AdversarialTrainer(BaseTrainer):
             dataset.unbatch().batch(self._global_batch_size, drop_remainder=True)
         )
         samples = next(iter(dataset.take(1)))
-        gen_inputs = samples[1]
+
+        self._context.generator_inputs = samples[1]
 
         with self._train_summary_writer.as_default():
 
             # notify on train start
             self._on_train_start()
-
-            self._log("real_x", samples[0][0])
-            self._log("real_y", samples[0][1])
 
             for _ in tf.range(current_epoch, self._epochs):
                 distribute_dataset = self._distribute_strategy.experimental_distribute_dataset(
@@ -351,6 +358,10 @@ class AdversarialTrainer(BaseTrainer):
 
                     # perform training step
                     d_loss, g_loss, fake = self._train_step(example)
+
+                    # store fake samples in the context
+                    self._context.fake_samples = fake
+
                     self._global_step.assign_add(1)
 
                     # print statistics
@@ -361,32 +372,16 @@ class AdversarialTrainer(BaseTrainer):
                             f"[{self._global_step.numpy()}] g_loss: {g_loss} - d_loss: {d_loss}"
                         )
 
-                    # measure performance
-                    if measure_performance_freq > 0 and tf.equal(
-                        tf.math.mod(self._global_step, measure_performance_freq), 0
-                    ):
-
-                        # setup context
-                        self._context.current_batch = self.local_example(
-                            example, dims=(2, 1)
-                        )
-                        self._context.dataset = self._dataset_from_example(
-                            example, dims=(2, 1)
-                        ).batch(self._global_batch_size)
-
-                        # measure performance
-                        self._measure_performance()
+                    # measure performance if needed
+                    self._measure_performance_if_needed(
+                        example, measure_performance_freq
+                    )
 
                     # notify on batch end
                     self._on_batch_end()
 
                 # notify on epoch end
                 self._on_epoch_end()
-
-                if self._log_eval_mode == LogEvalMode.TEST:
-                    self._log("generator", self._generator(gen_inputs, training=False))
-                elif self._log_eval_mode == LogEvalMode.TRAIN:
-                    self._log("generator", fake)
 
             # final callback
             self._on_train_end()
@@ -403,8 +398,6 @@ class EncoderTrainer(AdversarialTrainer):
 
             import shutil
             import operator
-            from ashpy.metrics import EncodingAccuracy
-            from ashpy.losses.gan import DiscriminatorMinMax, GeneratorBCE, EncoderBCE
 
             def real_gen():
                 label = 0
@@ -429,9 +422,9 @@ class EncoderTrainer(AdversarialTrainer):
             encoder = tf.keras.Sequential([tf.keras.layers.Dense(latent_dim)])
 
             # Losses
-            generator_bce = GeneratorBCE()
-            encoder_bce = EncoderBCE()
-            minmax = DiscriminatorMinMax()
+            generator_bce = losses.gan.GeneratorBCE()
+            encoder_bce = losses.gan.EncoderBCE()
+            minmax = losses.gan.DiscriminatorMinMax()
 
             epochs = 2
 
@@ -441,17 +434,20 @@ class EncoderTrainer(AdversarialTrainer):
                 [tf.keras.layers.Dense(10), tf.keras.layers.Dense(num_classes)]
             )
 
-            logdir = "testlog/adversarial/encoder"
+            logdir = "testlog/adversarial_encoder"
+
+            if os.path.exists(logdir):
+                shutil.rmtree(logdir)
 
             metrics = [
-                EncodingAccuracy(
+                metrics.gan.EncodingAccuracy(
                     classifier,
                     # model_selection_operator=operator.gt,
                     logdir=logdir
                 )
             ]
 
-            trainer = EncoderTrainer(
+            trainer = trainers.gan.EncoderTrainer(
                 generator=generator,
                 discriminator=discriminator,
                 encoder=encoder,
@@ -483,10 +479,10 @@ class EncoderTrainer(AdversarialTrainer):
 
             Initializing checkpoint.
             Starting epoch 1.
-            [10] Saved checkpoint: testlog/adversarial/encoder/ckpts/ckpt-1
+            [10] Saved checkpoint: testlog/adversarial_encoder/ckpts/ckpt-1
             Epoch 1 completed.
             Starting epoch 2.
-            [20] Saved checkpoint: testlog/adversarial/encoder/ckpts/ckpt-2
+            [20] Saved checkpoint: testlog/adversarial_encoder/ckpts/ckpt-2
             Epoch 2 completed.
             Training finished after 2 epochs.
     """
@@ -505,10 +501,9 @@ class EncoderTrainer(AdversarialTrainer):
         epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir=os.path.join(os.getcwd(), "log"),
-        post_process_fn=None,
-        log_eval_mode=LogEvalMode.TEST,
-        global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
+        logdir: str = os.path.join(os.getcwd(), "log"),
+        log_eval_mode: LogEvalMode = LogEvalMode.TEST,
+        global_step: Optional[tf.Variable] = None,
     ):
         r"""
         Instantiate a :py:class:`EncoderTrainer`.
@@ -537,9 +532,10 @@ class EncoderTrainer(AdversarialTrainer):
                 validation data.
             callbacks (List): List of ashpy.callbacks.Callback to call on events
             logdir: checkpoint and log directory.
-            post_process_fn(:obj:`callable`): a function to post-process the output.
-            log_eval_mode: models' mode to use when evaluating and logging.
-            global_step: tf.Variable that keeps track of the training steps.
+            log_eval_mode (:py:class:`ashpy.modes.LogEvalMode`): models' mode to use
+                when evaluating and logging.
+            global_step (Optional[:py:class:`tf.Variable`]): tf.Variable that keeps
+                track of the training steps.
 
         """
         super().__init__(
@@ -553,7 +549,6 @@ class EncoderTrainer(AdversarialTrainer):
             metrics=metrics,
             callbacks=callbacks,
             logdir=logdir,
-            post_process_fn=post_process_fn,
             log_eval_mode=log_eval_mode,
             global_step=global_step,
         )
@@ -684,15 +679,14 @@ class EncoderTrainer(AdversarialTrainer):
         )
 
         samples = next(iter(dataset.take(1)))
-        gen_inputs = samples[1]
+
+        self._context.generator_inputs = samples[1]
+        self._context.encoder_inputs = samples[0][0]
 
         with self._train_summary_writer.as_default():
 
             # notify on train start event
             self._on_train_start()
-
-            self._log("real_x", samples[0][0])
-            self._log("real_y", samples[0][1])
 
             for _ in tf.range(current_epoch, self._epochs):
 
@@ -713,8 +707,12 @@ class EncoderTrainer(AdversarialTrainer):
                     # increase global step
                     self._global_step.assign_add(1)
 
-                    # measure performance if needed
-                    if log_freq >= 0 and tf.equal(
+                    # setup fake_samples
+                    self._context.fake_samples = fake
+                    self._context.generator_of_encoder = generator_of_encoder
+
+                    # Log losses
+                    if log_freq > 0 and tf.equal(
                         tf.math.mod(self._global_step, log_freq), 0
                     ):
                         tf.print(
@@ -722,38 +720,16 @@ class EncoderTrainer(AdversarialTrainer):
                             f"d_loss: {d_loss} - e_loss: {e_loss}"
                         )
 
-                    if measure_performance_freq >= 0 and tf.equal(
-                        tf.math.mod(self._global_step, measure_performance_freq), 0
-                    ):
-
-                        # setup context
-                        self._context.current_batch = self.local_example(
-                            example, dims=(2, 1)
-                        )
-                        self._context.dataset = self._dataset_from_example(
-                            example, dims=(2, 1)
-                        ).batch(self._global_batch_size)
-
-                        self._measure_performance()
+                    # measure performance if needed
+                    self._measure_performance_if_needed(
+                        example, measure_performance_freq
+                    )
 
                     # notify on batch end event
                     self._on_batch_end()
 
                 # notify on epoch end event
                 self._on_epoch_end()
-
-                if self._log_eval_mode == LogEvalMode.TEST:
-                    self._log("generator", self._generator(gen_inputs, training=False))
-
-                    self._log(
-                        "generator_of_encoder",
-                        self._generator(
-                            self._encoder(samples[0][0], training=False), training=False
-                        ),
-                    )
-                elif self._log_eval_mode == LogEvalMode.TRAIN:
-                    self._log("generator", fake)
-                    self._log("generator_of_encoder", generator_of_encoder)
 
             # notify on training end event
             self._on_train_end()

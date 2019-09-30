@@ -25,10 +25,10 @@ from ashpy.contexts.classifier import ClassifierContext
 from ashpy.datasets import wrap
 from ashpy.metrics import Metric
 from ashpy.metrics.classifier import ClassifierLoss
-from ashpy.trainers.base_trainer import BaseTrainer
+from ashpy.trainers.trainer import Trainer
 
 
-class ClassifierTrainer(BaseTrainer):
+class ClassifierTrainer(Trainer):
     r""":py:class:`ClassifierTrainer` provide the standard training loop for a classifier."""
 
     def __init__(
@@ -40,10 +40,7 @@ class ClassifierTrainer(BaseTrainer):
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
-        global_step: tf.Tensor = tf.Variable(
-            0, name="global_step", trainable=False, dtype=tf.int64
-        ),
-        post_process_fn: Optional[callable] = None,
+        global_step: Optional[tf.Variable] = None,
     ):
         r"""
         Instantiate the :py:class:`ClassifierTrainer` trainer.
@@ -60,9 +57,8 @@ class ClassifierTrainer(BaseTrainer):
             callbacks (List): List of :py:class:`ashpy.callbacks.callback.Callback` to
                 to call on events
             logdir (str): Checkpoint and log directory.
-            global_step (tf.Tensor): tf.Variable that keeps track of the training steps.
-            post_process_fn (:obj:`callable`): the function to postprocess the model output,
-                if needed.
+            global_step (Optional[py:class:`tf.Variable`]): tf.Variable that keeps
+                track of the training steps.
 
         Examples:
             .. testcode::
@@ -117,11 +113,7 @@ class ClassifierTrainer(BaseTrainer):
 
         """
         super().__init__(
-            epochs=epochs,
-            logdir=logdir,
-            global_step=global_step,
-            post_process_fn=post_process_fn,
-            callbacks=callbacks,
+            epochs=epochs, logdir=logdir, global_step=global_step, callbacks=callbacks
         )
 
         self._model = model
@@ -246,17 +238,22 @@ class ClassifierTrainer(BaseTrainer):
                     # increase global step
                     self._global_step.assign_add(1)
 
-                    # measure performance
-                    if tf.equal(tf.math.mod(self._global_step, 10), 0):
+                    # log loss if needed
+                    if log_freq > 0 and tf.equal(
+                        tf.math.mod(self._global_step, log_freq), 0
+                    ):
                         tf.print(f"[{self._global_step.numpy()}] loss: {loss}")
+
+                    # measure performance
+                    if measure_performance_freq > 0 and tf.equal(
+                        tf.math.mod(self._global_step, measure_performance_freq), 0
+                    ):
 
                         self._context.dataset = self._dataset_from_example(
                             example, (1, 1)
                         ).batch(self._global_batch_size)
 
                         self._measure_performance()
-                        self._log("input_x", example[0])
-                        self._log("input_y", example[1])
 
                     # notify on batch end
                     self._on_batch_end()

@@ -33,11 +33,10 @@ class Trainer(ABC):
 
     def __init__(
         self,
-        epochs,
-        logdir=os.path.join(os.getcwd(), "log"),
-        log_eval_mode=LogEvalMode.TEST,
-        global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
-        post_process_fn=None,
+        epochs: int,
+        logdir: str = os.path.join(os.getcwd(), "log"),
+        log_eval_mode: LogEvalMode = LogEvalMode.TEST,
+        global_step: Optional[tf.Variable] = None,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
     ):
@@ -47,16 +46,17 @@ class Trainer(ABC):
         Args:
             epochs (int): Number of training epochs.
             logdir (str): Checkpoint and log directory.
-            log_eval_mode: models' mode to use when evaluating and logging.
-            global_step: tf.Variable that keeps track of the training steps.
-            post_process_fn: the function to postprocess the model output, if needed.
-            metrics (Optional[List[Metric]]): list of metrics
-            callbacks (Optional[List[Callback]]): list of callbacks to handle events
+            log_eval_mode (py:class:`ashpy.modes.LogEvalMode`) models' mode
+                to use when evaluating and logging.
+            global_step (Optional[py:class:`ashpy.modes.LogEvalMode`]): tf.Variable that
+                keeps track of the training steps.
+            metrics (Optional[List[:py:class:`ashpy.metrics.Metric`]]): list of metrics
+            callbacks (Optional[List[:py:class:`ashpy.callbacks.Callback`]]): list of callbacks
+                to handle events
 
         """
 
         self._distribute_strategy = tf.distribute.get_strategy()
-        self._post_process_callback = post_process_fn
         self._context = Context()
 
         # set and validate metrics
@@ -72,14 +72,28 @@ class Trainer(ABC):
         self._validate_callbacks()
 
         self._epochs = epochs
+
+        # global step must be created here
+        # do not use tf.Variable as default argument
+        # since tf.Variable are mutable
+        # see https://docs.python-guide.org/writing/gotchas/
+        # for more information
+        # in short: default arguments are initialized at definition
+        # time and not at call time
+        if global_step is None:
+            global_step = tf.Variable(
+                0, name="global_step", trainable=False, dtype=tf.int64
+            )
         self._global_step = global_step
+
         self._steps_per_epoch = tf.Variable(
             -1, name="steps_per_epoch", trainable=False, dtype=tf.int64
         )
         self._checkpoint = tf.train.Checkpoint()
         self._checkpoint.objects = []
-        self._checkpoint.objects.extend([self._global_step, self._steps_per_epoch]
-                                        + self._callbacks)
+        self._checkpoint.objects.extend(
+            [self._global_step, self._steps_per_epoch] + self._callbacks
+        )
         self._logdir = logdir
         self._manager = tf.train.CheckpointManager(
             self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
@@ -216,17 +230,19 @@ class Trainer(ABC):
 
     def _measure_performance(self):
         """
-        Measure performance on dataset
+        Measure performance on dataset.
         """
         self.measure_metrics()
         self.model_selection()
         self._log_metrics_and_reset()
 
     def _dataset_from_example(self, example, dims) -> tf.data.Dataset:
-        """Get a dataset from a given example
+        """
+        Get a dataset from a given example.
 
         Returns:
             The dataset containing only the example
+
         """
         example = self.local_example(example, dims)
         return tf.data.Dataset.from_tensor_slices(example)
@@ -237,6 +253,7 @@ class Trainer(ABC):
 
         Returns:
             A local example from a distributed example
+
         """
         columns = []
         for idx, dim in enumerate(dims):
