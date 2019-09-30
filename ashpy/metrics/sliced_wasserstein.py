@@ -121,6 +121,7 @@ def _batch_to_patches(batch, patches_per_image, patch_size):
         patches.
 
     """
+
     def py_func_random_patches(batch):
         """Numpy wrapper."""
         batch_size, height, width, channels = batch.shape

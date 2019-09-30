@@ -41,15 +41,15 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
     """
 
     def __init__(
-            self,
-            model_selection_operator: Callable = operator.lt,
-            logdir: str = os.path.join(os.getcwd(), "log"),
-            max_val: float = 2.0,
-            power_factors=None,
-            filter_size: int = 11,
-            filter_sigma: int = 1.5,
-            k1: int = 0.01,
-            k2: int = 0.03,
+        self,
+        model_selection_operator: Callable = operator.lt,
+        logdir: str = os.path.join(os.getcwd(), "log"),
+        max_val: float = 2.0,
+        power_factors=None,
+        filter_size: int = 11,
+        filter_sigma: int = 1.5,
+        k1: int = 0.01,
+        k2: int = 0.03,
     ) -> None:
         """
         Initialize the Metric.
@@ -150,7 +150,7 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
         """
         batch_size = batch.shape[0]
         if tf.equal(tf.math.mod(batch_size, 2), 0):
-            return batch[: batch_size // 2, :, :, :], batch[batch_size // 2:, :, :, :]
+            return batch[: batch_size // 2, :, :, :], batch[batch_size // 2 :, :, :, :]
         split_value = math.floor(batch_size / 2)
         if split_value == 0:
             raise ValueError(

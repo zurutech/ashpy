@@ -26,6 +26,7 @@ from ashpy.trainers import EncoderTrainer
 
 def main():
     """Define the trainer and the models."""
+
     def real_gen():
         """Define generator of real values."""
         for _ in tf.range(100):
