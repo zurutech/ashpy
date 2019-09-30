@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Test losses inside the AdversarialLossType Enum
-"""
+"""Test losses inside the AdversarialLossType Enum."""
 
 from ashpy.callbacks.events import Event
 from ashpy.callbacks.gan import LogImageGANCallback
@@ -22,9 +20,7 @@ from tests.utils.fake_training_loop import fake_training_loop
 
 
 def test_callbacks(adversarial_logdir: str):
-    """
-    Test the integration between callbacks and trainer
-    """
+    """Test the integration between callbacks and trainer."""
 
     callbacks = [LogImageGANCallback(event=Event.ON_BATCH_END, event_freq=1)]
 

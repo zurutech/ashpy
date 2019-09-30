@@ -55,6 +55,7 @@ def get_n_events_from_epochs(
         return (dataset_size / batch_size) * epochs
     if event in [Event.ON_EXCEPTION]:
         return 0
+    raise ValueError("Event not compatible")
 
 
 @pytest.mark.parametrize("event", list(Event))
