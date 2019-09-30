@@ -12,23 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""ASHPY Package."""
+"""
+Event definition as Enum
+"""
 
-from .modes import LogEvalMode  # isort:skip
-from . import (
-    ashtypes,
-    callbacks,
-    contexts,
-    datasets,
-    keras,
-    layers,
-    losses,
-    metrics,
-    models,
-    trainers,
-)
+from enum import Enum, auto
 
-__version__ = "0.1.3"
-__url__ = "https://github.com/zurutech/ashpy"
-__author__ = "Machine Learning Team @ Zuru Tech"
-__email__ = "ml@zuru.tech"
+
+class Event(Enum):
+    ON_BATCH_START = auto()
+    ON_BATCH_END = auto()
+    ON_TRAIN_START = auto()
+    ON_TRAIN_END = auto()
+    ON_EPOCH_START = auto()
+    ON_EPOCH_END = auto()
+    ON_EXCEPTION = auto()

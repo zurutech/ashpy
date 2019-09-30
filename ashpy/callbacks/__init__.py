@@ -24,6 +24,11 @@ Callbacks in order to gain control over the training loop.
     :toctree: callbacks
 
     callback.Callback
+    counter_callback.CounterCallback
+    classifier.LogClassifierCallback
+    events.Event
+    gan.LogImageGANCallback
+    gan.LogImageGANEncoderCallback
 
 ----
 
@@ -35,9 +40,24 @@ Callbacks in order to gain control over the training loop.
     :template: autosummary/submodule.rst
 
     callback
+    classifier
+    counter_callback
+    events
+    gan
 
 """
 
 from ashpy.callbacks.callback import Callback
+from ashpy.callbacks.classifier import LogClassifierCallback
+from ashpy.callbacks.counter_callback import CounterCallback
+from ashpy.callbacks.events import Event
+from ashpy.callbacks.gan import LogImageGANCallback, LogImageGANEncoderCallback
 
-__ALL__ = ["Callback"]
+__ALL__ = [
+    "Callback",
+    "Event",
+    "LogClassifierCallback",
+    "LogImageGANCallback",
+    "LogImageGANEncoderCallback",
+    "LogClassifierCallback",
+]

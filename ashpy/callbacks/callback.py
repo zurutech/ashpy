@@ -15,16 +15,19 @@
 """
 Callback definition
 """
+import tensorflow as tf
 
-from ashpy.contexts import BaseContext
+from ashpy.callbacks.events import Event
+from ashpy.contexts import Context
 
 
-class Callback:
+class Callback(tf.Module):
     r"""
     Callback definition.
     Every callback must extend from this class.
     This class defines the basic events.
     Every event takes as input the context in order to use the objects defined.
+    Inheritance from tf.Module is required since callbacks have a state
 
     Order:
 
@@ -44,66 +47,85 @@ class Callback:
 
         on_exception – if an Exception was raised
 
+        on_event - Called when an event is triggered
+
     """
-    def on_train_start(self, context: BaseContext) -> None:
+
+    def on_event(self, event: Event, context: Context) -> None:
+        """
+        Method called when an event is triggered
+
+        Args:
+            event (:py:class:`ashpy.callbacks.events.Event`): triggered event
+            context (:py:class:`ashpy.contexts.context.Context`): training context
+        """
+
+    def on_train_start(self, context: Context) -> None:
         """
         Method called at the beginning of the training loop
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_TRAIN_START, context)
 
-    def on_train_end(self, context: BaseContext) -> None:
+    def on_train_end(self, context: Context) -> None:
         """
         Method called at the end of the training loop
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_TRAIN_END, context)
 
-    def on_epoch_start(self, context: BaseContext) -> None:
+    def on_epoch_start(self, context: Context) -> None:
         """
         Method called at the beginning of an epoch
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_EPOCH_START, context)
 
-    def on_epoch_end(self, context: BaseContext) -> None:
+    def on_epoch_end(self, context: Context) -> None:
         """
         Method called at the end of an epoch
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_EPOCH_END, context)
 
-    def on_batch_start(self, context: BaseContext) -> None:
+    def on_batch_start(self, context: Context) -> None:
         """
         Method called at the beginning of a batch
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_BATCH_START, context)
 
-    def on_batch_end(self, context: BaseContext) -> None:
+    def on_batch_end(self, context: Context) -> None:
         """
         Method called at the end of a batch
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_BATCH_END, context)
 
-    def on_exception(self, context: BaseContext) -> None:
+    def on_exception(self, context: Context) -> None:
         """
         Method called when an exception is raised
 
         Args:
-            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+            context (:py:class:`ashpy.contexts.context.Context`): training context
 
         """
+        self.on_event(Event.ON_EXCEPTION, context)
