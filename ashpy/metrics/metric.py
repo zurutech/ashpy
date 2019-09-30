@@ -66,7 +66,8 @@ class Metric(ABC):
         self._name = name
         self._metric = metric
         self._model_selection_operator = model_selection_operator
-        self.logdir = logdir
+        self._logdir = logdir
+        self._update_logdir()
 
     def model_selection(
         self, checkpoint: tf.train.Checkpoint, global_step: tf.Variable
@@ -98,6 +99,17 @@ class Metric(ABC):
             )
             manager.save()
 
+    def _update_logdir(self):
+        # write the initial value of the best metric
+        if not os.path.exists(self.best_model_sel_file):
+            os.makedirs(os.path.dirname(self.best_model_sel_file))
+        initial_value = (
+            np.inf if self._model_selection_operator is operator.lt else -np.inf
+        )
+        self.json_write(
+            self.best_model_sel_file, {self._name: str(initial_value), "step": 0}
+        )
+
     @property
     def name(self) -> str:
         """Retrieve the metric name."""
@@ -122,16 +134,7 @@ class Metric(ABC):
     def logdir(self, logdir) -> None:
         """Set the logdir changing also other properties."""
         self._logdir = logdir
-
-        # write the initial value of the best metric
-        if not os.path.exists(self.best_model_sel_file):
-            os.makedirs(os.path.dirname(self.best_model_sel_file))
-        initial_value = (
-            np.inf if self._model_selection_operator is operator.lt else -np.inf
-        )
-        self.json_write(
-            self.best_model_sel_file, {self._name: str(initial_value), "step": 0}
-        )
+        self._update_logdir()
 
     @property
     def best_folder(self) -> str:
