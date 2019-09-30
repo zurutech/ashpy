@@ -32,9 +32,10 @@ def add_common_namespaces(doctest_namespace):
     doctest_namespace["metrics"] = ashpy.metrics
     doctest_namespace["layers"] = ashpy.layers
     doctest_namespace["losses"] = ashpy.losses
+    doctest_namespace["callbacks"] = ashpy.callbacks
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def adversarial_logdir():
     """
     Add the logdir parameter to tests
