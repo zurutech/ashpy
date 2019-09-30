@@ -26,6 +26,7 @@ from ashpy.modes import LogEvalMode
 if TYPE_CHECKING:
     from ashpy.losses.executor import Executor
     from ashpy.metrics import Metric
+    from ashpy.losses import ClassifierLoss
 
 
 class ClassifierContext(BaseContext):
@@ -34,14 +35,14 @@ class ClassifierContext(BaseContext):
     def __init__(
         self,
         classifier_model: tf.keras.Model = None,
-        loss: Executor = None,  # ?: Do we really need to default these values to None?
+        loss: ClassifierLoss = None,  # ?: Do we really need to default these values to None?
         dataset: tf.data.Dataset = None,
         metrics: List[Metric] = None,
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: tf.Variable = tf.Variable(
             0, name="global_step", trainable=False, dtype=tf.int64
         ),
-        ckpt: tf.train.Checkpoint = None,
+        checkpoint: tf.train.Checkpoint = None,
     ) -> None:
         r"""
         Instantiate the :py:class:`ashpy.contexts.classifier.ClassifierContext` context.
@@ -58,13 +59,15 @@ class ClassifierContext(BaseContext):
                 evaluating and logging.
             global_step (:py:obj:`tf.Variable`): tf.Variable that keeps track of the
                 training steps.
-            ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
+            checkpoint (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
                 models status.
 
         """
-        super().__init__(metrics, dataset, log_eval_mode, global_step, ckpt)
+        super().__init__(metrics, dataset, log_eval_mode, global_step, checkpoint)
         self._classifier_model = classifier_model
         self._loss = loss
+        self._validation_set: Optional[tf.data.Dataset] = None
+        self._training_set: Optional[tf.data.Dataset] = None
 
     @property
     def loss(self) -> Optional[Executor]:
@@ -81,3 +84,25 @@ class ClassifierContext(BaseContext):
 
         """
         return self._classifier_model
+
+    @property
+    def validation_set(self):
+        """
+        Returns: the validation set
+        """
+        return self._validation_set
+
+    @validation_set.setter
+    def validation_set(self, _validation_set):
+        self._validation_set = _validation_set
+
+    @property
+    def training_set(self):
+        """
+        Returns: the training set
+        """
+        return self._training_set
+
+    @training_set.setter
+    def training_set(self, _training_set):
+        self._training_set = _training_set

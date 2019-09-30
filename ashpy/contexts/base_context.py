@@ -20,7 +20,7 @@ collections of variable encapsulated in a Python Class as a way to seamlessly
 handle information transfer.
 """
 
-from typing import List
+from typing import List, Optional
 
 import tensorflow as tf
 
@@ -37,7 +37,7 @@ class BaseContext:
         dataset: tf.data.Dataset = None,
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
-        ckpt: tf.train.Checkpoint = None,
+        checkpoint: tf.train.Checkpoint = None,
     ) -> None:
         """
         Initialize the Context.
@@ -50,35 +50,20 @@ class BaseContext:
             log_eval_mode (:py:class:`ashpy.modes.LogEvalMode`): Models' mode to use when
                 evaluating and logging.
             global_step (:py:class:`tf.Variable`): Keeps track of the training steps.
-            ckpt (:py:class:`tf.train.Checkpoint`): Checkpoint to use to keep track of
+            checkpoint (:py:class:`tf.train.Checkpoint`): Checkpoint to use to keep track of
                 models status.
 
         """
         self._distribute_strategy = tf.distribute.get_strategy()
+
+        # TODO: are metrics really needed right now?
         self._metrics = metrics if metrics else []
-        self._validate_metrics()
         self._dataset = dataset
         self._log_eval_mode = log_eval_mode
         self._global_step = global_step
-        self._ckpt = ckpt
-
-    def _validate_metrics(self):
-        """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""
-        for metric in self._metrics:
-            if not isinstance(metric, Metric):
-                raise ValueError(
-                    "Metric " + str(metric) + " is not a ashpy.metrics.Metric"
-                )
-
-    def measure_metrics(self) -> None:
-        """Measure the metrics."""
-        for metric in self._metrics:
-            metric.update_state(self)
-
-    def model_selection(self) -> None:
-        """Use the metrics to perform model selection."""
-        for metric in self._metrics:
-            metric.model_selection(self._ckpt, self._global_step)
+        self._checkpoint = checkpoint
+        self._exception: Optional[Exception] = None
+        self._current_batch: Optional[tf.Tensor] = None
 
     @property
     def log_eval_mode(self) -> LogEvalMode:
@@ -102,6 +87,10 @@ class BaseContext:
         """
         return self._dataset
 
+    @dataset.setter
+    def dataset(self, _dataset):
+        self._dataset = _dataset
+
     @property
     def metrics(self) -> List[Metric]:
         """
@@ -123,3 +112,31 @@ class BaseContext:
 
         """
         return self._global_step
+
+    @property
+    def exception(self) -> Optional[Exception]:
+        """
+        Returns the exception
+        """
+        return self._exception
+
+    @exception.setter
+    def exception(self, exception: Optional[Exception]) -> None:
+        """
+        Setter for the exception
+        """
+        self._exception = exception
+
+    @property
+    def current_batch(self) -> Optional[tf.Tensor]:
+        """
+        Returns the exception
+        """
+        return self._current_batch
+
+    @current_batch.setter
+    def current_batch(self, _current_batch: Optional[tf.Tensor]) -> None:
+        """
+        Setter for the exception
+        """
+        self._current_batch = _current_batch

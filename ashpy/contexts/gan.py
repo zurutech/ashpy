@@ -43,7 +43,7 @@ class GANContext(BaseContext):
         global_step: tf.Variable = tf.Variable(
             0, name="global_step", trainable=False, dtype=tf.int64
         ),
-        ckpt: tf.train.Checkpoint = None,
+        checkpoint: tf.train.Checkpoint = None,
     ) -> None:
         """
         Initialize the Context.
@@ -61,11 +61,11 @@ class GANContext(BaseContext):
                 evaluating and logging.
             global_step (:py:class:`tf.Variable`): `tf.Variable` that keeps track of the
                 training steps.
-            ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
+            checkpoint (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
                 models status.
 
         """
-        super().__init__(metrics, dataset, log_eval_mode, global_step, ckpt)
+        super().__init__(metrics, dataset, log_eval_mode, global_step, checkpoint)
 
         self._generator_model = generator_model
         self._discriminator_model = discriminator_model
@@ -123,7 +123,7 @@ class GANEncoderContext(GANContext):
         global_step: tf.Variable = tf.Variable(
             0, name="global_step", trainable=False, dtype=tf.int64
         ),
-        ckpt: tf.train.Checkpoint = None,
+        checkpoint: tf.train.Checkpoint = None,
     ) -> None:
         r"""
         Initialize the Context.
@@ -143,7 +143,7 @@ class GANEncoderContext(GANContext):
                 evaluating and logging.
             global_step (:py:class:`tf.Variable`): `tf.Variable` that keeps track of the
                 training steps.
-            ckpt (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
+            checkpoint (:py:class:`tf.train.Checkpoint`): checkpoint to use to keep track of
                 models status.
 
         """
@@ -156,7 +156,7 @@ class GANEncoderContext(GANContext):
             metrics=metrics,
             log_eval_mode=log_eval_mode,
             global_step=global_step,
-            ckpt=ckpt,
+            checkpoint=checkpoint,
         )
         self._encoder_model = encoder_model
         self._encoder_loss = encoder_loss
