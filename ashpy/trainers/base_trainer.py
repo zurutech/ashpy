@@ -16,11 +16,16 @@
 
 import os
 from abc import ABC, abstractmethod
+from typing import List, Optional, Union
 
 import tensorflow as tf
 
+from ashpy.callbacks import Callback
+from ashpy.contexts import BaseContext
 from ashpy.losses.executor import Executor
+from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
+from ashpy.utils.utils import validate_objects
 
 
 class BaseTrainer(ABC):
@@ -33,6 +38,8 @@ class BaseTrainer(ABC):
         log_eval_mode=LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
         post_process_callback=None,
+        metrics: Optional[List[Metric]] = None,
+        callbacks: Optional[List[Callback]] = None,
     ):
         r"""
         Primitive trainer interface. Handles model saving and restore.
@@ -43,25 +50,40 @@ class BaseTrainer(ABC):
             log_eval_mode: models' mode to use when evaluating and logging.
             global_step: tf.Variable that keeps track of the training steps.
             post_process_callback: the function to postprocess the model output, if needed.
+            metrics (Optional[List[Metric]]): list of metrics
+            callbacks (Optional[List[Callback]]): list of callbacks to handle events
+
         """
 
         self._distribute_strategy = tf.distribute.get_strategy()
         self._post_process_callback = post_process_callback
+        self._context = BaseContext()
+
+        # set and validate metrics
+        if metrics is None:
+            metrics = []
+        self._metrics = metrics
+        self._validate_metrics()
+
+        # set and validate callbacks
+        if callbacks is None:
+            callbacks = []
+        self._callbacks = callbacks
+        self._validate_callbacks()
 
         self._epochs = epochs
         self._global_step = global_step
         self._steps_per_epoch = tf.Variable(
             -1, name="steps_per_epoch", trainable=False, dtype=tf.int64
         )
-        self._ckpt = tf.train.Checkpoint()
-        self._ckpt.objects = []
-        self._ckpt.objects.extend([self._global_step, self._steps_per_epoch])
+        self._checkpoint = tf.train.Checkpoint()
+        self._checkpoint.objects = []
+        self._checkpoint.objects.extend([self._global_step, self._steps_per_epoch])
         self._logdir = logdir
         self._manager = tf.train.CheckpointManager(
-            self._ckpt, os.path.join(self._logdir, "ckpts"), max_to_keep=3
+            self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
         )
 
-        self._metrics = []
         self._train_summary_writer = tf.summary.create_file_writer(
             os.path.join(self._logdir, "train")
         )
@@ -77,6 +99,25 @@ class BaseTrainer(ABC):
         self._global_batch_size = -1.0
 
         self._log_eval_mode = log_eval_mode
+
+    @property
+    def context(self) -> BaseContext:
+        """
+        Returns: the training context
+        """
+        return self._context
+
+    @context.setter
+    def context(self, _context: BaseContext):
+        self._context = _context
+
+    def _validate_metrics(self):
+        """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""
+        validate_objects(self._metrics, Metric)
+
+    def _validate_callbacks(self):
+        """Check if every callback is an :py:class:`ashpy.callbacks.Callback`."""
+        validate_objects(self._callbacks, Callback)
 
     def _log(self, name, out):
         """
@@ -108,11 +149,16 @@ class BaseTrainer(ABC):
         if tf.equal(rank, 2):
             tf.summary.histogram(name, out, step=step)
 
-    def _update_global_batch_size(self, dataset, executors=None):
-        """Given a dataset and the current distribution strategy sets the
+    def _update_global_batch_size(
+        self,
+        dataset: tf.data.Dataset,
+        executors: Optional[Union[List[Executor], Executor]] = None,
+    ):
+        """
+        Given a dataset and the current distribution strategy sets the
         self._global_batch_size variable where needed.
         Args:
-            dataset: a dataset from wich the batch size will be extracted.
+            dataset: a dataset from which the batch size will be extracted.
             executors: a list of executor with the property "global_batch_size" settable.
         """
 
@@ -148,24 +194,24 @@ class BaseTrainer(ABC):
     def _restore_or_init(self):
         """Restores or initializes the persistence layer (checkpoint)."""
         if self._manager.latest_checkpoint:
-            self._ckpt.restore(self._manager.latest_checkpoint)
+            self._checkpoint.restore(self._manager.latest_checkpoint)
             print(f"Restored checkpoint {self._manager.latest_checkpoint}.")
         else:
             print("Initializing checkpoint.")
 
     def _save(self):
         """Save the current checkpointable object status."""
-        ckpt = self._manager.save()
+        checkpoint = self._manager.save()
         # print is captured from pydoc - deterministic output can be used
         # to run tests.
-        print(f"[{self._global_step.numpy()}] Saved checkpoint: {ckpt}")
+        print(f"[{self._global_step.numpy()}] Saved checkpoint: {checkpoint}")
 
-    def _current_epoch(self):
+    def _current_epoch(self) -> tf.Tensor:
         """
         Get the current epoch using the (restored) variables.
 
         Returns:
-            current_epoch (int)
+            current_epoch (tf.Tensor): the current epoch of training
 
         """
         current_epoch = tf.constant(0, dtype=tf.int64)
@@ -175,20 +221,6 @@ class BaseTrainer(ABC):
             )
         return current_epoch
 
-    def _epoch_completed(self, epoch):
-        """
-        Handle the end of the training epoch.
-
-        Args:
-            epoch (int): the just completed training epoch.
-
-        """
-        if tf.math.less(self._steps_per_epoch, 0):
-            # only the first time, save the number of steps per epoch
-            self._steps_per_epoch.assign(self._global_step)
-        self._save()
-        print(f"Epoch {epoch} completed.")
-
     def _log_metrics_and_reset(self):
         step = self._global_step.numpy()
 
@@ -196,7 +228,40 @@ class BaseTrainer(ABC):
             metric_obj.log(step=step)
             metric_obj.reset_states()
 
-    def _dataset_from_example(self, example, dims):
+    def measure_metrics(self) -> None:
+        """Measure the metrics."""
+        for metric in self._metrics:
+            metric.update_state(self._context)
+
+    def model_selection(self) -> None:
+        """Use the metrics to perform model selection."""
+        for metric in self._metrics:
+            metric.model_selection(self._checkpoint, self._global_step)
+
+    def _measure_performance(self):
+        """
+        Measure performance on dataset
+        """
+        self.measure_metrics()
+        self.model_selection()
+        self._log_metrics_and_reset()
+
+    def _dataset_from_example(self, example, dims) -> tf.data.Dataset:
+        """Get a dataset from a given example
+
+        Returns:
+            The dataset containing only the example
+        """
+        example = self.local_example(example, dims)
+        return tf.data.Dataset.from_tensor_slices(example)
+
+    def local_example(self, example, dims):
+        """
+        Return a local example from a distributed example
+
+        Returns:
+            A local example from a distributed example
+        """
         columns = []
         for idx, dim in enumerate(dims):
             if dim > 1:
@@ -220,7 +285,7 @@ class BaseTrainer(ABC):
                         axis=0,
                     )
                 )
-        return tf.data.Dataset.from_tensor_slices(tuple(columns))
+        return tuple(columns)
 
     @abstractmethod
     def call(self, dataset: tf.data.Dataset):
@@ -236,4 +301,48 @@ class BaseTrainer(ABC):
 
     def __call__(self, *args, **kwargs):
         """Invoke the trainer."""
-        self.call(*args, **kwargs)
+        try:
+            self.call(*args, **kwargs)
+
+        except (Exception, KeyboardInterrupt) as ex:
+            self._context.exception = ex
+            self._on_exception()
+            raise ex
+
+    def _on_train_start(self) -> None:
+        for callback in self._callbacks:
+            callback.on_train_start(self._context)
+
+    def _on_train_end(self) -> None:
+        print(f"Training finished after {self._current_epoch().numpy()} epochs.")
+        for callback in self._callbacks:
+            callback.on_train_end(self._context)
+
+    def _on_epoch_start(self) -> None:
+        print(f"Starting epoch {self._current_epoch().numpy() + 1}.")
+        for callback in self._callbacks:
+            callback.on_epoch_start(self._context)
+
+    def _on_epoch_end(self) -> None:
+        """
+        Handle the end of the training epoch.
+        """
+        if tf.math.less(self._steps_per_epoch, 0):
+            # only the first time, save the number of steps per epoch
+            self._steps_per_epoch.assign(self._global_step)
+        self._save()
+        print(f"Epoch {self._current_epoch().numpy()} completed.")
+        for callback in self._callbacks:
+            callback.on_epoch_end(self._context)
+
+    def _on_batch_start(self) -> None:
+        for callback in self._callbacks:
+            callback.on_batch_start(self._context)
+
+    def _on_batch_end(self) -> None:
+        for callback in self._callbacks:
+            callback.on_batch_end(self._context)
+
+    def _on_exception(self) -> None:
+        for callback in self._callbacks:
+            callback.on_exception(self._context)
