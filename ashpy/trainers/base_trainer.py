@@ -109,6 +109,11 @@ class BaseTrainer(ABC):
 
     @context.setter
     def context(self, _context: BaseContext):
+        """
+        Setter for the context
+        Args:
+            _context (:py:class:`ashpy.contexts.BaseContext`): Context to set
+        """
         self._context = _context
 
     def _validate_metrics(self):
@@ -288,15 +293,9 @@ class BaseTrainer(ABC):
         return tuple(columns)
 
     @abstractmethod
-    def call(self, dataset: tf.data.Dataset):
+    def call(self, *args, **kwargs):
         """
         Execute the training process.
-
-        Iterate over the elements of a :py:class:`tf.data.Dataset`.
-        The dataset must contain everything needed to train the model.
-
-        Args:
-            dataset: A :py:class:`tf.data.Dataset` to loop on to train the model.
         """
 
     def __call__(self, *args, **kwargs):
@@ -310,15 +309,24 @@ class BaseTrainer(ABC):
             raise ex
 
     def _on_train_start(self) -> None:
+        """
+        Handle the start of training.
+        """
         for callback in self._callbacks:
             callback.on_train_start(self._context)
 
     def _on_train_end(self) -> None:
+        """
+        Handle the end of training.
+        """
         print(f"Training finished after {self._current_epoch().numpy()} epochs.")
         for callback in self._callbacks:
             callback.on_train_end(self._context)
 
     def _on_epoch_start(self) -> None:
+        """
+        Handle the start of the training epoch.
+        """
         print(f"Starting epoch {self._current_epoch().numpy() + 1}.")
         for callback in self._callbacks:
             callback.on_epoch_start(self._context)
@@ -336,13 +344,22 @@ class BaseTrainer(ABC):
             callback.on_epoch_end(self._context)
 
     def _on_batch_start(self) -> None:
+        """
+        Handle the start of a training batch.
+        """
         for callback in self._callbacks:
             callback.on_batch_start(self._context)
 
     def _on_batch_end(self) -> None:
+        """
+        Handle the end of a training batch.
+        """
         for callback in self._callbacks:
             callback.on_batch_end(self._context)
 
     def _on_exception(self) -> None:
+        """
+        Handle the exception.
+        """
         for callback in self._callbacks:
             callback.on_exception(self._context)
