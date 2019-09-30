@@ -14,12 +14,15 @@
 
 """Collection of GANs trainers."""
 import os
+from typing import List, Optional
 
 import tensorflow as tf
 
+from ashpy.callbacks import Callback
 from ashpy.contexts.gan import GANContext, GANEncoderContext
 from ashpy.datasets import wrap
 from ashpy.losses.executor import Executor
+from ashpy.metrics import Metric
 from ashpy.metrics.gan import DiscriminatorLoss, EncoderLoss, GeneratorLoss
 from ashpy.modes import LogEvalMode
 from ashpy.trainers.base_trainer import BaseTrainer
@@ -83,15 +86,15 @@ class AdversarialTrainer(BaseTrainer):
                 )
             ]
             trainer = AdversarialTrainer(
-                generator,
-                discriminator,
-                tf.optimizers.Adam(1e-4),
-                tf.optimizers.Adam(1e-4),
-                generator_bce,
-                minmax,
-                epochs,
-                metrics,
-                logdir,
+                generator=generator,
+                discriminator=discriminator,
+                generator_optimizer=tf.optimizers.Adam(1e-4),
+                discriminator_optimizer=tf.optimizers.Adam(1e-4),
+                generator_loss=generator_bce,
+                discriminator_loss=minmax,
+                epochs=epochs,
+                metrics=metrics,
+                logdir=logdir,
             )
 
             # take only 2 samples to speed up tests
@@ -114,10 +117,13 @@ class AdversarialTrainer(BaseTrainer):
         .. testoutput::
 
             Initializing checkpoint.
+            Starting epoch 1.
             [1] Saved checkpoint: testlog/adversarial/ckpts/ckpt-1
             Epoch 1 completed.
+            Starting epoch 2.
             [2] Saved checkpoint: testlog/adversarial/ckpts/ckpt-2
             Epoch 2 completed.
+            Training finished after 2 epochs.
 
     """
 
@@ -130,7 +136,8 @@ class AdversarialTrainer(BaseTrainer):
         generator_loss: Executor,
         discriminator_loss: Executor,
         epochs,
-        metrics=None,
+        metrics: Optional[List[Metric]] = None,
+        callbacks: Optional[List[Callback]] = None,
         logdir=os.path.join(os.getcwd(), "log"),
         post_process_callback=None,
         log_eval_mode=LogEvalMode.TEST,
@@ -153,8 +160,10 @@ class AdversarialTrainer(BaseTrainer):
             discriminator_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor
                 to compute the loss of the Discriminator.
             epochs (int): number of training epochs.
-            metrics: (List): list of :py:class:`tf.metrics` to measure on training and
-                validation data
+            metrics: (List): list of :py:class:`ashpy.metrics.Metric` to measure on
+                training and validation data.
+            callbacks (List): list of :py:class:`ashpy.callbacks.Callback` to measure on
+                training and validation data.
             logdir: checkpoint and log directory.
             post_process_callback(:obj:`callable`): the function to postprocess the model output,
                 if needed
@@ -171,15 +180,16 @@ class AdversarialTrainer(BaseTrainer):
             log_eval_mode=log_eval_mode,
             global_step=global_step,
             post_process_callback=post_process_callback,
+            callbacks=callbacks,
         )
         self._generator = generator
         self._discriminator = discriminator
 
-        self._g_loss = generator_loss
-        self._g_loss.reduction = tf.losses.Reduction.NONE
+        self._generator_loss = generator_loss
+        self._generator_loss.reduction = tf.losses.Reduction.NONE
 
-        self._d_loss = discriminator_loss
-        self._d_loss.reduction = tf.losses.Reduction.NONE
+        self._discriminator_loss = discriminator_loss
+        self._discriminator_loss.reduction = tf.losses.Reduction.NONE
 
         losses_metrics = [
             DiscriminatorLoss(logdir=logdir),
@@ -192,11 +202,16 @@ class AdversarialTrainer(BaseTrainer):
 
         self._metrics = metrics
 
-        self._gopt = generator_optimizer
-        self._dopt = discriminator_optimizer
+        self._generator_optimizer = generator_optimizer
+        self._discriminator_optimizer = discriminator_optimizer
 
-        self._ckpt.objects.extend(
-            [self._generator, self._discriminator, self._gopt, self._dopt]
+        self._checkpoint.objects.extend(
+            [
+                self._generator,
+                self._discriminator,
+                self._generator_optimizer,
+                self._discriminator_optimizer,
+            ]
         )
 
         # pylint: disable=unidiomatic-typecheck
@@ -206,9 +221,12 @@ class AdversarialTrainer(BaseTrainer):
         self._context = GANContext(
             generator_model=self._generator,
             discriminator_model=self._discriminator,
+            generator_loss=self._generator_loss,
+            discriminator_loss=self._discriminator_loss,
             log_eval_mode=self._log_eval_mode,
-            global_step=global_step,
-            ckpt=self._ckpt,
+            global_step=self._global_step,
+            checkpoint=self._checkpoint,
+            metrics=self._metrics,
         )
 
     def train_step(self, real_xy, g_inputs):
@@ -233,11 +251,11 @@ class AdversarialTrainer(BaseTrainer):
         with tf.GradientTape(persistent=True) as tape:
             fake = self._generator(g_inputs, training=True)
 
-            d_loss = self._d_loss(
+            d_loss = self._discriminator_loss(
                 self._context, fake=fake, real=real_x, condition=real_y, training=True
             )
 
-            g_loss = self._g_loss(
+            g_loss = self._generator_loss(
                 self._context, fake=fake, real=real_x, condition=real_y, training=True
             )
 
@@ -253,10 +271,10 @@ class AdversarialTrainer(BaseTrainer):
         del tape
 
         # apply the gradient
-        self._dopt.apply_gradients(
+        self._discriminator_optimizer.apply_gradients(
             zip(d_gradients, self._discriminator.trainable_variables)
         )
-        self._gopt.apply_gradients(
+        self._generator_optimizer.apply_gradients(
             zip(g_gradients, self._generator.trainable_variables)
         )
 
@@ -278,29 +296,6 @@ class AdversarialTrainer(BaseTrainer):
             fake,
         )
 
-    def _measure_performance(self, dataset):
-        """
-        Measure performance on dataset.
-
-        Args:
-            dataset (:py:obj:`tf.data.Dataset`):
-
-        """
-        context = GANContext(
-            dataset=dataset,
-            generator_model=self._generator,
-            discriminator_model=self._discriminator,
-            generator_loss=self._g_loss,
-            discriminator_loss=self._d_loss,
-            metrics=self._metrics,
-            log_eval_mode=self._log_eval_mode,
-            global_step=self._global_step,
-            ckpt=self._ckpt,
-        )
-        context.measure_metrics()
-        context.model_selection()
-        self._log_metrics_and_reset()
-
     def call(self, dataset: tf.data.Dataset):
         """
         Perform the adversarial training.
@@ -310,7 +305,9 @@ class AdversarialTrainer(BaseTrainer):
         """
         current_epoch = self._current_epoch()
 
-        self._update_global_batch_size(dataset, [self._d_loss, self._g_loss])
+        self._update_global_batch_size(
+            dataset, [self._discriminator_loss, self._generator_loss]
+        )
 
         dataset = wrap(
             dataset.unbatch().batch(self._global_batch_size, drop_remainder=True)
@@ -319,15 +316,27 @@ class AdversarialTrainer(BaseTrainer):
         gen_inputs = samples[1]
 
         with self._train_summary_writer.as_default():
+
+            # notify on train start
+            self._on_train_start()
+
             self._log("real_x", samples[0][0])
             self._log("real_y", samples[0][1])
 
-            for epoch in tf.range(current_epoch, self._epochs):
+            for _ in tf.range(current_epoch, self._epochs):
                 distribute_dataset = self._distribute_strategy.experimental_distribute_dataset(
                     dataset
                 )
 
+                # notify on epoch start
+                self._on_epoch_start()
+
                 for example in distribute_dataset:
+
+                    # notify on batch start
+                    self._on_batch_start()
+
+                    # perform training step
                     d_loss, g_loss, fake = self._train_step(example)
                     self._global_step.assign_add(1)
 
@@ -336,19 +345,31 @@ class AdversarialTrainer(BaseTrainer):
                         tf.print(
                             f"[{self._global_step.numpy()}] g_loss: {g_loss} - d_loss: {d_loss}"
                         )
-                        self._measure_performance(
-                            self._dataset_from_example(example, (2, 1)).batch(
-                                self._global_batch_size
-                            )
-                        )
 
-                # here we have finished an epoch
-                self._epoch_completed(epoch + 1)
+                        # setup context
+                        self._context.current_batch = self.local_example(
+                            example, dims=(2, 1)
+                        )
+                        self._context.dataset = self._dataset_from_example(
+                            example, dims=(2, 1)
+                        ).batch(self._global_batch_size)
+
+                        # measure performance
+                        self._measure_performance()
+
+                    # notify on batch end
+                    self._on_batch_end()
+
+                # notify on epoch end
+                self._on_epoch_end()
 
                 if self._log_eval_mode == LogEvalMode.TEST:
                     self._log("generator", self._generator(gen_inputs, training=False))
                 elif self._log_eval_mode == LogEvalMode.TRAIN:
                     self._log("generator", fake)
+
+            # final callback
+            self._on_train_end()
 
 
 class EncoderTrainer(AdversarialTrainer):
@@ -441,10 +462,13 @@ class EncoderTrainer(AdversarialTrainer):
         .. testoutput::
 
             Initializing checkpoint.
+            Starting epoch 1.
             [10] Saved checkpoint: testlog/adversarial/encoder/ckpts/ckpt-1
             Epoch 1 completed.
+            Starting epoch 2.
             [20] Saved checkpoint: testlog/adversarial/encoder/ckpts/ckpt-2
             Epoch 2 completed.
+            Training finished after 2 epochs.
     """
 
     def __init__(
@@ -458,8 +482,9 @@ class EncoderTrainer(AdversarialTrainer):
         generator_loss: Executor,
         discriminator_loss: Executor,
         encoder_loss: Executor,
-        epochs,
-        metrics,
+        epochs: int,
+        metrics: Optional[List[Metric]] = None,
+        callbacks: Optional[List[Callback]] = None,
         logdir=os.path.join(os.getcwd(), "log"),
         post_process_callback=None,
         log_eval_mode=LogEvalMode.TEST,
@@ -488,7 +513,9 @@ class EncoderTrainer(AdversarialTrainer):
             encoder_loss (:py:class:`ashpy.losses.executor.Executor`): A ash Executor to compute
                 the loss of the Discriminator.
             epochs (int): number of training epochs.
-            metrics: (List): list of tf.metrics to measure on training and validation data.
+            metrics: (List): list of ashpy.metrics.Metric to measure on training and
+                validation data.
+            callbacks (List): List of ashpy.callbacks.Callback to call on events
             logdir: checkpoint and log directory.
             post_process_callback(:obj:`callable`): a function to post-process the output.
             log_eval_mode: models' mode to use when evaluating and logging.
@@ -504,6 +531,7 @@ class EncoderTrainer(AdversarialTrainer):
             discriminator_loss=discriminator_loss,
             epochs=epochs,
             metrics=metrics,
+            callbacks=callbacks,
             logdir=logdir,
             post_process_callback=post_process_callback,
             log_eval_mode=log_eval_mode,
@@ -511,23 +539,26 @@ class EncoderTrainer(AdversarialTrainer):
         )
 
         self._encoder = encoder
-        self._dopt = discriminator_optimizer
-        self._eopt = encoder_optimizer
+        self._encoder_optimizer = encoder_optimizer
 
-        self._e_loss = encoder_loss
-        self._e_loss.reduction = tf.losses.Reduction.NONE
+        self._encoder_loss = encoder_loss
+        self._encoder_loss.reduction = tf.losses.Reduction.NONE
 
         self._metrics.append(EncoderLoss(logdir=logdir))
-        self._ckpt.objects.extend([self._encoder, self._eopt])
+        self._checkpoint.objects.extend([self._encoder, self._encoder_optimizer])
         self._restore_or_init()
 
         self._context = GANEncoderContext(
             generator_model=self._generator,
             discriminator_model=self._discriminator,
             encoder_model=self._encoder,
+            generator_loss=self._generator_loss,
+            discriminator_loss=self._discriminator_loss,
+            encoder_loss=self._encoder_loss,
             log_eval_mode=self._log_eval_mode,
             global_step=self._global_step,
-            ckpt=self._ckpt,
+            checkpoint=self._checkpoint,
+            metrics=self._metrics,
         )
 
     def train_step(self, real_xy, g_inputs):
@@ -548,15 +579,15 @@ class EncoderTrainer(AdversarialTrainer):
         with tf.GradientTape(persistent=True) as tape:
             fake = self._generator(g_inputs, training=True)
 
-            g_loss = self._g_loss(
+            g_loss = self._generator_loss(
                 self._context, fake=fake, real=real_x, condition=real_y, training=True
             )
 
-            d_loss = self._d_loss(
+            d_loss = self._discriminator_loss(
                 self._context, fake=fake, real=real_x, condition=real_y, training=True
             )
 
-            e_loss = self._e_loss(
+            e_loss = self._encoder_loss(
                 self._context, fake=fake, real=real_x, condition=real_y, training=True
             )
 
@@ -570,13 +601,15 @@ class EncoderTrainer(AdversarialTrainer):
             self._encoder(real_x, training=True), training=True
         )
 
-        self._dopt.apply_gradients(
+        self._discriminator_optimizer.apply_gradients(
             zip(d_gradients, self._discriminator.trainable_variables)
         )
-        self._gopt.apply_gradients(
+        self._generator_optimizer.apply_gradients(
             zip(g_gradients, self._generator.trainable_variables)
         )
-        self._eopt.apply_gradients(zip(e_gradients, self._encoder.trainable_variables))
+        self._encoder_optimizer.apply_gradients(
+            zip(e_gradients, self._encoder.trainable_variables)
+        )
 
         return d_loss, g_loss, e_loss, fake, generator_of_encoder
 
@@ -599,23 +632,6 @@ class EncoderTrainer(AdversarialTrainer):
             generator_of_encoder,
         )
 
-    def _measure_performance(self, dataset):
-        context = GANEncoderContext(
-            dataset=dataset,
-            generator_model=self._generator,
-            discriminator_model=self._discriminator,
-            encoder_model=self._encoder,
-            generator_loss=self._g_loss,
-            discriminator_loss=self._d_loss,
-            encoder_loss=self._e_loss,
-            metrics=self._metrics,
-            global_step=self._global_step,
-            ckpt=self._ckpt,
-        )
-        context.measure_metrics()
-        context.model_selection()
-        self._log_metrics_and_reset()
-
     def call(self, dataset: tf.data.Dataset):
         r"""
         Perform the adversarial training.
@@ -626,7 +642,8 @@ class EncoderTrainer(AdversarialTrainer):
         current_epoch = self._current_epoch()
 
         self._update_global_batch_size(
-            dataset, [self._d_loss, self._g_loss, self._e_loss]
+            dataset,
+            [self._discriminator_loss, self._generator_loss, self._encoder_loss],
         )
 
         dataset = wrap(
@@ -637,32 +654,55 @@ class EncoderTrainer(AdversarialTrainer):
         gen_inputs = samples[1]
 
         with self._train_summary_writer.as_default():
+
+            # notify on train start event
+            self._on_train_start()
+
             self._log("real_x", samples[0][0])
             self._log("real_y", samples[0][1])
 
-            for epoch in tf.range(current_epoch, self._epochs):
+            for _ in tf.range(current_epoch, self._epochs):
+
                 distribute_dataset = self._distribute_strategy.experimental_distribute_dataset(
                     dataset
                 )
 
+                # notify on epoch start event
+                self._on_epoch_start()
+
                 for example in distribute_dataset:
+
+                    # perform training step
                     d_loss, g_loss, e_loss, fake, generator_of_encoder = self._train_step(
                         example
                     )
+
+                    # increase global step
                     self._global_step.assign_add(1)
 
+                    # measure performance if needed
                     if tf.equal(tf.math.mod(self._global_step, 10), 0):
                         tf.print(
                             f"[{self._global_step.numpy()}] g_loss: {g_loss} - "
                             f"d_loss: {d_loss} - e_loss: {e_loss}"
                         )
-                        self._measure_performance(
-                            self._dataset_from_example(example, (2, 1)).batch(
-                                self._global_batch_size
-                            )
-                        )
 
-                self._epoch_completed(epoch + 1)
+                        # setup context
+                        self._context.current_batch = self.local_example(
+                            example, dims=(2, 1)
+                        )
+                        self._context.dataset = self._dataset_from_example(
+                            example, dims=(2, 1)
+                        ).batch(self._global_batch_size)
+
+                        self._measure_performance()
+
+                    # notify on batch end event
+                    self._on_batch_end()
+
+                # notify on epoch end event
+                self._on_epoch_end()
+
                 if self._log_eval_mode == LogEvalMode.TEST:
                     self._log("generator", self._generator(gen_inputs, training=False))
 
@@ -675,3 +715,6 @@ class EncoderTrainer(AdversarialTrainer):
                 elif self._log_eval_mode == LogEvalMode.TRAIN:
                     self._log("generator", fake)
                     self._log("generator_of_encoder", generator_of_encoder)
+
+            # notify on training end event
+            self._on_train_end()
