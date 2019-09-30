@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Classifier callbacks.
-"""
+"""Classifier callbacks."""
 
 from ashpy.callbacks.counter_callback import CounterCallback
 from ashpy.callbacks.events import Event
@@ -25,6 +23,7 @@ from ashpy.utils.utils import log
 class LogClassifierCallback(CounterCallback):
     """
     Callback used for logging Classifier images to Tensorboard.
+
     Logs the Input Image and true label.
     """
 
@@ -36,9 +35,11 @@ class LogClassifierCallback(CounterCallback):
     ):
         """
         Initialize the LogClassifierCallback.
+
         Args:
             event: event to consider
             event_freq: frequency of logging
+
         """
         super(LogClassifierCallback, self).__init__(
             event=event,
@@ -50,9 +51,11 @@ class LogClassifierCallback(CounterCallback):
     @staticmethod
     def _log_fn(context: ClassifierContext) -> None:
         """
-        Log output of the image and label to Tensorboard
+        Log output of the image and label to Tensorboard.
+
         Args:
             context: current context
+
         """
         input_tensor = context.current_batch[0]
         out_label = context.current_batch[1]

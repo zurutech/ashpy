@@ -132,7 +132,6 @@ class ClassifierMetric(Metric):
                 all the information the Metric needs.
 
         """
-
         for features, labels in context.dataset:
             predictions = context.classifier_model(
                 features, training=context.log_eval_mode == LogEvalMode.TRAIN

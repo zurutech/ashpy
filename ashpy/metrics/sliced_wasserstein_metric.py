@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Sliced Wasserstein Distance metric.
-"""
+"""Sliced Wasserstein Distance metric."""
 from __future__ import annotations
 
 import operator
@@ -33,9 +31,7 @@ if TYPE_CHECKING:
 
 
 class SingleSWD(Metric):
-    """
-    SlicedWassersteinDistance for a certain level of the pyramid.
-    """
+    """SlicedWassersteinDistance for a certain level of the pyramid."""
 
     def __init__(
         self,
@@ -59,8 +55,8 @@ class SingleSWD(Metric):
             logdir (str): Path to the log dir, defaults to a `log` folder in the current
                 directory.
 
-            level_of_pyramid (int): Level of the pyramid related to this metric
-            real_or_fake (str): string identifying this metric (real or fake distance)
+            level_of_pyramid (int): Level of the pyramid related to this metric.
+            real_or_fake (str): string identifying this metric (real or fake distance).
 
         """
         super().__init__(
@@ -77,8 +73,8 @@ class SingleSWD(Metric):
         Update the internal state of the metric, using the information from the context object.
 
         Args:
-            context (:py:class:`ashpy.contexts.GANContext`): An AshPy Context Object that carries
-                all the information the Metric needs.
+            context (:py:class:`ashpy.contexts.gan.GANContext`): An AshPy Context
+                Object that carries all the information the Metric needs.
 
         """
         updater = lambda value: lambda: self._metric.update_state(value)
@@ -88,6 +84,7 @@ class SingleSWD(Metric):
 class SlicedWassersteinDistance(Metric):
     r"""
     Sliced Wasserstein Distance.
+
     Used as metric in Progressive Growing of GANs [1]_.
 
     .. [1] Progressive Growing of GANs https://arxiv.org/abs/1710.10196
@@ -162,8 +159,8 @@ class SlicedWassersteinDistance(Metric):
         Update the internal state of the metric, using the information from the context object.
 
         Args:
-            context (:py:class:`ashpy.contexts.GANContext`): An AshPy Context Object that carries
-                all the information the Metric needs.
+            context (:py:class:`ashpy.contexts.gan.GANContext`): An AshPy Context Object
+                that carries all the information the Metric needs.
 
         """
         updater = lambda value: lambda: self._metric.update_state(value)
@@ -210,18 +207,14 @@ class SlicedWassersteinDistance(Metric):
     def model_selection(
         self, checkpoint: tf.train.Checkpoint, global_step: tf.Variable
     ) -> None:
-        """
-        Perform model selection for each sub-metric
-        """
+        """Perform model selection for each sub-metric."""
         super().model_selection(checkpoint, global_step)
         for child in self.children_real_fake:
             child[0].model_selection(checkpoint, global_step)
             child[1].model_selection(checkpoint, global_step)
 
     def log(self, step):
-        """
-        Log the SWD mean and each sub-metric
-        """
+        """Log the SWD mean and each sub-metric."""
         # log mean
         tf.summary.scalar(self.name, self.result(), step=step)
         # call log method of each child

@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Multiscale Structural Similarity metric.
-"""
+"""Multiscale Structural Similarity metric."""
 from __future__ import annotations
 
 import math
@@ -33,24 +31,25 @@ if TYPE_CHECKING:
 
 class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
     r"""
-    Multiscale Structural Similarity
+    Multiscale Structural Similarity.
 
     See Multiscale structural similarity for image quality assessment [1]_
 
     .. [1] Multiscale structural similarity for image quality assessment
         https://ieeexplore.ieee.org/document/1292216
+
     """
 
     def __init__(
-        self,
-        model_selection_operator: Callable = operator.lt,
-        logdir: str = os.path.join(os.getcwd(), "log"),
-        max_val: float = 2.0,
-        power_factors=None,
-        filter_size: int = 11,
-        filter_sigma: int = 1.5,
-        k1: int = 0.01,
-        k2: int = 0.03,
+            self,
+            model_selection_operator: Callable = operator.lt,
+            logdir: str = os.path.join(os.getcwd(), "log"),
+            max_val: float = 2.0,
+            power_factors=None,
+            filter_size: int = 11,
+            filter_sigma: int = 1.5,
+            k1: int = 0.01,
+            k2: int = 0.03,
     ) -> None:
         """
         Initialize the Metric.
@@ -68,8 +67,7 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
                 directory.
             max_val (float): The dynamic range of the images
                 (i.e., the difference between the maximum the and minimum)
-                (see
-                www.tensorflow.org/versions/r2.0/api_docs/python/tf/image/ssim_multiscale)
+                (see www.tensorflow.org/versions/r2.0/api_docs/python/tf/image/ssim_multiscale)
             power_factors (List[float]): Iterable of weights for each of the scales. The number of
                 scales used is the length of the list. Index 0 is the unscaled
                 resolution's weight and each increasing scale corresponds to the image
@@ -77,9 +75,9 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
                 0.1333), which are the values obtained in the original paper.
             filter_size (int): Default value 11 (size of gaussian filter).
             filter_sigma (int): Default value 1.5 (width of gaussian filter).
-            k1 (int): Default value 0.01
+            k1 (int): Default value 0.01.
             k2 (int): Default value 0.03 (SSIM is less sensitivity to K2 for lower values, so
-                it would be better if we taken the values in range of 0< K2 <0.4).
+                it would be better if we take the values in range of 0< K2 <0.4).
 
         """
         super().__init__(
@@ -104,8 +102,8 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
         Update the internal state of the metric, using the information from the context object.
 
         Args:
-            context (:py:class:`ashpy.contexts.GANContext`): An AshPy Context Object that carries
-                all the information the Metric needs.
+            context (:py:class:`ashpy.contexts.gan.GANContext`): An AshPy Context Object
+                that carries all the information the Metric needs.
 
         """
         updater = lambda value: lambda: self._metric.update_state(value)
@@ -138,20 +136,21 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
     @staticmethod
     def split_batch(batch: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
         """
-        Split a batch along axis 0 into two tensors having the same size
+        Split a batch along axis 0 into two tensors having the same size.
 
         Args:
-            batch (tf.Tensor): A batch of images
+            batch (tf.Tensor): A batch of images.
 
         Returns:
-            (Tuple[tf.Tensor, tf.Tensor]) The batch split in two tensors
+            (Tuple[tf.Tensor, tf.Tensor]) The batch split in two tensors.
 
         Raises:
-            ValueError: if the batch has size 1
+            ValueError: if the batch has size 1.
+
         """
         batch_size = batch.shape[0]
         if tf.equal(tf.math.mod(batch_size, 2), 0):
-            return batch[: batch_size // 2, :, :, :], batch[batch_size // 2 :, :, :, :]
+            return batch[: batch_size // 2, :, :, :], batch[batch_size // 2:, :, :, :]
         split_value = math.floor(batch_size / 2)
         if split_value == 0:
             raise ValueError(

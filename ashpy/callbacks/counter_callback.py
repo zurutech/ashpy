@@ -14,6 +14,7 @@
 
 """
 Counter Callback implementation.
+
 Callback that count events and calls the passed fn evert event_freq.
 """
 
@@ -29,6 +30,7 @@ from ashpy.contexts import Context
 class CounterCallback(Callback):
     """
     Count events of a specific type. Calls fn passing the context every event_freq.
+
     Useful for logging or for measuring performance.
     If you want to implement a callback defining a certain behaviour every n_events
     you can just inherit from CounterCallback.
@@ -36,7 +38,8 @@ class CounterCallback(Callback):
 
     def __init__(self, event: Event, fn: Callable, name: str, event_freq: int = 1):
         """
-        Initialize the CounterCallback
+        Initialize the CounterCallback.
+
         Args:
             event (:py:class:`ashpy.events.Event`): event to count.
             fn (:py:class:`Callable`): function to call every `event_freq` events.
@@ -45,6 +48,7 @@ class CounterCallback(Callback):
 
         Raises:
             ValueError: if `event_freq` is not valid.
+
         """
         super().__init__()
         self._name = name
@@ -66,10 +70,10 @@ class CounterCallback(Callback):
         Count events and calls fn.
 
         Args:
-            event (:py:class:`ashpy.callbacks.events.Event`): current event
-            context (:py:class:`ashpy.contexts.context.Context`): current context
-        """
+            event (:py:class:`ashpy.callbacks.events.Event`): current event.
+            context (:py:class:`ashpy.contexts.context.Context`): current context.
 
+        """
         # check the event type
         if event == self._event:
 

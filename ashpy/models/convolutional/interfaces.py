@@ -26,7 +26,9 @@ class Conv2DInterface(keras.Model):
     """Primitive Interface to be used by all :mod:`ashpy.models`."""
 
     def __init__(self):
-        """Primitive Interface to be used by all :mod:`ashpy.models`.
+        """
+        Primitive Interface to be used by all :mod:`ashpy.models`.
+
         Declares the `self.model_layers` list.
         """
         super().__init__()
@@ -133,6 +135,7 @@ class Conv2DInterface(keras.Model):
 
         Returns:
             :py:class:`tf.Tensor`: The model output.
+
         """
         layer_input = inputs
         features = []

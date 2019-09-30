@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-UNET implementations.
-"""
+"""UNET implementations."""
 import typing
 
 import tensorflow as tf
@@ -28,9 +26,9 @@ __ALL__ = ["UNet", "SUNet", "FUNet"]
 
 class UNet(Conv2DInterface):
     """
-    UNet Architecture
+    UNet Architecture.
 
-    Used in Image-to-Image Translation with Conditional Adversarial Nets [1]_
+    Used in Image-to-Image Translation with Conditional Adversarial Nets [1]_.
 
     Examples:
         * Direct Usage:
@@ -76,21 +74,23 @@ class UNet(Conv2DInterface):
         use_attention: bool = False,
     ):
         """
+        Initialize the UNet.
 
         Args:
-            input_res: input resolution
-            min_res: minimum resolution reached after decode
-            kernel_size: kernel size used in the network
-            initial_filters: number of filter of the initial convolution
-            filters_cap: maximum number of filters
-            channels: number of output channels
-            use_dropout_encoder: whether to use dropout in the encoder module
-            use_dropout_decoder: whether to use dropout in the decoder module
-            dropout_prob: probability of dropout
-            encoder_non_linearity: non linearity of encoder
-            decoder_non_linearity: non linearity of decoder
-            last_activation: last activation function, tanh or softmax (for semantic images)
-            use_attention: whether to use attention
+            input_res: input resolution.
+            min_res: minimum resolution reached after decode.
+            kernel_size: kernel size used in the network.
+            initial_filters: number of filter of the initial convolution.
+            filters_cap: maximum number of filters.
+            channels: number of output channels.
+            use_dropout_encoder: whether to use dropout in the encoder module.
+            use_dropout_decoder: whether to use dropout in the decoder module.
+            dropout_prob: probability of dropout.
+            encoder_non_linearity: non linearity of encoder.
+            decoder_non_linearity: non linearity of decoder.
+            last_activation: last activation function, tanh or softmax (for semantic images).
+            use_attention: whether to use attention.
+
         """
         super().__init__()
 
@@ -189,14 +189,16 @@ class UNet(Conv2DInterface):
 
     def get_encoder_block(self, filters, use_bn=True, use_attention=False):
         """
-        Returns a block to be used in the encoder part of the UNET
+        Return a block to be used in the encoder part of the UNET.
+
         Args:
-            filters: number of filters
-            use_bn: whether to use batch normalization
-            use_attention: whether to use attention
+            filters: number of filters.
+            use_bn: whether to use batch normalization.
+            use_attention: whether to use attention.
 
         Returns:
-            A block to be used in the encoder part
+            A block to be used in the encoder part.
+
         """
         return self._get_block(
             filters,
@@ -211,7 +213,8 @@ class UNet(Conv2DInterface):
         self, filters, use_bn=True, use_dropout=False, use_attention=False
     ):
         """
-        Returns a block to be used in the decoder part of the UNET
+        Return a block to be used in the decoder part of the UNET.
+
         Args:
             filters: number of filters
             use_bn: whether to use batch normalization
@@ -220,6 +223,7 @@ class UNet(Conv2DInterface):
 
         Returns:
             A block to be used in the decoder part
+
         """
         return self._get_block(
             filters,
@@ -234,7 +238,7 @@ class UNet(Conv2DInterface):
     #    input_signature=[tf.TensorSpec(shape=[None, 512, 512, 1], dtype=tf.float32)]
     # )
     def call(self, inputs, training=False):
-        # encoders evaluated
+        """Forward pass of the UNet model."""
         encoder_layer_eval = []
         x = inputs
 
@@ -267,9 +271,7 @@ class UNet(Conv2DInterface):
 
 
 class SUNet(UNet):
-    """
-    Semantic UNet
-    """
+    """Semantic UNet."""
 
     def __init__(
         self,
@@ -286,6 +288,7 @@ class SUNet(UNet):
         decoder_non_linearity=keras.layers.ReLU,
         use_attention=False,
     ):
+        """Build the Semantic UNet model."""
         super().__init__(
             input_res,
             min_res,
@@ -319,9 +322,7 @@ def FUNet(
     last_activation=keras.activations.tanh,  # tanh or softmax (for semantic images)
     use_attention=False,
 ):
-    """
-    Functional UNET Implementation
-    """
+    """Functional UNET Implementation."""
     # ########### Encoder creation
     encoder_layers_spec = Conv2DInterface._get_layer_spec(
         initial_filters, filters_cap, input_res, min_res

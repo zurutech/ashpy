@@ -21,7 +21,6 @@ from ashpy.models.convolutional.unet import UNet
 
 def main():
     """How to define and use the pre-build UNet model."""
-
     x = tf.ones((1, 512, 512, 3))
     u_net = UNet(
         input_res=512,

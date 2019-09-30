@@ -249,6 +249,7 @@ class GeneratorL1(GANExecutor):
 class GeneratorHingeLoss(GeneratorAdversarialLoss):
     r"""
     Hinge loss for the Generator.
+
     See Geometric GAN [1]_ for more details.
 
     .. [1] Geometric GAN https://arxiv.org/abs/1705.02894

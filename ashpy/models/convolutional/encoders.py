@@ -151,8 +151,7 @@ class Encoder(Conv2DInterface):
 
     def _add_final_block(self, output_shape):
         """
-        Take the results of :func:`_add_building_block` and prepare them for the for
-        the final output.
+        Prepare the results of :func:`_add_building_block` for the final output.
 
         Args:
             output_shape (int): Amount of units of the last :py:obj:`tf.keras.layers.Dense`
@@ -164,7 +163,9 @@ class Encoder(Conv2DInterface):
 
 
 class FCNNEncoder(Encoder):
-    """Fully Convolutional Encoder. Output a 1x1xencoding_size vector.
+    """Fully Convolutional Encoder.
+
+    Output a 1x1xencoding_size vector.
     The output neurons are linear.
 
     Examples:

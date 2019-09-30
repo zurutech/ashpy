@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Example of Multi-GPU classifier trainer
-"""
+"""Example of Multi-GPU classifier trainer."""
 
 import operator
 
@@ -26,9 +24,12 @@ from ashpy.trainers import ClassifierTrainer
 
 
 def main():
-    """How to use ash to training_set a classifier, measure the
-    performance and perform model selection."""
+    """
+    Train a multi-GPU classifier.
 
+    How to use ash to training_set a classifier, measure the
+    performance and perform model selection.
+    """
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
         training_set, validation_set = tf.keras.datasets.mnist.load_data()

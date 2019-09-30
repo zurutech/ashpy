@@ -90,9 +90,11 @@ class Context:
     @dataset.setter
     def dataset(self, _dataset: tf.data.Dataset):
         """
-        Setter for the dataset
+        Set the dataset.
+
         Args:
             _dataset (:py:class:`tf.data.Dataset`): dataset to set
+
         """
         self._dataset = _dataset
 
@@ -120,28 +122,20 @@ class Context:
 
     @property
     def exception(self) -> Optional[Exception]:
-        """
-        Returns the exception
-        """
+        """Return the exception."""
         return self._exception
 
     @exception.setter
     def exception(self, exception: Optional[Exception]) -> None:
-        """
-        Setter for the exception
-        """
+        """Set the exception."""
         self._exception = exception
 
     @property
     def current_batch(self) -> Optional[tf.Tensor]:
-        """
-        Returns the current batch
-        """
+        """Return the current batch."""
         return self._current_batch
 
     @current_batch.setter
     def current_batch(self, _current_batch: Optional[tf.Tensor]) -> None:
-        """
-        Setter for the current_batch
-        """
+        """Set the current_batch."""
         self._current_batch = _current_batch

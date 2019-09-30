@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Discriminators
-"""
+"""Convolutional Discriminators."""
 import typing
 from typing import List, Tuple, Union
 
@@ -29,7 +27,8 @@ __ALL__ = ["PatchDiscriminator", "MultiScaleDiscriminator"]
 
 class PatchDiscriminator(ConvDiscriminator):
     """
-    Pix2Pix discriminator:
+    Pix2Pix discriminator.
+
     The last layer is an image in which each pixels is the probability of being fake or real.
 
     Examples:
@@ -71,21 +70,23 @@ class PatchDiscriminator(ConvDiscriminator):
         use_attention: bool = False,
     ):
         """
-        PatchDiscriminator used by pix2pix, when min_res=1 this is the same as a standard
-        fully convolutional discriminator
+        Patch Discriminator used by pix2pix.
+
+        When min_res=1 this is the same as a standard fully convolutional discriminator.
 
         Args:
-            input_res (int): Input Resolution
-            min_res (int): Minimum Resolution reached by the discriminator
-            kernel_size (int): Kernel Size used in Conv Layer
-            initial_filters (int): number of filters in the first convolutional layer
-            filters_cap (int): Maximum number of filters
-            use_dropout (bool): whether to use dropout
-            dropout_prob (float): probability of dropout
-            non_linearity (:class:`tf.keras.layers.Layer`): non linearity used in the model
+            input_res (int): Input Resolution.
+            min_res (int): Minimum Resolution reached by the discriminator.
+            kernel_size (int): Kernel Size used in Conv Layer.
+            initial_filters (int): number of filters in the first convolutional layer.
+            filters_cap (int): Maximum number of filters.
+            use_dropout (bool): whether to use dropout.
+            dropout_prob (float): probability of dropout.
+            non_linearity (:class:`tf.keras.layers.Layer`): non linearity used in the model.
             normalization_layer (:class:`tf.keras.layers.Layer`): normalization
-                layer used in the model
-            use_attention (bool): whether to use attention
+                layer used in the model.
+            use_attention (bool): whether to use attention.
+
         """
         self.use_attention = use_attention
         self.layer_count = 0
@@ -135,6 +136,7 @@ class PatchDiscriminator(ConvDiscriminator):
     def call(
         self, inputs: Union[List, tf.Tensor], training=False, return_features=False
     ):
+        """Forward pass of the PatchDiscriminator."""
         return super().call(
             inputs=self.concatenate(inputs) if len(inputs) == 2 else inputs,
             training=training,
@@ -181,6 +183,7 @@ class PatchDiscriminator(ConvDiscriminator):
 class MultiScaleDiscriminator(tf.keras.Model):
     """
     Multi-Scale discriminator.
+
     This discriminator architecture is composed by multiple
     discriminators working at different scales.
     Each discriminator is a
@@ -215,6 +218,7 @@ class MultiScaleDiscriminator(tf.keras.Model):
             (1, 12, 12, 1)
             (1, 12, 12, 1)
             (1, 12, 12, 1)
+
     """
 
     def __init__(
@@ -232,8 +236,9 @@ class MultiScaleDiscriminator(tf.keras.Model):
         n_discriminators: int = 1,
     ):
         """
-        Multi Scale Discriminator. Different generator for different scales of the
-        input image.
+        Multi Scale Discriminator.
+
+        Different generator for different scales of the input image.
 
         Used by Pix2PixHD [1]_ .
 
@@ -254,6 +259,7 @@ class MultiScaleDiscriminator(tf.keras.Model):
 
         .. [1] High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
              https://arxiv.org/abs/1711.11585
+
         """
         super().__init__()
         self.n_discriminators = n_discriminators
@@ -280,11 +286,13 @@ class MultiScaleDiscriminator(tf.keras.Model):
 
     def build_discriminator(self, input_res) -> ConvDiscriminator:
         """
-        Build a single discriminator using parameters defined in this object
+        Build a single discriminator using parameters defined in this object.
+
         Args:
-            input_res: input resolution of the discriminator
+            input_res: input resolution of the discriminator.
         Returns:
             A Discriminator (PatchDiscriminator).
+
         """
         return PatchDiscriminator(
             input_res=input_res,
@@ -303,16 +311,18 @@ class MultiScaleDiscriminator(tf.keras.Model):
         self, inputs: Union[List, tf.Tensor], training=True, return_features=False
     ) -> Union[List[tf.Tensor], Tuple[List[tf.Tensor], List[tf.Tensor]]]:
         """
+        Forward pass of the Multi Scale Discriminator.
+
         Args:
-            inputs (:py:class:`tf.Tensor`): input tensor
-            training (bool): whether is training or not
-            return_features (bool): whether to return features or not
+            inputs (:py:class:`tf.Tensor`): input tensor.
+            training (bool): whether is training or not.
+            return_features (bool): whether to return features or not.
 
         Returns:
             ([:py:class:`tf.Tensor`]): A List of Tensors containing the
-                value of D_i for each input
+                value of D_i for each input.
             ([:py:class:`tf.Tensor`]): A List of features for each discriminator if
-                `return_features`
+                `return_features`.
 
         """
         is_conditioned = isinstance(inputs, list)

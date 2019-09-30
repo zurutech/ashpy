@@ -81,7 +81,7 @@ class ClassifierContext(Context):
         Retrieve the Model Object.
 
         Returns:
-            :py:class:`tf.keras.Model`: The classifier model
+            :py:class:`tf.keras.Model`: The classifier model.
 
         """
         return self._classifier_model
@@ -89,38 +89,44 @@ class ClassifierContext(Context):
     @property
     def validation_set(self) -> Optional[tf.data.Dataset]:
         """
-        Returns the validation set
+        Return the validation set.
 
         Returns:
-            :py:class:`tf.data.Dataset`: The validation set
+            :py:class:`tf.data.Dataset`: The validation set.
+
         """
         return self._validation_set
 
     @validation_set.setter
     def validation_set(self, _validation_set: tf.data.Dataset) -> None:
         """
-        Setter for the validation set
+        Set for the validation set.
+
         Args:
-            _validation_set (:py:class:`tf.data.Dataset`): validation set
+            _validation_set (:py:class:`tf.data.Dataset`): validation set.
+
         """
         self._validation_set = _validation_set
 
     @property
     def training_set(self) -> tf.data.Dataset:
         """
-        Returns the training set
+        Return the training set.
 
         Returns:
-            :py:class:`tf.data.Dataset`: The training set
+            :py:class:`tf.data.Dataset`: The training set.
+
         """
         return self._training_set
 
     @training_set.setter
     def training_set(self, _training_set: tf.data.Dataset) -> None:
         """
-        Set the training set
+        Set the training set.
+
         Args:
             _training_set ( :py:class:`tf.data.Dataset`): training set to
-                set
+                set.
+
         """
         self._training_set = _training_set

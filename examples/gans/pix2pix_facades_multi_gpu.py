@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-""""
+"""
 Pix2Pix on Facades Datasets dummy implementation.
+
 Input Pipeline taken from: https://www.tensorflow.org/beta/tutorials/generative/pix2pix
 """
 import os
@@ -58,8 +59,7 @@ def main(
     channels=3,
     gan_loss_type=AdversarialLossType.LSGAN,
 ):
-    """Main train loop and models definition."""
-
+    """Implement Pix2Pix on Facades Datasets."""
     # define the distribution strategy
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():

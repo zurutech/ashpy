@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Set of utility functions
-"""
+"""Set of utility functions."""
 from typing import List, Type
 
 import tensorflow as tf
@@ -22,15 +20,18 @@ import tensorflow as tf
 
 def validate_objects(elements: List, element_class: Type) -> bool:
     """
-    Check if all the elements are instance of the element_class
+    Check if all the elements are instance of the element_class.
+
     Args:
-        elements: List of objects that should be instance of element_class
-        element_class: class of the objects
+        elements: List of objects that should be instance of element_class.
+        element_class: class of the objects.
 
     Returns:
-        True if all the elements are instance of element_class
+        True if all the elements are instance of element_class.
+
     Raises:
-        ValueError if one element is not an instance of element_class
+        ValueError if one element is not an instance of element_class.
+
     """
     for element in elements:
         if not isinstance(element, element_class):

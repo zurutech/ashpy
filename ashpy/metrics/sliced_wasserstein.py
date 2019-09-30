@@ -14,6 +14,7 @@
 # limitations under the License.
 
 """Implementation of Sliced Wasserstein Distance.
+
 Proposed in https://arxiv.org/abs/1710.10196 and the official Theano
 implementation that we used as reference can be found here:
 https://github.com/tkarras/progressive_growing_of_gans
@@ -46,9 +47,7 @@ _GAUSSIAN_FILTER = (
 
 
 def batch_to_space(*args, **kwargs):
-    """
-    Calls tf.batch_to_space using the correct arguments
-    """
+    """Call tf.batch_to_space using the correct arguments."""
     try:
         return tf.batch_to_space(*args, **kwargs)
     except TypeError:
@@ -65,16 +64,19 @@ def _to_float(tensor):
 def laplacian_pyramid(batch, num_levels):
     """
     Compute a Laplacian pyramid.
+
       Args:
           batch: (tensor) The batch of images (batch, height, width, channels).
           num_levels: (int) Desired number of hierarchical levels.
+
       Returns:
           List of tensors from the highest to lowest resolution.
+
     """
     gaussian_filter = tf.constant(_GAUSSIAN_FILTER)
 
     def spatial_conv(batch, gain):
-        """Custom conv2d."""
+        """Compute custom conv2d."""
         s = tf.shape(input=batch)
         padded = tf.pad(
             tensor=batch, paddings=[[0, 0], [2, 2], [2, 2], [0, 0]], mode="REFLECT"
@@ -109,15 +111,16 @@ def laplacian_pyramid(batch, num_levels):
 def _batch_to_patches(batch, patches_per_image, patch_size):
     """
     Extract patches from a batch.
-    Args:
-      batch: (tensor) The batch of images (batch, height, width, channels).
-      patches_per_image: (int) Number of patches to extract per image.
-      patch_size: (int) Size of the patches (size, size, channels) to extract.
-    Returns:
-      Tensor (batch*patches_per_image, patch_size, patch_size, channels) of
-      patches.
-    """
 
+    Args:
+        batch: (tensor) The batch of images (batch, height, width, channels).
+        patches_per_image: (int) Number of patches to extract per image.
+        patch_size: (int) Size of the patches (size, size, channels) to extract.
+    Returns:
+        Tensor (batch*patches_per_image, patch_size, patch_size, channels) of
+        patches.
+
+    """
     def py_func_random_patches(batch):
         """Numpy wrapper."""
         batch_size, height, width, channels = batch.shape
@@ -142,10 +145,13 @@ def _batch_to_patches(batch, patches_per_image, patch_size):
 def _normalize_patches(patches):
     """
     Normalize patches by their mean and standard deviation.
+
     Args:
         patches: (tensor) The batch of patches (batch, size, size, channels).
+
     Returns:
         Tensor (batch, size, size, channels) of the normalized patches.
+
     """
     patches = tf.concat(patches, 0)
     mean, variance = tf.nn.moments(x=patches, axes=[1, 2, 3], keepdims=True)
@@ -157,11 +163,14 @@ def _normalize_patches(patches):
 def _sort_rows(matrix, num_rows):
     """
     Sort matrix rows by the last column.
+
     Args:
         matrix: a matrix of values (row,col).
         num_rows: (int) number of sorted rows to return from the matrix.
+
     Returns:
         Tensor (num_rows, col) of the sorted matrix top K rows.
+
     """
     tmatrix = tf.transpose(a=matrix, perm=[1, 0])
     sorted_tmatrix = tf.nn.top_k(tmatrix, num_rows)[0]
@@ -171,13 +180,16 @@ def _sort_rows(matrix, num_rows):
 def _sliced_wasserstein(a, b, random_sampling_count, random_projection_dim):
     """
     Compute the approximate sliced Wasserstein distance.
+
     Args:
         a: (matrix) Distribution "a" of samples (row, col).
         b: (matrix) Distribution "b" of samples (row, col).
         random_sampling_count: (int) Number of random projections to average.
         random_projection_dim: (int) Dimension of the random projection space.
+
     Returns:
         Float containing the approximate distance between "a" and "b".
+
     """
     s = tf.shape(input=a)
     means = []
@@ -199,14 +211,19 @@ def _sliced_wasserstein(a, b, random_sampling_count, random_projection_dim):
 
 
 def _sliced_wasserstein_svd(a, b):
-    """Compute the approximate sliced Wasserstein distance using an SVD.
+    """
+    Compute the approximate sliced Wasserstein distance using an SVD.
+
     This is not part of the paper, it's a variant with possibly more accurate
     measure.
+
     Args:
         a: (matrix) Distribution "a" of samples (row, col).
         b: (matrix) Distribution "b" of samples (row, col).
+
     Returns:
         Float containing the approximate distance between "a" and "b".
+
     """
     s = tf.shape(input=a)
     # Random projection matrix.
@@ -231,8 +248,10 @@ def sliced_wasserstein_distance(
 ):
     """
     Compute the Wasserstein distance between two distributions of images.
+
     Note that measure vary with the number of images. Use 8192 images to get
     numbers comparable to the ones in the original paper.
+
     Args:
         real_images: (tensor) Real images (batch, height, width, channels).
         fake_images: (tensor) Fake images (batch, height, width, channels).
@@ -243,17 +262,20 @@ def sliced_wasserstein_distance(
         random_sampling_count: (int) Number of random projections to average.
         random_projection_dim: (int) Dimension of the random projection space.
         use_svd: experimental method to compute a more accurate distance.
+
     Returns:
         List of tuples (distance_real, distance_fake) for each level of the
         Laplacian pyramid from the highest resolution to the lowest.
         distance_real is the Wasserstein distance between real images
         distance_fake is the Wasserstein distance between real and fake images.
+
     Raises:
         ValueError: If the inputs shapes are incorrect. Input tensor dimensions
         (batch, height, width, channels) are expected to be known at graph
         construction time. In addition height and width must be the same and the
         number of colors should be exactly 3. Real and fake images must have the
         same size.
+
     """
     height = real_images.shape[1]
     real_images.shape.assert_is_compatible_with([None, None, height, 3])

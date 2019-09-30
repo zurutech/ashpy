@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Event definition as Enum
-"""
+"""Event definition as Enum."""
 
 from enum import Enum, auto
 
 
 class Event(Enum):
+    """Define all possible events."""
+
     ON_BATCH_START = auto()
     ON_BATCH_END = auto()
     ON_TRAIN_START = auto()

@@ -212,7 +212,7 @@ class Metric(ABC):
 
     def log(self, step: int) -> None:
         """
-        Log the metric
+        Log the metric.
 
         Args:
             step: global step of training

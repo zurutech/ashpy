@@ -24,8 +24,7 @@ import ashpy
 
 @pytest.fixture(autouse=True)
 def add_common_namespaces(doctest_namespace):
-    """Adds the common namespace to all tests."""
-
+    """Add the common namespace to all tests."""
     doctest_namespace["tf"] = tensorflow
     doctest_namespace["trainers"] = ashpy.trainers
     doctest_namespace["models"] = ashpy.models
@@ -37,9 +36,7 @@ def add_common_namespaces(doctest_namespace):
 
 @pytest.fixture(scope="function")
 def adversarial_logdir():
-    """
-    Add the logdir parameter to tests
-    """
+    """Add the logdir parameter to tests."""
     m_adversarial_logdir = "testlog/adversarial"
 
     # clean before

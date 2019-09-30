@@ -169,7 +169,7 @@ class ClassifierTrainer(Trainer):
 
     @tf.function
     def _train_step(self, example):
-        """The training step that uses the distribution strategy."""
+        """Perform the training step using the distribution strategy."""
         per_replica_loss = self._distribute_strategy.experimental_run_v2(
             self.train_step, args=(example[0], example[1])
         )
@@ -196,6 +196,7 @@ class ClassifierTrainer(Trainer):
                 measures performance every 10 steps of training.
                 Pass `measure_performance_freq<=0` in case you don't want to measure
                 performance.
+
         """
         # set the context properties
         self._context.training_set = training_set

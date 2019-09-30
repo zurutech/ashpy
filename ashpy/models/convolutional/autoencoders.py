@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Collection of Fully Convolutional Autoencoders"""
+"""Collection of Fully Convolutional Autoencoders."""
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.models.convolutional.decoders import Decoder, FCNNDecoder
@@ -104,10 +104,11 @@ class Autoencoder(keras.Model):  # pylint: disable=no-member
         Args:
             inputs (:py:class:`tf.Tensor`): Input tensors.
             training (:obj:`bool`): Training flag.
+
         Returns:
             (encoding, reconstruction): Pair of tensors.
-        """
 
+        """
         encoding = self._encoder(inputs, training)
         reconstruction = self._decoder(encoding, training)
         return encoding, reconstruction
@@ -119,7 +120,6 @@ class FCNNAutoencoder(keras.Model):  # pylint: disable=no-member
 
     Examples:
         * Direct Usage:
-
             .. testcode::
 
                 autoencoder = FCNNAutoencoder(
@@ -198,8 +198,8 @@ class FCNNAutoencoder(keras.Model):  # pylint: disable=no-member
             training (:obj:`bool`): Training flag.
         Returns:
             (encoding, reconstruction): Pair of tensors.
-        """
 
+        """
         encoding = self._encoder(inputs, training)
         reconstruction = self._decoder(encoding, training)
         return encoding, reconstruction

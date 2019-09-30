@@ -69,8 +69,8 @@ class DiscriminatorLoss(Metric):
         Update the internal state of the metric, using the information from the context object.
 
         Args:
-            context (:py:class:`ashpy.contexts.GANContext`): An AshPy Context Object that carries
-                all the information the Metric needs.
+            context (:py:class:`ashpy.contexts.gan.GANContext`): An AshPy Context Object
+                that carries all the information the Metric needs.
 
         """
         updater = lambda value: lambda: self._metric.update_state(value)
@@ -194,11 +194,10 @@ class EncoderLoss(Metric):
         Update the internal state of the metric, using the information from the context object.
 
         Args:
-            context (:py:class:`ashpy.contexts.GANEncoderContext`): An AshPy Context Object
+            context (:py:class:`ashpy.contexts.gan.GANEncoderContext`): An AshPy Context Object
                 that carries all the information the Metric needs.
 
         """
-
         updater = lambda value: lambda: self._metric.update_state(value)
         for real_xy, noise in context.dataset:
             real_x, real_y = real_xy

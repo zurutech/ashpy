@@ -25,7 +25,6 @@ class Encoder(FCInterface):
     Primitive Model for all fully connected encoder based architecture.
 
     Examples:
-
         .. testcode::
 
             encoder = Encoder(

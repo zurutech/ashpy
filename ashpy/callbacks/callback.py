@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Callback definition
-"""
+"""Callback definition."""
 import tensorflow as tf
 
 from ashpy.callbacks.events import Event
@@ -24,13 +22,13 @@ from ashpy.contexts import Context
 class Callback(tf.Module):
     r"""
     Callback definition.
+
     Every callback must extend from this class.
     This class defines the basic events.
     Every event takes as input the context in order to use the objects defined.
     Inheritance from tf.Module is required since callbacks have a state
 
     Order:
-
     .. code-block::
 
         --on_train_start
@@ -53,16 +51,21 @@ class Callback(tf.Module):
 
     def on_event(self, event: Event, context: Context) -> None:
         """
-        Method called when an event is triggered
+        Handle the on_event event.
+
+        Method called when an event is triggered.
 
         Args:
             event (:py:class:`ashpy.callbacks.events.Event`): triggered event
             context (:py:class:`ashpy.contexts.context.Context`): training context
+
         """
 
     def on_train_start(self, context: Context) -> None:
         """
-        Method called at the beginning of the training loop
+        Handle on_train_start event.
+
+        Method called at the beginning of the training loop.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context
@@ -72,7 +75,9 @@ class Callback(tf.Module):
 
     def on_train_end(self, context: Context) -> None:
         """
-        Method called at the end of the training loop
+        Handle on_train_end event.
+
+        Method called at the end of the training loop.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context
@@ -82,7 +87,9 @@ class Callback(tf.Module):
 
     def on_epoch_start(self, context: Context) -> None:
         """
-        Method called at the beginning of an epoch
+        Handle on_epoch_start event.
+
+        Method called at the beginning of an epoch.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context
@@ -92,7 +99,9 @@ class Callback(tf.Module):
 
     def on_epoch_end(self, context: Context) -> None:
         """
-        Method called at the end of an epoch
+        Handle on_epoch_end event.
+
+        Method called at the end of an epoch.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context
@@ -102,7 +111,9 @@ class Callback(tf.Module):
 
     def on_batch_start(self, context: Context) -> None:
         """
-        Method called at the beginning of a batch
+        Handle on_batch_start event.
+
+        Method called at the beginning of a batch.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context
@@ -112,7 +123,9 @@ class Callback(tf.Module):
 
     def on_batch_end(self, context: Context) -> None:
         """
-        Method called at the end of a batch
+        Handle on_batch_end event.
+
+        Method called at the end of a batch.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context
@@ -122,7 +135,9 @@ class Callback(tf.Module):
 
     def on_exception(self, context: Context) -> None:
         """
-        Method called when an exception is raised
+        Handle on_exception event.
+
+        Method called when an exception is raised.
 
         Args:
             context (:py:class:`ashpy.contexts.context.Context`): training context

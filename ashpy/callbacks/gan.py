@@ -14,6 +14,7 @@
 
 """
 GAN callbacks.
+
 LogImageGANCallback: Log output of the generator when evaluated in its inputs.
 LogImageGANEncoderCallback: Log output of the generator when evaluated in the encoder
 """
@@ -30,6 +31,7 @@ from ashpy.utils.utils import log
 class LogImageGANCallback(CounterCallback):
     """
     Callback used for logging GANs images to Tensorboard.
+
     Logs the Generator output.
     Logs G(z).
 
@@ -113,6 +115,7 @@ class LogImageGANCallback(CounterCallback):
             [2] Saved checkpoint: testlog/callbacks/ckpts/ckpt-2
             Epoch 2 completed.
             Training finished after 2 epochs.
+
     """
 
     def __init__(
@@ -123,9 +126,12 @@ class LogImageGANCallback(CounterCallback):
     ):
         """
         Initialize the LogImageCallbackGAN.
+
         Args:
-            event: event to consider
-            event_freq: frequency of logging
+            event (:py:class:`ashpy.callbacks.events.Event`): event to consider.
+            event_freq (int): frequency of logging.
+            name (str): name of the callback.
+
         """
         super(LogImageGANCallback, self).__init__(
             event=event, fn=self._log_fn, name=name, event_freq=event_freq
@@ -134,8 +140,10 @@ class LogImageGANCallback(CounterCallback):
     def _log_fn(self, context: GANContext) -> None:
         """
         Log output of the generator to Tensorboard.
+
         Args:
-            context: current context
+            context (:py:class:`ashpy.contexts.gan.GANContext`): current context.
+
         """
         if context.log_eval_mode == LogEvalMode.TEST:
             out = context.generator_model(context.generator_inputs, training=False)
@@ -156,8 +164,10 @@ class LogImageGANCallback(CounterCallback):
 class LogImageGANEncoderCallback(LogImageGANCallback):
     """
     Callback used for logging GANs images to Tensorboard.
+
     Logs the Generator output evaluated in the encoder output.
     Logs G(E(x)).
+
     Examples:
         .. testcode::
 
@@ -235,6 +245,7 @@ class LogImageGANEncoderCallback(LogImageGANCallback):
             [20] Saved checkpoint: testlog/callbacks_encoder/ckpts/ckpt-2
             Epoch 2 completed.
             Training finished after 2 epochs.
+
     """
 
     def __init__(
@@ -245,9 +256,12 @@ class LogImageGANEncoderCallback(LogImageGANCallback):
     ):
         """
         Initialize the LogImageCallbackGAN.
+
         Args:
-            event: event to consider
-            event_freq: frequency of logging
+            event (:py:class:`ashpy.callbacks.events.Event`): event to consider.
+            event_freq (int): frequency of logging.
+            name (str): name of the callback.
+
         """
         super(LogImageGANEncoderCallback, self).__init__(
             event=event, name=name, event_freq=event_freq
@@ -256,10 +270,13 @@ class LogImageGANEncoderCallback(LogImageGANCallback):
     def _log_fn(self, context: GANEncoderContext):
         """
         Log output of the generator to Tensorboard.
+
         Logs G(E(x)).
+
         Args:
-            context: current context
-         """
+            context (:py:class:`ashpy.contexts.gan.GanEncoderContext`): current context.
+
+        """
         if context.log_eval_mode == LogEvalMode.TEST:
             generator_of_encoder = context.generator_model(
                 context.encoder_model(context.encoder_inputs, training=False),

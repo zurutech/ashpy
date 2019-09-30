@@ -110,7 +110,7 @@ class Decoder(Conv2DInterface):
             :py:obj:`None`
 
         Raises:
-            ValueError: If `filters_cap` > `initial_filters`
+            ValueError: If `filters_cap` > `initial_filters`.
 
         """
         super().__init__()
@@ -171,6 +171,7 @@ class Decoder(Conv2DInterface):
 
         Args:
             filters (int): Number of filters to use for this iteration of the Building Block.
+
         """
         self.model_layers.extend(
             [
@@ -188,13 +189,10 @@ class Decoder(Conv2DInterface):
 
     def _add_final_block(self, channels):
         """
-        Take the results of :func:`_add_building_block` and prepare them
-        for the for the final output.
+        Prepare results of :func:`_add_building_block` for the for the final output.
 
         Args:
             channels (int): Channels of the output images (1 for Grayscale, 3 for RGB).
-            kernel_size (:obj:`tuple` of (:obj:`int`, :obj:`int`)): Kernel used by the
-                convolution layers.
 
         """
         self.model_layers.append(
@@ -214,7 +212,6 @@ class FCNNDecoder(Decoder):
 
     Examples:
         * Direct Usage:
-
             .. testcode::
 
                 dummy_generator = FCNNDecoder(
@@ -246,6 +243,7 @@ class FCNNDecoder(Decoder):
         dropout_prob=0.3,
         non_linearity=keras.layers.LeakyReLU,
     ):
+        """Build a Fully Convolutional Decoder."""
         self._kernel_size = kernel_size
         super().__init__(
             layer_spec_input_res,
@@ -273,11 +271,9 @@ class FCNNDecoder(Decoder):
         # GOAL: upsample in order to make it input_res[0], input_res[1], initial_filters
         # Since conv2dtrasponse output is: input size * stride if padding == same
         # and (input size -1) * stride + Kernel size if padding == valid
-
         # Since input resolution is 1, computing the stride value is
         # not possible (division by zero (input_size-1))
         # hence we have to use padding = same.
-
         stride = max(*input_res)
         self.model_layers.extend(
             [

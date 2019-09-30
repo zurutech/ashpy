@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-""""
+"""
 Pix2Pix on Facades Datasets dummy implementation.
+
 Input Pipeline taken from: https://www.tensorflow.org/beta/tutorials/generative/pix2pix
 """
 import os
@@ -81,9 +82,7 @@ def random_crop(input_image, real_image):
 
 
 def normalize(input_image, real_image):
-    """
-    Normalize images in [-1, 1].
-    """
+    """Normalize images in [-1, 1]."""
     input_image = (input_image / 127.5) - 1
     real_image = (real_image / 127.5) - 1
 
@@ -141,8 +140,7 @@ def main(
     channels=3,
     gan_loss_type=AdversarialLossType.LSGAN,
 ):
-    """Main train loop and models definition."""
-
+    """Define Trainer and models."""
     generator = FUNet(
         input_res=g_input_res,
         min_res=g_min_res,

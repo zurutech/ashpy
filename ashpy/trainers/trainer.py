@@ -56,12 +56,11 @@ class Trainer(ABC):
                 to use when evaluating and logging.
             global_step (Optional[py:class:`ashpy.modes.LogEvalMode`]): tf.Variable that
                 keeps track of the training steps.
-            metrics (Optional[List[:py:class:`ashpy.metrics.Metric`]]): list of metrics
+            metrics (Optional[List[:py:class:`ashpy.metrics.Metric`]]): list of metrics.
             callbacks (Optional[List[:py:class:`ashpy.callbacks.Callback`]]): list of callbacks
-                to handle events
+                to handle events.
 
         """
-
         self._distribute_strategy = tf.distribute.get_strategy()
         self._context = Context()
 
@@ -125,17 +124,17 @@ class Trainer(ABC):
 
     @property
     def context(self) -> Context:
-        """
-        Returns: the training context
-        """
+        """Return the training context."""
         return self._context
 
     @context.setter
     def context(self, _context: Context):
         """
-        Setter for the context
+        Set the context.
+
         Args:
-            _context (:py:class:`ashpy.contexts.Context`): Context to set
+            _context (:py:class:`ashpy.contexts.context.Context`): Context to set.
+
         """
         self._context = _context
 
@@ -153,13 +152,15 @@ class Trainer(ABC):
         executors: Optional[Union[List[Executor], Executor]] = None,
     ):
         """
-        Given a dataset and the current distribution strategy sets the
-        self._global_batch_size variable where needed.
-        Args:
-            dataset: a dataset from which the batch size will be extracted.
-            executors: a list of executor with the property "global_batch_size" settable.
-        """
+        Set the `self._global_batch_size` variable where needed.
 
+        Args:
+            dataset (:py:class:`tf.data.Dataset`): a dataset from which the batch size will be extracted.
+            executors (Union[List[:py:class:`ashpy.losses.executor.Executor`],
+                :py:class:`ashpy.losses.executor.Executor`]: a list of executor
+                with the property "global_batch_size".
+
+        """
         sample = next(iter(dataset.take(1)))
         if isinstance(sample, tuple):
             if isinstance(sample[0], tuple):
@@ -181,7 +182,7 @@ class Trainer(ABC):
                 executors.global_batch_size = self._global_batch_size
 
     def _reduce(self, per_replica_tensor, reduce_op):
-        """Given the input tensor, reduces it in a distributed fashion, using the specified op."""
+        """Reduce the input tensor in a distributed fashion, using the specified op."""
         context = tf.distribute.get_replica_context()
         if context:
             return context.all_reduce(reduce_op, per_replica_tensor)
@@ -190,7 +191,7 @@ class Trainer(ABC):
         )
 
     def _restore_or_init(self):
-        """Restores or initializes the persistence layer (checkpoint)."""
+        """Restore or initialize the persistence layer (checkpoint)."""
         if self._manager.latest_checkpoint:
             self._checkpoint.restore(self._manager.latest_checkpoint)
             print(f"Restored checkpoint {self._manager.latest_checkpoint}.")
@@ -209,7 +210,7 @@ class Trainer(ABC):
         Get the current epoch using the (restored) variables.
 
         Returns:
-            current_epoch (tf.Tensor): the current epoch of training
+            current_epoch (:py:class:`tf.Tensor`): the current epoch of training.
 
         """
         current_epoch = tf.constant(0, dtype=tf.int64)
@@ -220,6 +221,7 @@ class Trainer(ABC):
         return current_epoch
 
     def _log_metrics_and_reset(self):
+        """Call for each metric the log and reset_states."""
         step = self._global_step.numpy()
 
         for metric_obj in self._metrics:
@@ -239,6 +241,11 @@ class Trainer(ABC):
     def _measure_performance_if_needed(
         self, example: tf.Tensor, measure_performance_freq: int
     ):
+        """
+        Measure performance if needed.
+
+        Measure performance if self._global_step % measure_performance_freq is 0.
+        """
         # measure performance if needed
         if measure_performance_freq > 0 and tf.equal(
             tf.math.mod(self._global_step, measure_performance_freq), 0
@@ -255,9 +262,7 @@ class Trainer(ABC):
             self._measure_performance()
 
     def _measure_performance(self):
-        """
-        Measure performance on dataset.
-        """
+        """Measure performance on dataset."""
         self.measure_metrics()
         self.model_selection()
         self._log_metrics_and_reset()
@@ -267,7 +272,7 @@ class Trainer(ABC):
         Get a dataset from a given example.
 
         Returns:
-            The dataset containing only the example
+            The dataset containing only the example.
 
         """
         example = self.local_example(example, dims)
@@ -275,10 +280,10 @@ class Trainer(ABC):
 
     def local_example(self, example, dims):
         """
-        Return a local example from a distributed example
+        Return a local example from a distributed example.
 
         Returns:
-            A local example from a distributed example
+            A local example from a distributed example.
 
         """
         columns = []
@@ -308,9 +313,7 @@ class Trainer(ABC):
 
     @abstractmethod
     def call(self, *args, **kwargs):
-        """
-        Execute the training process.
-        """
+        """Execute the training process."""
 
     def __call__(self, *args, **kwargs):
         """Invoke the trainer."""
@@ -323,32 +326,24 @@ class Trainer(ABC):
             raise ex
 
     def _on_train_start(self) -> None:
-        """
-        Handle the start of training.
-        """
+        """Handle the start of training."""
         for callback in self._callbacks:
             callback.on_train_start(self._context)
 
     def _on_train_end(self) -> None:
-        """
-        Handle the end of training.
-        """
+        """Handle the end of training."""
         print(f"Training finished after {self._current_epoch().numpy()} epochs.")
         for callback in self._callbacks:
             callback.on_train_end(self._context)
 
     def _on_epoch_start(self) -> None:
-        """
-        Handle the start of the training epoch.
-        """
+        """Handle the start of the training epoch."""
         print(f"Starting epoch {self._current_epoch().numpy() + 1}.")
         for callback in self._callbacks:
             callback.on_epoch_start(self._context)
 
     def _on_epoch_end(self) -> None:
-        """
-        Handle the end of the training epoch.
-        """
+        """Handle the end of the training epoch."""
         if tf.math.less(self._steps_per_epoch, 0):
             # only the first time, save the number of steps per epoch
             self._steps_per_epoch.assign(self._global_step)
@@ -358,22 +353,16 @@ class Trainer(ABC):
             callback.on_epoch_end(self._context)
 
     def _on_batch_start(self) -> None:
-        """
-        Handle the start of a training batch.
-        """
+        """Handle the start of a training batch."""
         for callback in self._callbacks:
             callback.on_batch_start(self._context)
 
     def _on_batch_end(self) -> None:
-        """
-        Handle the end of a training batch.
-        """
+        """Handle the end of a training batch."""
         for callback in self._callbacks:
             callback.on_batch_end(self._context)
 
     def _on_exception(self) -> None:
-        """
-        Handle the exception.
-        """
+        """Handle the exception."""
         for callback in self._callbacks:
             callback.on_exception(self._context)

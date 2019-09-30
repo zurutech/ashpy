@@ -25,7 +25,6 @@ class Decoder(FCInterface):
     Primitive Model for all fully connected decoder based architecture.
 
     Examples:
-
         .. testcode::
 
             decoder = Decoder(

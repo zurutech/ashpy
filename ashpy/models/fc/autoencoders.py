@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Collection of Fully Connected Autoencoders"""
+"""Collection of Fully Connected Autoencoders."""
 from tensorflow import keras  # pylint: disable=no-name-in-module
 
 from ashpy.models.fc.decoders import Decoder
@@ -27,7 +27,6 @@ class Autoencoder(keras.Model):  # pylint: disable=no-member
 
     Examples:
         * Direct Usage:
-
             .. testcode::
 
                 autoencoder = Autoencoder(
@@ -71,10 +70,11 @@ class Autoencoder(keras.Model):  # pylint: disable=no-member
         Args:
             inputs (:py:class:`tf.Tensor`): Input tensors.
             training (:obj:`bool`): Training flag.
+
         Returns:
             (encoding, reconstruction): Pair of tensors.
-        """
 
+        """
         encoding = self._encoder(inputs, training)
         reconstruction = self._decoder(encoding, training)
         return encoding, reconstruction

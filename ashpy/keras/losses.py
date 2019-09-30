@@ -106,6 +106,7 @@ class DMinMax(tf.keras.losses.Loss):
 
         Returns:
             :py:class:`tf.Tensor`: Output Tensor.
+
         """
         return 0.5 * (
             self._positive_bce(tf.ones_like(d_real), d_real)
@@ -187,6 +188,7 @@ class DLeastSquare(tf.keras.losses.Loss):
 class DHingeLoss(tf.keras.losses.Loss):
     r"""
     Discriminator Hinge Loss as Keras Metric.
+
     See Geometric GAN [1]_ for more details.
 
     The Discriminator Hinge loss is the hinge version
@@ -236,7 +238,7 @@ class DHingeLoss(tf.keras.losses.Loss):
         self._hinge_loss_real.reduction = value
 
     def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
-        """Compute the hinge loss"""
+        """Compute the hinge loss."""
         real_loss = self._hinge_loss_real(tf.ones_like(d_real), d_real)
         fake_loss = self._hinge_loss_fake(
             tf.math.negative(tf.ones_like(d_fake)), d_fake
@@ -250,8 +252,8 @@ class DHingeLoss(tf.keras.losses.Loss):
 class GHingeLoss(tf.keras.losses.Loss):
     r"""
     Generator Hinge Loss as Keras Metric.
-    See Geometric GAN [1]_ for more details.
 
+    See Geometric GAN [1]_ for more details.
     The Generator Hinge loss is the hinge version
     of the adversarial loss.
     The Hinge loss is defined as:
@@ -299,6 +301,5 @@ class GHingeLoss(tf.keras.losses.Loss):
         self._reduction = value
 
     def call(self, d_real: tf.Tensor, d_fake: tf.Tensor) -> tf.Tensor:
-        """Computes the hinge loss"""
-
+        """Compute the hinge loss."""
         return -d_fake

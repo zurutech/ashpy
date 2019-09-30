@@ -24,8 +24,7 @@ from ashpy.trainers import AdversarialTrainer
 
 
 def main():
-    """Main."""
-
+    """Adversarial trainer example."""
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
 
@@ -93,7 +92,7 @@ def main():
         mnist_x, mnist_y = keras.datasets.mnist.load_data()[0]
 
         def iterator():
-            """Iterator in order to do not load in memory all the dataset."""
+            """Define an iterator in order to do not load in memory all the dataset."""
             for image, label in zip(mnist_x, mnist_y):
                 yield tf.image.convert_image_dtype(
                     tf.expand_dims(image, -1), tf.float32
