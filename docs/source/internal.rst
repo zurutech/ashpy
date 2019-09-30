@@ -1,12 +1,12 @@
 AshPy Internals
 ###############
 
-The two main concepts of AshPy internals are :py:class:`BaseContext <ashpy.contexts.base_context.BaseContext>` and :py:class:`Executor <ashpy.losses.executor.Executor>`.
+The two main concepts of AshPy internals are :py:class:`Context <ashpy.contexts.context.Context>` and :py:class:`Executor <ashpy.losses.executor.Executor>`.
 
 Context
 -------
 
-A :py:class:`BaseContext <ashpy.contexts.base_context.BaseContext>` is an object that contains all the needed information. Here needed depends on the application.
+A :py:class:`Context <ashpy.contexts.context.Context>` is an object that contains all the needed information. Here needed depends on the application.
 In AshPy the :code:`Context` concept links a generic training loop with the loss function calculation and the model evaluation.
 A :code:`Context` is a useful class in which all the models, metrics, dataset and mode of your network are set.
 Passing the context around means that you can any time access to all what you need in order to perform any type of computation.
