@@ -17,6 +17,8 @@ Set of utility functions
 """
 from typing import List, Type
 
+import tensorflow as tf
+
 
 def validate_objects(elements: List, element_class: Type) -> bool:
     """
@@ -34,3 +36,25 @@ def validate_objects(elements: List, element_class: Type) -> bool:
         if not isinstance(element, element_class):
             raise ValueError(f"{element} is not a {element_class}")
     return True
+
+
+def log(name: str, out: tf.Tensor, step: tf.Variable):
+    """
+    Log the out tensor using name as its name in tensorboard.
+
+    Args:
+        name (str): summary name.
+        out (py:class:`tf.Tensor`): the tensor to log.
+        step (py:class:`tf.Tensor`): current step.
+
+    """
+    rank = tf.rank(out)
+
+    # log as image
+    if tf.equal(rank, 4):
+        tf.summary.image(
+            name, out, max_outputs=tf.math.minimum(tf.shape(out)[0], 16), step=step
+        )
+    # log as histogram
+    if tf.equal(rank, 2):
+        tf.summary.histogram(name, out, step=step)
