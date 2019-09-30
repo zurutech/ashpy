@@ -22,6 +22,8 @@ from ashpy.trainers import AdversarialTrainer
 
 def fake_training_loop(
     adversarial_logdir,
+    generator=None,
+    discriminator=None,
     metrics=None,
     callbacks=None,
     epochs=2,
@@ -44,23 +46,25 @@ def fake_training_loop(
     latent_dim = 100
 
     # model definition
-    generator = ConvGenerator(
-        layer_spec_input_res=layer_spec_input_res,
-        layer_spec_target_res=image_resolution,
-        kernel_size=kernel_size,
-        initial_filters=32,
-        filters_cap=16,
-        channels=channels,
-    )
+    if generator is None:
+        generator = ConvGenerator(
+            layer_spec_input_res=layer_spec_input_res,
+            layer_spec_target_res=image_resolution,
+            kernel_size=kernel_size,
+            initial_filters=32,
+            filters_cap=16,
+            channels=channels,
+        )
 
-    discriminator = ConvDiscriminator(
-        layer_spec_input_res=image_resolution,
-        layer_spec_target_res=layer_spec_target_res,
-        kernel_size=kernel_size,
-        initial_filters=16,
-        filters_cap=32,
-        output_shape=1,
-    )
+    if discriminator is None:
+        discriminator = ConvDiscriminator(
+            layer_spec_input_res=image_resolution,
+            layer_spec_target_res=layer_spec_target_res,
+            kernel_size=kernel_size,
+            initial_filters=16,
+            filters_cap=32,
+            output_shape=1,
+        )
 
     # Real data
     data_x, data_y = (

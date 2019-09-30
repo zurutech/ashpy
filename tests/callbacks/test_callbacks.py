@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test losses inside the AdversarialLossType Enum."""
+"""Test LogImageGANCallback."""
 
 from ashpy.callbacks.events import Event
 from ashpy.callbacks.gan import LogImageGANCallback
