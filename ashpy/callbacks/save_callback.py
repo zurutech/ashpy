@@ -89,14 +89,51 @@ class SaveFormat(Flag):
             )
             model.save(save_dir, save_format=save_sub_format.value)
 
-        if not ((SaveFormat.MODEL & self) | (SaveFormat.WEIGHTS & self)):
+        if not (SaveFormat.MODEL & self) | (SaveFormat.WEIGHTS & self):
             raise NotImplementedError(
                 "No implementation of `save` method for the current SaveFormat"
             )
 
 
 class SaveCallback(CounterCallback):
-    """Save Callback implementation."""
+    """
+    Save Callback implementation.
+
+    Examples:
+        .. testcode::
+
+            import shutil
+            import operator
+            import os
+
+            generator = models.gans.ConvGenerator(
+                layer_spec_input_res=(7, 7),
+                layer_spec_target_res=(28, 28),
+                kernel_size=(5, 5),
+                initial_filters=32,
+                filters_cap=16,
+                channels=1,
+            )
+
+            discriminator = models.gans.ConvDiscriminator(
+                layer_spec_input_res=(28, 28),
+                layer_spec_target_res=(7, 7),
+                kernel_size=(5, 5),
+                initial_filters=16,
+                filters_cap=32,
+                output_shape=1,
+            )
+
+            models = [generator, discriminator]
+
+            save_callback = callbacks.SaveCallback(save_dir="testlog/savedir",
+                                                   models=models,
+                                                   save_format=callbacks.SaveFormat.WEIGHTS,
+                                                   save_sub_format=callbacks.SaveSubFormat.TF)
+
+            # initialize trainer passing the save_callback
+
+    """
 
     def __init__(
         self,
@@ -104,11 +141,11 @@ class SaveCallback(CounterCallback):
         models: List[tf.keras.models.Model],
         event: Event = Event.ON_EPOCH_END,
         event_freq: int = 1,
-        name: str = "SaveCallback",
-        verbose: int = 0,
         max_to_keep: int = 1,
         save_format: SaveFormat = SaveFormat.WEIGHTS | SaveFormat.MODEL,
         save_sub_format: SaveSubFormat = SaveSubFormat.TF,
+        verbose: int = 0,
+        name: str = "SaveCallback",
     ):
         """
         Build a Save Callback.
@@ -121,14 +158,16 @@ class SaveCallback(CounterCallback):
         Args:
             save_dir (str): directory in which to save the weights or the model.
             models (List[:py:class:`tf.keras.models.Model`]): list of models to save.
-            event (:py:class:`ashpy.callbacks.events.Event`): events on which to trigger the saving operation.
+            event (:py:class:`ashpy.callbacks.events.Event`): events on which to trigger the
+                saving operation.
             event_freq (int): frequency of saving operation.
             name (str): name of the callback.
             verbose (int): verbosity of the callback (0 or 1).
-            max_to_keep (int): maximum files to keep.
+            max_to_keep (int): maximum files to keep. If max_to_keep == 1 only the most recent
+                file is kept. In general `max_to_keep` files are kept.
             save_format (:py:class:`ashpy.callbacks.save_callback.SaveFormat`): weights or model.
-            save_sub_format (:py:class:`ashpy.callbacks.save_callback.SaveSubFormat`): sub-format of
-                the saving (tf or h5).
+            save_sub_format (:py:class:`ashpy.callbacks.save_callback.SaveSubFormat`): sub-format
+                of the saving (tf or h5).
 
         """
         super(SaveCallback, self).__init__(
@@ -160,7 +199,8 @@ class SaveCallback(CounterCallback):
                         "Functional model or a Sequential model. It does not work for "
                         "subclassed models, because such models are defined via the body of "
                         "a Python method, which isn't safely serializable. Consider saving "
-                        "to the Tensorflow SavedModel format (by setting save_sub_format=SaveSubFormat.TF) "
+                        "to the Tensorflow SavedModel format "
+                        "(by setting save_sub_format=SaveSubFormat.TF) "
                         "or using save_format=SaveFormat.WEIGHTS."
                     )
 
