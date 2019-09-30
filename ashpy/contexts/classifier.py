@@ -97,6 +97,14 @@ class ClassifierContext(BaseContext):
 
     @validation_set.setter
     def validation_set(self, _validation_set: tf.data.Dataset):
+        """
+        Setter for the validation set
+        Args:
+            _validation_set (:py:class:`tf.data.Dataset`): validation set
+
+        Returns:
+
+        """
         self._validation_set = _validation_set
 
     @property

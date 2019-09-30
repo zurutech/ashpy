@@ -88,7 +88,12 @@ class BaseContext:
         return self._dataset
 
     @dataset.setter
-    def dataset(self, _dataset):
+    def dataset(self, _dataset: tf.data.Dataset):
+        """
+        Setter for the dataset
+        Args:
+            _dataset (:py:class:`tf.data.Dataset`): dataset to set
+        """
         self._dataset = _dataset
 
     @property
@@ -130,13 +135,13 @@ class BaseContext:
     @property
     def current_batch(self) -> Optional[tf.Tensor]:
         """
-        Returns the exception
+        Returns the current batch
         """
         return self._current_batch
 
     @current_batch.setter
     def current_batch(self, _current_batch: Optional[tf.Tensor]) -> None:
         """
-        Setter for the exception
+        Setter for the current_batch
         """
         self._current_batch = _current_batch
