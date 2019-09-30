@@ -43,8 +43,21 @@ class SaveFormat(Flag):
             return "weights"
         if self == SaveFormat.MODEL:
             return "saved-model"
-        else:
-            return "saved-model-and-weights"
+        return "saved-model-and-weights"
+
+    @staticmethod
+    def _initialize_dirs(save_dir, save_format, save_sub_format):
+        """Initialize the directory for this save_format and sub-format."""
+        save_dir = os.path.join(save_dir, save_format.name())
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+
+        save_dir = (
+            save_dir
+            if save_sub_format == SaveSubFormat.TF
+            else os.path.join(save_dir, save_format.name())
+        )
+        return save_dir
 
     def save(
         self,
@@ -63,16 +76,20 @@ class SaveFormat(Flag):
 
         """
         if SaveFormat.WEIGHTS & self:
-            model.save_weights(
-                os.path.join(save_dir, SaveFormat.WEIGHTS.name()),
-                save_format=save_sub_format.value,
+
+            save_dir = self._initialize_dirs(
+                save_dir, SaveFormat.WEIGHTS, save_sub_format
             )
+            model.save_weights(save_dir, save_format=save_sub_format.value)
+
         if SaveFormat.MODEL & self:
-            model.save(
-                os.path.join(save_dir, SaveFormat.MODEL.name()),
-                save_format=save_sub_format.value,
+
+            save_dir = self._initialize_dirs(
+                save_dir, SaveFormat.MODEL, save_sub_format
             )
-        else:
+            model.save(save_dir, save_format=save_sub_format.value)
+
+        if not ((SaveFormat.MODEL & self) | (SaveFormat.WEIGHTS & self)):
             raise NotImplementedError(
                 "No implementation of `save` method for the current SaveFormat"
             )
@@ -126,6 +143,27 @@ class SaveCallback(CounterCallback):
         self._counter = 0
         self._save_path_histories = [deque() for _ in self._models]
 
+        self._check_compatibility()
+
+    def _check_compatibility(self):
+        if (
+            self._save_sub_format == SaveSubFormat.H5
+            and self._save_format == SaveFormat.MODEL
+        ):
+            for model in self._models:
+                if (
+                    not model._is_graph_network  # pylint:disable=protected-access
+                    and not isinstance(model, tf.keras.models.Sequential)
+                ):
+                    raise NotImplementedError(
+                        "Saving the model to HDF5 format requires the model to be a "
+                        "Functional model or a Sequential model. It does not work for "
+                        "subclassed models, because such models are defined via the body of "
+                        "a Python method, which isn't safely serializable. Consider saving "
+                        "to the Tensorflow SavedModel format (by setting save_sub_format=SaveSubFormat.TF) "
+                        "or using save_format=SaveFormat.WEIGHTS."
+                    )
+
     def _cleanup(self):
         """Cleanup stuff."""
         while self._counter > self._max_to_keep:
@@ -155,12 +193,16 @@ class SaveCallback(CounterCallback):
 
             if self._verbose:
                 print(
-                    f"{self._name}: {self._event} {self._event_counter} - Saving model {i} to {self._save_dir}"
-                    f"using format {self._save_format} and sub-format {self._save_sub_format}."
+                    f"{self._name}: {self._event.value} {self._event_counter.numpy()} - "
+                    f"Saving model {i} to {self._save_dir} using format {self._save_format.name()} "
+                    f"and sub-format {self._save_sub_format.value}."
                 )
 
             # create the correct directory name
             save_dir_i = os.path.join(self._save_dir, f"model-{i}-step-{step}")
+
+            if not os.path.exists(save_dir_i):
+                os.makedirs(save_dir_i)
 
             # add to the history
             self._save_path_histories[i].append(save_dir_i)
