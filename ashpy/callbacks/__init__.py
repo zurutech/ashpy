@@ -29,6 +29,9 @@ Callbacks in order to gain control over the training loop.
     events.Event
     gan.LogImageGANCallback
     gan.LogImageGANEncoderCallback
+    save_callback.SaveCallback
+    save_callback.SaveFormat
+    save_callback.SaveSubFormat
 
 ----
 
@@ -44,6 +47,7 @@ Callbacks in order to gain control over the training loop.
     counter_callback
     events
     gan
+    save_callback
 
 """
 
@@ -52,6 +56,7 @@ from ashpy.callbacks.classifier import LogClassifierCallback
 from ashpy.callbacks.counter_callback import CounterCallback
 from ashpy.callbacks.events import Event
 from ashpy.callbacks.gan import LogImageGANCallback, LogImageGANEncoderCallback
+from ashpy.callbacks.save_callback import SaveCallback, SaveFormat, SaveSubFormat
 
 __ALL__ = [
     "Callback",
@@ -60,4 +65,7 @@ __ALL__ = [
     "LogImageGANCallback",
     "LogImageGANEncoderCallback",
     "LogClassifierCallback",
+    "SaveCallback",
+    "SaveFormat",
+    "SaveSubFormat",
 ]
