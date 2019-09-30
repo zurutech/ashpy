@@ -44,18 +44,6 @@ class GANExecutor(Executor, ABC):
     Implements the basic functions needed by the GAN losses.
     """
 
-    def __init__(self, fn: tf.keras.losses.Loss = None):
-        """Initialize the GANExecutor.
-
-        Args:
-            fn (:py:class:`tf.keras.losses.Loss`): A Keras Loss to execute.
-
-        Returns:
-            :py:obj:`None`
-
-        """
-        super().__init__(fn)
-
     @abstractmethod
     def call(self, context, **kwargs):
         """
