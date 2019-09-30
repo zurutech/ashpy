@@ -74,15 +74,15 @@ def test_losses(loss_type: AdversarialLossType, adversarial_logdir: str):
     epochs = 2
     metrics = []
     trainer = AdversarialTrainer(
-        generator,
-        discriminator,
-        tf.optimizers.Adam(1e-4),
-        tf.optimizers.Adam(1e-4),
-        generator_loss,
-        discriminator_loss,
-        epochs,
-        metrics,
-        adversarial_logdir,
+        generator=generator,
+        discriminator=discriminator,
+        generator_optimizer=tf.optimizers.Adam(1e-4),
+        discriminator_optimizer=tf.optimizers.Adam(1e-4),
+        generator_loss=generator_loss,
+        discriminator_loss=discriminator_loss,
+        epochs=epochs,
+        metrics=metrics,
+        logdir=adversarial_logdir,
     )
 
     # Dataset
