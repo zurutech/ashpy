@@ -16,7 +16,7 @@
 
 import os
 from abc import ABC, abstractmethod
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Tuple, Union
 
 import tensorflow as tf
 
