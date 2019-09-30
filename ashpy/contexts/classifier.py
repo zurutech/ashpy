@@ -50,7 +50,7 @@ class ClassifierContext(BaseContext):
         Args:
             classifier_model (:py:class:`tf.keras.Model`): A :py:class:`tf.keras.Model`
                 model.
-            loss (:py:class:`ashpy.losses.Executor`): Loss function, format f(y_true, y_pred).
+            loss (:py:class:`ashpy.losses.executor.Executor`): Loss function, format f(y_true, y_pred).
             dataset (:py:class:`tf.data.Dataset`): The test dataset.
             metrics (:obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`]): List of
                 :py:class:`ashpy.metrics.metric.Metric` with which to measure training
@@ -80,29 +80,35 @@ class ClassifierContext(BaseContext):
         Retrieve the Model Object.
 
         Returns:
-            :py:class:`tf.keras.Model`.
+            :py:class:`tf.keras.Model`: The classifier model
 
         """
         return self._classifier_model
 
     @property
-    def validation_set(self):
+    def validation_set(self) -> Optional[tf.data.Dataset]:
         """
-        Returns: the validation set
+        Returns the validation set
+
+        Returns:
+            :py:class:`tf.data.Dataset`: The validation set
         """
         return self._validation_set
 
     @validation_set.setter
-    def validation_set(self, _validation_set):
+    def validation_set(self, _validation_set: tf.data.Dataset):
         self._validation_set = _validation_set
 
     @property
-    def training_set(self):
+    def training_set(self) -> tf.data.Dataset:
         """
-        Returns: the training set
+        Returns the training set
+
+        Returns:
+            :py:class:`tf.data.Dataset`: The training set
         """
         return self._training_set
 
     @training_set.setter
-    def training_set(self, _training_set):
+    def training_set(self, _training_set: tf.data.Dataset):
         self._training_set = _training_set

@@ -20,21 +20,29 @@ from ashpy.contexts import BaseContext
 
 
 class Callback:
-    """
+    r"""
     Callback definition.
     Every callback must extend from this class.
     This class defines the basic events.
     Every event takes as input the context in order to use the objects defined.
 
     Order:
-    --on_train_start
-    ----on_epoch_start
-    ------on_batch_start
-    ------on_batch_end
-    ----on_epoch_end
-    --on_train_end
 
-    on_exception – if an Exception was raised
+    .. code-block::
+
+        --on_train_start
+
+        ----on_epoch_start
+
+        ------on_batch_start
+
+        ------on_batch_end
+
+        ----on_epoch_end
+
+        --on_train_end
+
+        on_exception – if an Exception was raised
 
     """
 
@@ -44,48 +52,62 @@ class Callback:
     def on_train_start(self, context: BaseContext) -> None:
         """
         Method called at the beginning of the training loop
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """
 
     def on_train_end(self, context: BaseContext) -> None:
         """
         Method called at the end of the training loop
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """
 
     def on_epoch_start(self, context: BaseContext) -> None:
         """
         Method called at the beginning of an epoch
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """
 
     def on_epoch_end(self, context: BaseContext) -> None:
         """
         Method called at the end of an epoch
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """
 
     def on_batch_start(self, context: BaseContext) -> None:
         """
         Method called at the beginning of a batch
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """
 
     def on_batch_end(self, context: BaseContext) -> None:
         """
         Method called at the end of a batch
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """
 
     def on_exception(self, context: BaseContext) -> None:
         """
         Method called when an exception is raised
+
         Args:
-            context: training context
+            context (:py:class:`ashpy.contexts.base_context.BaseContext`): training context
+
         """

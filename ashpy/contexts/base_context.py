@@ -82,7 +82,7 @@ class BaseContext:
         Retrieve the dataset.
 
         Returns:
-            :py:class:`tf.data.Dataset`.
+            :py:class:`tf.data.Dataset` the current dataset
 
         """
         return self._dataset
