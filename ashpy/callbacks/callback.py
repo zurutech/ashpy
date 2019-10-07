@@ -18,6 +18,8 @@ import tensorflow as tf
 from ashpy.callbacks.events import Event
 from ashpy.contexts import Context
 
+__ALL__ = ["Callback"]
+
 
 class Callback(tf.Module):
     r"""
@@ -26,7 +28,7 @@ class Callback(tf.Module):
     Every callback must extend from this class.
     This class defines the basic events.
     Every event takes as input the context in order to use the objects defined.
-    Inheritance from tf.Module is required since callbacks have a state
+    Inheritance from :py:class:`tf.Module` is required since callbacks have a state
 
     Order:
     .. code-block::

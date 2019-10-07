@@ -179,7 +179,15 @@ class SaveCallback(CounterCallback):
         self._models = models
         self._verbose = verbose
         self._max_to_keep = max_to_keep
+
+        if not isinstance(save_format, SaveFormat):
+            raise TypeError("Use the SaveFormat enum!")
+
         self._save_format = save_format
+
+        if not isinstance(save_sub_format, SaveSubFormat):
+            raise TypeError("Use the SaveSubFormat enum!")
+
         self._save_sub_format = save_sub_format
         self._counter = 0
         self._save_path_histories = [deque() for _ in self._models]
@@ -211,16 +219,16 @@ class SaveCallback(CounterCallback):
         while self._counter > self._max_to_keep:
             for save_path_history in self._save_path_histories:
                 if len(save_path_history) >= self._max_to_keep:
-                    # get the first element of the queue
+                    # Get the first element of the queue
                     save_dir_to_remove = save_path_history.popleft()
 
                     if self._verbose:
                         print(f"{self._name}: Removing {save_dir_to_remove} from disk.")
 
-                    # remove directory
+                    # Remove directory
                     shutil.rmtree(save_dir_to_remove, ignore_errors=True)
 
-            # decrease counter
+            # Decrease counter
             self._counter -= 1
 
     def _save_weights_fn(self, step: int):
@@ -240,27 +248,27 @@ class SaveCallback(CounterCallback):
                     f"and sub-format {self._save_sub_format.value}."
                 )
 
-            # create the correct directory name
+            # Create the correct directory name
             save_dir_i = os.path.join(self._save_dir, f"model-{i}-step-{step}")
 
             if not os.path.exists(save_dir_i):
                 os.makedirs(save_dir_i)
 
-            # add to the history
+            # Add to the history
             self._save_path_histories[i].append(save_dir_i)
 
-            # save using the save_format
+            # Save using the save_format
             self._save_format.save(
                 model=model, save_dir=save_dir_i, save_sub_format=self._save_sub_format
             )
 
-        # increase the counter of saved files
+        # Increase the counter of saved files
         self._counter += 1
 
     def save_weights_fn(self, context):
         """Save weights and clean up if needed."""
-        # save weights phase
+        # Save weights phase
         self._save_weights_fn(context.global_step.numpy())
 
-        # clean up phase
+        # Clean up phase
         self._cleanup()

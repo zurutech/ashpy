@@ -28,7 +28,7 @@ from . import (
     trainers,
 )
 
-__version__ = "0.1.3"
+__version__ = "0.2.0"
 __url__ = "https://github.com/zurutech/ashpy"
 __author__ = "Machine Learning Team @ Zuru Tech"
 __email__ = "ml@zuru.tech"

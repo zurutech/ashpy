@@ -287,8 +287,8 @@ class LogImageGANEncoderCallback(LogImageGANCallback):
         else:
             raise ValueError("Invalid LogEvalMode")
 
-        # tensorboard 2.0 does not support float images in [-1, 1]
-        # only in [0,1]
+        # Tensorboard 2.0 does not support float images in [-1, 1]
+        # Only in [0,1]
         if generator_of_encoder.dtype == tf.float32:
             # The hypothesis is that image are in [-1,1] how to check?
             generator_of_encoder = (generator_of_encoder + 1.0) / 2

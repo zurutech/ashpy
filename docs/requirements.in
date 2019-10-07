@@ -1,4 +1,4 @@
-tensorflow==2.0.0beta1
+tensorflow
 sphinx
 sphinx-autobuild
 sphinx-rtd-theme

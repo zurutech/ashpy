@@ -26,6 +26,8 @@ from ashpy.callbacks import Callback
 from ashpy.callbacks.events import Event
 from ashpy.contexts import Context
 
+__ALL__ = ["CounterCallback"]
+
 
 class CounterCallback(Callback):
     """
@@ -52,6 +54,8 @@ class CounterCallback(Callback):
         """
         super().__init__()
         self._name = name
+        if not isinstance(event, Event):
+            raise TypeError("Use the Event enum!")
         self._event = event
 
         if event_freq <= 0:
@@ -74,13 +78,13 @@ class CounterCallback(Callback):
             context (:py:class:`ashpy.contexts.context.Context`): current context.
 
         """
-        # check the event type
+        # Check the event type
         if event == self._event:
 
-            # increment event counter
+            # Increment event counter
             self._event_counter.assign_add(1)
 
-            # if the module between the event counter and the
-            # frequency is zero, call the fn
+            # If the module between the event counter and the
+            # Frequency is zero, call the fn
             if tf.equal(tf.math.mod(self._event_counter, self._event_freq), 0):
                 self._fn(context)
