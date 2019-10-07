@@ -20,6 +20,7 @@ from ashpy.contexts import Context
 
 __ALL__ = ["Callback"]
 
+
 class Callback(tf.Module):
     r"""
     Callback definition.
