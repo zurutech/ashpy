@@ -17,7 +17,7 @@ import os
 import shutil
 
 import pytest
-import tensorflow
+import tensorflow  # pylint: disable=import-error
 
 import ashpy
 
@@ -39,14 +39,14 @@ def adversarial_logdir():
     """Add the logdir parameter to tests."""
     m_adversarial_logdir = "testlog/adversarial"
 
-    # clean before
+    # Clean before
     if os.path.exists(m_adversarial_logdir):
         shutil.rmtree(m_adversarial_logdir)
         assert not os.path.exists(m_adversarial_logdir)
 
     yield m_adversarial_logdir
 
-    # teardown
+    # Teardown
     if os.path.exists(m_adversarial_logdir):
         shutil.rmtree(m_adversarial_logdir)
         assert not os.path.exists(m_adversarial_logdir)
@@ -57,7 +57,7 @@ def save_dir():
     """Add the save_dir parameter to tests."""
     m_save_dir = "testlog/savedir"
 
-    # clean before
+    # Clean before
     if os.path.exists(m_save_dir):
         shutil.rmtree(m_save_dir)
         assert not os.path.exists(m_save_dir)

@@ -22,16 +22,16 @@ from ashpy.callbacks import SaveCallback, SaveFormat, SaveSubFormat
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from tests.utils.fake_training_loop import fake_training_loop
 
-compatible_format_and_sub_format = [
+COMPATIBLE_FORMAT_AND_SUB_FORMAT = [
     (SaveFormat.WEIGHTS, SaveSubFormat.TF),
     (SaveFormat.WEIGHTS, SaveSubFormat.H5),
     (SaveFormat.MODEL, SaveSubFormat.TF),
 ]
 
-incompatible_format_and_sub_format = [(SaveFormat.MODEL, SaveSubFormat.H5)]
+INCOMPATIBLE_FORMAT_AND_SUB_FORMAT = [(SaveFormat.MODEL, SaveSubFormat.H5)]
 
 
-@pytest.mark.parametrize("save_format_and_sub_format", compatible_format_and_sub_format)
+@pytest.mark.parametrize("save_format_and_sub_format", COMPATIBLE_FORMAT_AND_SUB_FORMAT)
 def test_save_callback_compatible(
     adversarial_logdir: str,
     save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat],
@@ -55,7 +55,7 @@ def test_save_callback_compatible(
 
 
 @pytest.mark.parametrize(
-    "save_format_and_sub_format", incompatible_format_and_sub_format
+    "save_format_and_sub_format", INCOMPATIBLE_FORMAT_AND_SUB_FORMAT
 )
 def test_save_callback_incompatible(
     adversarial_logdir: str,
