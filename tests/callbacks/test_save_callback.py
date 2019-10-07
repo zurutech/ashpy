@@ -118,3 +118,34 @@ def _test_save_callback_helper(
         generator=generator,
         discriminator=discriminator,
     )
+
+
+def test_save_callback_type_error(
+    save_dir: str,
+):
+    """Test that the SaveCallback raises a TypeError.
+
+    Test that the SaveCallback raises a TypeError when wrong save_format
+    or save sub-format is passed.
+    """
+    with pytest.raises(TypeError):
+        callbacks = [
+            SaveCallback(
+                models=[],
+                save_dir=save_dir,
+                verbose=1,
+                save_format="save_format",
+                save_sub_format=SaveSubFormat.TF,
+            )
+        ]
+
+    with pytest.raises(TypeError):
+        callbacks = [
+            SaveCallback(
+                models=[],
+                save_dir=save_dir,
+                verbose=1,
+                save_format=SaveFormat.WEIGHTS,
+                save_sub_format="sub-format",
+            )
+        ]
