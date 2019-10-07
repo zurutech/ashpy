@@ -26,6 +26,8 @@ from ashpy.callbacks import Callback
 from ashpy.callbacks.events import Event
 from ashpy.contexts import Context
 
+__ALL__ = ["CounterCallback"]
+
 
 class CounterCallback(Callback):
     """

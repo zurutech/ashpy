@@ -18,6 +18,7 @@ import tensorflow as tf
 from ashpy.callbacks.events import Event
 from ashpy.contexts import Context
 
+__ALL__ = ["Callback"]
 
 class Callback(tf.Module):
     r"""

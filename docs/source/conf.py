@@ -13,12 +13,16 @@
 # limitations under the License.
 
 # -*- coding: utf-8 -*-
-#
-# Configuration file for the Sphinx documentation builder.
-#
-# This file does only contain a selection of the most common options. For a
-# full list see the documentation:
-# http://www.sphinx-doc.org/en/master/config
+
+"""
+Configuration file for the Sphinx documentation builder.
+
+This file does only contain a selection of the most common options. For a
+full list see the documentation:
+http://www.sphinx-doc.org/en/master/config
+"""
+
+# pylint: disable=invalid-name
 
 # -- Path setup --------------------------------------------------------------
 
@@ -30,12 +34,14 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 
-import ashpy
+import ashpy  # pylint: disable=wrong-import-position
 
 # -- Project information -----------------------------------------------------
 
 project = "AshPy"
-copyright = "2019 Zuru Tech HK Limited, All rights reserved."
+copyright = (  # pylint: disable=redefined-builtin
+    "2019 Zuru Tech HK Limited, All rights reserved."
+)
 author = ashpy.__author__
 
 # The short X.Y version
@@ -110,7 +116,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+# exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -165,20 +171,20 @@ htmlhelp_basename = "ASHPYdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
+# latex_elements = {
+#     # The paper size ('letterpaper' or 'a4paper').
+#     #
+#     # 'papersize': 'letterpaper',
+#     # The font size ('10pt', '11pt' or '12pt').
+#     #
+#     # 'pointsize': '10pt',
+#     # Additional stuff for the LaTeX preamble.
+#     #
+#     # 'preamble': '',
+#     # Latex figure (float) alignment
+#     #
+#     # 'figure_align': 'htbp',
+# }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
@@ -237,13 +243,13 @@ epub_exclude_files = ["search.html"]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/", None),
     "flask": ("http://flask.pocoo.org/docs/1.0/", None),
-    "tensorflow": (
-        "https://www.tensorflow.org/versions/r2.0/api_docs/python/",
-        "tf2_py_objects.inv",
-    ),
     "numpy": ("https://docs.scipy.org/doc/numpy/", None),
+    "python": ("https://docs.python.org/", None),
+    "tensorflow": (
+        "https://www.tensorflow.org/api_docs/python",
+        "https://github.com/mr-ubik/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
+    ),
 }
 
 # -- Options for todo extension ----------------------------------------------

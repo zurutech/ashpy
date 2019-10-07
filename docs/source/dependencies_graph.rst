@@ -1,6 +1,22 @@
 Dependencies Graph
 ##################
 
+ashpy.callbacks
+***************
+
+.. inheritance-diagram:: ashpy.callbacks.callback ashpy.callbacks.counter_callback
+   :parts: 1
+
+----
+
+Events
+======
+
+.. inheritance-diagram:: ashpy.callbacks.events
+   :parts: 1
+
+----
+
 ashpy.models
 ************
 
