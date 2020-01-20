@@ -18,34 +18,33 @@ import re
 from setuptools import find_packages, setup
 
 # Meta
-INIT_PY = open("ashpy/__init__.py").read()
+INIT_PY = open("src/ashpy/__init__.py").read()
 METADATA = dict(re.findall(r"__([a-z]+)__ = \"([^\"]+)\"", INIT_PY))
 
 # Info
 README = open("README.md").read()
 
 # Requirements
-REQUIREMENTS = ["numpy>=1.16.3", "tensorflow_hub>=0.4.0"]
-TEST_REQUIREMENTS = ["pytest"]
+INSTALL_REQUIREMENTS = ["tensorflow>=2.1.0", "tensorflow_hub"]
 
 setup(
-    name="ashpy",
-    version=METADATA["version"],
+    author_email=METADATA["email"],
+    author=METADATA["author"],
+    classifiers=["Programming Language :: Python :: 3.7"],
     description=(
         "TensorFlow 2.0 library for distributed training, "
         "evaluation, model selection, and fast prototyping."
     ),
-    long_description=README,
-    long_description_content_type="text/markdown",
-    author=METADATA["author"],
-    author_email=METADATA["email"],
-    url=METADATA["url"],
-    packages=find_packages(),
     include_package_data=True,
-    install_requires=REQUIREMENTS,
-    tests_require=TEST_REQUIREMENTS,
-    license="Apache License, Version 2.0",
-    zip_safe=False,
+    install_requires=INSTALL_REQUIREMENTS,
     keywords=["ashpy", "ai", "tensorflow", "tensorflow-2.0", "deeplearning"],
-    classifiers=["Programming Language :: Python :: 3.7"],
+    license="Apache License, Version 2.0",
+    long_description_content_type="text/markdown",
+    long_description=README,
+    name="ashpy",
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
+    url=METADATA["url"],
+    version=METADATA["version"],
+    zip_safe=False,
 )

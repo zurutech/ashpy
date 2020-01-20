@@ -20,6 +20,7 @@ import os
 
 from ashpy.metrics import InceptionScore, SlicedWassersteinDistance, SSIM_Multiscale
 from ashpy.models.gans import ConvDiscriminator
+
 from tests.utils.fake_training_loop import fake_training_loop
 
 

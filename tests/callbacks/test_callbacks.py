@@ -16,6 +16,7 @@
 
 from ashpy.callbacks.events import Event
 from ashpy.callbacks.gan import LogImageGANCallback
+
 from tests.utils.fake_training_loop import fake_training_loop
 
 

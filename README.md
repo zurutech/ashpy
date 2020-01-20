@@ -15,7 +15,7 @@
 [![Black - Badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 [![CodeFactor](https://www.codefactor.io/repository/github/zurutech/ashpy/badge)](https://www.codefactor.io/repository/github/zurutech/ashpy)
 
-AshPy is a TensorFlow 2.0 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
+AshPy is a TensorFlow 2.1 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
 It is designed to ease the burden of setting up all the nuances of the architectures built to train complex custom deep learning models.
 
 [Quick Example](#quick-example) | [Features](#features) | [Set Up](#set-up) | [Usage](#usage) | [Dataset Output Format](#dataset-output-format) | [Test](#test)
@@ -147,10 +147,6 @@ The following README aims to help you understand what you need to do to setup As
 
 ### Pip install
 ```bash
-# Depending on GPU support you might want to install
-# tensorflow-gpu or tensorflow
-pip install tensorflow-gpu==2.0.0beta1
-#pip install tensorflow==2.0.0beta1
 pip install ashpy
 ```
 
@@ -464,15 +460,8 @@ Where `a` is the input sample, `b` is the label/condition (if any, otherwise fil
 To train Pix2Pix-like architecture, that have no `noise` as ConvGenerator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator output.
 
 ## Test
-In order to run the doctests first you need to install the `pytest-sphinx` package and `pytest-cov` package:
+In order to run the tests (with the doctests), linting and docs generation simply use `tox`.
 
 ```bash
-pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest
-pip install pytest-cov
-```
-
-Then you can run tests with coverage statistics with:
-
-```bash
-pytest -x -s -vvv --doctest-modules ashpy --cov=ashpy
+tox
 ```

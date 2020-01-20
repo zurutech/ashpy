@@ -14,7 +14,6 @@
 
 """Fake training loop to simplify training in tests."""
 import tensorflow as tf
-
 from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer

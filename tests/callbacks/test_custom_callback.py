@@ -15,9 +15,9 @@
 """Test a Custom Callback."""
 
 import pytest
-
 from ashpy.callbacks import Callback
 from ashpy.callbacks.events import Event
+
 from tests.utils.fake_training_loop import fake_training_loop
 
 

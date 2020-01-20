@@ -16,12 +16,12 @@
 Test losses inside the AdversarialLossType Enum
 """
 import pytest
-
 from ashpy.losses.gan import (
     AdversarialLossType,
     get_adversarial_loss_discriminator,
     get_adversarial_loss_generator,
 )
+
 from tests.utils.fake_training_loop import fake_training_loop
 
 
