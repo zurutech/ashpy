@@ -6,4 +6,5 @@ pydocstyle
 sphinx
 sphinx-autobuild
 sphinx-autodoc-typehints
+sphinx-copybutton
 sphinx-rtd-theme

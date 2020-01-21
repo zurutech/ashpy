@@ -75,6 +75,7 @@ extensions = [
     "sphinx.ext.graphviz",
     "m2r",
     "sphinx_autodoc_typehints",
+    "sphinx_copybutton",
 ]
 
 # Autodoc
