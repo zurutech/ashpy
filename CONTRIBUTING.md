@@ -18,13 +18,13 @@ If you have improvements to AshPy, send us your pull requests! For those
 just getting started, please refer to [this](https://github.com/zurutech/ashpy/blob/master/.github/pull_request_template.md) pull request template.
 
 AshPy team members will be assigned to review your pull requests. Once the
-pull requests are approved and pass all the tests, your pull request will 
+pull requests are approved and pass all the tests, your pull request will
 be merged into the official codebase.
 
 If you want to contribute, start working through the AshPy codebase,
 navigate to the
 [Github "issues" tab](https://github.com/zurutech/ashpy/issues) and start
-looking through interesting issues. 
+looking through interesting issues.
 
 ### Contribution guidelines and standards
 
@@ -44,10 +44,10 @@ AshPy coding style.
     (by default) transferred to the AshPy team. This means that the benefit
     of the contribution must be compared against the cost of maintaining the
     feature.
-    
+
 #### License
 
-We'd love to accept your patches! Before we can take them, you need to understand 
+We'd love to accept your patches! Before we can take them, you need to understand
 that the code you provide will be included with the Apache License.
 
 You can see an example of the licence [here](https://github.com/zurutech/ashpy/blob/master/LICENSE).
@@ -70,34 +70,31 @@ Please, put the following lincense header in your files.
 
 #### Python coding style
 
-Changes to AshPy Python code should conform to
+- Black is our one and only formatter
+- We are more lenient with the length of the line
+- Changes to AshPy Python code should conform to
 [Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md)
 
-Use `pylint` to check your Python changes. To install `pylint`:
+To run all the lint against your current codebase:
 
 ```bash
-pip install pylint
-```
-
-To check a file with `pylint`:
-
-```bash
-pylint --rcfile=/tmp/pylintrc myfile.py
+tox -e black,pylint,flake8
 ```
 
 #### Running tests
 
-In order to run the doctests first you need to install the `pytest-sphinx` package and `pytest-cov` package:
+In order to run the tests and the doctests:
 
 ```bash
-pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest
-pip install pytest-cov
+tox -e testenv
 ```
 
-Then you can run tests with coverage statistics with:
+#### Documentation
+
+To generate the documentation either look up the Sphinx docs or simply:
 
 ```bash
-pytest -x -s -vvv --doctest-modules ashpy --cov=ashpy
+tox -e docs
 ```
 
 ## Attribution

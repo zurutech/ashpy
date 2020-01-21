@@ -16,9 +16,9 @@
 
 import pytest
 import tensorflow as tf
-
 from ashpy.callbacks import CounterCallback, Event
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
+
 from tests.utils.fake_training_loop import fake_training_loop
 
 

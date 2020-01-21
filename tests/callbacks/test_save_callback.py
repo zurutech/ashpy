@@ -17,9 +17,9 @@ import os
 from typing import Tuple
 
 import pytest
-
 from ashpy.callbacks import SaveCallback, SaveFormat, SaveSubFormat
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
+
 from tests.utils.fake_training_loop import fake_training_loop
 
 COMPATIBLE_FORMAT_AND_SUB_FORMAT = [
@@ -120,9 +120,7 @@ def _test_save_callback_helper(
     )
 
 
-def test_save_callback_type_error(
-    save_dir: str,
-):
+def test_save_callback_type_error(save_dir: str,):
     """Test that the SaveCallback raises a TypeError.
 
     Test that the SaveCallback raises a TypeError when wrong save_format

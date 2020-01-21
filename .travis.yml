@@ -15,17 +15,14 @@ addons:
   apt:
     update: true
 install: &requirements
-- pip install -r dev-requirements.txt
+- pip install -r requirements.txt
 - pip install -e .
 jobs:
   include:
   - stage: Tests
     install: *requirements
     script:
-    - pip install codecov
-    - pip --no-cache-dir install --upgrade git+https://github.com/thisch/pytest-sphinx.git pytest
-    - pip --no-cache-dir install pytest-cov
-    - pytest -x -s -vvv --doctest-modules ashpy tests --cov=ashpy
+    - tox -e py37
     after_success:
     - codecov
   - stage: Black
