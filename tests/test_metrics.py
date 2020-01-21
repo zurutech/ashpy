@@ -13,61 +13,105 @@
 # limitations under the License.
 
 """
-Test Metrics
-"""
-import json
-import os
+Test Metrics with the various trainers.
 
-from ashpy.metrics import InceptionScore, SlicedWassersteinDistance, SSIM_Multiscale
+TODO: Adversarial Encoder
+"""
+
+import json
+import operator
+import pathlib
+
+import pytest
+from ashpy.metrics import (
+    ClassifierLoss,
+    InceptionScore,
+    SlicedWassersteinDistance,
+    SSIM_Multiscale,
+)
 from ashpy.models.gans import ConvDiscriminator
 
-from tests.utils.fake_training_loop import fake_training_loop
+from tests.utils.fake_training_loop import (
+    fake_adversarial_training_loop,
+    fake_classifier_taining_loop,
+)
 
-
-def test_metrics(adversarial_logdir: str):
-    """
-    Test the integration between metrics and trainer
-    """
-    # test parameters
-    image_resolution = (256, 256)
-
-    metrics = [
-        SlicedWassersteinDistance(
-            logdir=adversarial_logdir, resolution=image_resolution[0]
-        ),
-        SSIM_Multiscale(logdir=adversarial_logdir),
-        InceptionScore(
-            # Fake inception model
-            ConvDiscriminator(
-                layer_spec_input_res=(299, 299),
-                layer_spec_target_res=(7, 7),
-                kernel_size=(5, 5),
-                initial_filters=16,
-                filters_cap=32,
-                output_shape=10,
+DEFAULT_LOGDIR = "log"
+TEST_MATRIX = {
+    "adversarial_trainer": [
+        fake_adversarial_training_loop,
+        {
+            "image_resolution": [256, 256],
+            "layer_spec_input_res": (8, 8),
+            "layer_spec_target_res": (8, 8),
+            "channels": 3,
+        },
+        [
+            SlicedWassersteinDistance(resolution=256),
+            SSIM_Multiscale(),
+            InceptionScore(
+                # Fake inception model
+                ConvDiscriminator(
+                    layer_spec_input_res=(299, 299),
+                    layer_spec_target_res=(7, 7),
+                    kernel_size=(5, 5),
+                    initial_filters=16,
+                    filters_cap=32,
+                    output_shape=10,
+                )
             ),
-            logdir=adversarial_logdir,
-        ),
-    ]
+        ],
+    ],
+    "classifier_trainer": [
+        fake_classifier_taining_loop,
+        {},
+        [ClassifierLoss(model_selection_operator=operator.lt)],
+    ],
+}
 
-    fake_training_loop(
-        adversarial_logdir,
-        metrics=metrics,
-        image_resolution=image_resolution,
-        layer_spec_input_res=(8, 8),
-        layer_spec_target_res=(8, 8),
-        channels=3,
-    )
+TEST_PARAMS = [TEST_MATRIX[k] for k in TEST_MATRIX]
+TEST_IDS = [k for k in TEST_MATRIX]
 
-    # assert there exists folder for each metric
+
+@pytest.fixture(scope="module")
+def cleanup():
+    """Remove the default logdir before and after testing."""
+    default_log_dir = pathlib.Path(DEFAULT_LOGDIR)
+    if default_log_dir.exists():
+        shutil.rmtree(default_log_dir)
+    yield "Cleanup"
+    if default_log_dir.exists():
+        shutil.rmtree(default_log_dir)
+
+
+@pytest.mark.parametrize(
+    ["training_loop", "loop_args", "metrics"], TEST_PARAMS, ids=TEST_IDS
+)
+def test_metrics(training_loop, loop_args, metrics, tmpdir, cleanup):
+    """
+    Test the integration between metrics and trainer.
+
+    GIVEN a correctly instantiated trainer
+    GIVEN some training has been done
+        THEN there should not be any logs inside the default log folder
+        THEN there exists a logdir folder for each metric
+        THEN there inside in each folder there's the JSON file w/ the metric logs
+        THEN in the file there are the correct keys
+
+    """
+    training_completed = training_loop(logdir=tmpdir, metrics=metrics, **loop_args)
+
+    assert training_completed
+    assert not pathlib.Path(DEFAULT_LOGDIR).exists()  # Assert absence of side effects
+    # Assert there exists folder for each metric
     for metric in metrics:
-        metric_dir = os.path.join(adversarial_logdir, "best", metric.name)
-        assert os.path.exists(metric_dir)
-        json_path = os.path.join(metric_dir, f"{metric.name}.json")
-        assert os.path.exists(json_path)
+        metric_dir = pathlib.Path(tmpdir).joinpath("best", metric.name)
+        assert metric_dir.exists()
+        json_path = metric_dir.joinpath(f"{metric.name}.json")
+        assert json_path.exists()
         with open(json_path, "r") as fp:
             metric_data = json.load(fp)
 
-            # assert the metric data contains the expected keys
+            # Assert the metric data contains the expected keys
             assert metric.name in metric_data
             assert "step" in metric_data

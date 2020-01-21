@@ -12,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Test losses inside the AdversarialLossType Enum
-"""
+"""Test losses inside the AdversarialLossType Enum."""
+
 import pytest
 from ashpy.losses.gan import (
     AdversarialLossType,
@@ -22,21 +21,16 @@ from ashpy.losses.gan import (
     get_adversarial_loss_generator,
 )
 
-from tests.utils.fake_training_loop import fake_training_loop
+from tests.utils.fake_training_loop import fake_adversarial_training_loop
 
 
 @pytest.mark.parametrize("loss_type", list(AdversarialLossType))
-def test_losses(loss_type: AdversarialLossType, adversarial_logdir: str):
-    """
-    Test the integration between losses and trainer
-    """
-
+def test_losses(loss_type: AdversarialLossType, tmpdir):
+    """Test the integration between losses and trainer."""
     # Losses
     generator_loss = get_adversarial_loss_generator(loss_type)()
     discriminator_loss = get_adversarial_loss_discriminator(loss_type)()
 
-    fake_training_loop(
-        adversarial_logdir,
-        generator_loss=generator_loss,
-        discriminator_loss=discriminator_loss,
+    fake_adversarial_training_loop(
+        tmpdir, generator_loss=generator_loss, discriminator_loss=discriminator_loss,
     )

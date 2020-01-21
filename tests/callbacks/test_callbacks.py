@@ -17,12 +17,10 @@
 from ashpy.callbacks.events import Event
 from ashpy.callbacks.gan import LogImageGANCallback
 
-from tests.utils.fake_training_loop import fake_training_loop
+from tests.utils.fake_training_loop import fake_adversarial_training_loop
 
 
-def test_callbacks(adversarial_logdir: str):
+def test_callbacks(tmpdir):
     """Test the integration between callbacks and trainer."""
-
     callbacks = [LogImageGANCallback(event=Event.ON_BATCH_END, event_freq=1)]
-
-    fake_training_loop(adversarial_logdir, callbacks=callbacks)
+    fake_adversarial_training_loop(tmpdir, callbacks=callbacks)

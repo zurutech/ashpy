@@ -67,7 +67,6 @@ class Metric(ABC):
         self._metric = metric
         self._model_selection_operator = model_selection_operator
         self._logdir = logdir
-        self._update_logdir()
 
     def model_selection(
         self, checkpoint: tf.train.Checkpoint, global_step: tf.Variable

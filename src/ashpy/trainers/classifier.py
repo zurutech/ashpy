@@ -130,9 +130,7 @@ class ClassifierTrainer(Trainer):
         else:
             metrics = [self._avg_loss]
 
-        for metric in metrics:
-            metric.logdir = self._logdir
-        self._metrics = metrics
+        super()._update_metrics(metrics)
 
         self._checkpoint.objects.extend([self._optimizer, self._model])
         self._restore_or_init()
