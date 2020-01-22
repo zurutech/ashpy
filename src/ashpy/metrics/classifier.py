@@ -34,6 +34,7 @@ class ClassifierLoss(Metric):
 
     def __init__(
         self,
+        name: str = "loss",
         model_selection_operator: Callable = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
     ) -> None:
@@ -41,6 +42,7 @@ class ClassifierLoss(Metric):
         Initialize the Metric.
 
         Args:
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -54,8 +56,8 @@ class ClassifierLoss(Metric):
 
         """
         super().__init__(
-            name="loss",
-            metric=tf.metrics.Mean(name="loss", dtype=tf.float32),
+            name=name,
+            metric=tf.metrics.Mean(name=name, dtype=tf.float32),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )

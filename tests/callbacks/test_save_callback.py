@@ -108,7 +108,8 @@ def _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir):
 
 
 def test_save_callback_type_error(save_dir: str,):
-    """Test that the SaveCallback raises a TypeError.
+    """
+    Test that the SaveCallback raises a TypeError.
 
     Test that the SaveCallback raises a TypeError when wrong save_format
     or save sub-format is passed.

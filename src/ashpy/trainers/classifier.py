@@ -124,13 +124,14 @@ class ClassifierTrainer(Trainer):
         self._loss = loss
         self._loss.reduction = tf.keras.losses.Reduction.NONE
 
-        self._avg_loss = ClassifierLoss()
+        self._avg_loss = ClassifierLoss(name="ashpy/avg_loss")
         if metrics:
             metrics.append(self._avg_loss)
         else:
             metrics = [self._avg_loss]
 
         super()._update_metrics(metrics)
+        super()._validate_metrics()
 
         self._checkpoint.objects.extend([self._optimizer, self._model])
         self._restore_or_init()

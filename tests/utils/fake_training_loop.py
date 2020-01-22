@@ -31,7 +31,7 @@ def fake_classifier_taining_loop(
     logdir: Path,
     optimizer=tf.optimizers.Adam(1e-4),
     metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
-    epochs=5,
+    epochs=2,
     # Dataset
     dataset_size=10,
     image_resolution=(64, 64),
@@ -46,6 +46,7 @@ def fake_classifier_taining_loop(
     channels=3,
 ):
     """Fake Classifier training loop implementation using an autoencoder as a base model."""
+    # Model
     model = conv_autoencoder(
         layer_spec_input_res,
         layer_spec_target_res,
@@ -55,21 +56,29 @@ def fake_classifier_taining_loop(
         encoding_dimension,
         channels,
     )
+
+    # Dataset
     dataset = fake_autoencoder_datasest(
         dataset_size, image_resolution, channels, batch_size
     )
 
+    # Loss
     reconstruction_error = ashpy.losses.ClassifierLoss(
         tf.keras.losses.MeanSquaredError()
     )
+
+    # Trainer
     trainer = ashpy.trainers.ClassifierTrainer(
         model=model,
         optimizer=optimizer,
         loss=reconstruction_error,
         logdir=str(logdir),
         epochs=epochs,
-    )(dataset, dataset)
-    return 1
+        metrics=metrics,
+    )
+
+    trainer(dataset, dataset)
+    return 1, trainer
 
 
 def fake_adversarial_training_loop(
@@ -154,4 +163,4 @@ def fake_adversarial_training_loop(
     )
 
     trainer(dataset)
-    return 1
+    return 1, trainer

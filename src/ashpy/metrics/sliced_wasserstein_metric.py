@@ -92,6 +92,7 @@ class SlicedWassersteinDistance(Metric):
 
     def __init__(
         self,
+        name: str = "SWD",
         model_selection_operator: Callable = operator.lt,
         logdir: str = os.path.join(os.getcwd(), "log"),
         resolution: int = 128,
@@ -106,6 +107,7 @@ class SlicedWassersteinDistance(Metric):
         Initialize the Metric.
 
         Args:
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -126,8 +128,8 @@ class SlicedWassersteinDistance(Metric):
 
         """
         super().__init__(
-            name="SWD",
-            metric=tf.metrics.Mean(name="SWD", dtype=tf.float32),
+            name=name,
+            metric=tf.metrics.Mean(name=name, dtype=tf.float32),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )

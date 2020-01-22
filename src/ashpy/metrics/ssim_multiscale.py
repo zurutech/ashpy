@@ -41,19 +41,21 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
 
     def __init__(
         self,
+        name: str = "SSIM_Multiscale",
         model_selection_operator: Callable = operator.lt,
         logdir: str = os.path.join(os.getcwd(), "log"),
         max_val: float = 2.0,
         power_factors=None,
         filter_size: int = 11,
         filter_sigma: int = 1.5,
-        k1: int = 0.01,
-        k2: int = 0.03,
+        k1: float = 0.01,
+        k2: float = 0.03,
     ) -> None:
         """
         Initialize the Metric.
 
         Args:
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -74,14 +76,14 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
                 0.1333), which are the values obtained in the original paper.
             filter_size (int): Default value 11 (size of gaussian filter).
             filter_sigma (int): Default value 1.5 (width of gaussian filter).
-            k1 (int): Default value 0.01.
-            k2 (int): Default value 0.03 (SSIM is less sensitivity to K2 for lower values, so
+            k1 (float): Default value 0.01.
+            k2 (float): Default value 0.03 (SSIM is less sensitivity to K2 for lower values, so
                 it would be better if we take the values in range of 0< K2 <0.4).
 
         """
         super().__init__(
-            name="SSIM_Multiscale",
-            metric=tf.metrics.Mean(name="SSIM_Multiscale", dtype=tf.float32),
+            name=name,
+            metric=tf.metrics.Mean(name=name, dtype=tf.float32),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )

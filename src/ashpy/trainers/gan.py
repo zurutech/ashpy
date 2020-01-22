@@ -185,8 +185,8 @@ class AdversarialTrainer(Trainer):
         self._discriminator_loss.reduction = tf.losses.Reduction.NONE
 
         losses_metrics = [
-            DiscriminatorLoss(logdir=logdir),
-            GeneratorLoss(logdir=logdir),
+            DiscriminatorLoss(name="ashpy/d_loss", logdir=logdir),
+            GeneratorLoss(name="ashpy/g_loss", logdir=logdir),
         ]
         if metrics:
             metrics.extend(losses_metrics)
@@ -194,6 +194,7 @@ class AdversarialTrainer(Trainer):
             metrics = losses_metrics
 
         super()._update_metrics(metrics)
+        super()._validate_metrics()
 
         self._generator_optimizer = generator_optimizer
         self._discriminator_optimizer = discriminator_optimizer
@@ -425,12 +426,7 @@ class EncoderTrainer(AdversarialTrainer):
             if os.path.exists(logdir):
                 shutil.rmtree(logdir)
 
-            metrics = [
-                metrics.gan.EncodingAccuracy(
-                    classifier,
-                    # model_selection_operator=operator.gt,
-                )
-            ]
+            metrics = [metrics.gan.EncodingAccuracy(classifier)]
 
             trainer = trainers.gan.EncoderTrainer(
                 generator=generator,
@@ -526,7 +522,7 @@ class EncoderTrainer(AdversarialTrainer):
         """
         if not metrics:
             metrics = []
-        metrics.append(EncoderLoss(logdir=logdir))
+        metrics.append(EncoderLoss(name="ashpy/e_loss", logdir=logdir))
         super().__init__(
             generator=generator,
             discriminator=discriminator,

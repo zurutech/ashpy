@@ -19,7 +19,7 @@ Fixes # (issue)
 
 Please delete options that are not relevant.
 
-- [ ] Bug fix (i.e., a non-breaking change which fixes an issue)
+- [ ] Bugfix (i.e., a non-breaking change which fixes an issue)
 - [ ] New feature (i.e., a non-breaking change which adds functionality)
 - [ ] Breaking change (i.e., a fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update
@@ -46,7 +46,7 @@ List any dependencies that are required for this change.
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
-- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have commented on my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works

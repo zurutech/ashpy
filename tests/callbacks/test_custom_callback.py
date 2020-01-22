@@ -28,7 +28,8 @@ class MCallback(Callback):
     Check the number of times the on_event is triggered.
     """
 
-    def __init__(self, event):
+    def __init__(self, event) -> None:
+        """Initialize Callback."""
         super(MCallback, self).__init__()
         self._event = event
         self.counter = 0
