@@ -37,6 +37,7 @@ class DiscriminatorLoss(Metric):
 
     def __init__(
         self,
+        name: str = "d_loss",
         model_selection_operator: Callable = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
     ) -> None:
@@ -44,6 +45,7 @@ class DiscriminatorLoss(Metric):
         Initialize the Metric.
 
         Args:
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -57,8 +59,8 @@ class DiscriminatorLoss(Metric):
 
         """
         super().__init__(
-            name="d_loss",
-            metric=tf.metrics.Mean(name="d_loss", dtype=tf.float32),
+            name=name,
+            metric=tf.metrics.Mean(name=name, dtype=tf.float32),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
@@ -100,6 +102,7 @@ class GeneratorLoss(Metric):
 
     def __init__(
         self,
+        name: str = "g_loss",
         model_selection_operator: Callable = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
     ):
@@ -107,6 +110,7 @@ class GeneratorLoss(Metric):
         Initialize the Metric.
 
         Args:
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -120,8 +124,8 @@ class GeneratorLoss(Metric):
 
         """
         super().__init__(
-            name="g_loss",
-            metric=tf.metrics.Mean(name="g_loss", dtype=tf.float32),
+            name=name,
+            metric=tf.metrics.Mean(name=name, dtype=tf.float32),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
@@ -162,6 +166,7 @@ class EncoderLoss(Metric):
 
     def __init__(
         self,
+        name: str = "e_loss",
         model_selection_operator: Callable = None,
         logdir: str = os.path.join(os.getcwd(), "log"),
     ) -> None:
@@ -169,6 +174,7 @@ class EncoderLoss(Metric):
         Initialize the Metric.
 
         Args:
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -182,8 +188,8 @@ class EncoderLoss(Metric):
 
         """
         super().__init__(
-            name="e_loss",
-            metric=tf.metrics.Mean(name="e_loss", dtype=tf.float32),
+            name=name,
+            metric=tf.metrics.Mean(name=name, dtype=tf.float32),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
@@ -233,6 +239,7 @@ class InceptionScore(Metric):
     def __init__(
         self,
         inception: tf.keras.Model,
+        name: str = "inception_score",
         model_selection_operator=operator.gt,
         logdir=os.path.join(os.getcwd(), "log"),
     ):
@@ -241,6 +248,7 @@ class InceptionScore(Metric):
 
         Args:
             inception (:py:class:`tf.keras.Model`): Keras Inception model.
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -254,8 +262,8 @@ class InceptionScore(Metric):
 
         """
         super().__init__(
-            name="inception_score",
-            metric=tf.metrics.Mean("inception_score"),
+            name=name,
+            metric=tf.metrics.Mean(name),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )
@@ -418,6 +426,7 @@ class EncodingAccuracy(ClassifierMetric):
     def __init__(
         self,
         classifier: tf.keras.Model,
+        name: str = "encoding_accuracy",
         model_selection_operator: Callable = None,
         logdir=os.path.join(os.getcwd(), "log"),
     ) -> None:
@@ -430,6 +439,7 @@ class EncodingAccuracy(ClassifierMetric):
         Args:
             classifier (:py:class:`tf.keras.Model`): Keras Model to use as a Classifier to
                 measure the accuracy. Generally assumed to be the Inception Model.
+            name (str): Name of the metric.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -443,7 +453,7 @@ class EncodingAccuracy(ClassifierMetric):
 
         """
         super().__init__(
-            metric=tf.metrics.Accuracy("encoding_accuracy"),
+            metric=tf.metrics.Accuracy(name),
             model_selection_operator=model_selection_operator,
             logdir=logdir,
         )

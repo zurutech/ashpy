@@ -48,7 +48,7 @@ class Metric(ABC):
         Initialize the Metric object.
 
         Args:
-            name (str): The name of the metric.
+            name (str): Name of the metric.
             metric (:py:class:`tf.keras.metrics.Metric`): The Keras metric to use.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
@@ -81,17 +81,22 @@ class Metric(ABC):
 
         """
         current_value = self.result()
-        previous_value = float(self.json_read(self.best_model_sel_file)[self._name])
+        previous_value = float(
+            self.json_read(self.best_model_sel_file)[self._name.replace("/", "_")]
+        )
         # Model selection is done ONLY if an operator was passed at __init__
         if self._model_selection_operator and self._model_selection_operator(
             current_value, previous_value
         ):
             tf.print(
-                f"{self.name}: validation value: {previous_value} → {current_value}"
+                f"{self._name.replace('/', '_')}: validation value: {previous_value} → {current_value}"
             )
             Metric.json_write(
                 self.best_model_sel_file,
-                {self._name: str(current_value), "step": int(global_step.numpy())},
+                {
+                    self._name.replace("/", "_"): str(current_value),
+                    "step": int(global_step.numpy()),
+                },
             )
             manager = tf.train.CheckpointManager(
                 checkpoint, os.path.join(self.best_folder, "ckpts"), max_to_keep=1
@@ -99,6 +104,8 @@ class Metric(ABC):
             manager.save()
 
     def _update_logdir(self):
+        if not self._model_selection_operator:
+            pass
         # write the initial value of the best metric
         if not os.path.exists(self.best_model_sel_file):
             os.makedirs(os.path.dirname(self.best_model_sel_file))
@@ -106,7 +113,8 @@ class Metric(ABC):
             np.inf if self._model_selection_operator is operator.lt else -np.inf
         )
         self.json_write(
-            self.best_model_sel_file, {self._name: str(initial_value), "step": 0}
+            self.best_model_sel_file,
+            {self._name.replace("/", "_"): str(initial_value), "step": 0},
         )
 
     @property
@@ -138,12 +146,12 @@ class Metric(ABC):
     @property
     def best_folder(self) -> str:
         """Retrieve the folder used to save the best model when doing model selection."""
-        return os.path.join(self.logdir, "best", self._name)
+        return os.path.join(self.logdir, "best", self._name.replace("/", "_"))
 
     @property
     def best_model_sel_file(self) -> str:
         """Retrieve the path to JSON file containing the measured performance of the best model."""
-        return os.path.join(self.best_folder, self._name + ".json")
+        return os.path.join(self.best_folder, self._name.replace("/", "_") + ".json")
 
     @staticmethod
     def json_read(filename: str) -> Dict[str, Any]:
