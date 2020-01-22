@@ -145,6 +145,12 @@ class Trainer(ABC):
         """Check if every callback is an :py:class:`ashpy.callbacks.Callback`."""
         validate_objects(self._callbacks, Callback)
 
+    def _update_metrics(self, metrics):
+        if metrics:
+            for metric in metrics:
+                metric.logdir = self._logdir
+            self._metrics = metrics
+
     def _update_global_batch_size(
         self,
         dataset: tf.data.Dataset,

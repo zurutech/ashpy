@@ -18,7 +18,7 @@ import pytest
 from ashpy.callbacks import Callback
 from ashpy.callbacks.events import Event
 
-from tests.utils.fake_training_loop import fake_training_loop
+from tests.utils.fake_training_loop import fake_adversarial_training_loop
 
 
 class MCallback(Callback):
@@ -55,7 +55,7 @@ def get_n_events_from_epochs(
 
 
 @pytest.mark.parametrize("event", list(Event))
-def test_custom_callbacks(adversarial_logdir: str, event: Event):
+def test_custom_callbacks(tmpdir, event: Event):
     """Test the integration between a custom callback and a trainer."""
     m_callback = MCallback(event)
     callbacks = [m_callback]
@@ -64,8 +64,8 @@ def test_custom_callbacks(adversarial_logdir: str, event: Event):
     dataset_size = 2
     batch_size = 2
 
-    fake_training_loop(
-        adversarial_logdir,
+    fake_adversarial_training_loop(
+        logdir=tmpdir,
         callbacks=callbacks,
         epochs=epochs,
         dataset_size=dataset_size,

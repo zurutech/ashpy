@@ -20,7 +20,7 @@ import pytest
 from ashpy.callbacks import SaveCallback, SaveFormat, SaveSubFormat
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 
-from tests.utils.fake_training_loop import fake_training_loop
+from tests.utils.fake_training_loop import fake_adversarial_training_loop
 
 COMPATIBLE_FORMAT_AND_SUB_FORMAT = [
     (SaveFormat.WEIGHTS, SaveSubFormat.TF),
@@ -33,15 +33,11 @@ INCOMPATIBLE_FORMAT_AND_SUB_FORMAT = [(SaveFormat.MODEL, SaveSubFormat.H5)]
 
 @pytest.mark.parametrize("save_format_and_sub_format", COMPATIBLE_FORMAT_AND_SUB_FORMAT)
 def test_save_callback_compatible(
-    adversarial_logdir: str,
-    save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat],
-    save_dir: str,
+    tmpdir, save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat], save_dir: str,
 ):
     """Test the integration between callbacks and trainer."""
     save_format, save_sub_format = save_format_and_sub_format
-    _test_save_callback_helper(
-        adversarial_logdir, save_format, save_sub_format, save_dir
-    )
+    _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir)
 
     save_dirs = os.listdir(save_dir)
     # 2 folders: generator and discriminator
@@ -58,25 +54,19 @@ def test_save_callback_compatible(
     "save_format_and_sub_format", INCOMPATIBLE_FORMAT_AND_SUB_FORMAT
 )
 def test_save_callback_incompatible(
-    adversarial_logdir: str,
-    save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat],
-    save_dir: str,
+    tmpdir, save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat], save_dir: str,
 ):
     """Test the integration between callbacks and trainer."""
     save_format, save_sub_format = save_format_and_sub_format
 
     with pytest.raises(NotImplementedError):
-        _test_save_callback_helper(
-            adversarial_logdir, save_format, save_sub_format, save_dir
-        )
+        _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir)
 
     # assert no folder has been created
     assert not os.path.exists(save_dir)
 
 
-def _test_save_callback_helper(
-    adversarial_logdir, save_format, save_sub_format, save_dir
-):
+def _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir):
     image_resolution = (28, 28)
     layer_spec_input_res = (7, 7)
     layer_spec_target_res = (7, 7)
@@ -112,11 +102,8 @@ def _test_save_callback_helper(
         )
     ]
 
-    fake_training_loop(
-        adversarial_logdir,
-        callbacks=callbacks,
-        generator=generator,
-        discriminator=discriminator,
+    fake_adversarial_training_loop(
+        tmpdir, callbacks=callbacks, generator=generator, discriminator=discriminator,
     )
 
 

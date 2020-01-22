@@ -19,7 +19,7 @@ import tensorflow as tf
 from ashpy.callbacks import CounterCallback, Event
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 
-from tests.utils.fake_training_loop import fake_training_loop
+from tests.utils.fake_training_loop import fake_adversarial_training_loop
 
 
 class FakeCounterCallback(CounterCallback):
@@ -74,7 +74,7 @@ def test_counter_callback_multiple_events():
 
 
 # TODO: parametrize tests following test_save_callback.py
-def test_counter_callback(_models, adversarial_logdir):
+def test_counter_callback(_models, tmpdir):
     clbk = FakeCounterCallback(
         event=Event.ON_EPOCH_END,
         name="TestCounterCallback",
@@ -82,8 +82,8 @@ def test_counter_callback(_models, adversarial_logdir):
     )
     callbacks = [clbk]
     generator, discriminator = _models
-    fake_training_loop(
-        adversarial_logdir,
+    fake_adversarial_training_loop(
+        logdir=tmpdir,
         callbacks=callbacks,
         generator=generator,
         discriminator=discriminator,

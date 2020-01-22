@@ -78,7 +78,6 @@ class AdversarialTrainer(Trainer):
                         output_shape=10,
                     ),
                     model_selection_operator=operator.gt,
-                    logdir=logdir,
                 )
             ]
             trainer = trainers.gan.AdversarialTrainer(
@@ -194,7 +193,7 @@ class AdversarialTrainer(Trainer):
         else:
             metrics = losses_metrics
 
-        self._metrics = metrics
+        super()._update_metrics(metrics)
 
         self._generator_optimizer = generator_optimizer
         self._discriminator_optimizer = discriminator_optimizer
@@ -430,7 +429,6 @@ class EncoderTrainer(AdversarialTrainer):
                 metrics.gan.EncodingAccuracy(
                     classifier,
                     # model_selection_operator=operator.gt,
-                    logdir=logdir
                 )
             ]
 
@@ -526,6 +524,9 @@ class EncoderTrainer(AdversarialTrainer):
                 track of the training steps.
 
         """
+        if not metrics:
+            metrics = []
+        metrics.append(EncoderLoss(logdir=logdir))
         super().__init__(
             generator=generator,
             discriminator=discriminator,
@@ -547,7 +548,6 @@ class EncoderTrainer(AdversarialTrainer):
         self._encoder_loss = encoder_loss
         self._encoder_loss.reduction = tf.losses.Reduction.NONE
 
-        self._metrics.append(EncoderLoss(logdir=logdir))
         self._checkpoint.objects.extend([self._encoder, self._encoder_optimizer])
         self._restore_or_init()
 

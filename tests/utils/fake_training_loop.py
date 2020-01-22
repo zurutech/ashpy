@@ -13,14 +13,67 @@
 # limitations under the License.
 
 """Fake training loop to simplify training in tests."""
+import operator
+from pathlib import Path
+
+import ashpy
 import tensorflow as tf
 from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer
 
+from tests.utils.fake_datasets import fake_autoencoder_datasest
+from tests.utils.fake_models import conv_autoencoder
 
-def fake_training_loop(
-    adversarial_logdir,
+
+def fake_classifier_taining_loop(
+    # Trainer
+    logdir: Path,
+    optimizer=tf.optimizers.Adam(1e-4),
+    metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
+    epochs=5,
+    # Dataset
+    dataset_size=10,
+    image_resolution=(64, 64),
+    batch_size=5,
+    # Model: Autoencoder
+    layer_spec_input_res=(64, 64),
+    layer_spec_target_res=(4, 4),
+    kernel_size=3,
+    initial_filters=16,
+    filters_cap=64,
+    encoding_dimension=50,
+    channels=3,
+):
+    """Fake Classifier training loop implementation using an autoencoder as a base model."""
+    model = conv_autoencoder(
+        layer_spec_input_res,
+        layer_spec_target_res,
+        kernel_size,
+        initial_filters,
+        filters_cap,
+        encoding_dimension,
+        channels,
+    )
+    dataset = fake_autoencoder_datasest(
+        dataset_size, image_resolution, channels, batch_size
+    )
+
+    reconstruction_error = ashpy.losses.ClassifierLoss(
+        tf.keras.losses.MeanSquaredError()
+    )
+    trainer = ashpy.trainers.ClassifierTrainer(
+        model=model,
+        optimizer=optimizer,
+        loss=reconstruction_error,
+        logdir=str(logdir),
+        epochs=epochs,
+    )(dataset, dataset)
+    return 1
+
+
+def fake_adversarial_training_loop(
+    logdir,
     generator=None,
     discriminator=None,
     metrics=None,
@@ -82,7 +135,7 @@ def fake_training_loop(
         epochs=epochs,
         metrics=metrics,
         callbacks=callbacks,
-        logdir=adversarial_logdir,
+        logdir=logdir,
     )
 
     # Dataset
@@ -101,3 +154,4 @@ def fake_training_loop(
     )
 
     trainer(dataset)
+    return 1
