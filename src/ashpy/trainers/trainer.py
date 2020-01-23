@@ -142,9 +142,9 @@ class Trainer(ABC):
         validate_objects(self._metrics, Metric)
         buffer = []
         for metric in self._metrics:
-            if metric._name in buffer:
+            if metric.sanitized_name in buffer:
                 raise ValueError("Metric should have unique names.")
-            buffer.append(metric._name)
+            buffer.append(metric.sanitized_name)
 
     def _validate_callbacks(self):
         """Check if every callback is an :py:class:`ashpy.callbacks.Callback`."""

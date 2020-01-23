@@ -82,19 +82,19 @@ class Metric(ABC):
         """
         current_value = self.result()
         previous_value = float(
-            self.json_read(self.best_model_sel_file)[self._name.replace("/", "_")]
+            self.json_read(self.best_model_sel_file)[self.sanitized_name]
         )
         # Model selection is done ONLY if an operator was passed at __init__
         if self._model_selection_operator and self._model_selection_operator(
             current_value, previous_value
         ):
             tf.print(
-                f"{self._name.replace('/', '_')}: validation value: {previous_value} → {current_value}"
+                f"{self.sanitized_name}: validation value: {previous_value} → {current_value}"
             )
             Metric.json_write(
                 self.best_model_sel_file,
                 {
-                    self._name.replace("/", "_"): str(current_value),
+                    self.sanitized_name: str(current_value),
                     "step": int(global_step.numpy()),
                 },
             )
@@ -114,13 +114,23 @@ class Metric(ABC):
         )
         self.json_write(
             self.best_model_sel_file,
-            {self._name.replace("/", "_"): str(initial_value), "step": 0},
+            {self.sanitized_name: str(initial_value), "step": 0},
         )
 
     @property
     def name(self) -> str:
         """Retrieve the metric name."""
         return self._name
+
+    @property
+    def sanitized_name(self) -> str:
+        """
+        Retrieve the sanitized name: all / are _.
+
+        This is done since adding a prefix to a metric name with a / allows for TensorBoard
+        automatic grouping. When we are not working with TB we want to replace all / with _.
+        """
+        return self._name.replace("/", "_")
 
     @property
     def metric(self) -> tf.keras.metrics.Metric:
@@ -146,12 +156,12 @@ class Metric(ABC):
     @property
     def best_folder(self) -> str:
         """Retrieve the folder used to save the best model when doing model selection."""
-        return os.path.join(self.logdir, "best", self._name.replace("/", "_"))
+        return os.path.join(self.logdir, "best", self.sanitized_name)
 
     @property
     def best_model_sel_file(self) -> str:
         """Retrieve the path to JSON file containing the measured performance of the best model."""
-        return os.path.join(self.best_folder, self._name.replace("/", "_") + ".json")
+        return os.path.join(self.best_folder, self.sanitized_name + ".json")
 
     @staticmethod
     def json_read(filename: str) -> Dict[str, Any]:

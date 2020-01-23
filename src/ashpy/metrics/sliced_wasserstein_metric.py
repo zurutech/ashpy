@@ -155,6 +155,19 @@ class SlicedWassersteinDistance(Metric):
             )
         ]
 
+    @property
+    def logdir(self) -> str:
+        """Retrieve the log directory."""
+        return self._logdir
+
+    @logdir.setter
+    def logdir(self, logdir) -> None:
+        """Set the logdir changing also other properties."""
+        self._logdir = logdir
+        self._update_logdir()
+        for child_metric_real, child_metric_fake in self.children_real_fake:
+            child_metric_real.logdir, child_metric_fake.logdir = logdir, logdir
+
     def update_state(self, context: GANContext) -> None:
         """
         Update the internal state of the metric, using the information from the context object.

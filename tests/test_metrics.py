@@ -15,7 +15,7 @@
 """
 Test Metrics with the various trainers.
 
-TODO: Adversarial Encoder
+TODO: Adversarial Encoder Traner
 """
 import json
 import operator
@@ -37,7 +37,7 @@ from ashpy.models.gans import ConvDiscriminator
 
 from tests.utils.fake_training_loop import (
     fake_adversarial_training_loop,
-    fake_classifier_taining_loop,
+    fake_classifier_training_loop,
 )
 
 DEFAULT_LOGDIR = "log"
@@ -49,6 +49,7 @@ TEST_MATRIX_METRICS_LOG = {
             "layer_spec_input_res": (8, 8),
             "layer_spec_target_res": (8, 8),
             "channels": 3,
+            "measure_performance_freq": 1,
         },
         [
             SlicedWassersteinDistance(resolution=256),
@@ -67,14 +68,16 @@ TEST_MATRIX_METRICS_LOG = {
         ],
     ],
     "classifier_trainer": [
-        fake_classifier_taining_loop,
-        {},
+        fake_classifier_training_loop,
+        {"measure_performance_freq": 1},
         [ClassifierLoss(model_selection_operator=operator.lt)],
     ],
 }
 
 TEST_PARAMS_METRICS_LOG = [TEST_MATRIX_METRICS_LOG[k] for k in TEST_MATRIX_METRICS_LOG]
 TEST_IDS_METRICS_LOG = [k for k in TEST_MATRIX_METRICS_LOG]
+
+OPERATOR_INITIAL_VALUE_MAP = {operator.gt: "-inf", operator.lt: "inf"}
 
 
 @pytest.fixture(scope="module")
@@ -97,12 +100,15 @@ def test_metrics_log(training_loop, loop_args, metrics, tmpdir, cleanup):
     """
     Test that trainers correctly create metrics log files.
 
+    Also test that model selection has been correctly performed.
+
     GIVEN a correctly instantiated trainer
     GIVEN some training has been done
         THEN there should not be any logs inside the default log folder
         THEN there exists a logdir folder for each metric
         THEN there inside in each folder there's the JSON file w/ the metric logs
-        THEN in the file there are the correct keys
+        THEN in the file there are the correct keys'
+        THEN the values of the keys should not be the operator initial value
 
     """
     training_completed, trainer = training_loop(
@@ -113,77 +119,35 @@ def test_metrics_log(training_loop, loop_args, metrics, tmpdir, cleanup):
     assert not pathlib.Path(DEFAULT_LOGDIR).exists()  # Assert absence of side effects
     # Assert there exists folder for each metric
     for metric in trainer._metrics:
-        metric_dir = pathlib.Path(tmpdir).joinpath(
-            "best", metric.name.replace("/", "_")
-        )
+        metric_dir = pathlib.Path(tmpdir).joinpath("best", metric.sanitized_name)
         assert metric_dir.exists()
-        json_path = metric_dir.joinpath(f"{metric.name.replace('/', '_')}.json")
+        json_path = metric_dir.joinpath(f"{metric.sanitized_name}.json")
         assert json_path.exists()
         with open(json_path, "r") as fp:
             metric_data = json.load(fp)
 
             # Assert the metric data contains the expected keys
-            assert metric.name.replace("/", "_") in metric_data
+            assert metric.sanitized_name in metric_data
             assert "step" in metric_data
 
-
-# -------------------------------------------------------------------------------------
-
-
-TEST_MATRIX_MODEL_SELECTION = {
-    # TODO: Add test for a metric with operator.gt
-    "classifier_trainer_lt": [
-        fake_classifier_taining_loop,
-        {},
-        [ClassifierLoss(model_selection_operator=operator.lt)],
-        operator.lt,
-    ],
-}
-TEST_PARAMS_MODEL_SELECTION = [
-    TEST_MATRIX_MODEL_SELECTION[k] for k in TEST_MATRIX_MODEL_SELECTION
-]
-TEST_IDS_MODEL_SELECTION = [k for k in TEST_MATRIX_MODEL_SELECTION]
-
-
-@pytest.mark.parametrize(
-    ["training_loop", "loop_args", "metrics", "operator_check"],
-    TEST_PARAMS_MODEL_SELECTION,
-    ids=TEST_IDS_MODEL_SELECTION,
-)
-def test_model_selection(
-    training_loop, loop_args, metrics, operator_check: List[Metric]
-):
-    """
-    Test the correct model selection behaviour of metrics.
-
-    Model selection is handled by the Metric when triggered by a trainer.
-
-    GIVEN a correctly instantiated trainer
-    GIVEN some training has been done
-        THEN there should be a metric log file containing two values
-        GIVEN all metrics log get initialized at -inf at step 0
-        GIVEN a new data point is added to the log
-        WHEN performing model solection this should be the value used
-
-    """
-    number_of_metrics = len(metrics)
-    for metric in metrics:
-        assert metric._model_selection_operator == operator_check
-
-    training_completed, trainer = training_loop(
-        logdir="testlog", metrics=metrics, **loop_args
-    )
-
-    # Maybe make it explicit when a trainer popultate metrics autonomously
-    assert training_completed
-    # Manually have to check this in the log. Find a better way.
-    # loss: validation value: inf → 0.0
+            # Assert that the correct model selection has been performed
+            # Check it by seeing if the values in the json has been updated
+            if metric.model_selection_operator:
+                try:
+                    initial_value = OPERATOR_INITIAL_VALUE_MAP[
+                        metric.model_selection_operator
+                    ]
+                except KeyError:
+                    raise ValueError(
+                        "Please add the initial value for this operator to OPERATOR_INITIAL_VALUE_MAP"
+                    )
+                assert metric_data[metric.sanitized_name] != initial_value
 
 
 # -------------------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("training_loop", [fake_classifier_taining_loop])
+@pytest.mark.parametrize("training_loop", [fake_classifier_training_loop])
 def test_metrics_names_collision(training_loop, tmpdir):
     """
     Test that an exception is correctly raised when two metrics have the same name.

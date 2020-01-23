@@ -61,8 +61,9 @@ class ClassifierTrainer(Trainer):
 
         Examples:
             .. testcode::
-                import shutil
                 import operator
+                import shutil
+                import pathlib
                 from ashpy.metrics import ClassifierMetric
                 from ashpy.trainers.classifier import ClassifierTrainer
                 from ashpy.losses.classifier import ClassifierLoss
@@ -84,6 +85,9 @@ class ClassifierTrainer(Trainer):
                 logdir = "testlog"
                 epochs = 2
 
+                if pathlib.Path(logdir).exists():
+                    shutil.rmtree(logdir)
+
                 metrics = [
                     ClassifierMetric(tf.metrics.Accuracy()),
                     ClassifierMetric(tf.metrics.BinaryAccuracy()),
@@ -97,6 +101,7 @@ class ClassifierTrainer(Trainer):
                                             logdir=logdir)
                 train, validation = toy_dataset(), toy_dataset()
                 trainer(train, validation)
+
                 shutil.rmtree(logdir)
 
             .. testoutput::

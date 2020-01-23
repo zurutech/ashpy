@@ -14,7 +14,6 @@
 
 """Fake training loop to simplify training in tests."""
 import operator
-from pathlib import Path
 
 import ashpy
 import tensorflow as tf
@@ -26,9 +25,9 @@ from tests.utils.fake_datasets import fake_autoencoder_datasest
 from tests.utils.fake_models import conv_autoencoder
 
 
-def fake_classifier_taining_loop(
+def fake_classifier_training_loop(
     # Trainer
-    logdir: Path,
+    logdir: str = "testlog",
     optimizer=tf.optimizers.Adam(1e-4),
     metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
     epochs=2,
@@ -44,6 +43,8 @@ def fake_classifier_taining_loop(
     filters_cap=64,
     encoding_dimension=50,
     channels=3,
+    # Call parameters
+    measure_performance_freq=10,
 ):
     """Fake Classifier training loop implementation using an autoencoder as a base model."""
     # Model
@@ -77,12 +78,12 @@ def fake_classifier_taining_loop(
         metrics=metrics,
     )
 
-    trainer(dataset, dataset)
+    trainer(dataset, dataset, measure_performance_freq=measure_performance_freq)
     return 1, trainer
 
 
 def fake_adversarial_training_loop(
-    logdir,
+    logdir: str = "testlog",
     generator=None,
     discriminator=None,
     metrics=None,
@@ -96,6 +97,8 @@ def fake_adversarial_training_loop(
     layer_spec_input_res=(7, 7),
     layer_spec_target_res=(7, 7),
     channels=1,
+    # Call parameters
+    measure_performance_freq=10,
 ):
     """Fake training loop implementation."""
     # test parameters
@@ -162,5 +165,5 @@ def fake_adversarial_training_loop(
         lambda x, y: ((x, y), tf.random.normal(shape=(batch_size, latent_dim)))
     )
 
-    trainer(dataset)
+    trainer(dataset, measure_performance_freq=measure_performance_freq)
     return 1, trainer
