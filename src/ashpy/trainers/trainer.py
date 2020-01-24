@@ -26,9 +26,15 @@ from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 from ashpy.utils.utils import validate_objects
 
+__ALL__ = ["Trainer"]
+
 
 class Trainer(ABC):
     r""":py:class:`Trainer` provide an interface for all trainers to inherit from."""
+
+    ckpt_id_global_step: str = "global_step"
+    ckpt_id_steps_per_epoch: str = "steps_per_epoch"
+    ckpt_id_callbacks: str = "callbacks"
 
     def __init__(
         self,
@@ -93,15 +99,21 @@ class Trainer(ABC):
         self._steps_per_epoch = tf.Variable(
             -1, name="steps_per_epoch", trainable=False, dtype=tf.int64
         )
-        self._checkpoint = tf.train.Checkpoint()
-        self._checkpoint.objects = []
-        self._checkpoint.objects.extend(
-            [self._global_step, self._steps_per_epoch] + self._callbacks
-        )
+        ckpt_dict = {
+            self.ckpt_id_global_step: self._global_step,
+            self.ckpt_id_steps_per_epoch: self._steps_per_epoch,
+        }
+
+        # TODO: Investigate this, if trying to checkpoint callbacks TensorFlow says that they
+        # are not derived from a TrackableBase object
+        # if callbacks:
+        # ckpt_dict.update({self.ckpt_id_callbacks: self._callbacks})
+
         self._logdir = logdir
-        self._manager = tf.train.CheckpointManager(
-            self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
-        )
+        self._ckpt_dict = None
+        self._checkpoints = None
+        self._manager = None
+        self._update_checkpoint(ckpt_dict)
 
         self._train_summary_writer = tf.summary.create_file_writer(
             os.path.join(self._logdir, "train")
@@ -155,6 +167,16 @@ class Trainer(ABC):
             for metric in metrics:
                 metric.logdir = self._logdir
             self._metrics = metrics
+
+    def _update_checkpoint(self, ckpt_dict):
+        """Update the checkpoint with the new checkpoint dictionary."""
+        if not self._ckpt_dict:
+            self._ckpt_dict = {}
+        self._ckpt_dict.update(ckpt_dict)
+        self._checkpoint = tf.train.Checkpoint(**self._ckpt_dict)
+        self._manager = tf.train.CheckpointManager(
+            self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
+        )
 
     def _update_global_batch_size(
         self,

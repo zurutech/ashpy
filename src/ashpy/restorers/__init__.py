@@ -1,4 +1,4 @@
-# Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.
+# Copyright 2020 Zuru Tech HK Limited. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,11 +23,12 @@ The module contains a primitive Interface and specific trainers that inherits fr
 
 .. autosummary::
     :nosignatures:
-    :toctree: trainers
+    :toctree: restorers
 
-    Trainer
-    AdversarialTrainer
-    EncoderTrainer
+    Restore
+    AdversarialRestorer
+    AdversarialEncoderRestorer
+    ClassifierRestorer
 
 ----
 
@@ -35,22 +36,22 @@ The module contains a primitive Interface and specific trainers that inherits fr
 
 .. autosummary::
     :nosignatures:
-    :toctree: trainers
+    :toctree: restorers
     :template: autosummary/submodule.rst
 
-    trainer
+    restorer
     classifier
     gan
 
 """
 
-from ashpy.trainers.classifier import ClassifierTrainer
-from ashpy.trainers.gan import AdversarialTrainer, EncoderTrainer
-from ashpy.trainers.trainer import Trainer
+from ashpy.restorers.classifier import ClassifierRestorer
+from ashpy.restorers.gan import AdversarialEncoderRestorer, AdversarialRestorer
+from ashpy.restorers.restorer import Restorer
 
 __ALL__ = [
-    "Trainer",
-    "Adversarial",
-    "AdversarialEncoder",
-    "ClassifierTrainer",
+    "Restorer",
+    "AdversarialRestorer",
+    "AdversarialEncoderRestorer",
+    "ClassifierRestorer",
 ]

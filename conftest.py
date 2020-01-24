@@ -13,6 +13,7 @@
 # limitations under the License.
 
 """pytest configuration."""
+import operator
 import os
 import shutil
 
@@ -20,6 +21,16 @@ import pytest
 import tensorflow  # pylint: disable=import-error
 
 import ashpy
+from ashpy.metrics import (
+    ClassifierLoss,
+    InceptionScore,
+    SlicedWassersteinDistance,
+    SSIM_Multiscale,
+)
+from tests.utils.fake_training_loop import (
+    fake_adversarial_training_loop,
+    fake_classifier_training_loop,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -50,3 +61,52 @@ def save_dir():
     if os.path.exists(m_save_dir):
         shutil.rmtree(m_save_dir)
         assert not os.path.exists(m_save_dir)
+
+
+# ------------------------------------------------------------------------------------
+
+TEST_MATRIX = {
+    # NOTE: Always pass metrics as Tuple, Trainers produce side effects!
+    "adversarial_trainer": [
+        fake_adversarial_training_loop,
+        {
+            "image_resolution": [256, 256],
+            "layer_spec_input_res": (8, 8),
+            "layer_spec_target_res": (8, 8),
+            "channels": 3,
+            "output_shape": 1,
+            "measure_performance_freq": 1,
+        },
+        (
+            SlicedWassersteinDistance(resolution=256),
+            SSIM_Multiscale(),
+            InceptionScore(
+                # Fake inception model
+                ashpy.models.gans.ConvDiscriminator(
+                    layer_spec_input_res=(299, 299),
+                    layer_spec_target_res=(7, 7),
+                    kernel_size=(5, 5),
+                    initial_filters=16,
+                    filters_cap=32,
+                    output_shape=10,
+                )
+            ),
+        ),
+    ],
+    "classifier_trainer": [
+        fake_classifier_training_loop,
+        {"measure_performance_freq": 1},
+        (ClassifierLoss(model_selection_operator=operator.lt),),
+    ],
+}
+
+TRAINING_IDS = [k for k in TEST_MATRIX]
+LOOPS = [TEST_MATRIX[k] for k in TEST_MATRIX]
+
+
+@pytest.fixture(scope="function", params=LOOPS, ids=TRAINING_IDS)
+def fake_training(request):
+    """Fixture used to generate fake training for the tests."""
+    training_loop, loop_args, metrics = request.param
+    assert len(metrics) in [1, 3]
+    return (training_loop, loop_args, list(metrics))

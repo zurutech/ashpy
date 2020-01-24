@@ -1,4 +1,4 @@
-# Copyright 2019 Zuru Tech HK Limited. All Rights Reserved.
+# Copyright 2020 Zuru Tech HK Limited. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,24 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""ASHPY Package."""
+from ashpy.restorers.restorer import Restorer
+from ashpy.trainers import ClassifierTrainer
 
-from .modes import LogEvalMode  # isort:skip
-from . import (
-    ashtypes,
-    callbacks,
-    contexts,
-    datasets,
-    keras,
-    layers,
-    losses,
-    metrics,
-    models,
-    restorers,
-    trainers,
-)
+__ALL__ = ["ClassifierRestorer"]
 
-__version__ = "0.2.0"
-__url__ = "https://github.com/zurutech/ashpy"
-__author__ = "Machine Learning Team @ Zuru Tech"
-__email__ = "ml@zuru.tech"
+
+class ClassifierRestorer(Restorer):
+    pass

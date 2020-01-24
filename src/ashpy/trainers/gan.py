@@ -26,6 +26,8 @@ from ashpy.metrics.gan import DiscriminatorLoss, EncoderLoss, GeneratorLoss
 from ashpy.modes import LogEvalMode
 from ashpy.trainers.trainer import Trainer
 
+__ALL__ = ["AdversarialTrainer", "EncoderTrainer"]
+
 
 class AdversarialTrainer(Trainer):
     r"""
@@ -122,6 +124,11 @@ class AdversarialTrainer(Trainer):
 
     """
 
+    ckpt_id_generator: str = "generator"
+    ckpt_id_discriminator: str = "discriminator"
+    ckpt_id_optimizer_generator: str = "optimizer_generator"
+    ckpt_id_optimizer_discriminator: str = "optimizer_discriminator"
+
     def __init__(
         self,
         generator: tf.keras.Model,
@@ -199,14 +206,13 @@ class AdversarialTrainer(Trainer):
         self._generator_optimizer = generator_optimizer
         self._discriminator_optimizer = discriminator_optimizer
 
-        self._checkpoint.objects.extend(
-            [
-                self._generator,
-                self._discriminator,
-                self._generator_optimizer,
-                self._discriminator_optimizer,
-            ]
-        )
+        ckpt_dict = {
+            self.ckpt_id_optimizer_generator: self._generator_optimizer,
+            self.ckpt_id_optimizer_discriminator: self._discriminator_optimizer,
+            self.ckpt_id_generator: self._generator,
+            self.ckpt_id_discriminator: self._discriminator,
+        }
+        self._update_checkpoint(ckpt_dict)
 
         # pylint: disable=unidiomatic-typecheck
         if type(self) == AdversarialTrainer:
@@ -468,6 +474,8 @@ class EncoderTrainer(AdversarialTrainer):
             Training finished after 2 epochs.
 
     """
+    ckpt_id_encoder: str = "encoder"
+    ckpt_id_optimizer_encoder: str = "optimizer_encoder"
 
     def __init__(
         self,
@@ -544,7 +552,12 @@ class EncoderTrainer(AdversarialTrainer):
         self._encoder_loss = encoder_loss
         self._encoder_loss.reduction = tf.losses.Reduction.NONE
 
-        self._checkpoint.objects.extend([self._encoder, self._encoder_optimizer])
+        ckpt_dict = {
+            self.ckpt_id_encoder: self._encoder,
+            self.ckpt_id_optimizer_encoder: self._encoder_optimizer,
+        }
+        self._update_checkpoint(ckpt_dict)
+
         self._restore_or_init()
 
         self._context = GANEncoderContext(

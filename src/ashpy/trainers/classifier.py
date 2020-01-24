@@ -26,9 +26,14 @@ from ashpy.metrics import Metric
 from ashpy.metrics.classifier import ClassifierLoss
 from ashpy.trainers.trainer import Trainer
 
+__ALL__ = ["ClassifierTrainer"]
+
 
 class ClassifierTrainer(Trainer):
     r""":py:class:`ClassifierTrainer` provide the standard training loop for a classifier."""
+
+    ckpt_id_model: str = "model"
+    ckpt_id_optimizer: str = "optimizer"
 
     def __init__(
         self,
@@ -138,8 +143,14 @@ class ClassifierTrainer(Trainer):
         super()._update_metrics(metrics)
         super()._validate_metrics()
 
-        self._checkpoint.objects.extend([self._optimizer, self._model])
+        ckpt_dict = {
+            self.ckpt_id_optimizer: self._optimizer,
+            self.ckpt_id_model: self._model,
+        }
+        self._update_checkpoint(ckpt_dict)
+
         self._restore_or_init()
+
         self._context = ClassifierContext(
             classifier_model=self._model,
             loss=self._loss,
