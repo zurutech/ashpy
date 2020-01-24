@@ -24,7 +24,11 @@ __ALL__ = ["Restorer"]
 
 
 class Restorer:
-    """Generic Restorer used to restore objects from checkpoints."""
+    r"""
+    :class:`Restorer` provide a way to restore objects from :class:`tf.train.Checkpoint`.
+
+    Can be standalone.
+    """
 
     def __init__(
         self, logdir: str = "log", ckpts_dir: str = "ckpts", expect_partial: bool = True

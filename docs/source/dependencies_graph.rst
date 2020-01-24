@@ -31,6 +31,8 @@ Convolutional
 GANs
 ====
 
+GANs models are just aliases.
+
 .. inheritance-diagram:: ashpy.models.gans
    :parts: 1
 
@@ -42,7 +44,7 @@ ashpy.trainers
 Adversarial
 ===========
 
-.. inheritance-diagram:: ashpy.trainers.base_trainer ashpy.trainers.gan
+.. inheritance-diagram:: ashpy.trainers.gan
    :parts: 1
 
 ----
@@ -52,6 +54,14 @@ Classifier
 
 .. inheritance-diagram:: ashpy.trainers.classifier
     :parts: 1
+
+----
+
+ashpy.restorers
+***************
+
+.. inheritance-diagram:: ashpy.restorers.restorer ashpy.restorers.gan ashpy.restorers.classifier
+   :parts: 1
 
 ----
 

@@ -13,11 +13,9 @@
 # limitations under the License.
 
 """
-Trainers help reducing boilerplate code by bootstrapping models training.
+Restorers allow for easy restoration of tracked objects from :class:`tf.train.Checkpoint`.
 
-The module contains a primitive Interface and specific trainers that inherits from it.
-
-.. currentmodule:: ashpy.trainers
+.. currentmodule:: ashpy.restorers
 
 .. rubric:: Classes
 
@@ -25,7 +23,7 @@ The module contains a primitive Interface and specific trainers that inherits fr
     :nosignatures:
     :toctree: restorers
 
-    Restore
+    Restorer
     AdversarialRestorer
     AdversarialEncoderRestorer
     ClassifierRestorer

@@ -14,5 +14,6 @@ API Reference
    ashpy.metrics
    ashpy.models
    ashpy.modes
+   ashpy.restorers
    ashpy.trainers
 
