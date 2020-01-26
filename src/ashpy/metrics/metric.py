@@ -91,7 +91,7 @@ class Metric(ABC):
             tf.print(
                 f"{self.sanitized_name}: validation value: {previous_value} → {current_value}"
             )
-            Metric.json_write(
+            self.json_write(
                 self.best_model_sel_file,
                 {
                     self.sanitized_name: str(current_value),
