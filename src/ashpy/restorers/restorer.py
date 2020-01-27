@@ -70,6 +70,14 @@ class Restorer:
         """
         Restore a placeholder from a checkpoint using the specified id.
 
+        Warning:
+            When restoring a :class:`tf.keras.Model` object from checkpoint assure that the
+            model has been correctly built and instantiated by firstly calling it on some
+            sample inputs. In the case of a model built with either the Sequential or
+            Functional API an exception will be raised; for a model built with the Chainer API
+            it will fail silently, restoration will be "successful" but no values will actually
+            be restored since there are no valid placeholder as the model has not be built yet.
+
         TODO: Args
         TODO: Example
         """

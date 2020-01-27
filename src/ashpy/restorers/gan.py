@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Convenience :class:`Restorer` to be used with :mod:`ashpy.trainers.gan` ."""
+
+import tensorflow as tf
 from ashpy.restorers.restorer import Restorer
 from ashpy.trainers import AdversarialTrainer, EncoderTrainer
 
@@ -19,8 +22,130 @@ __ALL__ = ["AdversarialRestorer", "AdversarialEncoderRestorer"]
 
 
 class AdversarialRestorer(Restorer):
-    pass
+    """Convenience :class:`Restorer` for ease of use with the :class:`AdversairalTrainer`."""
+
+    def restore_generator(self, model: tf.keras.Model) -> tf.keras.Model:
+        """
+        Restore the Generator model.
+
+        Args:
+            model (:class:`tf.keras.Model`): The placeholder model in which values from the
+                checkpoint will be restored.
+
+        Returns:
+            Restored model.
+
+        Warning:
+            When restoring a :class:`tf.keras.Model` object from checkpoint assure that the
+            model has been correctly built and instantiated by firstly calling it on some
+            sample inputs. In the case of a model built with either the Sequential or
+            Functional API an exception will be raised; for a model built with the Chainer API
+            it will fail silently, restoration will be "successful" but no values will actually
+            be restored since there are no valid placeholder as the model has not be built yet.
+
+        """
+        self.restore_object(model, AdversarialTrainer.ckpt_id_generator)
+        return model
+
+    def restore_discriminator(self, model: tf.keras.Model) -> tf.keras.Model:
+        """
+        Restore the Discriminator model.
+
+        Args:
+            model (:class:`tf.keras.Model`): The placeholder model in which values from the
+                checkpoint will be restored.
+
+        Returns:
+            Restored model.
+
+        Warning:
+            When restoring a :class:`tf.keras.Model` object from checkpoint assure that the
+            model has been correctly built and instantiated by firstly calling it on some
+            sample inputs. In the case of a model built with either the Sequential or
+            Functional API an exception will be raised; for a model built with the Chainer API
+            it will fail silently, restoration will be "successful" but no values will actually
+            be restored since there are no valid placeholder as the model has not be built yet.
+
+        """
+        self.restore_object(model, AdversarialTrainer.ckpt_id_discriminator)
+        return model
+
+    def restore_generator_optimizer(
+        self, optimizer: tf.keras.optimizers.Optimizer
+    ) -> tf.keras.optimizers.Optimizer:
+        """
+        Restore the Optimizer used to train the Generator model.
+
+        Args:
+            model (:class:`tf.keras.optimizers.Optimizer`): The placeholder Optimizer in
+                which values from the checkpoint will be restored.
+
+        Returns:
+            Restored optimizer.
+
+        """
+        self.restore_object(optimizer, AdversarialTrainer.ckpt_id_optimizer_generator)
+        return optimizer
+
+    def restore_discriminator_optimizer(
+        self, optimizer: tf.keras.optimizers.Optimizer
+    ) -> tf.keras.optimizers.Optimizer:
+        """
+        Restore the Optimizer used to train the Discriminator model.
+
+        Args:
+            model (:class:`tf.keras.optimizers.Optimizer`): The placeholder Optimizer in
+                which values from the checkpoint will be restored.
+
+        Returns:
+            Restored optimizer.
+
+        """
+        self.restore_object(
+            optimizer, AdversarialTrainer.ckpt_id_optimizer_discriminator
+        )
+        return optimizer
 
 
 class AdversarialEncoderRestorer(AdversarialRestorer):
-    pass
+    """Convenience :class:`Restorer` for ease of use with the :class:`EncoderTrainer`."""
+
+    def restore_encoder(self, model: tf.keras.Model) -> tf.keras.Model:
+        """
+        Restore the Encoder model.
+
+        Args:
+            model (:class:`tf.keras.Model`): The placeholder model in which values from the
+                checkpoint will be restored.
+
+        Returns:
+            Restored model.
+
+        Warning:
+            When restoring a :class:`tf.keras.Model` object from checkpoint assure that the
+            model has been correctly built and instantiated by firstly calling it on some
+            sample inputs. In the case of a model built with either the Sequential or
+            Functional API an exception will be raised; for a model built with the Chainer API
+            it will fail silently, restoration will be "successful" but no values will actually
+            be restored since there are no valid placeholder as the model has not be built yet.
+
+        """
+        self.restore_object(model, EncoderTrainer.ckpt_id_encoder)
+        return model
+
+    def restore_encoder_optimizer(
+        self, optimizer: tf.keras.optimizers.Optimizer
+    ) -> tf.keras.optimizers.Optimizer:
+        """
+        Restore the Optimizer used to train the Encoder model.
+
+        Args:
+            model (:class:`tf.keras.optimizers.Optimizer`): The placeholder Optimizer in
+                which values from the checkpoint will be restored.
+
+        Returns:
+            Restored optimizer.
+
+        """
+        self.restore_object(optimizer, EncoderTrainer.ckpt_id_optimizer_encoder)
+        return optimizer
