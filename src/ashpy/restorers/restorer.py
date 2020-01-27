@@ -51,20 +51,26 @@ class Restorer:
     def _restore_checkpoint(self, checkpoint, partial: bool = True):
         """Restore or initialize the persistence layer (checkpoint)."""
         manager = tf.train.CheckpointManager(checkpoint, self._ckpts_dir, max_to_keep=3)
-        if manager.latest_checkpoint:
-            status = checkpoint.restore(manager.latest_checkpoint)
-            if partial:
-                status = status.expect_partial()
-            status.assert_existing_objects_matched()
-            return status
+        if not manager.latest_checkpoint:
+            raise FileNotFoundError(
+                f"Could not find any checkpoint in {self._ckpts_dir}."
+            )
+        status = checkpoint.restore(manager.latest_checkpoint)
+        if partial:
+            status = status.expect_partial()
+        status.assert_existing_objects_matched()
+        return status
 
-    def _validate_placeholders(self, placeholders: List, placeholder_type):
+    @staticmethod
+    def _validate_placeholders(placeholders: List, placeholder_type):
         # We do a preliminary check on types since the error thrown by TF can be hard to parse.
-        for p in placeholders:
+        for placeholder in placeholders:
             try:
-                assert isinstance(p, placeholder_type)
+                assert isinstance(placeholder, placeholder_type)
             except AssertionError:
-                raise TypeError(f"Object {p} is should be of type: {placeholder_type}")
+                raise TypeError(
+                    f"Object {placeholder} is should be of type: {placeholder_type}"
+                )
 
     def restore_object(self, placeholder, object_ckpt_id: str):
         """
@@ -108,10 +114,10 @@ class Restorer:
         )
         return placeholder
 
-    def get_callbacks(
-        self, callbacks: List[ashpy.callbacks.Callback]
-    ) -> List[ashpy.callbacks.Callback]:
-        """Return the restored callbacks."""
-        self._validate_placeholders(callbacks, ashpy.callbacks.Callback)
-        assert self.restore_object(callbacks, ashpy.trainers.Trainer.ckpt_id_callbacks)
-        return callbacks
+    # def get_callbacks(
+    #     self, callbacks: List[ashpy.callbacks.Callback]
+    # ) -> List[ashpy.callbacks.Callback]:
+    #     """Return the restored callbacks."""
+    #     self._validate_placeholders(callbacks, ashpy.callbacks.Callback)
+    #     assert self.restore_object(callbacks, ashpy.trainers.Trainer.ckpt_id_callbacks)
+    #     return callbacks

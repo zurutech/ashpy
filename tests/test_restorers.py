@@ -14,6 +14,7 @@
 
 """Test Restorers."""
 
+import shutil
 from pathlib import Path
 
 import pytest
@@ -267,3 +268,22 @@ class TestRestorer:
                 trainer.ckpt_id_optimizer_discriminator,
                 capsys,
             )
+
+
+def test_failings(tmpdir):
+    """Test the failing cases for the Restorers."""
+    # Test Restorer fails on empty logdir
+    with pytest.raises(FileNotFoundError):
+        Restorer(Path(tmpdir + ("fuffa")))
+
+    # Test Restorer fails on empty checkpoint dir
+    with pytest.raises(FileNotFoundError):
+        restorer = Restorer(tmpdir)
+        status = restorer._restore_checkpoint(tf.train.Checkpoint())
+
+    # Test failed placeholders validation
+    with pytest.raises(TypeError):
+        Restorer._validate_placeholders(
+            placeholders=[tf.keras.Model(), tf.keras.Model()],
+            placeholder_type=tf.Variable,
+        )
