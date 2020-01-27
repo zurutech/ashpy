@@ -77,6 +77,11 @@ TEST_MATRIX = {
             "channels": 3,
             "output_shape": 1,
             "measure_performance_freq": 1,
+            "callbacks": [
+                ashpy.callbacks.LogImageGANCallback(
+                    event=ashpy.callbacks.Event.ON_BATCH_END, event_freq=1
+                )
+            ],
         },
         (
             SlicedWassersteinDistance(resolution=256),

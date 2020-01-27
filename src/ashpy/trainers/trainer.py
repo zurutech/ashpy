@@ -14,9 +14,10 @@
 
 """Primitive Trainer Interface."""
 
+import json
 import os
 from abc import ABC, abstractmethod
-from typing import List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import tensorflow as tf
 from ashpy.callbacks import Callback
@@ -78,7 +79,7 @@ class Trainer(ABC):
         # set and validate callbacks
         if callbacks is None:
             callbacks = []
-        self._callbacks = callbacks
+        self._callbacks: List[Callback] = callbacks
         self._validate_callbacks()
 
         self._epochs = epochs
@@ -104,13 +105,14 @@ class Trainer(ABC):
             self.ckpt_id_steps_per_epoch: self._steps_per_epoch,
         }
 
-        # TODO: Investigate this, if trying to checkpoint callbacks TensorFlow says that they
-        # are not derived from a TrackableBase object
-        # if callbacks:
-        # ckpt_dict.update({self.ckpt_id_callbacks: self._callbacks})
+        if callbacks:
+            for callback in callbacks:
+                ckpt_dict[callback._name] = callback
 
         self._logdir = logdir
+        self._ckpts_dir = os.path.join(self._logdir, "ckpts")
         self._ckpt_dict = None
+        self._checkpoint_map: Dict[str, str] = {}
         self._checkpoints = None
         self._manager = None
         self._update_checkpoint(ckpt_dict)
@@ -149,18 +151,31 @@ class Trainer(ABC):
         """
         self._context = _context
 
+    def _generate_checkpoint_map(self):
+        """Generatea a human readable map of the id and type mapping in the checkpoint."""
+        return {id: str(type(self._ckpt_dict[id])) for id in self._ckpt_dict}
+
+    def _write_checkpoint_map(self):
+        with open(os.path.join(self._ckpts_dir, "checkpoint_map.json"), "w") as fp:
+            json.dump(self._checkpoint_map, fp)
+
+    def _check_name_collision(self, objects, type):
+        """Check that all objects have unique name."""
+        buffer: List[str] = []
+        for obj in objects:
+            if obj._name in buffer:
+                raise ValueError(f"{type} should have unique names.")
+            buffer.append(obj._name)
+
     def _validate_metrics(self):
         """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""
         validate_objects(self._metrics, Metric)
-        buffer = []
-        for metric in self._metrics:
-            if metric.sanitized_name in buffer:
-                raise ValueError("Metric should have unique names.")
-            buffer.append(metric.sanitized_name)
+        self._check_name_collision(self._metrics, "Metric")
 
     def _validate_callbacks(self):
         """Check if every callback is an :py:class:`ashpy.callbacks.Callback`."""
         validate_objects(self._callbacks, Callback)
+        self._check_name_collision(self._callbacks, "Callback")
 
     def _update_metrics(self, metrics):
         if metrics:
@@ -173,9 +188,10 @@ class Trainer(ABC):
         if not self._ckpt_dict:
             self._ckpt_dict = {}
         self._ckpt_dict.update(ckpt_dict)
+        self._checkpoint_map = self._generate_checkpoint_map()
         self._checkpoint = tf.train.Checkpoint(**self._ckpt_dict)
         self._manager = tf.train.CheckpointManager(
-            self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
+            self._checkpoint, self._ckpts_dir, max_to_keep=3
         )
 
     def _update_global_batch_size(
@@ -234,6 +250,7 @@ class Trainer(ABC):
     def _save(self):
         """Save the current checkpointable object status."""
         checkpoint = self._manager.save()
+        self._write_checkpoint_map()
         # print is captured from pydoc - deterministic output can be used
         # to run tests.
         print(f"[{self._global_step.numpy()}] Saved checkpoint: {checkpoint}")

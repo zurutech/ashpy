@@ -14,8 +14,9 @@
 
 """Primitive Restorer, can be used standalone."""
 
+import json
 from pathlib import Path
-from typing import List
+from typing import Dict, List
 
 import ashpy
 import tensorflow as tf
@@ -47,6 +48,12 @@ class Restorer:
         if not self._ckpts_dir.exists():
             raise FileNotFoundError(f"{ckpts_dir} does not exist.")
         self._restored_log_msg = "Restored {} from checkpoint {}."
+        self._human_checkpoint_map = self._read_human_checkpoint_map()
+
+    @property
+    def checkpoint_map(self) -> Dict[str, str]:
+        """Get the map of the ids in the checkpoint."""
+        return self._human_checkpoint_map
 
     def _restore_checkpoint(self, checkpoint, partial: bool = True):
         """Restore or initialize the persistence layer (checkpoint)."""
@@ -62,15 +69,14 @@ class Restorer:
         return status
 
     @staticmethod
-    def _validate_placeholders(placeholders: List, placeholder_type):
+    def _validate_placeholder(placeholder: List, placeholder_type):
         # We do a preliminary check on types since the error thrown by TF can be hard to parse.
-        for placeholder in placeholders:
-            try:
-                assert isinstance(placeholder, placeholder_type)
-            except AssertionError:
-                raise TypeError(
-                    f"Object {placeholder} is should be of type: {placeholder_type}"
-                )
+        try:
+            assert isinstance(placeholder, placeholder_type)
+        except AssertionError:
+            raise TypeError(
+                f"Object {placeholder} is should be of type: {placeholder_type}"
+            )
 
     def restore_object(self, placeholder, object_ckpt_id: str):
         """
@@ -114,10 +120,14 @@ class Restorer:
         )
         return placeholder
 
-    # def get_callbacks(
-    #     self, callbacks: List[ashpy.callbacks.Callback]
-    # ) -> List[ashpy.callbacks.Callback]:
-    #     """Return the restored callbacks."""
-    #     self._validate_placeholders(callbacks, ashpy.callbacks.Callback)
-    #     assert self.restore_object(callbacks, ashpy.trainers.Trainer.ckpt_id_callbacks)
-    #     return callbacks
+    def restore_callback(
+        self, callback: ashpy.callbacks.Callback, callback_ckpt_id: str
+    ) -> List[ashpy.callbacks.Callback]:
+        """Return the restored callbacks."""
+        self._validate_placeholder(callback, ashpy.callbacks.Callback)
+        assert self.restore_object(callback, callback_ckpt_id)
+        return callback
+
+    def _read_human_checkpoint_map(self) -> Dict[str, str]:
+        with open(self._ckpts_dir.joinpath("checkpoint_map.json")) as fp:
+            return json.load(fp)

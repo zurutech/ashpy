@@ -19,7 +19,6 @@ from pathlib import Path
 
 import pytest
 import tensorflow as tf
-
 from ashpy.restorers import (
     AdversarialEncoderRestorer,
     AdversarialRestorer,
@@ -27,6 +26,7 @@ from ashpy.restorers import (
     Restorer,
 )
 from ashpy.trainers import AdversarialTrainer, ClassifierTrainer, Trainer
+
 from tests.utils.fake_datasets import (
     fake_adversarial_dataset,
     fake_autoencoder_datasest,
@@ -156,7 +156,33 @@ class TestRestorer:
                 id_to_check, restorer._ckpts_dir
             ) in out.split("\n")
 
-    # ###################################################3
+    def test_restore_callbacks(self, fake_training, capsys, tmpdir):
+        """Test that callbacks are succesfully restored."""
+        training_loop, loop_args, metrics = fake_training
+        training_completed, trainer = training_loop(
+            logdir=tmpdir, metrics=metrics, **loop_args
+        )
+        assert training_completed
+        restorer = Restorer(logdir=tmpdir)
+
+        if isinstance(trainer, AdversarialTrainer):
+            placeholder_callbacks = loop_args.get("callbacks")
+            for placeholder_callback in placeholder_callbacks:
+                restorer.restore_callback(
+                    placeholder_callback, placeholder_callback._name
+                )
+
+    def test_read_checkpoint_map(self, fake_training, capsys, tmpdir):
+        """Test that checkpoint map is read correctly."""
+        training_loop, loop_args, metrics = fake_training
+        training_completed, trainer = training_loop(
+            logdir=tmpdir, metrics=metrics, **loop_args
+        )
+        assert training_completed
+        restorer = Restorer(logdir=tmpdir)
+        assert restorer.checkpoint_map == trainer._generate_checkpoint_map()
+
+    # ###################################################
     # Test Convenience Methods
 
     def _test_convenience_model_restorer(
@@ -283,7 +309,6 @@ def test_failings(tmpdir):
 
     # Test failed placeholders validation
     with pytest.raises(TypeError):
-        Restorer._validate_placeholders(
-            placeholders=[tf.keras.Model(), tf.keras.Model()],
-            placeholder_type=tf.Variable,
+        Restorer._validate_placeholder(
+            placeholders=tf.keras.Model(), placeholder_type=tf.Variable,
         )
