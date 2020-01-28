@@ -14,6 +14,8 @@
 
 import tensorflow as tf
 
+__ALL__ = ["fake_autoencoder_datasest", "fake_adversarial_dataset"]
+
 
 def fake_autoencoder_datasest(
     dataset_size=10, image_resolution=(64, 64), channels=3, batch_size=5, **kwargs,

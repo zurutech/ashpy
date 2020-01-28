@@ -16,7 +16,7 @@ import tensorflow as tf
 from ashpy.models.convolutional.autoencoders import Autoencoder
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 
-__ALL__ = ["conv_autoencoder"]
+__ALL__ = ["conv_autoencoder", "basic_dcgan"]
 
 
 def conv_autoencoder(

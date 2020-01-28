@@ -27,6 +27,8 @@ from tests.utils.fake_datasets import (
 )
 from tests.utils.fake_models import basic_dcgan, conv_autoencoder
 
+__ALL__ = ["fake_classifier_training_loop", "fake_adversarial_training_loop"]
+
 
 def fake_classifier_training_loop(
     # Trainer
