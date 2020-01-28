@@ -457,7 +457,7 @@ tuple(tuple(a,b), noise)
 
 Where `a` is the input sample, `b` is the label/condition (if any, otherwise fill it with `0`), and `noise` is the latent vector of input.
 
-To train Pix2Pix-like architecture, that have no `noise` as ConvGenerator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator output.
+To train Pix2Pix-like architecture, that have no `noise` as ConvGenerator input, just return the values in thee format `(tuple(a,b), b)` since the condition is the generator input.
 
 ## Test
 In order to run the tests (with the doctests), linting and docs generation simply use `tox`.

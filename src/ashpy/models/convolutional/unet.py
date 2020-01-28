@@ -27,7 +27,10 @@ class UNet(Conv2DInterface):
     """
     UNet Architecture.
 
-    Used in Image-to-Image Translation with Conditional Adversarial Nets [1]_.
+    Architecture similar to the one found in "Image-to-Image Translation
+    with Conditional Adversarial Nets" [1]_.
+
+    Originally proposed in "U-Net: Convolutional Networks for Biomedical Image Segmentation" [2]_.
 
     Examples:
         * Direct Usage:
@@ -50,8 +53,10 @@ class UNet(Conv2DInterface):
                 (1, 512, 512, 3)
                 True
 
-    .. [1] Image-to-Image Translation with Conditional Adversarial Nets
-        https://arxiv.org/abs/1611.04076
+    .. [1] Image-to-Image Translation with Conditional Adversarial Nets -
+        https://arxiv.org/abs/1611.07004
+    .. [2] U-Net: Convolutional Networks for Biomedical Image Segmentation -
+        https://arxiv.org/abs/1505.04597
 
     """
 
