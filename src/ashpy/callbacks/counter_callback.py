@@ -37,7 +37,9 @@ class CounterCallback(Callback):
     you can just inherit from CounterCallback.
     """
 
-    def __init__(self, event: Event, fn: Callable, name: str, event_freq: int = 1):
+    def __init__(
+        self, event: Event, fn: Callable, name: str, event_freq: int = 1
+    ) -> None:
         """
         Initialize the CounterCallback.
 
@@ -51,8 +53,7 @@ class CounterCallback(Callback):
             ValueError: if `event_freq` is not valid.
 
         """
-        super().__init__()
-        self._name = name
+        super().__init__(name=name)
         if not isinstance(event, Event):
             raise TypeError("Use the Event enum!")
         self._event = event

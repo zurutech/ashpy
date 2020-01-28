@@ -46,7 +46,7 @@ class Trainer(ABC):
         global_step: Optional[tf.Variable] = None,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-    ):
+    ) -> None:
         r"""
         Primitive trainer interface. Handles model saving and restore.
 
@@ -107,7 +107,7 @@ class Trainer(ABC):
 
         if callbacks:
             for callback in callbacks:
-                ckpt_dict[callback._name] = callback
+                ckpt_dict[callback.name] = callback
 
         self._logdir = logdir
         self._ckpts_dir = os.path.join(self._logdir, "ckpts")
@@ -159,13 +159,14 @@ class Trainer(ABC):
         with open(os.path.join(self._ckpts_dir, "checkpoint_map.json"), "w") as fp:
             json.dump(self._checkpoint_map, fp)
 
-    def _check_name_collision(self, objects, type):
+    @staticmethod
+    def _check_name_collision(objects: List, obj_type: str):
         """Check that all objects have unique name."""
         buffer: List[str] = []
         for obj in objects:
-            if obj._name in buffer:
-                raise ValueError(f"{type} should have unique names.")
-            buffer.append(obj._name)
+            if obj.name in buffer:
+                raise ValueError(f"{obj_type} should have unique names.")
+            buffer.append(obj.name)
 
     def _validate_metrics(self):
         """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""

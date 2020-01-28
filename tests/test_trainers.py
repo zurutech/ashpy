@@ -13,6 +13,7 @@
 # limitations under the License.
 
 """Tests for :mod:`ashpy.trainers`."""
+
 from pathlib import Path
 
 

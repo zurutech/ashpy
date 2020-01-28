@@ -120,9 +120,9 @@ class LogImageGANCallback(CounterCallback):
     def __init__(
         self,
         event: Event = Event.ON_EPOCH_END,
-        name="LogImageGANCallback",
+        name: str = "log_image_gan_callback",
         event_freq: int = 1,
-    ):
+    ) -> None:
         """
         Initialize the LogImageCallbackGAN.
 
@@ -250,11 +250,11 @@ class LogImageGANEncoderCallback(LogImageGANCallback):
     def __init__(
         self,
         event: Event = Event.ON_EPOCH_END,
-        name="LogImageGANEncoderCallback",
+        name: str = "log_image_gan_encoder_callback",
         event_freq: int = 1,
-    ):
+    ) -> None:
         """
-        Initialize the LogImageCallbackGAN.
+        Initialize the LogImageGANEncoderCallback.
 
         Args:
             event (:py:class:`ashpy.callbacks.events.Event`): event to consider.

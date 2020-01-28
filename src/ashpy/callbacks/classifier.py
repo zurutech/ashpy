@@ -30,7 +30,7 @@ class LogClassifierCallback(CounterCallback):
     def __init__(
         self,
         event: Event = Event.ON_EPOCH_END,
-        name="LogClassifierCallback",
+        name="log_classifier_callback",
         event_freq: int = 1,
     ):
         """
