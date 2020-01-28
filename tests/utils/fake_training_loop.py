@@ -21,8 +21,13 @@ from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer
 
-from tests.utils.fake_datasets import fake_autoencoder_datasest
-from tests.utils.fake_models import conv_autoencoder
+from tests.utils.fake_datasets import (
+    fake_adversarial_dataset,
+    fake_autoencoder_datasest,
+)
+from tests.utils.fake_models import basic_dcgan, conv_autoencoder
+
+__ALL__ = ["fake_classifier_training_loop", "fake_adversarial_training_loop"]
 
 
 def fake_classifier_training_loop(
@@ -84,8 +89,7 @@ def fake_classifier_training_loop(
 
 def fake_adversarial_training_loop(
     logdir: str = "testlog",
-    generator=None,
-    discriminator=None,
+    kernel_size=(5, 5),
     metrics=None,
     callbacks=None,
     epochs=2,
@@ -97,8 +101,13 @@ def fake_adversarial_training_loop(
     layer_spec_input_res=(7, 7),
     layer_spec_target_res=(7, 7),
     channels=1,
+    output_shape=1,
+    latent_dim=100,
     # Call parameters
     measure_performance_freq=10,
+    # Models from outside
+    generator=None,
+    discriminator=None,
 ):
     """Fake training loop implementation."""
     # test parameters
@@ -106,35 +115,20 @@ def fake_adversarial_training_loop(
         callbacks = []
     if metrics is None:
         metrics = []
-    kernel_size = (5, 5)
-    latent_dim = 100
 
-    # model definition
-    if generator is None:
-        generator = ConvGenerator(
-            layer_spec_input_res=layer_spec_input_res,
-            layer_spec_target_res=image_resolution,
-            kernel_size=kernel_size,
-            initial_filters=32,
-            filters_cap=16,
-            channels=channels,
-        )
-
-    if discriminator is None:
-        discriminator = ConvDiscriminator(
-            layer_spec_input_res=image_resolution,
-            layer_spec_target_res=layer_spec_target_res,
-            kernel_size=kernel_size,
-            initial_filters=16,
-            filters_cap=32,
-            output_shape=1,
-        )
-
-    # Real data
-    data_x, data_y = (
-        tf.zeros((dataset_size, image_resolution[0], image_resolution[1], channels)),
-        tf.zeros((dataset_size, 1)),
+    # Model definition
+    models = basic_dcgan(
+        image_resolution=image_resolution,
+        layer_spec_input_res=layer_spec_input_res,
+        layer_spec_target_res=layer_spec_target_res,
+        kernel_size=kernel_size,
+        channels=channels,
+        output_shape=output_shape,
     )
+    if not generator:
+        generator = models[0]
+    if not discriminator:
+        discriminator = models[1]
 
     # Trainer
     trainer = AdversarialTrainer(
@@ -150,19 +144,13 @@ def fake_adversarial_training_loop(
         logdir=logdir,
     )
 
-    # Dataset
-    # take only 2 samples to speed up tests
-    real_data = (
-        tf.data.Dataset.from_tensor_slices((data_x, data_y))
-        .take(dataset_size)
-        .batch(batch_size)
-        .prefetch(1)
-    )
-
-    # Add noise in the same dataset, just by mapping.
-    # The return type of the dataset must be: tuple(tuple(a,b), noise)
-    dataset = real_data.map(
-        lambda x, y: ((x, y), tf.random.normal(shape=(batch_size, latent_dim)))
+    dataset = fake_adversarial_dataset(
+        image_resolution=image_resolution,
+        epochs=epochs,
+        dataset_size=dataset_size,
+        batch_size=batch_size,
+        latent_dim=latent_dim,
+        channels=channels,
     )
 
     trainer(dataset, measure_performance_freq=measure_performance_freq)

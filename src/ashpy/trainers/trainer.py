@@ -14,9 +14,10 @@
 
 """Primitive Trainer Interface."""
 
+import json
 import os
 from abc import ABC, abstractmethod
-from typing import List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import tensorflow as tf
 from ashpy.callbacks import Callback
@@ -26,9 +27,15 @@ from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 from ashpy.utils.utils import validate_objects
 
+__ALL__ = ["Trainer"]
+
 
 class Trainer(ABC):
     r""":py:class:`Trainer` provide an interface for all trainers to inherit from."""
+
+    ckpt_id_global_step: str = "global_step"
+    ckpt_id_steps_per_epoch: str = "steps_per_epoch"
+    ckpt_id_callbacks: str = "callbacks"
 
     def __init__(
         self,
@@ -39,7 +46,7 @@ class Trainer(ABC):
         global_step: Optional[tf.Variable] = None,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-    ):
+    ) -> None:
         r"""
         Primitive trainer interface. Handles model saving and restore.
 
@@ -72,7 +79,7 @@ class Trainer(ABC):
         # set and validate callbacks
         if callbacks is None:
             callbacks = []
-        self._callbacks = callbacks
+        self._callbacks: List[Callback] = callbacks
         self._validate_callbacks()
 
         self._epochs = epochs
@@ -93,15 +100,22 @@ class Trainer(ABC):
         self._steps_per_epoch = tf.Variable(
             -1, name="steps_per_epoch", trainable=False, dtype=tf.int64
         )
-        self._checkpoint = tf.train.Checkpoint()
-        self._checkpoint.objects = []
-        self._checkpoint.objects.extend(
-            [self._global_step, self._steps_per_epoch] + self._callbacks
-        )
+        ckpt_dict = {
+            self.ckpt_id_global_step: self._global_step,
+            self.ckpt_id_steps_per_epoch: self._steps_per_epoch,
+        }
+
+        if callbacks:
+            for callback in callbacks:
+                ckpt_dict[callback.name] = callback
+
         self._logdir = logdir
-        self._manager = tf.train.CheckpointManager(
-            self._checkpoint, os.path.join(self._logdir, "ckpts"), max_to_keep=3
-        )
+        self._ckpts_dir = os.path.join(self._logdir, "ckpts")
+        self._ckpt_dict = None
+        self._checkpoint_map: Dict[str, str] = {}
+        self._checkpoints = None
+        self._manager = None
+        self._update_checkpoint(ckpt_dict)
 
         self._train_summary_writer = tf.summary.create_file_writer(
             os.path.join(self._logdir, "train")
@@ -137,24 +151,49 @@ class Trainer(ABC):
         """
         self._context = _context
 
+    def _generate_checkpoint_map(self):
+        """Generate a human readable map of the id and type mapping in the checkpoint."""
+        return {id: str(type(self._ckpt_dict[id])) for id in self._ckpt_dict}
+
+    def _write_checkpoint_map(self):
+        with open(os.path.join(self._ckpts_dir, "checkpoint_map.json"), "w") as fp:
+            json.dump(self._checkpoint_map, fp)
+
+    @staticmethod
+    def _check_name_collision(objects: List, obj_type: str):
+        """Check that all objects have unique name."""
+        buffer: List[str] = []
+        for obj in objects:
+            if obj.name in buffer:
+                raise ValueError(f"{obj_type} should have unique names.")
+            buffer.append(obj.name)
+
     def _validate_metrics(self):
         """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""
         validate_objects(self._metrics, Metric)
-        buffer = []
-        for metric in self._metrics:
-            if metric.sanitized_name in buffer:
-                raise ValueError("Metric should have unique names.")
-            buffer.append(metric.sanitized_name)
+        self._check_name_collision(self._metrics, "Metric")
 
     def _validate_callbacks(self):
         """Check if every callback is an :py:class:`ashpy.callbacks.Callback`."""
         validate_objects(self._callbacks, Callback)
+        self._check_name_collision(self._callbacks, "Callback")
 
     def _update_metrics(self, metrics):
         if metrics:
             for metric in metrics:
                 metric.logdir = self._logdir
             self._metrics = metrics
+
+    def _update_checkpoint(self, ckpt_dict):
+        """Update the checkpoint with the new checkpoint dictionary."""
+        if not self._ckpt_dict:
+            self._ckpt_dict = {}
+        self._ckpt_dict.update(ckpt_dict)
+        self._checkpoint_map = self._generate_checkpoint_map()
+        self._checkpoint = tf.train.Checkpoint(**self._ckpt_dict)
+        self._manager = tf.train.CheckpointManager(
+            self._checkpoint, self._ckpts_dir, max_to_keep=3
+        )
 
     def _update_global_batch_size(
         self,
@@ -212,6 +251,7 @@ class Trainer(ABC):
     def _save(self):
         """Save the current checkpointable object status."""
         checkpoint = self._manager.save()
+        self._write_checkpoint_map()
         # print is captured from pydoc - deterministic output can be used
         # to run tests.
         print(f"[{self._global_step.numpy()}] Saved checkpoint: {checkpoint}")

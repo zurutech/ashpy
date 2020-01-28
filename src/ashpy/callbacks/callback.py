@@ -50,6 +50,25 @@ class Callback(tf.Module):
 
     """
 
+    def __init__(self, name: str) -> None:
+        """
+        Initialize the Callback.
+
+        Args:
+            name (str): Callback name.
+
+        Warning:
+            When using multiple callbacks with the same trainer make sure they have
+            different ids.
+
+        """
+        self._name = name
+
+    @property
+    def name(self):
+        """Return the name of the callback."""
+        return self._name
+
     def on_event(self, event: Event, context: Context) -> None:
         """
         Handle the on_event event.

@@ -14,6 +14,9 @@
 
 import tensorflow as tf
 from ashpy.models.convolutional.autoencoders import Autoencoder
+from ashpy.models.gans import ConvDiscriminator, ConvGenerator
+
+__ALL__ = ["conv_autoencoder", "basic_dcgan"]
 
 
 def conv_autoencoder(
@@ -24,6 +27,7 @@ def conv_autoencoder(
     filters_cap=64,
     encoding_dimension=50,
     channels=3,
+    **kwargs,
 ) -> tf.keras.Model:
     """Create a new Convolutinal Autoencoder."""
     autoencoder = Autoencoder(
@@ -40,3 +44,40 @@ def conv_autoencoder(
     _, reconstruction = autoencoder(inputs)
     model = tf.keras.Model(inputs=inputs, outputs=reconstruction)
     return model
+
+
+def basic_dcgan(
+    image_resolution=(28, 28),
+    layer_spec_input_res=(7, 7),
+    layer_spec_target_res=(7, 7),
+    kernel_size=(5, 5),
+    initial_filters_g=32,
+    initial_filters_d=16,
+    filters_cap_g=16,
+    filters_cap_d=32,
+    output_shape=1,
+    channels=1,
+    generator=None,
+    discriminator=None,
+    **kwargs,
+):
+    if generator is None:
+        generator = ConvGenerator(
+            layer_spec_input_res=layer_spec_input_res,
+            layer_spec_target_res=image_resolution,
+            kernel_size=kernel_size,
+            initial_filters=initial_filters_g,
+            filters_cap=filters_cap_g,
+            channels=channels,
+        )
+
+    if discriminator is None:
+        discriminator = ConvDiscriminator(
+            layer_spec_input_res=image_resolution,
+            layer_spec_target_res=layer_spec_target_res,
+            kernel_size=kernel_size,
+            initial_filters=initial_filters_d,
+            filters_cap=filters_cap_d,
+            output_shape=output_shape,
+        )
+    return generator, discriminator

@@ -25,58 +25,11 @@ from typing import List
 
 import pytest
 import tensorflow as tf
-from ashpy.metrics import (
-    ClassifierLoss,
-    ClassifierMetric,
-    InceptionScore,
-    Metric,
-    SlicedWassersteinDistance,
-    SSIM_Multiscale,
-)
-from ashpy.models.gans import ConvDiscriminator
+from ashpy.metrics import ClassifierLoss
 
-from tests.utils.fake_training_loop import (
-    fake_adversarial_training_loop,
-    fake_classifier_training_loop,
-)
+from tests.utils.fake_training_loop import fake_classifier_training_loop
 
 DEFAULT_LOGDIR = "log"
-TEST_MATRIX_METRICS_LOG = {
-    "adversarial_trainer": [
-        fake_adversarial_training_loop,
-        {
-            "image_resolution": [256, 256],
-            "layer_spec_input_res": (8, 8),
-            "layer_spec_target_res": (8, 8),
-            "channels": 3,
-            "measure_performance_freq": 1,
-        },
-        [
-            SlicedWassersteinDistance(resolution=256),
-            SSIM_Multiscale(),
-            InceptionScore(
-                # Fake inception model
-                ConvDiscriminator(
-                    layer_spec_input_res=(299, 299),
-                    layer_spec_target_res=(7, 7),
-                    kernel_size=(5, 5),
-                    initial_filters=16,
-                    filters_cap=32,
-                    output_shape=10,
-                )
-            ),
-        ],
-    ],
-    "classifier_trainer": [
-        fake_classifier_training_loop,
-        {"measure_performance_freq": 1},
-        [ClassifierLoss(model_selection_operator=operator.lt)],
-    ],
-}
-
-TEST_PARAMS_METRICS_LOG = [TEST_MATRIX_METRICS_LOG[k] for k in TEST_MATRIX_METRICS_LOG]
-TEST_IDS_METRICS_LOG = [k for k in TEST_MATRIX_METRICS_LOG]
-
 OPERATOR_INITIAL_VALUE_MAP = {operator.gt: "-inf", operator.lt: "inf"}
 
 
@@ -91,12 +44,7 @@ def cleanup():
         shutil.rmtree(default_log_dir)
 
 
-@pytest.mark.parametrize(
-    ["training_loop", "loop_args", "metrics"],
-    TEST_PARAMS_METRICS_LOG,
-    ids=TEST_IDS_METRICS_LOG,
-)
-def test_metrics_log(training_loop, loop_args, metrics, tmpdir, cleanup):
+def test_metrics_log(fake_training, tmpdir, cleanup):
     """
     Test that trainers correctly create metrics log files.
 
@@ -111,6 +59,8 @@ def test_metrics_log(training_loop, loop_args, metrics, tmpdir, cleanup):
         THEN the values of the keys should not be the operator initial value
 
     """
+    training_loop, loop_args, metrics = fake_training
+
     training_completed, trainer = training_loop(
         logdir=tmpdir, metrics=metrics, **loop_args
     )

@@ -17,5 +17,6 @@ formats: all
 python:
     version: 3.7
     install:
+        - requirements: requirements/base.txt
         - requirements: requirements/docs.txt
     system_packages: true

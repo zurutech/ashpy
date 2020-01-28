@@ -30,7 +30,7 @@ class MCallback(Callback):
 
     def __init__(self, event) -> None:
         """Initialize Callback."""
-        super(MCallback, self).__init__()
+        super(MCallback, self).__init__(name="mcallback")
         self._event = event
         self.counter = 0
 

@@ -25,6 +25,7 @@ from . import (
     losses,
     metrics,
     models,
+    restorers,
     trainers,
 )
 

@@ -14,9 +14,11 @@
 
 import tensorflow as tf
 
+__ALL__ = ["fake_autoencoder_datasest", "fake_adversarial_dataset"]
+
 
 def fake_autoencoder_datasest(
-    dataset_size=10, image_resolution=(64, 64), channels=3, batch_size=5,
+    dataset_size=10, image_resolution=(64, 64), channels=3, batch_size=5, **kwargs,
 ):
     """
     Generate the test dataset for the fake Convolutional Autoencoder model.
@@ -37,4 +39,35 @@ def fake_autoencoder_datasest(
         .prefetch(1)
     )
 
+    return dataset
+
+
+def fake_adversarial_dataset(
+    image_resolution=(28, 28),
+    epochs=2,
+    dataset_size=2,
+    batch_size=2,
+    latent_dim=100,
+    channels=1,
+    **kwargs,
+):
+    # Real data
+    data_x, data_y = (
+        tf.zeros((dataset_size, image_resolution[0], image_resolution[1], channels)),
+        tf.zeros((dataset_size, 1)),
+    )
+    # Dataset
+    # take only 2 samples to speed up tests
+    real_data = (
+        tf.data.Dataset.from_tensor_slices((data_x, data_y))
+        .take(dataset_size)
+        .batch(batch_size)
+        .prefetch(1)
+    )
+
+    # Add noise in the same dataset, just by mapping.
+    # The return type of the dataset must be: tuple(tuple(a,b), noise)
+    dataset = real_data.map(
+        lambda x, y: ((x, y), tf.random.normal(shape=(batch_size, latent_dim)))
+    )
     return dataset
