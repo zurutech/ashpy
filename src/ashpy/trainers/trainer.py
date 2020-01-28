@@ -152,7 +152,7 @@ class Trainer(ABC):
         self._context = _context
 
     def _generate_checkpoint_map(self):
-        """Generatea a human readable map of the id and type mapping in the checkpoint."""
+        """Generate a human readable map of the id and type mapping in the checkpoint."""
         return {id: str(type(self._ckpt_dict[id])) for id in self._ckpt_dict}
 
     def _write_checkpoint_map(self):
