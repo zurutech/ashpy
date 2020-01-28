@@ -43,11 +43,11 @@ jobs:
     script: skip
     deploy:
       provider: pypi
-      user: EmanueleGhelfi
+      user: __token__
       password:
         secure: iK0uLrbHZV17FkpcyG5f8FaC87iLlTz1AVpSu5QSoYQaU1L7Pm2YpwvJPAp0jElTNoFPuTZ07r30s6dJIzYPtqadGPbS6ETme6iThFcr/cWWRj+TAXAwFdXwwyt/B5q/iVP2l/T7v5XTyLfaDWBvoBCFv4u+WCthdDRCthKyARXW+ZHJXXOjtGLXrgC+WJUQ+UhcmZHLsOECJMfJveAkJwnvaS24SaaYw8hFtOj0Xhc+1T2FDGACOIkUO/9yxBsTX2BLCAJ3na8U7weSvM78R36whWlAFJmSDMhLfxYLPusH9WEZUEOz+zdoU6xHqLqLf8lEjgiV07b3Q9N9FbW/cOC0WuToAfa+ENijh4YwgotnFWbYtvWY2O0xXpeOQ54eerivdKrwxda9CLHz1E54UY27VWYD8ZioHufgvRsHP/XLEo6uBiG5Q81hteW/kpOgCCl/o/l60Rau1+kNXqy9uuJ5pHTTF50k0TzI41LU9ps9l3ko5driBTOFQ/CWi/7CxWus7fP9UKIyR1i38LS1LSX/RKHrcmu0vzs5gODifqRiHRaq3GaFWbhxGxWKi+xR7j4Ve89YSY0Wcy+LVc6m65ySiP0UhWO4OSCmBCwIMkOIJMnrqdU3eTHhHLpf7wy9wArX1sKvhItFslUUjH7xF8eEWCfYP/O6bKjpC8Ndv6U=
       on:
         tags: true
         all_branches: true
-    # deploy only if tag respects semantic versioning pre-pended with v (e.g. v0.1.0)
+    # Deploy only if tag respects semantic versioning pre-pended with v (e.g. v0.1.0)
     if: tag =~ /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
