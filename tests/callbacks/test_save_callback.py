@@ -48,7 +48,7 @@ def test_save_callback_compatible(
 
     for model_dir in save_dirs:
         assert save_format.name() in [
-            x.split(os.path.sep)[-1] for x in os.listdir(save_dir.joinpath(model_dir))
+            x.split(os.path.sep)[-1] for x in os.listdir(save_dir / model_dir)
         ]
 
 

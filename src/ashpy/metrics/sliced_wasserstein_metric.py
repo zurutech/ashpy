@@ -37,7 +37,7 @@ class SingleSWD(Metric):
     def __init__(
         self,
         model_selection_operator: Callable = operator.lt,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         level_of_pyramid: int = 0,
         real_or_fake: str = "fake",
     ) -> None:
@@ -96,7 +96,7 @@ class SlicedWassersteinDistance(Metric):
         self,
         name: str = "SWD",
         model_selection_operator: Callable = operator.lt,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         resolution: int = 128,
         resolution_min: int = 16,
         patches_per_image: int = 64,

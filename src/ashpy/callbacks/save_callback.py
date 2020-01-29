@@ -49,15 +49,16 @@ class SaveFormat(Flag):
     @staticmethod
     def _initialize_dirs(save_dir: Path, save_format, save_sub_format) -> Path:
         """Initialize the directory for this save_format and sub-format."""
-        save_dir = save_dir.joinpath(save_format.name())
+        save_dir = save_dir / save_format.name()
         if not save_dir.exists():
             save_dir.mkdir(parents=True)
 
         save_dir = (
             save_dir
             if save_sub_format == SaveSubFormat.TF
-            else save_dir.joinpath(save_format.name())
+            else save_dir / save_format.name()
         )
+
         return save_dir
 
     def save(
@@ -252,7 +253,7 @@ class SaveCallback(CounterCallback):
                 )
 
             # Create the correct directory name
-            save_dir_i = self._save_dir.joinpath(f"model-{i}-step-{step}")
+            save_dir_i = self._save_dir / f"model-{i}-step-{step}"
 
             if not save_dir_i.exists():
                 save_dir_i.mkdir(parents=True)

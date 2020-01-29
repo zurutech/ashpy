@@ -17,7 +17,6 @@ Pix2Pix on Facades Datasets dummy implementation.
 
 Input Pipeline taken from: https://www.tensorflow.org/beta/tutorials/generative/pix2pix
 """
-import os
 from pathlib import Path
 
 import tensorflow as tf
@@ -35,7 +34,7 @@ from ashpy.trainers.gan import AdversarialTrainer
 _URL = "https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets/facades.tar.gz"
 
 PATH_TO_ZIP = tf.keras.utils.get_file("facades.tar.gz", origin=_URL, extract=True)
-PATH = Path(PATH_TO_ZIP).parent.joinpath("facades/")
+PATH = Path(PATH_TO_ZIP).parent / "facades"
 
 BUFFER_SIZE = 100
 BATCH_SIZE = 1
@@ -173,7 +172,7 @@ def main(
     )
 
     metrics = []
-    logdir = Path(log).joinpath(dataset_name, run2)
+    logdir = Path("log") / dataset_name / "run2"
 
     if not logdir.exists():
         logdir.mkdir(parents=True)

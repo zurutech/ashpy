@@ -140,7 +140,7 @@ class AdversarialTrainer(Trainer):
         epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
     ):
@@ -429,7 +429,7 @@ class EncoderTrainer(AdversarialTrainer):
                 [tf.keras.layers.Dense(10), tf.keras.layers.Dense(num_classes)]
             )
 
-            logdir = Path("testlog").joinpath("adversarial_encoder")
+            logdir = Path("testlog") / "adversarial_encoder"
 
             if logdir.exists():
                 shutil.rmtree(logdir)
@@ -493,7 +493,7 @@ class EncoderTrainer(AdversarialTrainer):
         epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
     ):

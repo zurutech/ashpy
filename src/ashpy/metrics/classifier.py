@@ -38,7 +38,7 @@ class ClassifierLoss(Metric):
         self,
         name: str = "loss",
         model_selection_operator: Callable = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
     ) -> None:
         """
         Initialize the Metric.
@@ -91,7 +91,7 @@ class ClassifierMetric(Metric):
         self,
         metric: tf.keras.metrics.Metric,
         model_selection_operator: Callable = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         processing_predictions=None,
     ) -> None:
         """

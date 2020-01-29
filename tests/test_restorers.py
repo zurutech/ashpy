@@ -183,7 +183,7 @@ def test_read_checkpoint_map(fake_training, tmpdir):
 
     # Test that Restorer.checkpoint_map without the checkpoint_map.json correctly returns None
     # Remove checkpoint_map.json
-    ckpt_map: Path = restorer._ckpts_dir.joinpath("checkpoint_map.json")
+    ckpt_map: Path = restorer._ckpts_dir / "checkpoint_map.json"
     ckpt_map.unlink()
     assert not ckpt_map.exists()
     assert not Restorer(tmpdir).checkpoint_map

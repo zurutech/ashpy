@@ -45,7 +45,7 @@ class Metric(ABC):
         name: str,
         metric: tf.keras.metrics.Metric,
         model_selection_operator: Callable = None,
-        logdir: Union[Path, str] = Path.cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path.cwd() / "log",
     ) -> None:
         """
         Initialize the Metric object.
@@ -102,7 +102,7 @@ class Metric(ABC):
                 },
             )
             manager = tf.train.CheckpointManager(
-                checkpoint, self.best_folder.joinpath("ckpts"), max_to_keep=1
+                checkpoint, self.best_folder / "ckpts", max_to_keep=1
             )
             return Path(manager.save())
         return None
@@ -160,12 +160,12 @@ class Metric(ABC):
     @property
     def best_folder(self) -> Path:
         """Retrieve the folder used to save the best model when doing model selection."""
-        return self.logdir.joinpath("best", self.sanitized_name)
+        return self.logdir / "best" / self.sanitized_name
 
     @property
     def best_model_sel_file(self) -> Path:
         """Retrieve the path to JSON file containing the measured performance of the best model."""
-        return self.best_folder.joinpath(self.sanitized_name + ".json")
+        return self.best_folder / (self.sanitized_name + ".json")
 
     @staticmethod
     def json_read(filename: Path) -> Dict[str, Any]:

@@ -41,7 +41,7 @@ class Trainer(ABC):
         self,
         epochs: int,
         example_dim: Tuple[int, int],
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
         metrics: Optional[List[Metric]] = None,
@@ -110,7 +110,7 @@ class Trainer(ABC):
                 ckpt_dict[callback.name] = callback
 
         self._logdir = Path(logdir) if not isinstance(logdir, Path) else logdir
-        self._ckpts_dir = self._logdir.joinpath("ckpts")
+        self._ckpts_dir = self._logdir / "ckpts"
         self._ckpt_dict = None
         self._checkpoint_map: Dict[str, str] = {}
         self._checkpoints = None
@@ -120,13 +120,13 @@ class Trainer(ABC):
         # NOTE: as of TensorFlow 2.1.0 pathlib types cannot be converted to tensors automatically.
         # Explicit conversion to string is required
         self._train_summary_writer = tf.summary.create_file_writer(
-            str(self._logdir.joinpath("train"))
+            str(self._logdir / "train")
         )
         self._eval_summary_writer = tf.summary.create_file_writer(
-            str(self._logdir.joinpath("eval"))
+            str(self._logdir / "eval")
         )
         self._test_summary_writer = tf.summary.create_file_writer(
-            str(self._logdir.joinpath("test"))
+            str(self._logdir / "test")
         )
 
         # Initialize the global batch size to a negative number
@@ -158,7 +158,7 @@ class Trainer(ABC):
         return {id: str(type(self._ckpt_dict[id])) for id in self._ckpt_dict}
 
     def _write_checkpoint_map(self, path):
-        with open(Path(path).joinpath("checkpoint_map.json"), "w") as fp:
+        with open(Path(path) / "checkpoint_map.json", "w") as fp:
             json.dump(self._checkpoint_map, fp)
 
     @staticmethod
@@ -296,9 +296,7 @@ class Trainer(ABC):
             if isinstance(model_selection_ckpt_path, Path):
                 model_selection_ckpt_dir = model_selection_ckpt_path.parent
                 # If we haven't already created the checkpoint_map.json
-                if not model_selection_ckpt_dir.joinpath(
-                    "checkpoint_map.json"
-                ).exists():
+                if not (model_selection_ckpt_dir / "checkpoint_map.json").exists():
                     self._write_checkpoint_map(model_selection_ckpt_dir)
 
     def _measure_performance_if_needed(

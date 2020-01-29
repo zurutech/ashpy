@@ -45,7 +45,7 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
         self,
         name: str = "SSIM_Multiscale",
         model_selection_operator: Callable = operator.lt,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         max_val: float = 2.0,
         power_factors=None,
         filter_size: int = 11,

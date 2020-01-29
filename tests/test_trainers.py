@@ -33,7 +33,7 @@ def test_generate_human_ckpt_dict(fake_training, tmpdir):
     )
     assert training_completed
     assert trainer._checkpoint_map
-    assert Path(trainer._ckpts_dir).joinpath("checkpoint_map.json").exists()
+    assert (Path(trainer._ckpts_dir) / "checkpoint_map.json").exists()
     metrics: List[ashpy.metrics.Metric] = trainer._metrics
     for metric in metrics:
-        assert metric.best_folder.joinpath("ckpts", "checkpoint_map.json")
+        assert metric.best_folder / "ckpts" / "checkpoint_map.json"

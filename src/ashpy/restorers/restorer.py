@@ -33,7 +33,7 @@ class Restorer:
 
     def __init__(
         self,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         ckpts_dir: str = "ckpts",
         expect_partial: bool = True,
     ) -> None:
@@ -47,7 +47,7 @@ class Restorer:
                 For more information see the docs for :py:func:`tf.train.Checkpoint.restore()`.
 
         """
-        self._ckpts_dir = Path(logdir).joinpath(ckpts_dir)
+        self._ckpts_dir = Path(logdir) / ckpts_dir
         if not self._ckpts_dir.exists():
             raise FileNotFoundError(f"{ckpts_dir} does not exist.")
         self._restored_log_msg = "Restored {} from checkpoint {}."
@@ -146,5 +146,5 @@ class Restorer:
         return callback
 
     def _read_human_checkpoint_map(self) -> Dict[str, str]:
-        with open(self._ckpts_dir.joinpath("checkpoint_map.json")) as fp:
+        with open(self._ckpts_dir / "checkpoint_map.json") as fp:
             return json.load(fp)

@@ -48,7 +48,7 @@ class DiscriminatorLoss(Metric):
         self,
         name: str = "d_loss",
         model_selection_operator: Callable = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
     ) -> None:
         """
         Initialize the Metric.
@@ -113,7 +113,7 @@ class GeneratorLoss(Metric):
         self,
         name: str = "g_loss",
         model_selection_operator: Callable = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
     ):
         """
         Initialize the Metric.
@@ -177,7 +177,7 @@ class EncoderLoss(Metric):
         self,
         name: str = "e_loss",
         model_selection_operator: Callable = None,
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
     ) -> None:
         """
         Initialize the Metric.
@@ -250,7 +250,7 @@ class InceptionScore(Metric):
         inception: tf.keras.Model,
         name: str = "inception_score",
         model_selection_operator=operator.gt,
-        logdir=Path().cwd().joinpath("log"),
+        logdir=Path().cwd() / "log",
     ):
         """
         Initialize the Metric.
@@ -364,7 +364,7 @@ class InceptionScore(Metric):
             from_logits=True
         ),
         optimizer: tf.keras.optimizers.Adam = tf.keras.optimizers.Adam(1e-5),
-        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
     ) -> tf.keras.Model:
         """
         Restore or train (and save) the Inception model.
@@ -405,7 +405,7 @@ class InceptionScore(Metric):
         ckpt.objects.extend([model, step])
         logdir = logdir
         manager = tf.train.CheckpointManager(
-            ckpt, logdir.joinpath("inception", name), max_to_keep=1
+            ckpt, logdir / "inception", name, max_to_keep=1
         )
 
         if manager.latest_checkpoint:
@@ -437,7 +437,7 @@ class EncodingAccuracy(ClassifierMetric):
         classifier: tf.keras.Model,
         name: str = "encoding_accuracy",
         model_selection_operator: Callable = None,
-        logdir=Path().cwd().joinpath("log"),
+        logdir=Path().cwd() / "log",
     ) -> None:
         """
         Measure the Generator and Encoder performance together.
