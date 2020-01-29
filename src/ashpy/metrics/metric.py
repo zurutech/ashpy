@@ -21,6 +21,7 @@ import json
 import operator
 import os
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Union
 
 import numpy as np
@@ -28,6 +29,8 @@ import tensorflow as tf  # pylint: disable=import-error
 
 if TYPE_CHECKING:
     from ashpy.contexts import Context
+
+__ALL__ = ["Metric"]
 
 
 class Metric(ABC):
@@ -42,7 +45,7 @@ class Metric(ABC):
         name: str,
         metric: tf.keras.metrics.Metric,
         model_selection_operator: Callable = None,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path.cwd() / "log",
     ) -> None:
         """
         Initialize the Metric object.
@@ -66,11 +69,11 @@ class Metric(ABC):
         self._name = name
         self._metric = metric
         self._model_selection_operator = model_selection_operator
-        self._logdir = logdir
+        self._logdir = Path(logdir) if not isinstance(logdir, Path) else logdir
 
     def model_selection(
         self, checkpoint: tf.train.Checkpoint, global_step: tf.Variable
-    ) -> None:
+    ) -> Optional[Path]:
         """
         Perform model selection.
 
@@ -99,16 +102,17 @@ class Metric(ABC):
                 },
             )
             manager = tf.train.CheckpointManager(
-                checkpoint, os.path.join(self.best_folder, "ckpts"), max_to_keep=1
+                checkpoint, self.best_folder / "ckpts", max_to_keep=1
             )
-            manager.save()
+            return Path(manager.save())
+        return None
 
     def _update_logdir(self):
         if not self._model_selection_operator:
             pass
         # write the initial value of the best metric
-        if not os.path.exists(self.best_model_sel_file):
-            os.makedirs(os.path.dirname(self.best_model_sel_file))
+        if not self.best_model_sel_file.exists():
+            self.best_model_sel_file.parent.mkdir(parents=True)
         initial_value = (
             np.inf if self._model_selection_operator is operator.lt else -np.inf
         )
@@ -143,7 +147,7 @@ class Metric(ABC):
         return self._model_selection_operator
 
     @property
-    def logdir(self) -> str:
+    def logdir(self) -> Path:
         """Retrieve the log directory."""
         return self._logdir
 
@@ -154,17 +158,17 @@ class Metric(ABC):
         self._update_logdir()
 
     @property
-    def best_folder(self) -> str:
+    def best_folder(self) -> Path:
         """Retrieve the folder used to save the best model when doing model selection."""
-        return os.path.join(self.logdir, "best", self.sanitized_name)
+        return self.logdir / "best" / self.sanitized_name
 
     @property
-    def best_model_sel_file(self) -> str:
+    def best_model_sel_file(self) -> Path:
         """Retrieve the path to JSON file containing the measured performance of the best model."""
-        return os.path.join(self.best_folder, self.sanitized_name + ".json")
+        return self.best_folder / (self.sanitized_name + ".json")
 
     @staticmethod
-    def json_read(filename: str) -> Dict[str, Any]:
+    def json_read(filename: Path) -> Dict[str, Any]:
         """
         Read a JSON file.
 
@@ -175,7 +179,7 @@ class Metric(ABC):
             :py:obj:`typing.Dict`: Dictionary containing the content of the JSON file.
 
         """
-        if not os.path.exists(filename):
+        if not filename.exists():
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), filename)
 
         data: Dict[str, Union[str, int, float]] = {}
@@ -185,7 +189,7 @@ class Metric(ABC):
         return data
 
     @staticmethod
-    def json_write(filename: str, what_to_write: Dict) -> None:
+    def json_write(filename: Path, what_to_write: Dict) -> None:
         """
         Write inside the specified JSON file the mean and stddev.
 
@@ -194,14 +198,14 @@ class Metric(ABC):
             what_to_write (dict): A dictionary containing what to write.
 
         """
-        if os.path.exists(filename):
+        if filename.exists():
             data = Metric.json_read(filename)
             for key in what_to_write:
                 data[key] = str(what_to_write[key])
         else:
             data = what_to_write
-            if not os.path.exists(os.path.dirname(filename)):
-                os.makedirs(os.path.dirname(filename))
+            if not filename.parent.exists():
+                filename.parent.mkdir()
 
         with open(filename, "w+") as fp:
             json.dump(data, fp, indent=4)

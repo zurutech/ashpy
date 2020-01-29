@@ -21,10 +21,8 @@ import json
 import operator
 import pathlib
 import shutil
-from typing import List
 
 import pytest
-import tensorflow as tf
 from ashpy.metrics import ClassifierLoss
 
 from tests.utils.fake_training_loop import fake_classifier_training_loop
@@ -69,9 +67,9 @@ def test_metrics_log(fake_training, tmpdir, cleanup):
     assert not pathlib.Path(DEFAULT_LOGDIR).exists()  # Assert absence of side effects
     # Assert there exists folder for each metric
     for metric in trainer._metrics:
-        metric_dir = pathlib.Path(tmpdir).joinpath("best", metric.sanitized_name)
+        metric_dir = pathlib.Path(tmpdir) / "best" / metric.sanitized_name
         assert metric_dir.exists()
-        json_path = metric_dir.joinpath(f"{metric.sanitized_name}.json")
+        json_path = metric_dir / f"{metric.sanitized_name}.json"
         assert json_path.exists()
         with open(json_path, "r") as fp:
             metric_data = json.load(fp)
@@ -107,4 +105,4 @@ def test_metrics_names_collision(training_loop, tmpdir):
     """
     metrics = [ClassifierLoss(name="test_loss"), ClassifierLoss(name="test_loss")]
     with pytest.raises(ValueError):
-        training_completed, trainer = training_loop(metrics=metrics, logdir=tmpdir)
+        training_loop(metrics=metrics, logdir=tmpdir)

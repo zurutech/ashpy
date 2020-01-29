@@ -17,6 +17,7 @@
 import operator
 import os
 import shutil
+from pathlib import Path
 
 import pytest
 import tensorflow  # pylint: disable=import-error
@@ -49,19 +50,19 @@ def add_common_namespaces(doctest_namespace):
 @pytest.fixture(scope="function")
 def save_dir():
     """Add the save_dir parameter to tests."""
-    m_save_dir = "testlog/savedir"
+    m_save_dir = Path("testlog/savedir")
 
     # Clean before
-    if os.path.exists(m_save_dir):
+    if m_save_dir.exists():
         shutil.rmtree(m_save_dir)
-        assert not os.path.exists(m_save_dir)
+        assert not m_save_dir.exists()
 
     yield m_save_dir
 
     # teardown
-    if os.path.exists(m_save_dir):
+    if m_save_dir.exists():
         shutil.rmtree(m_save_dir)
-        assert not os.path.exists(m_save_dir)
+        assert not m_save_dir.exists()
 
 
 # ------------------------------------------------------------------------------------

@@ -15,8 +15,8 @@
 """Primitive Trainer Interface."""
 
 import json
-import os
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
 import tensorflow as tf
@@ -41,7 +41,7 @@ class Trainer(ABC):
         self,
         epochs: int,
         example_dim: Tuple[int, int],
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd() / "log",
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
         metrics: Optional[List[Metric]] = None,
@@ -109,22 +109,24 @@ class Trainer(ABC):
             for callback in callbacks:
                 ckpt_dict[callback.name] = callback
 
-        self._logdir = logdir
-        self._ckpts_dir = os.path.join(self._logdir, "ckpts")
+        self._logdir = Path(logdir) if not isinstance(logdir, Path) else logdir
+        self._ckpts_dir = self._logdir / "ckpts"
         self._ckpt_dict = None
         self._checkpoint_map: Dict[str, str] = {}
         self._checkpoints = None
         self._manager = None
         self._update_checkpoint(ckpt_dict)
 
+        # NOTE: as of TensorFlow 2.1.0 pathlib types cannot be converted to tensors automatically.
+        # Explicit conversion to string is required
         self._train_summary_writer = tf.summary.create_file_writer(
-            os.path.join(self._logdir, "train")
+            str(self._logdir / "train")
         )
         self._eval_summary_writer = tf.summary.create_file_writer(
-            os.path.join(self._logdir, "eval")
+            str(self._logdir / "eval")
         )
         self._test_summary_writer = tf.summary.create_file_writer(
-            os.path.join(self._logdir, "test")
+            str(self._logdir / "test")
         )
 
         # Initialize the global batch size to a negative number
@@ -155,8 +157,8 @@ class Trainer(ABC):
         """Generate a human readable map of the id and type mapping in the checkpoint."""
         return {id: str(type(self._ckpt_dict[id])) for id in self._ckpt_dict}
 
-    def _write_checkpoint_map(self):
-        with open(os.path.join(self._ckpts_dir, "checkpoint_map.json"), "w") as fp:
+    def _write_checkpoint_map(self, path):
+        with open(Path(path) / "checkpoint_map.json", "w") as fp:
             json.dump(self._checkpoint_map, fp)
 
     @staticmethod
@@ -251,7 +253,7 @@ class Trainer(ABC):
     def _save(self):
         """Save the current checkpointable object status."""
         checkpoint = self._manager.save()
-        self._write_checkpoint_map()
+        self._write_checkpoint_map(self._ckpts_dir)
         # print is captured from pydoc - deterministic output can be used
         # to run tests.
         print(f"[{self._global_step.numpy()}] Saved checkpoint: {checkpoint}")
@@ -287,7 +289,15 @@ class Trainer(ABC):
     def model_selection(self) -> None:
         """Use the metrics to perform model selection."""
         for metric in self._metrics:
-            metric.model_selection(self._checkpoint, self._global_step)
+            model_selection_ckpt_path: Optional[Path] = metric.model_selection(
+                self._checkpoint, self._global_step
+            )
+            # If model selection has been performed
+            if isinstance(model_selection_ckpt_path, Path):
+                model_selection_ckpt_dir = model_selection_ckpt_path.parent
+                # If we haven't already created the checkpoint_map.json
+                if not (model_selection_ckpt_dir / "checkpoint_map.json").exists():
+                    self._write_checkpoint_map(model_selection_ckpt_dir)
 
     def _measure_performance_if_needed(
         self, example: tf.Tensor, measure_performance_freq: int

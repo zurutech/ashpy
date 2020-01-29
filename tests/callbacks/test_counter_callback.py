@@ -15,7 +15,6 @@
 """Test CounterCallback."""
 
 import pytest
-import tensorflow as tf
 from ashpy.callbacks import CounterCallback, Event
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 
@@ -66,7 +65,7 @@ def _models():
 def test_counter_callback_multiple_events():
     """Counter Callback should not receive multiple events."""
     with pytest.raises(TypeError):
-        clbk = FakeCounterCallback(
+        FakeCounterCallback(
             event=[Event.ON_EPOCH_END],
             name="TestCounterCallbackMultipleEvents",
             fn=lambda context: print("Bloop"),
