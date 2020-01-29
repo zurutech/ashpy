@@ -14,6 +14,8 @@
 
 """Fake training loop to simplify training in tests."""
 import operator
+from pathlib import Path
+from typing import Union
 
 import ashpy
 import tensorflow as tf
@@ -32,7 +34,7 @@ __ALL__ = ["fake_classifier_training_loop", "fake_adversarial_training_loop"]
 
 def fake_classifier_training_loop(
     # Trainer
-    logdir: str = "testlog",
+    logdir: Union[Path, str] = "testlog",
     optimizer=tf.optimizers.Adam(1e-4),
     metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
     epochs=2,
@@ -88,7 +90,7 @@ def fake_classifier_training_loop(
 
 
 def fake_adversarial_training_loop(
-    logdir: str = "testlog",
+    logdir: Union[Path, str] = "testlog",
     kernel_size=(5, 5),
     metrics=None,
     callbacks=None,

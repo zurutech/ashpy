@@ -39,7 +39,7 @@ class LogImageGANCallback(CounterCallback):
 
             import shutil
             import operator
-            import os
+            from pathlib import Path
 
             generator = models.gans.ConvGenerator(
                 layer_spec_input_res=(7, 7),
@@ -69,7 +69,7 @@ class LogImageGANCallback(CounterCallback):
 
             # Trainer
             epochs = 2
-            logdir = "testlog/callbacks"
+            logdir = Path("testlog/callbacks")
             callbacks = [callbacks.LogImageGANCallback()]
             trainer = trainers.gan.AdversarialTrainer(
                 generator=generator,
@@ -100,7 +100,7 @@ class LogImageGANCallback(CounterCallback):
             trainer(dataset)
             shutil.rmtree(logdir)
 
-            assert not os.path.exists(logdir)
+            assert not logdir.exists()
 
             trainer._global_step.assign_add(500)
 

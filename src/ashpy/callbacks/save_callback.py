@@ -13,10 +13,10 @@
 # limitations under the License.
 
 """Save weights callback."""
-import os
 import shutil
 from collections import deque
 from enum import Enum, Flag, auto
+from pathlib import Path
 from typing import List
 
 import tensorflow as tf
@@ -47,23 +47,23 @@ class SaveFormat(Flag):
         return "saved-model-and-weights"
 
     @staticmethod
-    def _initialize_dirs(save_dir, save_format, save_sub_format):
+    def _initialize_dirs(save_dir: Path, save_format, save_sub_format) -> Path:
         """Initialize the directory for this save_format and sub-format."""
-        save_dir = os.path.join(save_dir, save_format.name())
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
+        save_dir = save_dir.joinpath(save_format.name())
+        if not save_dir.exists():
+            save_dir.mkdir(parents=True)
 
         save_dir = (
             save_dir
             if save_sub_format == SaveSubFormat.TF
-            else os.path.join(save_dir, save_format.name())
+            else save_dir.joinpath(save_format.name())
         )
         return save_dir
 
     def save(
         self,
         model: tf.keras.models.Model,
-        save_dir: str,
+        save_dir: Path,
         save_sub_format: SaveSubFormat = SaveSubFormat.TF,
     ) -> None:
         """
@@ -71,7 +71,7 @@ class SaveFormat(Flag):
 
         Args:
             model (:py:class:`tf.keras.models.Model`): model to Save.
-            save_dir (str): path of the file in which to save the model.
+            save_dir (:class:`pathlib.Path`): path of the file in which to save the model.
             save_sub_format (:py:class:`ashpy.callbacks.save_callback.SaveSubFormat`): sub-format
                 of the save operation.
 
@@ -81,14 +81,18 @@ class SaveFormat(Flag):
             save_dir = self._initialize_dirs(
                 save_dir, SaveFormat.WEIGHTS, save_sub_format
             )
-            model.save_weights(save_dir, save_format=save_sub_format.value)
+            # NOTE: Keras (TF 2.1.0) checks for h5 file using endswith attribute.
+            # Explicit conversion to strings is required
+            model.save_weights(str(save_dir), save_format=save_sub_format.value)
 
         if SaveFormat.MODEL & self:
 
             save_dir = self._initialize_dirs(
                 save_dir, SaveFormat.MODEL, save_sub_format
             )
-            model.save(save_dir, save_format=save_sub_format.value)
+            # NOTE: TensorFlow 2.1.0 wanth either binary or unicod string.
+            # Explicit conversion to strings is required
+            model.save(str(save_dir), save_format=save_sub_format.value)
 
         if not (SaveFormat.MODEL & self) | (SaveFormat.WEIGHTS & self):
             raise NotImplementedError(
@@ -138,7 +142,7 @@ class SaveCallback(CounterCallback):
 
     def __init__(
         self,
-        save_dir: str,
+        save_dir: Path,
         models: List[tf.keras.models.Model],
         event: Event = Event.ON_EPOCH_END,
         event_freq: int = 1,
@@ -248,10 +252,10 @@ class SaveCallback(CounterCallback):
                 )
 
             # Create the correct directory name
-            save_dir_i = os.path.join(self._save_dir, f"model-{i}-step-{step}")
+            save_dir_i = self._save_dir.joinpath(f"model-{i}-step-{step}")
 
-            if not os.path.exists(save_dir_i):
-                os.makedirs(save_dir_i)
+            if not save_dir_i.exists():
+                save_dir_i.mkdir(parents=True)
 
             # Add to the history
             self._save_path_histories[i].append(save_dir_i)

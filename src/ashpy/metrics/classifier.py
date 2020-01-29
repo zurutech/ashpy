@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-import os
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Dict, Union
 
 import tensorflow as tf  # pylint: disable=import-error
@@ -28,6 +28,8 @@ if TYPE_CHECKING:
 
     TPRocessingPredictions = Dict[str, Union[Callable, Dict[str, Any]]]
 
+__ALL__ = ["ClassifierLoss", "ClassifierMetric"]
+
 
 class ClassifierLoss(Metric):
     """A handy way to measure the classification loss."""
@@ -36,7 +38,7 @@ class ClassifierLoss(Metric):
         self,
         name: str = "loss",
         model_selection_operator: Callable = None,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
     ) -> None:
         """
         Initialize the Metric.
@@ -89,7 +91,7 @@ class ClassifierMetric(Metric):
         self,
         metric: tf.keras.metrics.Metric,
         model_selection_operator: Callable = None,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         processing_predictions=None,
     ) -> None:
         """

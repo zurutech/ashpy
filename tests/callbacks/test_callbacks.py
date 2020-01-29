@@ -14,12 +14,8 @@
 
 """Test LogImageGANCallback."""
 
-from pathlib import Path
-
-import tensorflow as tf
 from ashpy.callbacks import LogImageGANCallback
 from ashpy.callbacks.events import Event
-from tensorflow.python.training.tracking import base
 
 from tests.utils.fake_training_loop import fake_adversarial_training_loop
 

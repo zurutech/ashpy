@@ -13,8 +13,8 @@
 # limitations under the License.
 
 """Collection of GANs trainers."""
-import os
-from typing import List, Optional
+from pathlib import Path
+from typing import List, Optional, Union
 
 import tensorflow as tf
 from ashpy.callbacks import Callback
@@ -140,7 +140,7 @@ class AdversarialTrainer(Trainer):
         epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
     ):
@@ -389,6 +389,8 @@ class EncoderTrainer(AdversarialTrainer):
     Examples:
         .. testcode::
 
+            from pathlib import Path
+
             import shutil
             import operator
 
@@ -427,9 +429,9 @@ class EncoderTrainer(AdversarialTrainer):
                 [tf.keras.layers.Dense(10), tf.keras.layers.Dense(num_classes)]
             )
 
-            logdir = "testlog/adversarial_encoder"
+            logdir = Path("testlog").joinpath("adversarial_encoder")
 
-            if os.path.exists(logdir):
+            if logdir.exists():
                 shutil.rmtree(logdir)
 
             metrics = [metrics.gan.EncodingAccuracy(classifier)]
@@ -491,7 +493,7 @@ class EncoderTrainer(AdversarialTrainer):
         epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
     ):

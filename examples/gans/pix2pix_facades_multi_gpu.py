@@ -96,8 +96,8 @@ def main(
         metrics = []
         logdir = f'{"log"}/{dataset_name}/run_multi'
 
-        if not os.path.exists(logdir):
-            os.makedirs(logdir)
+        if not logdir.exists():
+            logdir.mkdir(parents=True)
 
         trainer = AdversarialTrainer(
             generator=generator,

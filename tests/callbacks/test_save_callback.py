@@ -14,6 +14,7 @@
 
 """Test Save Callback."""
 import os
+from pathlib import Path
 from typing import Tuple
 
 import pytest
@@ -33,7 +34,9 @@ INCOMPATIBLE_FORMAT_AND_SUB_FORMAT = [(SaveFormat.MODEL, SaveSubFormat.H5)]
 
 @pytest.mark.parametrize("save_format_and_sub_format", COMPATIBLE_FORMAT_AND_SUB_FORMAT)
 def test_save_callback_compatible(
-    tmpdir, save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat], save_dir: str,
+    tmpdir,
+    save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat],
+    save_dir: Path,
 ):
     """Test the integration between callbacks and trainer."""
     save_format, save_sub_format = save_format_and_sub_format
@@ -45,8 +48,7 @@ def test_save_callback_compatible(
 
     for model_dir in save_dirs:
         assert save_format.name() in [
-            x.split(os.path.sep)[-1]
-            for x in os.listdir(os.path.join(save_dir, model_dir))
+            x.split(os.path.sep)[-1] for x in os.listdir(save_dir.joinpath(model_dir))
         ]
 
 
@@ -54,7 +56,9 @@ def test_save_callback_compatible(
     "save_format_and_sub_format", INCOMPATIBLE_FORMAT_AND_SUB_FORMAT
 )
 def test_save_callback_incompatible(
-    tmpdir, save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat], save_dir: str,
+    tmpdir,
+    save_format_and_sub_format: Tuple[SaveFormat, SaveSubFormat],
+    save_dir: Path,
 ):
     """Test the integration between callbacks and trainer."""
     save_format, save_sub_format = save_format_and_sub_format
@@ -63,10 +67,10 @@ def test_save_callback_incompatible(
         _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir)
 
     # assert no folder has been created
-    assert not os.path.exists(save_dir)
+    assert not save_dir.exists()
 
 
-def _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir):
+def _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir: Path):
     image_resolution = (28, 28)
     layer_spec_input_res = (7, 7)
     layer_spec_target_res = (7, 7)
@@ -115,23 +119,19 @@ def test_save_callback_type_error(save_dir: str,):
     or save sub-format is passed.
     """
     with pytest.raises(TypeError):
-        callbacks = [
-            SaveCallback(
-                models=[],
-                save_dir=save_dir,
-                verbose=1,
-                save_format="save_format",
-                save_sub_format=SaveSubFormat.TF,
-            )
-        ]
+        SaveCallback(
+            models=[],
+            save_dir=save_dir,
+            verbose=1,
+            save_format="save_format",
+            save_sub_format=SaveSubFormat.TF,
+        )
 
     with pytest.raises(TypeError):
-        callbacks = [
-            SaveCallback(
-                models=[],
-                save_dir=save_dir,
-                verbose=1,
-                save_format=SaveFormat.WEIGHTS,
-                save_sub_format="sub-format",
-            )
-        ]
+        SaveCallback(
+            models=[],
+            save_dir=save_dir,
+            verbose=1,
+            save_format=SaveFormat.WEIGHTS,
+            save_sub_format="sub-format",
+        )

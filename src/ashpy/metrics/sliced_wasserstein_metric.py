@@ -16,7 +16,7 @@
 from __future__ import annotations
 
 import operator
-import os
+from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Union
 
 import numpy as np
@@ -28,6 +28,8 @@ from ashpy.metrics.sliced_wasserstein import sliced_wasserstein_distance
 if TYPE_CHECKING:
     from ashpy.contexts import GANContext  # pylint: disable=ungrouped-imports
 
+__ALL__ = ["SingleSWD", "SlicedWassersteinDistance"]
+
 
 class SingleSWD(Metric):
     """SlicedWassersteinDistance for a certain level of the pyramid."""
@@ -35,7 +37,7 @@ class SingleSWD(Metric):
     def __init__(
         self,
         model_selection_operator: Callable = operator.lt,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         level_of_pyramid: int = 0,
         real_or_fake: str = "fake",
     ) -> None:
@@ -94,7 +96,7 @@ class SlicedWassersteinDistance(Metric):
         self,
         name: str = "SWD",
         model_selection_operator: Callable = operator.lt,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         resolution: int = 128,
         resolution_min: int = 16,
         patches_per_image: int = 64,

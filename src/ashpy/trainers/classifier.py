@@ -14,8 +14,8 @@
 
 """Primitive Trainer Interface."""
 
-import os
-from typing import List, Optional
+from pathlib import Path
+from typing import List, Optional, Union
 
 import ashpy
 import tensorflow as tf
@@ -43,7 +43,7 @@ class ClassifierTrainer(Trainer):
         epochs: int,
         metrics: Optional[List[Metric]] = None,
         callbacks: Optional[List[Callback]] = None,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         global_step: Optional[tf.Variable] = None,
     ):
         r"""

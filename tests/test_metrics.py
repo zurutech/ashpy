@@ -21,10 +21,8 @@ import json
 import operator
 import pathlib
 import shutil
-from typing import List
 
 import pytest
-import tensorflow as tf
 from ashpy.metrics import ClassifierLoss
 
 from tests.utils.fake_training_loop import fake_classifier_training_loop
@@ -107,4 +105,4 @@ def test_metrics_names_collision(training_loop, tmpdir):
     """
     metrics = [ClassifierLoss(name="test_loss"), ClassifierLoss(name="test_loss")]
     with pytest.raises(ValueError):
-        training_completed, trainer = training_loop(metrics=metrics, logdir=tmpdir)
+        training_loop(metrics=metrics, logdir=tmpdir)

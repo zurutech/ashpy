@@ -16,7 +16,7 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional, Union
 
 import ashpy
 import tensorflow as tf
@@ -32,7 +32,10 @@ class Restorer:
     """
 
     def __init__(
-        self, logdir: str = "log", ckpts_dir: str = "ckpts", expect_partial: bool = True
+        self,
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
+        ckpts_dir: str = "ckpts",
+        expect_partial: bool = True,
     ) -> None:
         """
         Initialize the Restorer.
@@ -48,11 +51,25 @@ class Restorer:
         if not self._ckpts_dir.exists():
             raise FileNotFoundError(f"{ckpts_dir} does not exist.")
         self._restored_log_msg = "Restored {} from checkpoint {}."
-        self._human_checkpoint_map = self._read_human_checkpoint_map()
+        try:
+            self._human_checkpoint_map: Optional[
+                Dict[str, str]
+            ] = self._read_human_checkpoint_map()
+        except FileNotFoundError:
+            self._human_checkpoint_map = None
 
     @property
-    def checkpoint_map(self) -> Dict[str, str]:
-        """Get the map of the ids in the checkpoint."""
+    def checkpoint_map(self) -> Optional[Dict[str, str]]:
+        """
+        Get the map of the ids in the checkpoint.
+
+        Map is a Dict where keys are the `ids` in the checkpoint and the values are the
+            string representation of the types.
+
+        Returns:
+            Dict if the map is found, else None.
+
+        """
         return self._human_checkpoint_map
 
     def _restore_checkpoint(self, checkpoint, partial: bool = True):

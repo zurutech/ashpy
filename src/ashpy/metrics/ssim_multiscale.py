@@ -17,8 +17,8 @@ from __future__ import annotations
 
 import math
 import operator
-import os
-from typing import TYPE_CHECKING, Callable, Tuple
+from pathlib import Path
+from typing import TYPE_CHECKING, Callable, Tuple, Union
 
 import tensorflow as tf
 from ashpy import LogEvalMode
@@ -26,6 +26,8 @@ from ashpy.metrics import Metric
 
 if TYPE_CHECKING:
     from ashpy.contexts import GANContext  # pylint: disable=ungrouped-imports
+
+__ALL__ = ["SSIM_Multiscale"]
 
 
 class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
@@ -43,11 +45,11 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
         self,
         name: str = "SSIM_Multiscale",
         model_selection_operator: Callable = operator.lt,
-        logdir: str = os.path.join(os.getcwd(), "log"),
+        logdir: Union[Path, str] = Path().cwd().joinpath("log"),
         max_val: float = 2.0,
         power_factors=None,
         filter_size: int = 11,
-        filter_sigma: int = 1.5,
+        filter_sigma: float = 1.5,
         k1: float = 0.01,
         k2: float = 0.03,
     ) -> None:
@@ -75,7 +77,7 @@ class SSIM_Multiscale(Metric):  # pylint: disable=invalid-name
                 being downsampled by 2.  Defaults to (0.0448, 0.2856, 0.3001, 0.2363,
                 0.1333), which are the values obtained in the original paper.
             filter_size (int): Default value 11 (size of gaussian filter).
-            filter_sigma (int): Default value 1.5 (width of gaussian filter).
+            filter_sigma (float): Default value 1.5 (width of gaussian filter).
             k1 (float): Default value 0.01.
             k2 (float): Default value 0.03 (SSIM is less sensitivity to K2 for lower values, so
                 it would be better if we take the values in range of 0< K2 <0.4).
