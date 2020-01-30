@@ -54,6 +54,15 @@ from ashpy.models.convolutional.encoders import Encoder as ConvEncoder
 from ashpy.models.fc.decoders import Decoder as DenseDecoder
 from ashpy.models.fc.encoders import Encoder as DenseEncoder
 
+__ALL__ = [
+    "ConvGenerator",
+    "ConvDiscriminator",
+    "ConvEncoder",
+    "DenseGenerator",
+    "DenseDiscriminator",
+    "DenseEncoder",
+]
+
 ConvGenerator = ConvDecoder
 ConvDiscriminator = ConvEncoder
 ConvEncoder = ConvEncoder
