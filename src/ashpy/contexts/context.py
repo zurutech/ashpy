@@ -20,9 +20,10 @@ collections of variable encapsulated in a Python Class as a way to seamlessly
 handle information transfer.
 """
 
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import tensorflow as tf
+
 from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 
@@ -32,7 +33,7 @@ class Context:
 
     def __init__(
         self,
-        metrics: List[Metric] = None,
+        metrics: Tuple[Metric] = None,
         dataset: tf.data.Dataset = None,
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step=tf.Variable(0, name="global_step", trainable=False, dtype=tf.int64),
@@ -42,7 +43,7 @@ class Context:
         Initialize the Context.
 
         Args:
-            metrics (:obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`]): List of
+            metrics (:obj:`tuple` of (:py:class:`ashpy.metrics.metric.Metric`)): List of
                 :py:class:`ashpy.metrics.metric.Metric` objects.
             dataset (:py:class:`tf.data.Dataset`): The dataset to use, that
                 contains everything needed to use the model in this context.
@@ -56,7 +57,7 @@ class Context:
         self._distribute_strategy = tf.distribute.get_strategy()
 
         # TODO: are metrics really needed right now?
-        self._metrics = metrics if metrics else []
+        self._metrics = metrics if metrics else ()
         self._dataset = dataset
         self._log_eval_mode = log_eval_mode
         self._global_step = global_step
@@ -98,12 +99,12 @@ class Context:
         self._dataset = _dataset
 
     @property
-    def metrics(self) -> List[Metric]:
+    def metrics(self) -> Tuple[Metric]:
         """
         Retrieve the metrics.
 
         Returns:
-            :obj:`list` of [:py:class:`ashpy.metrics.metric.Metric`].
+            :obj:`tuple` of (:py:class:`ashpy.metrics.metric.Metric`).
 
         """
         return self._metrics

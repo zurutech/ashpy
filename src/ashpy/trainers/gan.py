@@ -14,7 +14,7 @@
 
 """Collection of GANs trainers."""
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 import tensorflow as tf
 from ashpy.callbacks import Callback
@@ -138,7 +138,7 @@ class AdversarialTrainer(Trainer):
         generator_loss: Executor,
         discriminator_loss: Executor,
         epochs: int,
-        metrics: Optional[List[Metric]] = None,
+        metrics: Optional[Union[Tuple[Metric], List[Metric]]] = None,
         callbacks: Optional[List[Callback]] = None,
         logdir: Union[Path, str] = Path().cwd() / "log",
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
@@ -191,12 +191,12 @@ class AdversarialTrainer(Trainer):
         self._discriminator_loss = discriminator_loss
         self._discriminator_loss.reduction = tf.losses.Reduction.NONE
 
-        losses_metrics = [
+        losses_metrics = (
             DiscriminatorLoss(name="ashpy/d_loss", logdir=logdir),
             GeneratorLoss(name="ashpy/g_loss", logdir=logdir),
-        ]
+        )
         if metrics:
-            metrics.extend(losses_metrics)
+            metrics = (*metrics, *losses_metrics)
         else:
             metrics = losses_metrics
 

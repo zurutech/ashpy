@@ -44,8 +44,8 @@ class Trainer(ABC):
         logdir: Union[Path, str] = Path().cwd() / "log",
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: Optional[tf.Variable] = None,
-        metrics: Optional[List[Metric]] = None,
-        callbacks: Optional[List[Callback]] = None,
+        metrics: Optional[Union[Tuple[Metric], List[Metric]]] = None,
+        callbacks: Optional[Union[Tuple[Callback], List[Callback]]] = None,
     ) -> None:
         r"""
         Primitive trainer interface. Handles model saving and restore.
@@ -62,9 +62,10 @@ class Trainer(ABC):
                 to use when evaluating and logging.
             global_step (Optional[py:class:`ashpy.modes.LogEvalMode`]): tf.Variable that
                 keeps track of the training steps.
-            metrics (Optional[List[:py:class:`ashpy.metrics.Metric`]]): list of metrics.
-            callbacks (Optional[List[:py:class:`ashpy.callbacks.Callback`]]): list of callbacks
-                to handle events.
+            metrics (Optional[List | Tuple [:py:class:`ashpy.metrics.Metric`]]): list or
+                tuple of metrics.
+            callbacks (Optional[List[:py:class:`ashpy.callbacks.Callback`]]): list or
+                tuple of callbacks to handle events.
 
         """
         self._distribute_strategy = tf.distribute.get_strategy()
@@ -72,14 +73,14 @@ class Trainer(ABC):
 
         # set and validate metrics
         if metrics is None:
-            metrics = []
+            metrics = ()
         self._metrics = metrics
         self._validate_metrics()
 
         # set and validate callbacks
         if callbacks is None:
-            callbacks = []
-        self._callbacks: List[Callback] = callbacks
+            callbacks = ()
+        self._callbacks: Tuple[Callback] = tuple(callbacks)
         self._validate_callbacks()
 
         self._epochs = epochs
@@ -245,6 +246,7 @@ class Trainer(ABC):
     def _restore_or_init(self):
         """Restore or initialize the persistence layer (checkpoint)."""
         if self._manager.latest_checkpoint:
+            # FIX: trainer restoration when restarting
             self._checkpoint.restore(self._manager.latest_checkpoint)
             print(f"Restored checkpoint {self._manager.latest_checkpoint}.")
         else:
