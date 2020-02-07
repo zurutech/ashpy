@@ -123,21 +123,23 @@ def test_metrics_names_collision(tmpdir):
 # -------------------------------------------------------------------------------------
 
 
-# def test_metrics_on_restart(fake_training, tmpdir):
-#     """Test that metrics are correctly read on train restart."""
+def test_metrics_on_restart(fake_training_fn, tmpdir):
+    """Test that metrics are correctly read on train restart."""
 
-#     def _train(fake_training, tmpdir):
-#         training_loop, loop_args, metrics = fake_training
-#         training_completed, trainer = training_loop(
-#             logdir=tmpdir, metrics=metrics, **loop_args
-#         )
-#         assert training_completed
-#         # Read and store the values of the metrics
-#         metrics_values = {
-#             metric.name: get_metric_data(metric, tmpdir) for metric in trainer._metrics
-#         }
-#         return metrics_values
+    fake_training = fake_training_fn(tmpdir)
+    assert fake_training()
 
-#     t1_values = _train(fake_training, tmpdir)
-#     t2_values = _train(fake_training, tmpdir)
-#     assert t1_values == t2_values
+    t1_values = {
+        metric.name: get_metric_data(metric, tmpdir)
+        for metric in fake_training.trainer._metrics
+    }
+    print(t1_values)
+
+    restart = fake_training_fn(tmpdir)
+
+    t2_values = {
+        metric.name: get_metric_data(metric, tmpdir)
+        for metric in restart.trainer._metrics
+    }
+    print(t2_values)
+    assert t1_values == t2_values
