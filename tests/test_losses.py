@@ -33,4 +33,4 @@ def test_losses(loss_type: AdversarialLossType, tmpdir):
 
     FakeAdversarialTraining(
         tmpdir, generator_loss=generator_loss, discriminator_loss=discriminator_loss,
-    )
+    )()

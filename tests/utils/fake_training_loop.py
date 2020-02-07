@@ -97,13 +97,13 @@ class FakeClassifierTraining(FakeTraining):
         )
         self.metrics = metrics
 
-    def __call__(self) -> int:
+    def __call__(self) -> bool:
         self.trainer(
             self.dataset,
             self.dataset,
             measure_performance_freq=self.measure_performance_freq,
         )
-        return 1
+        return True
 
 
 # ---------------------------------------------------------------------------------
@@ -185,8 +185,8 @@ class FakeAdversarialTraining(FakeTraining):
             channels=channels,
         )
 
-    def __call__(self) -> int:
+    def __call__(self) -> bool:
         self.trainer(
             self.dataset, measure_performance_freq=self.measure_performance_freq
         )
-        return 1
+        return True
