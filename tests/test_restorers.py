@@ -22,38 +22,36 @@ GIVEN some training has been done
     WHEN restoring models the first layer of the restored model and the trained one should
         have the same weights.
 """
-
 from pathlib import Path
+from typing import Union
 
 import pytest
 import tensorflow as tf
 from ashpy.callbacks import CounterCallback
-from ashpy.restorers import AdversarialRestorer, ClassifierRestorer, Restorer
+from ashpy.restorers import (
+    AdversarialRestorer,
+    ClassifierRestorer,
+    ModelNotConstructedError,
+    Restorer,
+)
 from ashpy.trainers import AdversarialTrainer, ClassifierTrainer
 
-from tests.utils.fake_datasets import (
-    fake_adversarial_dataset,
-    fake_autoencoder_datasest,
+from tests.utils.fake_training_loop import (
+    FakeAdversarialTraining,
+    FakeClassifierTraining,
 )
-from tests.utils.fake_models import basic_dcgan, conv_autoencoder
 
 DEFAULT_CKPT_DIR = "ckpts"
 
 
-def _check_first_layer(trained: tf.keras.Model, restored: tf.keras.Model, i=0):
+def _check_models_weights(trained: tf.keras.Model, restored: tf.keras.Model, i=0):
     """Test that the first layers of the restored and trained model have the same weights."""
+
     try:
-        try:
-            trained_layer = trained.layers[i].weights[0]
-            restored_layers = restored.layers[i].weights[0]
-        except IndexError:
-            trained_layer = trained.layers[i].weights
-            restored_layers = restored.layers[i].weightss
-        assert tf.reduce_all(tf.equal(trained_layer, restored_layers))
-    except AttributeError:
-        i += 1
-        print(f"Proceed to layer in position {i}")
-        _check_first_layer(trained, restored, i)
+        for i, element in enumerate(trained.weights):
+            assert tf.reduce_all(tf.equal(element, restored.weights[i]))
+    except AssertionError:
+        raise ModelNotConstructedError
 
 
 def _test_restore_object(restorer, placeholder, ckpt_id, capsys):
@@ -71,50 +69,62 @@ def _check_log(restorer, ckpt_id, capsys):
     )
 
 
-def test_restore_model(fake_training, capsys, tmpdir):
+def test_restore_model(fake_training_fn, capsys, tmpdir):
     """
     Test that models are correctly restored.
 
     The test is performed by checking the logs and the first layer of each model.
     """
-    training_loop, loop_args, metrics = fake_training
-    training_completed, trainer = training_loop(
-        logdir=tmpdir, metrics=metrics, **loop_args
-    )
-    assert training_completed
-    restorer = Restorer(logdir=tmpdir)
+    logdir = Path(tmpdir).joinpath("training")
+    _tmp_logdir = Path(tmpdir).joinpath("banana")
+
+    fake_training = fake_training_fn(logdir=logdir)
+    assert fake_training()
+    trainer = fake_training.trainer
+    restorer = Restorer(logdir=logdir)
 
     if isinstance(trainer, ClassifierTrainer):
 
-        placeholder = conv_autoencoder()
+        new_loop = fake_training_fn(logdir=_tmp_logdir)
+        placeholder = new_loop.model
 
         # Ensure model have been built correctly
-        x, _ = next(iter(fake_autoencoder_datasest()))
+        x, _ = next(iter(new_loop.dataset))
         placeholder(x)
 
         ckpt_id = trainer.ckpt_id_model
         _test_restore_object(restorer, placeholder, ckpt_id, capsys)
-        _check_first_layer(trainer._model, placeholder)
+        _check_models_weights(trainer._model, placeholder)
 
     elif isinstance(trainer, AdversarialTrainer):
 
-        placeholder_g, placeholder_d = basic_dcgan(**loop_args)
+        new_loop: FakeAdversarialTraining = fake_training_fn(logdir=_tmp_logdir)
+        placeholder_g, placeholder_d = (new_loop.generator, new_loop.discriminator)
+
+        # Ensure that the ModelNotConstructedError is correctly triggered
+        with pytest.raises(ModelNotConstructedError):
+            _test_restore_object(
+                restorer, placeholder_g, trainer.ckpt_id_generator, capsys
+            )
+            _test_restore_object(
+                restorer, placeholder_d, trainer.ckpt_id_discriminator, capsys
+            )
 
         # Ensure model have been built correctly
-        (x, _), z = next(iter(fake_adversarial_dataset(**loop_args)))
+        (x, _), z = next(iter(new_loop.dataset))
         fake = placeholder_g(z)
         assert tf.reduce_all(tf.equal(fake.shape, x.shape))
         placeholder_d(x)
 
         _test_restore_object(restorer, placeholder_g, trainer.ckpt_id_generator, capsys)
-        _check_first_layer(trainer._generator, placeholder_g)
+        _check_models_weights(trainer._generator, placeholder_g)
         _test_restore_object(
             restorer, placeholder_d, trainer.ckpt_id_discriminator, capsys
         )
-        _check_first_layer(trainer._discriminator, placeholder_d)
+        _check_models_weights(trainer._discriminator, placeholder_d)
 
 
-def test_restore_common_variables(fake_training, capsys, tmpdir):
+def test_restore_common_variables(fake_training_fn, capsys, tmpdir):
     """
     Test that the convenience methods exposed by :class:`Restorer` work correctly.
 
@@ -123,12 +133,12 @@ def test_restore_common_variables(fake_training, capsys, tmpdir):
         - steps per epoch
 
     """
-    training_loop, loop_args, metrics = fake_training
-    training_completed, trainer = training_loop(
-        logdir=tmpdir, metrics=metrics, **loop_args
-    )
-    assert training_completed
-    restorer = Restorer(logdir=tmpdir)
+    logdir = Path(tmpdir).joinpath("training")
+
+    fake_training = fake_training_fn(logdir=logdir)
+    assert fake_training()
+    trainer = fake_training.trainer
+    restorer = Restorer(logdir=logdir)
 
     # Restore variables and check their values using the convenience method
     assert tf.equal(trainer._global_step, restorer.get_global_step())
@@ -147,17 +157,17 @@ def test_restore_common_variables(fake_training, capsys, tmpdir):
         ) in out.split("\n")
 
 
-def test_restore_callbacks(fake_training, capsys, tmpdir):
+def test_restore_callbacks(fake_training_fn, capsys, tmpdir):
     """Test that callbacks are succesfully restored."""
-    training_loop, loop_args, metrics = fake_training
-    training_completed, trainer = training_loop(
-        logdir=tmpdir, metrics=metrics, **loop_args
-    )
-    assert training_completed
-    restorer = Restorer(logdir=tmpdir)
+    logdir = Path(tmpdir).joinpath("training")
+
+    fake_training = fake_training_fn(logdir=logdir)
+    assert fake_training()
+    trainer = fake_training.trainer
+    restorer = Restorer(logdir=logdir)
 
     if isinstance(trainer, AdversarialTrainer):
-        placeholder_callbacks = loop_args.get("callbacks")
+        placeholder_callbacks = fake_training.callbacks
         for i, placeholder_callback in enumerate(placeholder_callbacks):
             # Restore the callbacks
             restorer.restore_callback(placeholder_callback, placeholder_callback.name)
@@ -171,14 +181,14 @@ def test_restore_callbacks(fake_training, capsys, tmpdir):
                 )
 
 
-def test_read_checkpoint_map(fake_training, tmpdir):
+def test_read_checkpoint_map(fake_training_fn, tmpdir):
     """Test that checkpoint map is read correctly."""
-    training_loop, loop_args, metrics = fake_training
-    training_completed, trainer = training_loop(
-        logdir=tmpdir, metrics=metrics, **loop_args
-    )
-    assert training_completed
-    restorer = Restorer(logdir=tmpdir)
+    logdir = Path(tmpdir).joinpath("training")
+
+    fake_training = fake_training_fn(logdir=logdir)
+    assert fake_training()
+    trainer = fake_training.trainer
+    restorer = Restorer(logdir=logdir)
     assert restorer.checkpoint_map == trainer._generate_checkpoint_map()
 
     # Test that Restorer.checkpoint_map without the checkpoint_map.json correctly returns None
@@ -186,7 +196,7 @@ def test_read_checkpoint_map(fake_training, tmpdir):
     ckpt_map: Path = restorer._ckpts_dir / "checkpoint_map.json"
     ckpt_map.unlink()
     assert not ckpt_map.exists()
-    assert not Restorer(tmpdir).checkpoint_map
+    assert not Restorer(logdir).checkpoint_map
 
 
 # ###################################################
@@ -203,7 +213,7 @@ def _test_convenience_model_restorer(
 ):
     convenience_method(placeholder_model)
     _check_log(restorer, ckpt_id, capsys)
-    _check_first_layer(trained_model, placeholder_model)
+    _check_models_weights(trained_model, placeholder_model)
 
 
 def _test_convenience_optimizer_restorer(
@@ -218,27 +228,30 @@ def _test_convenience_optimizer_restorer(
     _check_log(restorer, ckpt_id, capsys)
 
 
-def test_convenience_restorer(fake_training, capsys, tmpdir):
+def test_convenience_restorer(fake_training_fn, capsys, tmpdir):
     """
     Test that models and optimizers are correctly restored using the convenience classes.
 
     TODO: Add test for AdversarialEncoderRestorer
     """
-    logdir = tmpdir
-    training_loop, loop_args, metrics = fake_training
-    training_completed, trainer = training_loop(
-        logdir=logdir, metrics=metrics, **loop_args
-    )
-    assert training_completed
+    logdir = Path(tmpdir).joinpath("training")
+    _tmp_logdir = Path(tmpdir).joinpath("banana")
+
+    fake_training = fake_training_fn(logdir=logdir)
+    assert fake_training()
+    trainer = fake_training.trainer
+    restorer = Restorer(logdir=logdir)
 
     if isinstance(trainer, ClassifierTrainer):
         restorer: ClassifierRestorer = ClassifierRestorer(logdir=logdir)
 
-        placeholder_model = conv_autoencoder()
+        new_training: FakeClassifierTraining = fake_training_fn(_tmp_logdir)
+
+        placeholder_model = new_training.model
         placeholder_opt = tf.keras.optimizers.Adam()
 
         # Ensure model have been built correctly
-        x, _ = next(iter(fake_autoencoder_datasest()))
+        x, _ = next(iter(new_training.dataset))
         placeholder_model(x)
 
         _test_convenience_model_restorer(
@@ -260,14 +273,40 @@ def test_convenience_restorer(fake_training, capsys, tmpdir):
     elif isinstance(trainer, AdversarialTrainer):
         restorer: AdversarialRestorer = AdversarialRestorer(logdir=logdir)
 
-        placeholder_g, placeholder_d = basic_dcgan(**loop_args)
+        new_training: FakeAdversarialTraining = fake_training_fn(_tmp_logdir)
+
+        placeholder_g, placeholder_d = (
+            new_training.generator,
+            new_training.discriminator,
+        )
         placeholder_optimizer_g, placeholder_optimizer_d = (
             tf.keras.optimizers.Adam(),
             tf.keras.optimizers.Adam(),
         )
 
-        # Ensure model have been built correctly
-        (x, _), z = next(iter(fake_adversarial_dataset(**loop_args)))
+        # Ensure that the ModelNotConstructedError is correctly triggered
+        with pytest.raises(ModelNotConstructedError):
+            _test_convenience_model_restorer(
+                restorer,
+                restorer.restore_generator,
+                placeholder_g,
+                trainer._generator,
+                trainer.ckpt_id_generator,
+                capsys,
+            )
+
+        with pytest.raises(ModelNotConstructedError):
+            _test_convenience_model_restorer(
+                restorer,
+                restorer.restore_discriminator,
+                placeholder_d,
+                trainer._discriminator,
+                trainer.ckpt_id_discriminator,
+                capsys,
+            )
+
+        # Ensure models have been built correctly
+        (x, _), z = next(iter(new_training.dataset))
         fake = placeholder_g(z)
         assert tf.reduce_all(tf.equal(fake.shape, x.shape))
         placeholder_d(x)

@@ -18,7 +18,7 @@ import pytest
 from ashpy.callbacks import Callback
 from ashpy.callbacks.events import Event
 
-from tests.utils.fake_training_loop import fake_adversarial_training_loop
+from tests.utils.fake_training_loop import FakeAdversarialTraining
 
 
 class MCallback(Callback):
@@ -65,13 +65,13 @@ def test_custom_callbacks(tmpdir, event: Event):
     dataset_size = 2
     batch_size = 2
 
-    fake_adversarial_training_loop(
+    FakeAdversarialTraining(
         logdir=tmpdir,
         callbacks=callbacks,
         epochs=epochs,
         dataset_size=dataset_size,
         batch_size=batch_size,
-    )
+    )()
 
     # assert the number of times the on_event has been called
     assert m_callback.counter == get_n_events_from_epochs(

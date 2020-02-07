@@ -19,6 +19,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
+import ashpy.restorers
 import tensorflow as tf
 from ashpy.callbacks import Callback
 from ashpy.contexts import Context
@@ -36,6 +37,7 @@ class Trainer(ABC):
     ckpt_id_global_step: str = "global_step"
     ckpt_id_steps_per_epoch: str = "steps_per_epoch"
     ckpt_id_callbacks: str = "callbacks"
+    _deferred_restoration: bool = False
 
     def __init__(
         self,
@@ -246,8 +248,23 @@ class Trainer(ABC):
     def _restore_or_init(self):
         """Restore or initialize the persistence layer (checkpoint)."""
         if self._manager.latest_checkpoint:
-            # FIX: trainer restoration when restarting
-            self._checkpoint.restore(self._manager.latest_checkpoint)
+            restorer = ashpy.restorers.Restorer(self._logdir)
+
+            # Check that at least the ids of the things we want to restore are present in
+            # the map
+            for k in self._ckpt_dict:
+                assert k in restorer.checkpoint_map
+                try:
+                    restorer.restore_object(self._ckpt_dict[k], k)
+                except ashpy.restorers.ModelNotConstructedError:
+                    print(
+                        "WARNING: Trying to restore a Model constructed via sub-classing"
+                        "API requires calling it on some data first."
+                        "More info -> "
+                        "https://www.tensorflow.org/guide/keras/save_and_serialize#saving_subclassed_models"  # pylint: disable=line-too-long
+                        "Restoration will be deferred at the beginning of the Trainer call."
+                    )
+                    self._deferred_restoration = True
             print(f"Restored checkpoint {self._manager.latest_checkpoint}.")
         else:
             print("Initializing checkpoint.")
@@ -373,6 +390,10 @@ class Trainer(ABC):
                     )
                 )
         return tuple(columns)
+
+    @abstractmethod
+    def _build_and_restore_models(self, dataset: tf.data.Dataset):
+        """Build and restore a Subclassed model by firstly calling it on some data."""
 
     @abstractmethod
     def call(self, *args, **kwargs):

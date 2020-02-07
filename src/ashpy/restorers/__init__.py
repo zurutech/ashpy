@@ -45,11 +45,12 @@ Restorers allow for easy restoration of tracked objects from :class:`tf.train.Ch
 
 from ashpy.restorers.classifier import ClassifierRestorer
 from ashpy.restorers.gan import AdversarialEncoderRestorer, AdversarialRestorer
-from ashpy.restorers.restorer import Restorer
+from ashpy.restorers.restorer import ModelNotConstructedError, Restorer
 
 __ALL__ = [
     "Restorer",
     "AdversarialRestorer",
     "AdversarialEncoderRestorer",
     "ClassifierRestorer",
+    "ModelNotConstructedError",
 ]

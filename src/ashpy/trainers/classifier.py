@@ -17,9 +17,8 @@
 from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
-import tensorflow as tf
-
 import ashpy
+import tensorflow as tf
 from ashpy.callbacks import Callback
 from ashpy.contexts.classifier import ClassifierContext
 from ashpy.datasets import wrap
@@ -161,6 +160,14 @@ class ClassifierTrainer(Trainer):
             checkpoint=self._checkpoint,
         )
 
+    def _build_and_restore_models(self, dataset: tf.data.Dataset):
+        restorer = ashpy.restorers.ClassifierRestorer(self._logdir)
+        (x, _) = next(iter(dataset.take(1)))
+        # Invoke model on sample input
+        self._model(x)
+        restorer.restore_model(self._model)
+        self._deferred_restoration = False
+
     def train_step(self, features, labels):
         """
         Train step.
@@ -213,6 +220,9 @@ class ClassifierTrainer(Trainer):
                 performance.
 
         """
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=training_set)
+
         # set the context properties
         self._context.training_set = training_set
         self._context.validation_set = validation_set

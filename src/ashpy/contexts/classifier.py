@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Tuple, Optional
+from typing import TYPE_CHECKING, Optional, Tuple
 
 import tensorflow as tf  # pylint: disable=import-error
 from ashpy.contexts.context import Context

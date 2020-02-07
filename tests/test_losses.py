@@ -21,7 +21,7 @@ from ashpy.losses.gan import (
     get_adversarial_loss_generator,
 )
 
-from tests.utils.fake_training_loop import fake_adversarial_training_loop
+from tests.utils.fake_training_loop import FakeAdversarialTraining
 
 
 @pytest.mark.parametrize("loss_type", list(AdversarialLossType))
@@ -31,6 +31,6 @@ def test_losses(loss_type: AdversarialLossType, tmpdir):
     generator_loss = get_adversarial_loss_generator(loss_type)()
     discriminator_loss = get_adversarial_loss_discriminator(loss_type)()
 
-    fake_adversarial_training_loop(
+    FakeAdversarialTraining(
         tmpdir, generator_loss=generator_loss, discriminator_loss=discriminator_loss,
     )

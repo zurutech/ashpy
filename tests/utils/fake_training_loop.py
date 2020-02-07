@@ -15,13 +15,13 @@
 """Fake training loop to simplify training in tests."""
 import operator
 from pathlib import Path
-from typing import Union
+from typing import List, Tuple, Union
 
 import ashpy
 import tensorflow as tf
 from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
-from ashpy.trainers import AdversarialTrainer
+from ashpy.trainers import AdversarialTrainer, ClassifierTrainer, Trainer
 
 from tests.utils.fake_datasets import (
     fake_adversarial_dataset,
@@ -29,131 +29,164 @@ from tests.utils.fake_datasets import (
 )
 from tests.utils.fake_models import basic_dcgan, conv_autoencoder
 
-__ALL__ = ["fake_classifier_training_loop", "fake_adversarial_training_loop"]
+__ALL__ = ["FakeTraining", "FakeAdversarialTraining", "FakeClassifierTraining"]
 
 
-def fake_classifier_training_loop(
-    # Trainer
-    logdir: Union[Path, str] = "testlog",
-    optimizer=tf.optimizers.Adam(1e-4),
-    metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
-    epochs=2,
-    # Dataset
-    dataset_size=10,
-    image_resolution=(64, 64),
-    batch_size=5,
-    # Model: Autoencoder
-    layer_spec_input_res=(64, 64),
-    layer_spec_target_res=(4, 4),
-    kernel_size=3,
-    initial_filters=16,
-    filters_cap=64,
-    encoding_dimension=50,
-    channels=3,
-    # Call parameters
-    measure_performance_freq=10,
-):
-    """Fake Classifier training loop implementation using an autoencoder as a base model."""
-    # Model
-    model = conv_autoencoder(
-        layer_spec_input_res,
-        layer_spec_target_res,
-        kernel_size,
-        initial_filters,
-        filters_cap,
-        encoding_dimension,
-        channels,
-    )
-
-    # Dataset
-    dataset = fake_autoencoder_datasest(
-        dataset_size, image_resolution, channels, batch_size
-    )
-
-    # Loss
-    reconstruction_error = ashpy.losses.ClassifierLoss(
-        tf.keras.losses.MeanSquaredError()
-    )
-
-    # Trainer
-    trainer = ashpy.trainers.ClassifierTrainer(
-        model=model,
-        optimizer=optimizer,
-        loss=reconstruction_error,
-        logdir=str(logdir),
-        epochs=epochs,
-        metrics=metrics,
-    )
-
-    trainer(dataset, dataset, measure_performance_freq=measure_performance_freq)
-    return 1, trainer
+class FakeTraining:
+    dataset: tf.data.Dataset
+    trainer: Trainer
+    measure_performance_freq: int
+    metrics: Union[List[ashpy.metrics.Metric], Tuple[ashpy.metrics.Metric]]
 
 
-def fake_adversarial_training_loop(
-    logdir: Union[Path, str] = "testlog",
-    kernel_size=(5, 5),
-    metrics=None,
-    callbacks=None,
-    epochs=2,
-    dataset_size=2,
-    batch_size=2,
-    generator_loss=GeneratorBCE(),
-    discriminator_loss=DiscriminatorMinMax(),
-    image_resolution=(28, 28),
-    layer_spec_input_res=(7, 7),
-    layer_spec_target_res=(7, 7),
-    channels=1,
-    output_shape=1,
-    latent_dim=100,
-    # Call parameters
-    measure_performance_freq=10,
-    # Models from outside
-    generator=None,
-    discriminator=None,
-):
-    """Fake training loop implementation."""
-    # test parameters
-    if callbacks is None:
-        callbacks = []
-    if metrics is None:
-        metrics = []
+class FakeClassifierTraining(FakeTraining):
+    def __init__(
+        self,
+        # Trainer
+        logdir: Union[Path, str] = "testlog",
+        optimizer=tf.optimizers.Adam(1e-4),
+        metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
+        epochs=2,
+        # Dataset
+        dataset_size=10,
+        image_resolution=(64, 64),
+        batch_size=5,
+        # Model: Autoencoder
+        layer_spec_input_res=(64, 64),
+        layer_spec_target_res=(4, 4),
+        kernel_size=3,
+        initial_filters=16,
+        filters_cap=64,
+        encoding_dimension=50,
+        channels=3,
+        # Call parameters
+        measure_performance_freq=10,
+    ):
+        """Fake Classifier training loop implementation using an autoencoder as a base model."""
+        self.measure_performance_freq = measure_performance_freq
 
-    # Model definition
-    models = basic_dcgan(
-        image_resolution=image_resolution,
-        layer_spec_input_res=layer_spec_input_res,
-        layer_spec_target_res=layer_spec_target_res,
-        kernel_size=kernel_size,
-        channels=channels,
-        output_shape=output_shape,
-    )
-    if not generator:
-        generator = models[0]
-    if not discriminator:
-        discriminator = models[1]
+        # Model
+        self.model: tf.keras.Model = conv_autoencoder(
+            layer_spec_input_res,
+            layer_spec_target_res,
+            kernel_size,
+            initial_filters,
+            filters_cap,
+            encoding_dimension,
+            channels,
+        )
 
-    # Trainer
-    trainer = AdversarialTrainer(
-        generator=generator,
-        discriminator=discriminator,
-        generator_optimizer=tf.optimizers.Adam(1e-4),
-        discriminator_optimizer=tf.optimizers.Adam(1e-4),
-        generator_loss=generator_loss,
-        discriminator_loss=discriminator_loss,
-        epochs=epochs,
-        metrics=metrics,
-        callbacks=callbacks,
-        logdir=logdir,
-    )
+        # Dataset
+        self.dataset = fake_autoencoder_datasest(
+            dataset_size, image_resolution, channels, batch_size
+        )
 
-    dataset = fake_adversarial_dataset(
-        image_resolution=image_resolution,
-        epochs=epochs,
-        dataset_size=dataset_size,
-        batch_size=batch_size,
-        latent_dim=latent_dim,
-        channels=channels,
-    )
+        # Loss
+        reconstruction_error = ashpy.losses.ClassifierLoss(
+            tf.keras.losses.MeanSquaredError()
+        )
 
-    trainer(dataset, measure_performance_freq=measure_performance_freq)
-    return 1, trainer
+        # Trainer
+        self.trainer = ClassifierTrainer(
+            model=self.model,
+            optimizer=optimizer,
+            loss=reconstruction_error,
+            logdir=str(logdir),
+            epochs=epochs,
+            metrics=metrics,
+        )
+        self.metrics = metrics
+
+    def __call__(self) -> int:
+        self.trainer(
+            self.dataset,
+            self.dataset,
+            measure_performance_freq=self.measure_performance_freq,
+        )
+        return 1
+
+
+# ---------------------------------------------------------------------------------
+
+
+class FakeAdversarialTraining(FakeTraining):
+    def __init__(
+        self,
+        logdir: Union[Path, str] = "testlog",
+        kernel_size=(5, 5),
+        metrics=None,
+        callbacks=None,
+        epochs=2,
+        dataset_size=2,
+        batch_size=2,
+        generator_loss=GeneratorBCE(),
+        discriminator_loss=DiscriminatorMinMax(),
+        image_resolution=(28, 28),
+        layer_spec_input_res=(7, 7),
+        layer_spec_target_res=(7, 7),
+        channels=1,
+        output_shape=1,
+        latent_dim=100,
+        # Call parameters
+        measure_performance_freq=10,
+        # Models from outside
+        generator=None,
+        discriminator=None,
+    ):
+        """Fake training loop implementation."""
+        self.measure_performance_freq = measure_performance_freq
+
+        # test parameters
+        if callbacks is None:
+            callbacks = []
+        if metrics is None:
+            metrics = []
+
+        self.metrics = metrics
+        self.callbacks = callbacks
+
+        # Model definition
+        models = basic_dcgan(
+            image_resolution=image_resolution,
+            layer_spec_input_res=layer_spec_input_res,
+            layer_spec_target_res=layer_spec_target_res,
+            kernel_size=kernel_size,
+            channels=channels,
+            output_shape=output_shape,
+        )
+        if not generator:
+            generator = models[0]
+        if not discriminator:
+            discriminator = models[1]
+
+        self.generator = generator
+        self.discriminator = discriminator
+
+        # Trainer
+        self.trainer = AdversarialTrainer(
+            generator=generator,
+            discriminator=discriminator,
+            generator_optimizer=tf.optimizers.Adam(1e-4),
+            discriminator_optimizer=tf.optimizers.Adam(1e-4),
+            generator_loss=generator_loss,
+            discriminator_loss=discriminator_loss,
+            epochs=epochs,
+            metrics=metrics,
+            callbacks=callbacks,
+            logdir=logdir,
+        )
+
+        self.dataset = fake_adversarial_dataset(
+            image_resolution=image_resolution,
+            epochs=epochs,
+            dataset_size=dataset_size,
+            batch_size=batch_size,
+            latent_dim=latent_dim,
+            channels=channels,
+        )
+
+    def __call__(self) -> int:
+        self.trainer(
+            self.dataset, measure_performance_freq=self.measure_performance_freq
+        )
+        return 1

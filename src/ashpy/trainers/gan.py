@@ -14,8 +14,9 @@
 
 """Collection of GANs trainers."""
 from pathlib import Path
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Tuple, Union
 
+import ashpy.restorers
 import tensorflow as tf
 from ashpy.callbacks import Callback
 from ashpy.contexts.gan import GANContext, GANEncoderContext
@@ -229,6 +230,16 @@ class AdversarialTrainer(Trainer):
             metrics=self._metrics,
         )
 
+    def _build_and_restore_models(self, dataset: tf.data.Dataset):
+        restorer = ashpy.restorers.AdversarialRestorer(self._logdir)
+        (x, _), z = next(iter(dataset.take(1)))
+        # Invoke model on sample input
+        self._generator(z)
+        self._discriminator(x)
+        restorer.restore_generator(self._generator)
+        restorer.restore_discriminator(self._discriminator)
+        self._deferred_restoration = False
+
     def train_step(self, real_xy, g_inputs):
         """
         Train step for the AdversarialTrainer.
@@ -317,6 +328,9 @@ class AdversarialTrainer(Trainer):
                     performance.
 
         """
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=dataset)
+
         current_epoch = self._current_epoch()
 
         self._update_global_batch_size(
@@ -575,6 +589,17 @@ class EncoderTrainer(AdversarialTrainer):
             metrics=self._metrics,
         )
 
+    def _build_and_restore_models(self, dataset: tf.data.Dataset):
+        restorer = ashpy.restorers.AdversarialEncoderRestorer(self._logdir)
+        (x, _), _ = next(iter(dataset.take(1)))
+
+        # Invoke model on sample input
+        self._encoder(x)
+        restorer.restore_encoder(self._encoder)
+
+        super()._build_and_restore_models(dataset)
+        self._deferred_restoration = False
+
     def train_step(self, real_xy, g_inputs):
         """Adversarial training step.
 
@@ -668,6 +693,9 @@ class EncoderTrainer(AdversarialTrainer):
                 performance.
 
         """
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=dataset)
+
         current_epoch = self._current_epoch()
 
         self._update_global_batch_size(

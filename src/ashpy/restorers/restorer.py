@@ -21,7 +21,11 @@ from typing import Dict, List, Optional, Union
 import ashpy
 import tensorflow as tf
 
-__ALL__ = ["Restorer"]
+__ALL__ = ["Restorer, ModelNotConstructedError"]
+
+
+class ModelNotConstructedError(BaseException):
+    pass
 
 
 class Restorer:
@@ -95,6 +99,21 @@ class Restorer:
                 f"Object {placeholder} is should be of type: {placeholder_type}"
             )
 
+    @staticmethod
+    def _check_model_construction(restored_model: tf.keras.Model) -> bool:
+        """
+        Optimistically check that the model.weights property returns a non empty-list.
+
+        The underlying assumption is that Models created via the sub-classing API, when restored
+        without being properly constructed AKA called on some input, will have empty lists
+        as layers.weights.
+
+        TODO: add docs for the exception.
+        """
+        if restored_model.weights == []:
+            raise ModelNotConstructedError
+        return True
+
     def restore_object(self, placeholder, object_ckpt_id: str):
         """
         Restore a placeholder from a checkpoint using the specified id.
@@ -112,6 +131,8 @@ class Restorer:
         """
         checkpoint = tf.train.Checkpoint(**{object_ckpt_id: placeholder})
         status = self._restore_checkpoint(checkpoint)
+        if isinstance(placeholder, tf.keras.Model):
+            assert self._check_model_construction(placeholder)
         print(self._restored_log_msg.format(object_ckpt_id, self._ckpts_dir))
         return status
 

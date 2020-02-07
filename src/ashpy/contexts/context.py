@@ -23,7 +23,6 @@ handle information transfer.
 from typing import List, Optional, Tuple
 
 import tensorflow as tf
-
 from ashpy.metrics import Metric
 from ashpy.modes import LogEvalMode
 
