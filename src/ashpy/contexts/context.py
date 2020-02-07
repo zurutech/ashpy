@@ -20,7 +20,7 @@ collections of variable encapsulated in a Python Class as a way to seamlessly
 handle information transfer.
 """
 
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import tensorflow as tf
 from ashpy.metrics import Metric

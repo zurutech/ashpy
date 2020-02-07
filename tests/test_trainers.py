@@ -41,6 +41,7 @@ def test_correct_trainer_restoration_on_restart(fake_training_fn, tmpdir):
         trained_model = fake_training.trainer._model
 
         new_training: FakeClassifierTraining = fake_training_fn(logdir=logdir)
+        new_training.trainer._build_and_restore_models(new_training.dataset)
         restored_model = new_training.trainer._model
 
         _check_models_weights(trained_model, restored_model)
