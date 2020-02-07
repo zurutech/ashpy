@@ -121,7 +121,12 @@ class Restorer:
 
         TODO: add docs for the exception.
         """
-        if restored_model.weights == []:
+        try:
+            if restored_model.weights == []:
+                raise ModelNotConstructedError
+        except AttributeError:
+            # A Sequential() buil without specifiyng the input shape can be treated as a
+            # sub-classed model for restoration purposes.
             raise ModelNotConstructedError
         return True
 
