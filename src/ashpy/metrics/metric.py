@@ -113,13 +113,13 @@ class Metric(ABC):
         # write the initial value of the best metric
         if not self.best_model_sel_file.exists():
             self.best_model_sel_file.parent.mkdir(parents=True)
-        initial_value = (
-            np.inf if self._model_selection_operator is operator.lt else -np.inf
-        )
-        self.json_write(
-            self.best_model_sel_file,
-            {self.sanitized_name: str(initial_value), "step": 0},
-        )
+            initial_value = (
+                np.inf if self._model_selection_operator is operator.lt else -np.inf
+            )
+            self.json_write(
+                self.best_model_sel_file,
+                {self.sanitized_name: str(initial_value), "step": 0},
+            )
 
     @property
     def name(self) -> str:

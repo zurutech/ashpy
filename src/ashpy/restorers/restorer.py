@@ -21,7 +21,22 @@ from typing import Dict, List, Optional, Union
 import ashpy
 import tensorflow as tf
 
-__ALL__ = ["Restorer"]
+__ALL__ = ["Restorer, ModelNotConstructedError"]
+
+
+class ModelNotConstructedError(Exception):
+    """
+    Exception raised while restoring sub-classed Model before having called it on data.
+
+    Warning:
+        When restoring a :class:`tf.keras.Model` object from checkpoint assure that the
+        model has been correctly built and instantiated by firstly calling it on some
+        sample inputs. In the case of a model built with either the Sequential or
+        Functional API an exception will be raised; for a model built with the Chainer API
+        it will fail silently, restoration will be "successful" but no values will actually
+        be restored since there are no valid placeholder as the model has not be built yet.
+
+    """
 
 
 class Restorer:
@@ -95,6 +110,27 @@ class Restorer:
                 f"Object {placeholder} is should be of type: {placeholder_type}"
             )
 
+    @staticmethod
+    def _check_model_construction(restored_model: tf.keras.Model) -> bool:
+        """
+        Optimistically check that the model.weights property returns a non empty-list.
+
+        The underlying assumption is that Models created via the sub-classing API, when restored
+        without being properly constructed AKA called on some input, will have empty lists
+        as layers.weights.
+
+        TODO: add docs for the exception.
+        TODO: add test case for the Sequential without input shape
+        """
+        try:
+            if restored_model.weights == []:
+                raise ModelNotConstructedError
+        except AttributeError:
+            # A Sequential() buil without specifiyng the input shape can be treated as a
+            # sub-classed model for restoration purposes.
+            raise ModelNotConstructedError
+        return True
+
     def restore_object(self, placeholder, object_ckpt_id: str):
         """
         Restore a placeholder from a checkpoint using the specified id.
@@ -112,6 +148,8 @@ class Restorer:
         """
         checkpoint = tf.train.Checkpoint(**{object_ckpt_id: placeholder})
         status = self._restore_checkpoint(checkpoint)
+        if isinstance(placeholder, tf.keras.Model):
+            assert self._check_model_construction(placeholder)
         print(self._restored_log_msg.format(object_ckpt_id, self._ckpts_dir))
         return status
 

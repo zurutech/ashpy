@@ -30,8 +30,8 @@ from ashpy.metrics import (
     SSIM_Multiscale,
 )
 from tests.utils.fake_training_loop import (
-    fake_adversarial_training_loop,
-    fake_classifier_training_loop,
+    FakeAdversarialTraining,
+    FakeClassifierTraining,
 )
 
 
@@ -70,7 +70,7 @@ def save_dir():
 TEST_MATRIX = {
     # NOTE: Always pass metrics as Tuple, Trainers produce side effects!
     "adversarial_trainer": [
-        fake_adversarial_training_loop,
+        FakeAdversarialTraining,
         {
             "image_resolution": [256, 256],
             "layer_spec_input_res": (8, 8),
@@ -101,7 +101,7 @@ TEST_MATRIX = {
         ),
     ],
     "classifier_trainer": [
-        fake_classifier_training_loop,
+        FakeClassifierTraining,
         {"measure_performance_freq": 1},
         (ClassifierLoss(model_selection_operator=operator.lt),),
     ],
@@ -112,8 +112,11 @@ LOOPS = [TEST_MATRIX[k] for k in TEST_MATRIX]
 
 
 @pytest.fixture(scope="function", params=LOOPS, ids=TRAINING_IDS)
-def fake_training(request):
+def fake_training_fn(request):
     """Fixture used to generate fake training for the tests."""
     training_loop, loop_args, metrics = request.param
     assert len(metrics) in [1, 3]
-    return (training_loop, loop_args, list(metrics))
+
+    return lambda logdir, **kwargs: training_loop(
+        logdir=logdir, metrics=metrics, **loop_args, **kwargs
+    )

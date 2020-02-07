@@ -15,7 +15,7 @@
 """Primitive Trainer Interface."""
 
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import List, Optional, Tuple, Union
 
 import ashpy
 import tensorflow as tf
@@ -41,7 +41,7 @@ class ClassifierTrainer(Trainer):
         optimizer: tf.optimizers.Optimizer,
         loss: ashpy.losses.ClassifierLoss,
         epochs: int,
-        metrics: Optional[List[Metric]] = None,
+        metrics: Optional[Union[Tuple[Metric], List[Metric]]] = None,
         callbacks: Optional[List[Callback]] = None,
         logdir: Union[Path, str] = Path().cwd() / "log",
         global_step: Optional[tf.Variable] = None,
@@ -56,7 +56,7 @@ class ClassifierTrainer(Trainer):
             loss (:obj:`ashpy.losses.classifier.ClassifierLoss`): A loss function built following
                 :py:mod:`ashpy.executors``.
             epochs (int): Number of training epochs.
-            metrics: (List): List of :py:class:`ashpy.metrics.metric.Metric` to
+            metrics: (Tuple/List): Tuple/List of :py:class:`ashpy.metrics.metric.Metric` to
                 measure on training and validation data.
             callbacks (List): List of :py:class:`ashpy.callbacks.callback.Callback` to
                 to call on events
@@ -136,9 +136,9 @@ class ClassifierTrainer(Trainer):
 
         self._avg_loss = ClassifierLoss(name="ashpy/avg_loss")
         if metrics:
-            metrics.append(self._avg_loss)
+            metrics = (*metrics, self._avg_loss)
         else:
-            metrics = [self._avg_loss]
+            metrics = (self._avg_loss,)
 
         super()._update_metrics(metrics)
         super()._validate_metrics()
@@ -159,6 +159,14 @@ class ClassifierTrainer(Trainer):
             global_step=self._global_step,
             checkpoint=self._checkpoint,
         )
+
+    def _build_and_restore_models(self, dataset: tf.data.Dataset):
+        restorer = ashpy.restorers.ClassifierRestorer(self._logdir)
+        (x, _) = next(iter(dataset.take(1)))
+        # Invoke model on sample input
+        self._model(x)
+        restorer.restore_model(self._model)
+        self._deferred_restoration = False
 
     def train_step(self, features, labels):
         """
@@ -212,6 +220,9 @@ class ClassifierTrainer(Trainer):
                 performance.
 
         """
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=training_set)
+
         # set the context properties
         self._context.training_set = training_set
         self._context.validation_set = validation_set

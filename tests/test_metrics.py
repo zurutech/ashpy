@@ -19,13 +19,13 @@ TODO: Adversarial Encoder Traner
 """
 import json
 import operator
-import pathlib
 import shutil
+from pathlib import Path
 
 import pytest
 from ashpy.metrics import ClassifierLoss
 
-from tests.utils.fake_training_loop import fake_classifier_training_loop
+from tests.utils.fake_training_loop import FakeAdversarialTraining, FakeTraining
 
 DEFAULT_LOGDIR = "log"
 OPERATOR_INITIAL_VALUE_MAP = {operator.gt: "-inf", operator.lt: "inf"}
@@ -34,7 +34,7 @@ OPERATOR_INITIAL_VALUE_MAP = {operator.gt: "-inf", operator.lt: "inf"}
 @pytest.fixture(scope="module")
 def cleanup():
     """Remove the default logdir before and after testing."""
-    default_log_dir = pathlib.Path(DEFAULT_LOGDIR)
+    default_log_dir = Path(DEFAULT_LOGDIR)
     if default_log_dir.exists():
         shutil.rmtree(default_log_dir)
     yield "Cleanup"
@@ -42,7 +42,22 @@ def cleanup():
         shutil.rmtree(default_log_dir)
 
 
-def test_metrics_log(fake_training, tmpdir, cleanup):
+def get_metric_data(metric, tmpdir):
+    """Make sure that the metric exists and is readable. Return its value."""
+    metric_dir = Path(tmpdir) / "best" / metric.sanitized_name
+    assert metric_dir.exists()
+    json_path = metric_dir / f"{metric.sanitized_name}.json"
+    assert json_path.exists()
+    with open(json_path, "r") as fp:
+        metric_data = json.load(fp)
+
+        # Assert the metric data contains the expected keys
+        assert metric.sanitized_name in metric_data
+        assert "step" in metric_data
+        return metric_data[metric.sanitized_name]
+
+
+def test_metrics_log(fake_training_fn, tmpdir, cleanup):
     """
     Test that trainers correctly create metrics log files.
 
@@ -57,52 +72,74 @@ def test_metrics_log(fake_training, tmpdir, cleanup):
         THEN the values of the keys should not be the operator initial value
 
     """
-    training_loop, loop_args, metrics = fake_training
+    logdir = Path(tmpdir)
 
-    training_completed, trainer = training_loop(
-        logdir=tmpdir, metrics=metrics, **loop_args
-    )
+    fake_training: FakeTraining = fake_training_fn(logdir=logdir)
+    assert fake_training()
+    trainer = fake_training.trainer
 
-    assert training_completed
-    assert not pathlib.Path(DEFAULT_LOGDIR).exists()  # Assert absence of side effects
+    assert not Path(DEFAULT_LOGDIR).exists()  # Assert absence of side effects
     # Assert there exists folder for each metric
     for metric in trainer._metrics:
-        metric_dir = pathlib.Path(tmpdir) / "best" / metric.sanitized_name
-        assert metric_dir.exists()
-        json_path = metric_dir / f"{metric.sanitized_name}.json"
-        assert json_path.exists()
-        with open(json_path, "r") as fp:
-            metric_data = json.load(fp)
 
-            # Assert the metric data contains the expected keys
-            assert metric.sanitized_name in metric_data
-            assert "step" in metric_data
+        metric_value = get_metric_data(metric, tmpdir)
+        # Assert that the correct model selection has been performed
+        # Check it by seeing if the values in the json has been updated
+        if metric.model_selection_operator:
+            try:
+                initial_value = OPERATOR_INITIAL_VALUE_MAP[
+                    metric.model_selection_operator
+                ]
+            except KeyError:
+                raise ValueError(
+                    "Please add the initial value for this "
+                    "operator to OPERATOR_INITIAL_VALUE_MAP"
+                )
 
-            # Assert that the correct model selection has been performed
-            # Check it by seeing if the values in the json has been updated
-            if metric.model_selection_operator:
-                try:
-                    initial_value = OPERATOR_INITIAL_VALUE_MAP[
-                        metric.model_selection_operator
-                    ]
-                except KeyError:
-                    raise ValueError(
-                        "Please add the initial value for this operator to OPERATOR_INITIAL_VALUE_MAP"
-                    )
-                assert metric_data[metric.sanitized_name] != initial_value
+            assert metric_value != initial_value
 
 
 # -------------------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("training_loop", [fake_classifier_training_loop])
-def test_metrics_names_collision(training_loop, tmpdir):
+def test_metrics_names_collision(tmpdir):
     """
     Test that an exception is correctly raised when two metrics have the same name.
 
     WHEN two or more metrics passed to a trainer have the same name
         THEN raise a ValueError
     """
-    metrics = [ClassifierLoss(name="test_loss"), ClassifierLoss(name="test_loss")]
+    metrics = [
+        ClassifierLoss(name="test_loss"),
+        ClassifierLoss(name="test_loss"),
+    ]
+
     with pytest.raises(ValueError):
-        training_loop(metrics=metrics, logdir=tmpdir)
+        # Since names collision is checked by the primitive Trainer we can test it easily
+        # with just one FakeTraining and be assured that it works.
+        FakeAdversarialTraining(tmpdir, metrics=metrics)
+
+
+# -------------------------------------------------------------------------------------
+
+
+def test_metrics_on_restart(fake_training_fn, tmpdir):
+    """Test that metrics are correctly read on train restart."""
+
+    fake_training = fake_training_fn(tmpdir)
+    assert fake_training()
+
+    t1_values = {
+        metric.name: get_metric_data(metric, tmpdir)
+        for metric in fake_training.trainer._metrics
+    }
+    print(t1_values)
+
+    restart = fake_training_fn(tmpdir)
+
+    t2_values = {
+        metric.name: get_metric_data(metric, tmpdir)
+        for metric in restart.trainer._metrics
+    }
+    print(t2_values)
+    assert t1_values == t2_values

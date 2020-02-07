@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional, Tuple
 
 import tensorflow as tf  # pylint: disable=import-error
 from ashpy.contexts.context import Context
@@ -36,7 +36,7 @@ class ClassifierContext(Context):
         classifier_model: tf.keras.Model = None,
         loss: ClassifierLoss = None,  # ?: Do we really need to default these values to None?
         dataset: tf.data.Dataset = None,
-        metrics: List[Metric] = None,
+        metrics: Tuple[Metric] = None,
         log_eval_mode: LogEvalMode = LogEvalMode.TEST,
         global_step: tf.Variable = tf.Variable(
             0, name="global_step", trainable=False, dtype=tf.int64

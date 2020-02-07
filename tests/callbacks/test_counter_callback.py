@@ -18,7 +18,7 @@ import pytest
 from ashpy.callbacks import CounterCallback, Event
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 
-from tests.utils.fake_training_loop import fake_adversarial_training_loop
+from tests.utils.fake_training_loop import FakeAdversarialTraining
 
 
 class FakeCounterCallback(CounterCallback):
@@ -81,11 +81,11 @@ def test_counter_callback(_models, tmpdir):
     )
     callbacks = [clbk]
     generator, discriminator = _models
-    fake_adversarial_training_loop(
+    FakeAdversarialTraining(
         logdir=tmpdir,
         callbacks=callbacks,
         generator=generator,
         discriminator=discriminator,
         epochs=1,
-    )
+    )()
     assert clbk.fake_counter == 1

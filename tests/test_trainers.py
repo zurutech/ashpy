@@ -18,20 +18,59 @@ from pathlib import Path
 from typing import List
 
 import ashpy
+import pytest
+import tensorflow as tf
+from ashpy.trainers import AdversarialTrainer, ClassifierTrainer
+
+from tests.test_restorers import ModelNotConstructedError, _check_models_weights
+from tests.utils.fake_training_loop import (
+    FakeAdversarialTraining,
+    FakeClassifierTraining,
+    FakeTraining,
+)
 
 
-def test_generate_human_ckpt_dict(fake_training, tmpdir):
+def test_correct_trainer_restoration_on_restart(fake_training_fn, tmpdir):
+    logdir = Path(tmpdir)
+
+    fake_training: FakeTraining = fake_training_fn(logdir=logdir)
+    assert fake_training()
+
+    if isinstance(fake_training, FakeClassifierTraining):
+        assert isinstance(fake_training.trainer, ClassifierTrainer)
+        trained_model = fake_training.trainer._model
+
+        new_training: FakeClassifierTraining = fake_training_fn(logdir=logdir)
+        new_training.trainer._build_and_restore_models(new_training.dataset)
+        restored_model = new_training.trainer._model
+
+        _check_models_weights(trained_model, restored_model)
+
+    if isinstance(fake_training, FakeAdversarialTraining):
+        assert isinstance(fake_training.trainer, AdversarialTrainer)
+        trained_g = fake_training.trainer._generator
+        trained_d = fake_training.trainer._discriminator
+
+        new_training: FakeAdversarialTraining = fake_training_fn(logdir=logdir)
+        new_training.trainer._build_and_restore_models(new_training.dataset)
+        restored_g = new_training.trainer._generator
+        restored_d = new_training.trainer._discriminator
+        _check_models_weights(trained_g, restored_g)
+        _check_models_weights(trained_d, restored_d)
+
+
+def test_generate_human_ckpt_dict(fake_training_fn, tmpdir):
     """
     Test that the generation of the human readable map of the ckpt_dict works.
 
     TODO: improve the test.
     """
     logdir = Path(tmpdir)
-    training_loop, loop_args, metrics = fake_training
-    training_completed, trainer = training_loop(
-        logdir=logdir, metrics=metrics, **loop_args
-    )
-    assert training_completed
+    fake_training = fake_training_fn(logdir=logdir)
+    assert fake_training()
+
+    trainer = fake_training.trainer
+
     assert trainer._checkpoint_map
     assert (Path(trainer._ckpts_dir) / "checkpoint_map.json").exists()
     metrics: List[ashpy.metrics.Metric] = trainer._metrics

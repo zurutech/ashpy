@@ -21,7 +21,7 @@ import pytest
 from ashpy.callbacks import SaveCallback, SaveFormat, SaveSubFormat
 from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 
-from tests.utils.fake_training_loop import fake_adversarial_training_loop
+from tests.utils.fake_training_loop import FakeAdversarialTraining
 
 COMPATIBLE_FORMAT_AND_SUB_FORMAT = [
     (SaveFormat.WEIGHTS, SaveSubFormat.TF),
@@ -106,9 +106,9 @@ def _test_save_callback_helper(tmpdir, save_format, save_sub_format, save_dir: P
         )
     ]
 
-    fake_adversarial_training_loop(
+    FakeAdversarialTraining(
         tmpdir, callbacks=callbacks, generator=generator, discriminator=discriminator,
-    )
+    )()
 
 
 def test_save_callback_type_error(save_dir: str,):
