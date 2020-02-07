@@ -120,6 +120,7 @@ class Restorer:
         as layers.weights.
 
         TODO: add docs for the exception.
+        TODO: add test case for the Sequential without input shape
         """
         try:
             if restored_model.weights == []:

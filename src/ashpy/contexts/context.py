@@ -55,7 +55,6 @@ class Context:
         """
         self._distribute_strategy = tf.distribute.get_strategy()
 
-        # TODO: are metrics really needed right now?
         self._metrics = metrics if metrics else ()
         self._dataset = dataset
         self._log_eval_mode = log_eval_mode
