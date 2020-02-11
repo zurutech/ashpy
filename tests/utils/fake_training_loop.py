@@ -63,7 +63,13 @@ class FakeClassifierTraining(FakeTraining):
         measure_performance_freq=10,
     ):
         """Fake Classifier training loop implementation using an autoencoder as a base model."""
+        self.logdir = logdir
+        self.epochs = epochs
         self.measure_performance_freq = measure_performance_freq
+
+        self.optimizer = optimizer
+
+        self.metrics = metrics
 
         # Model
         self.model: tf.keras.Model = conv_autoencoder(
@@ -82,20 +88,23 @@ class FakeClassifierTraining(FakeTraining):
         )
 
         # Loss
-        reconstruction_error = ashpy.losses.ClassifierLoss(
+        self.reconstruction_error = ashpy.losses.ClassifierLoss(
             tf.keras.losses.MeanSquaredError()
         )
 
         # Trainer
+        self.trainer: ClassifierTrainer
+        self.build_trainer()
+
+    def build_trainer(self):
         self.trainer = ClassifierTrainer(
             model=self.model,
-            optimizer=optimizer,
-            loss=reconstruction_error,
-            logdir=str(logdir),
-            epochs=epochs,
-            metrics=metrics,
+            optimizer=self.optimizer,
+            loss=self.reconstruction_error,
+            logdir=str(self.logdir),
+            epochs=self.epochs,
+            metrics=self.metrics,
         )
-        self.metrics = metrics
 
     def __call__(self) -> bool:
         self.trainer(
@@ -134,6 +143,11 @@ class FakeAdversarialTraining(FakeTraining):
         discriminator=None,
     ):
         """Fake training loop implementation."""
+        self.generator_loss = generator_loss
+        self.discriminator_loss = discriminator_loss
+        self.epochs = epochs
+        self.logdir = logdir
+
         self.measure_performance_freq = measure_performance_freq
 
         # test parameters
@@ -163,18 +177,8 @@ class FakeAdversarialTraining(FakeTraining):
         self.discriminator = discriminator
 
         # Trainer
-        self.trainer = AdversarialTrainer(
-            generator=generator,
-            discriminator=discriminator,
-            generator_optimizer=tf.optimizers.Adam(1e-4),
-            discriminator_optimizer=tf.optimizers.Adam(1e-4),
-            generator_loss=generator_loss,
-            discriminator_loss=discriminator_loss,
-            epochs=epochs,
-            metrics=metrics,
-            callbacks=callbacks,
-            logdir=logdir,
-        )
+        self.trainer: AdversarialTrainer
+        self.build_trainer()
 
         self.dataset = fake_adversarial_dataset(
             image_resolution=image_resolution,
@@ -190,3 +194,17 @@ class FakeAdversarialTraining(FakeTraining):
             self.dataset, measure_performance_freq=self.measure_performance_freq
         )
         return True
+
+    def build_trainer(self):
+        self.trainer = AdversarialTrainer(
+            generator=self.generator,
+            discriminator=self.discriminator,
+            generator_optimizer=tf.optimizers.Adam(1e-4),
+            discriminator_optimizer=tf.optimizers.Adam(1e-4),
+            generator_loss=self.generator_loss,
+            discriminator_loss=self.discriminator_loss,
+            epochs=self.epochs,
+            metrics=self.metrics,
+            callbacks=self.callbacks,
+            logdir=self.logdir,
+        )

@@ -88,11 +88,13 @@ class Metric(ABC):
             self.json_read(self.best_model_sel_file)[self.sanitized_name]
         )
         # Model selection is done ONLY if an operator was passed at __init__
-        if self._model_selection_operator and self._model_selection_operator(
-            current_value, previous_value
+        if (
+            self._model_selection_operator
+            and self._model_selection_operator(current_value, previous_value)
+            and not np.isclose(current_value, previous_value)
         ):
-            tf.print(
-                f"{self.sanitized_name}: validation value: {previous_value} → {current_value}"
+            print(
+                f"{self.sanitized_name}: validation value: {previous_value} → {current_value}",
             )
             self.json_write(
                 self.best_model_sel_file,
