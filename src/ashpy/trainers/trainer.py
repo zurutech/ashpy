@@ -76,7 +76,7 @@ class Trainer(ABC):
         # set and validate metrics
         if metrics is None:
             metrics = ()
-        self._metrics = metrics
+        self._metrics: Tuple[Optional[Metric]] = metrics
         self._validate_metrics()
 
         # set and validate callbacks

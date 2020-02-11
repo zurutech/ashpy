@@ -341,7 +341,7 @@ class InceptionScore(Metric):
             :obj:`tuple` of (:py:class:`numpy.ndarray`, :py:class:`numpy.ndarray`): Mean and STD.
 
         """
-        tf.print("Computing inception score...")
+        print("Computing inception score...")
 
         predictions: tf.Tensor = self._inception_model(images)
 

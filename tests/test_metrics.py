@@ -23,7 +23,8 @@ import shutil
 from pathlib import Path
 
 import pytest
-from ashpy.metrics import ClassifierLoss
+import tensorflow as tf
+from ashpy.metrics import ClassifierLoss, Metric
 
 from tests.utils.fake_training_loop import FakeAdversarialTraining, FakeTraining
 
@@ -143,3 +144,56 @@ def test_metrics_on_restart(fake_training_fn, tmpdir):
     }
     print(t2_values)
     assert t1_values == t2_values
+
+
+# -------------------------------------------------------------------------------------
+
+
+def test_metric_precision(fake_training_fn, tmpdir, capsys):
+    """
+    Test that we correctly handle float precision issue.
+
+    GIVEN a metric with constant value
+    THEN the metric model selection log ("metric.name: validation value:") should be
+        present exactly once in the captured stdout.
+
+    If the `np.close` clause is removed from `Metric.model_selection()` than working with float
+    will make it so that extremely small values's variances due to floating point precision
+    trigger the model selection multiple times unneccessarily.
+
+    """
+
+    class FakeMetric(Metric):
+        """Fake Metric returning Pi as a constant."""
+
+        def __init__(self, name="fake_metric", model_selection_operator=operator.gt):
+            super().__init__(
+                name=name,
+                model_selection_operator=model_selection_operator,
+                metric=tf.metrics.Mean(name=name, dtype=tf.float32),
+            )
+            self.fake_score = (
+                tf.divide(
+                    tf.exp(tf.random.normal((100,))),
+                    (
+                        tf.add(
+                            tf.exp(tf.random.normal((100,))),
+                            tf.exp(tf.random.normal((100,), 10)),
+                        )
+                    ),
+                )
+                / 10000
+            ).numpy()[0]
+            print("FAKE SCORE: ", self.fake_score)
+
+        def update_state(self, context):
+            updater = lambda value: lambda: self._metric.update_state(value)
+            self._distribute_strategy.experimental_run_v2(updater(self.fake_score))
+
+    fake_training: FakeTraining = fake_training_fn(tmpdir)
+    fake_training.metrics = (*fake_training.metrics, FakeMetric())
+    fake_training.epochs = 5
+    fake_training.build_trainer()
+    assert fake_training()
+    out, _ = capsys.readouterr()
+    assert out.count("fake_metric: validation value:") == 1
