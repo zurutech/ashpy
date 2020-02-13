@@ -30,7 +30,24 @@ INSTALL_REQUIREMENTS = ["tensorflow>=2.1.0", "tensorflow_hub"]
 setup(
     author_email=METADATA["email"],
     author=METADATA["author"],
-    classifiers=["Programming Language :: Python :: 3.7"],
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Framework :: Pytest",
+        "Framework :: Sphinx",
+        "Framework :: tox",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Education",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: Apache Software License",
+        "Natural Language :: English",
+        "Programming Language :: Python :: 3.7",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+        "Topic :: Scientific/Engineering :: Mathematics",
+        "Topic :: Software Development",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+    ],
     description=(
         "TensorFlow 2.0 library for distributed training, "
         "evaluation, model selection, and fast prototyping."

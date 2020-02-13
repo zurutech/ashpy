@@ -4,16 +4,17 @@
 
 # AshPy
 
-![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 ![Python - Version](https://img.shields.io/pypi/pyversions/ashpy.svg)
-![PyPy - Version](https://badge.fury.io/py/ashpy.svg)
+[![PyPy - Version](https://badge.fury.io/py/ashpy.svg)](https://pypi.org/project/ashpy/)
 ![PyPI - License](https://img.shields.io/pypi/l/ashpy.svg)
-![Ashpy - Badge](https://img.shields.io/badge/package-ashpy-brightgreen.svg)
-[![codecov](https://codecov.io/gh/zurutech/ashpy/branch/master/graph/badge.svg)](https://codecov.io/gh/zurutech/ashpy)
+[![Ashpy - Badge](https://img.shields.io/badge/package-ashpy-brightgreen.svg)](https://pypi.org/project/ashpy/)
 [![Build Status](https://travis-ci.org/zurutech/ashpy.svg?branch=master)](https://travis-ci.org/zurutech/ashpy)
 [![Documentation Status](https://readthedocs.org/projects/ashpy/badge/?version=latest)](https://ashpy.readthedocs.io/en/latest/?badge=latest)
-[![Black - Badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+[![codecov](https://codecov.io/gh/zurutech/ashpy/branch/master/graph/badge.svg)](https://codecov.io/gh/zurutech/ashpy)
 [![CodeFactor](https://www.codefactor.io/repository/github/zurutech/ashpy/badge)](https://www.codefactor.io/repository/github/zurutech/ashpy)
+![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
+[![Black - Badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 AshPy is a TensorFlow 2.1 library for (**distributed**) training, evaluation, model selection, and fast prototyping.
 It is designed to ease the burden of setting up all the nuances of the architectures built to train complex custom deep learning models.
