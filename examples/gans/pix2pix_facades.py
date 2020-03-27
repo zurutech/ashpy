@@ -22,6 +22,7 @@ from pathlib import Path
 import tensorflow as tf
 
 from ashpy import LogEvalMode
+from ashpy.callbacks import LogImageGANCallback
 from ashpy.losses.gan import (
     AdversarialLossType,
     Pix2PixLoss,
@@ -177,6 +178,8 @@ def main(
     if not logdir.exists():
         logdir.mkdir(parents=True)
 
+    callbacks = [LogImageGANCallback()]
+
     trainer = AdversarialTrainer(
         generator=generator,
         discriminator=discriminator,
@@ -188,9 +191,10 @@ def main(
         metrics=metrics,
         logdir=logdir,
         log_eval_mode=LogEvalMode.TEST,
+        callbacks=callbacks,
     )
 
-    train_dataset = tf.data.Dataset.list_files(PATH + "train/*.jpg")
+    train_dataset = tf.data.Dataset.list_files(str(PATH / "train/*.jpg"))
     train_dataset = train_dataset.shuffle(BUFFER_SIZE)
     train_dataset = train_dataset.map(load_image_train)
     train_dataset = train_dataset.batch(BATCH_SIZE)
