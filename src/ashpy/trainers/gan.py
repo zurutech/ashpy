@@ -270,6 +270,9 @@ class AdversarialTrainer(Trainer):
                 self._context, fake=fake, real=real_x, condition=real_y, training=True
             )
 
+            self._discriminator_loss.log(self._global_step)
+            self._generator_loss.log(self._global_step)
+
         # check that we have some trainable_variables
         assert self._generator.trainable_variables
         assert self._discriminator.trainable_variables

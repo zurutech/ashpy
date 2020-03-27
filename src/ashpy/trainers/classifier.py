@@ -184,7 +184,7 @@ class ClassifierTrainer(Trainer):
             loss = self._loss(
                 self._context, features=features, labels=labels, training=True
             )
-
+        self._loss.log(self._global_step)
         gradients = tape.gradient(loss, self._model.trainable_variables)
         self._optimizer.apply_gradients(zip(gradients, self._model.trainable_variables))
         return loss
@@ -285,6 +285,9 @@ class ClassifierTrainer(Trainer):
 
                 # notify on epoch end
                 self._on_epoch_end()
+
+                self.context.dataset = training_set
+                self._measure_performance()
 
                 with self._eval_summary_writer.as_default():
                     self._context.dataset = validation_set
