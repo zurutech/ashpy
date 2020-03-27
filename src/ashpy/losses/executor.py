@@ -29,7 +29,7 @@ import tensorflow as tf
 class Executor:
     """Carry a function and the way of executing it. Given a context."""
 
-    def __init__(self, fn: tf.keras.losses.Loss = None) -> None:
+    def __init__(self, fn: tf.keras.losses.Loss = None, name="loss") -> None:
         """
         Initialize the Executor.
 
@@ -48,6 +48,7 @@ class Executor:
         self._distribute_strategy = tf.distribute.get_strategy()
         self._global_batch_size = -1
         self._weight = lambda _: 1.0
+        self._name = name
 
     @property
     def weight(self) -> Callable[..., float]:
@@ -153,7 +154,13 @@ class Executor:
             :py:obj:`tf.Tensor`: Output Tensor.
 
         """
-        return self._weight(context.global_step) * self.call(context, **kwargs)
+        self._loss_value = self._weight(context.global_step) * self.call(
+            context, **kwargs
+        )
+        return self._loss_value
+
+    def log(self, step):
+        tf.summary.scalar("ashpy/losses/" + self._name, self._loss_value, step=step)
 
     def __add__(self, other) -> SumExecutor:
         """Concatenate Executors together into a SumExecutor."""
@@ -198,7 +205,7 @@ class SumExecutor(Executor):
     then summed together.
     """
 
-    def __init__(self, executors) -> None:
+    def __init__(self, executors, name="LossSum") -> None:
         """
         Initialize the SumExecutor.
 
@@ -210,7 +217,7 @@ class SumExecutor(Executor):
             :py:obj:`None`
 
         """
-        super().__init__()
+        super().__init__(name=name)
         self._executors = executors
         self._global_batch_size = 1
 
@@ -235,8 +242,15 @@ class SumExecutor(Executor):
             :py:classes:`tf.Tensor`: Output Tensor.
 
         """
-        result = tf.add_n([executor(*args, **kwargs) for executor in self._executors])
-        return result
+        self._loss_value = tf.add_n(
+            [executor(*args, **kwargs) for executor in self._executors]
+        )
+        return self._loss_value
+
+    def log(self, step):
+        super().log(step)
+        for executor in self._executors:
+            executor.log(step)
 
     def __add__(self, other: Union[SumExecutor, Executor]):
         """Concatenate Executors together into a SumExecutor."""

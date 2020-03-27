@@ -24,7 +24,7 @@ from ashpy.losses.executor import Executor
 class ClassifierLoss(Executor):
     r"""Classifier Loss Executor using the classifier model, instantiated with a fn."""
 
-    def __init__(self, fn: tf.keras.losses.Loss) -> None:
+    def __init__(self, fn: tf.keras.losses.Loss, name="ClassifierLoss") -> None:
         r"""
         Initialize :py:class:`ClassifierLoss`.
 
@@ -36,7 +36,7 @@ class ClassifierLoss(Executor):
             :py:obj:`None`
 
         """
-        super().__init__(fn)
+        super().__init__(fn, name=name)
 
     @Executor.reduce_loss
     def call(
@@ -69,4 +69,5 @@ class ClassifierLoss(Executor):
             lambda: loss,
             lambda: tf.expand_dims(tf.expand_dims(loss, axis=-1), axis=-1),
         )
-        return tf.reduce_mean(loss, axis=[1, 2])
+        loss = tf.reduce_mean(loss, axis=[1, 2])
+        return loss
