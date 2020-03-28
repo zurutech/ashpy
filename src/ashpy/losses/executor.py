@@ -49,6 +49,7 @@ class Executor:
         self._global_batch_size = -1
         self._weight = lambda _: 1.0
         self._name = name
+        self._loss_value = 0
 
     @property
     def weight(self) -> Callable[..., float]:
@@ -160,9 +161,15 @@ class Executor:
         return self._loss_value
 
     def log(self, step):
-        tf.summary.scalar("ashpy/losses/" + self._name, self._loss_value, step=step)
+        """
+        Log the loss on Tensorboard.
 
-    def __add__(self, other) -> SumExecutor:
+        Args:
+            step: current step
+        """
+        tf.summary.scalar(f"ashpy/losses/{self._name}", self._loss_value, step=step)
+
+    def __add__(self, other: Union[SumExecutor, Executor]) -> SumExecutor:
         """Concatenate Executors together into a SumExecutor."""
         if isinstance(other, SumExecutor):
             other_executors = other.executors
@@ -170,7 +177,7 @@ class Executor:
             other_executors = [other]
 
         all_executors = [self] + other_executors
-        return SumExecutor(all_executors)
+        return SumExecutor(all_executors, name=f"{self._name}+{other._name}")
 
     def __mul__(self, other: Union[Callable[..., float], float, int, tf.Tensor]):
         """
@@ -192,7 +199,7 @@ class Executor:
             self._weight = lambda step: weight(step) * __other(step)
         return self
 
-    def __rmul__(self, other):
+    def __rmul__(self, other: Union[SumExecutor, Executor]):
         """See `__mul__` method."""
         return self * other
 
@@ -205,7 +212,7 @@ class SumExecutor(Executor):
     then summed together.
     """
 
-    def __init__(self, executors, name="LossSum") -> None:
+    def __init__(self, executors: List[Executor], name: str = "LossSum") -> None:
         """
         Initialize the SumExecutor.
 
@@ -248,6 +255,12 @@ class SumExecutor(Executor):
         return self._loss_value
 
     def log(self, step):
+        """
+        Log the loss + all the sub-losses on Tensorboard.
+
+        Args:
+            step: current step
+        """
         super().log(step)
         for executor in self._executors:
             executor.log(step)

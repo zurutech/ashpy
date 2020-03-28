@@ -291,7 +291,7 @@ class FeatureMatchingLoss(GANExecutor):
 
     def __init__(self) -> None:
         """Initialize the Executor."""
-        super().__init__(L1())
+        super().__init__(L1(), "FeatureMatchingLoss")
 
     @Executor.reduce_loss
     def call(
@@ -431,7 +431,7 @@ class Pix2PixLoss(SumExecutor):
         if use_feature_matching_loss:
             executors.append(FeatureMatchingLoss() * feature_matching_weight)
 
-        super().__init__(executors)
+        super().__init__(executors, name="Pix2PixLoss")
 
 
 class Pix2PixLossSemantic(SumExecutor):
@@ -479,7 +479,7 @@ class Pix2PixLossSemantic(SumExecutor):
 
         if use_feature_matching_loss:
             executors.append(FeatureMatchingLoss() * feature_matching_weight)
-        super().__init__(executors)
+        super().__init__(executors, name="Pix2PixLossSemantic")
 
 
 # TODO: Check if this supports condition
@@ -488,7 +488,10 @@ class EncoderBCE(Executor):
 
     def __init__(self, from_logits: bool = True) -> None:
         """Initialize the Executor."""
-        super().__init__(tf.keras.losses.BinaryCrossentropy(from_logits=from_logits))
+        super().__init__(
+            tf.keras.losses.BinaryCrossentropy(from_logits=from_logits),
+            name="EncoderBCE",
+        )
 
     @Executor.reduce_loss
     def call(
@@ -594,7 +597,7 @@ class DiscriminatorMinMax(DiscriminatorAdversarialLoss):
         """Initialize Loss."""
         super().__init__(
             DMinMax(from_logits=from_logits, label_smoothing=label_smoothing),
-            "DiscriminatorMinMax",
+            name="DiscriminatorMinMax",
         )
 
 
