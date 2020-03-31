@@ -222,8 +222,6 @@ class ClassifierTrainer(Trainer):
                 performance.
 
         """
-        if self._deferred_restoration:
-            self._build_and_restore_models(dataset=training_set)
 
         # set the context properties
         self._context.training_set = training_set
@@ -243,6 +241,9 @@ class ClassifierTrainer(Trainer):
                 self._global_batch_size, drop_remainder=tf.distribute.has_strategy()
             )
         )
+
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=training_set)
 
         with self._train_summary_writer.as_default():
 
