@@ -242,7 +242,7 @@ class AdversarialTrainer(Trainer):
         self._generator(g_inputs)
 
         # prepare d inputs
-        if len(self._discriminator.inputs):
+        if len(self._discriminator.inputs) == 2:
             d_inputs = [real_x, real_y]
         else:
             d_inputs = real_y
