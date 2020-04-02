@@ -245,7 +245,7 @@ class AdversarialTrainer(Trainer):
         if len(self._discriminator.inputs) == 2:
             d_inputs = [real_x, real_y]
         else:
-            d_inputs = real_y
+            d_inputs = real_x
         # call D on its inputs
         self._discriminator(d_inputs)
 
