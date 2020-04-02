@@ -18,11 +18,9 @@ from pathlib import Path
 from typing import List
 
 import ashpy
-import pytest
-import tensorflow as tf
 from ashpy.trainers import AdversarialTrainer, ClassifierTrainer
 
-from tests.test_restorers import ModelNotConstructedError, _check_models_weights
+from tests.test_restorers import _check_models_weights
 from tests.utils.fake_training_loop import (
     FakeAdversarialTraining,
     FakeClassifierTraining,

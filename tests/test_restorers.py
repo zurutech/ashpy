@@ -23,7 +23,6 @@ GIVEN some training has been done
         have the same weights.
 """
 from pathlib import Path
-from typing import Union
 
 import pytest
 import tensorflow as tf

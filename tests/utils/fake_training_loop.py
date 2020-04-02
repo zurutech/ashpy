@@ -20,7 +20,6 @@ from typing import List, Tuple, Union
 import ashpy
 import tensorflow as tf
 from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
-from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer, ClassifierTrainer, Trainer
 
 from tests.utils.fake_datasets import (
