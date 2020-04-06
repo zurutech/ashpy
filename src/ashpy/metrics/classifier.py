@@ -90,6 +90,7 @@ class ClassifierMetric(Metric):
     def __init__(
         self,
         metric: tf.keras.metrics.Metric,
+        name: str = None,
         model_selection_operator: Callable = None,
         logdir: Union[Path, str] = Path().cwd() / "log",
         processing_predictions=None,
@@ -116,8 +117,10 @@ class ClassifierMetric(Metric):
                 keyword-arguments. Defaults to {"fn": tf.argmax, "kwargs": {"axis": -1}}.
 
         """
+        if name is None:
+            name = metric.name
         super().__init__(
-            name=metric.name,
+            name=name,
             metric=metric,
             model_selection_operator=model_selection_operator,
             logdir=logdir,
