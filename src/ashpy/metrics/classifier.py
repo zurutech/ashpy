@@ -101,6 +101,7 @@ class ClassifierMetric(Metric):
         Args:
             metric (:py:class:`tf.keras.metrics.Metric`): The Keras Metric to use with
                 the classifier (e.g.: Accuracy()).
+            name (str): The name of the metric, if None uses the metric.name property.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
