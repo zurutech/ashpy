@@ -13,6 +13,7 @@ Welcome to ASHPY's documentation!
    home
    write_the_docs
    getting_started
+   advanced_ashpy
    api
    internal
    dependencies_graph
