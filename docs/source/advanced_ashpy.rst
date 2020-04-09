@@ -221,7 +221,7 @@ inheriting from either |ashpy.Callback| or |ashpy.CounterCallback| respect the c
 * :code:`name`: Unique :obj:`str` identifier for the |ashpy.Callback|
 * :code:`event_freq`: Simple :obj:`int` specifying the frequency.
 * :code:`fn`: A :func:`callable()` this is the funciton that gets triggered. Inside AshPy we
-  converged on using a private method called `_log_fn()` in each of our derived Callbacks.
+  converged on using a private method called ``_log_fn()`` in each of our derived Callbacks.
   Whatever approach you choose, the function fed to :code:`fn` should have a |Context| as input.
   For more information on the |Context| family of objects see :ref:`ashpy-internals`.
 
@@ -230,8 +230,8 @@ inheriting from either |ashpy.Callback| or |ashpy.CounterCallback| respect the c
     which should be unique across all the callbacks used by your :class:`Trainer <ashpy.trainers.Trainer>`.
 
 
-.. |ashpy.Callback| replace:: :class:`Callback <ashpy.callbacks.Callback>`
-.. |ashpy.CounterCallback| replace:: :class:`CounterCallback <ashpy.callbacks.counter_callback.Callback>`
+.. |ashpy.Callback| replace:: :class:`Callback <ashpy.callbacks.callback.Callback>`
+.. |ashpy.CounterCallback| replace:: :class:`CounterCallback <ashpy.callbacks.counter_callback.CounterCallback>`
 .. |ashpy.Metric| replace:: :class:`ashpy.metrics.Metric <ashpy.metrics.metric.Metric>`
 .. |ClassifierContext| replace:: :class:`ClassifierContext <ashpy.contexts.classifier.ClassifierContext>`
 .. |ClassifierTrainer| replace:: :class:`ClassifierTrainer <ashpy.trainers.classifier.ClassifierTrainer>`
