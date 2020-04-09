@@ -11,11 +11,14 @@ selection.
 
 Implementing a custom Metric in AshPy can be done via two approach:
 
-1. Your metrics is already available as a |keras.Metric| and you want to use it as is.
-2. You need to write the implementation of the Metric from scratch or you need to alter the default behavior we provide for AshPy Metrics.
+1. Your metric is already available as a |keras.Metric| and you want to use it as is.
+2. You need to write the implementation of the Metric from scratch or you need to alter
+   the default behavior we provide for AshPy Metrics.
+
 
 Wrapping Keras Metrics
 ======================
+
 
 In case number (1) what you want to do is to search for one of the Metrics provided by AshPy
 and use it as a wrapper around the one you wish to use.
@@ -52,6 +55,7 @@ You can apply this technique to any object derived and behaving as a |keras.Metr
 
 Creating your own Metric
 ========================
+
 
 As an example of a custom Metric we present the analysis of the :class:`ashpy.metrics.classifier.ClassifierLoss`.
 
@@ -120,6 +124,7 @@ As an example of a custom Metric we present the analysis of the :class:`ashpy.me
 Custom Computation inside Metric.update_state()
 -----------------------------------------------
 
+
 * This method is invoked during the training and receives a |Context|.
 * In this example, since we are working under the |ClassifierTrainer| we are using an |ClassifierContext|,
   for more information on the |Context| family of objects see :ref:`ashpy-internals`.
@@ -138,11 +143,13 @@ Custom Computation inside Metric.update_state()
 For a much more complex (but probably exhaustive) example have a look at the source code
 of :class:`ashpy.metrics.SlicedWassersteinDistance <ashpy.metrics.sliced_wasserstein_metric.SlicedWassersteinDistance>`.
 
+
 .. |keras.Metric| replace:: :class:`tf.keras.metrics.Metric`
 .. |ashpy.Metric| replace:: :class:`ashpy.metrics.Metric <ashpy.metrics.metric.Metric>`
 .. |ClassifierTrainer| replace:: :class:`ClassifierTrainer <ashpy.trainers.classifier.ClassifierTrainer>`
 .. |Context| replace:: :class:`Context <ashpy.contexts.context.Context>`
 .. |ClassifierContext| replace:: :class:`ClassifierContext <ashpy.contexts.classifier.ClassifierContext>`
 .. |Metric.update_state()| replace:: :meth:`ashpy.metrics.metric.Metric.update_state()`
+
 
 .. _TensorFlow Addons: https://www.tensorflow.org/addons/overview
