@@ -205,13 +205,8 @@ TensorBoard - :class:`ashpy.callbacks.gan.LogImageGANCallback`
             else:
                 raise ValueError("Invalid LogEvalMode")
 
-            # tensorboard 2.0 does not support float images in [-1, 1]
-            # only in [0,1]
-            if out.dtype == tf.float32:
-                # The hypothesis is that image are in [-1,1] how to check?
-                out = (out + 1.0) / 2
-
             log("generator", out, context.global_step)
+
 
 Let's start with the :code:`__init__()` function, as for the Custom |ashpy.Metric| when
 inheriting from either |ashpy.Callback| or |ashpy.CounterCallback| respect the common part of the signature:
@@ -220,7 +215,7 @@ inheriting from either |ashpy.Callback| or |ashpy.CounterCallback| respect the c
   choose the event type you want the |ashpy.Callback| to be triggered on.
 * :code:`name`: Unique :obj:`str` identifier for the |ashpy.Callback|
 * :code:`event_freq`: Simple :obj:`int` specifying the frequency.
-* :code:`fn`: A :func:`callable()` this is the funciton that gets triggered. Inside AshPy we
+* :code:`fn`: A :func:`callable()` this is the function that gets triggered. Inside AshPy we
   converged on using a private method called ``_log_fn()`` in each of our derived Callbacks.
   Whatever approach you choose, the function fed to :code:`fn` should have a |Context| as input.
   For more information on the |Context| family of objects see :ref:`ashpy-internals`.
