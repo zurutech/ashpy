@@ -115,7 +115,9 @@ class GeneratorAdversarialLoss(GANExecutor):
     r"""Base class for the adversarial loss of the generator."""
 
     def __init__(
-        self, loss_fn: tf.keras.losses.Loss = None, name="GeneratorAdversarialLoss"
+        self,
+        loss_fn: tf.keras.losses.Loss = None,
+        name: str = "GeneratorAdversarialLoss",
     ) -> None:
         """
         Initialize the Executor.
@@ -123,6 +125,7 @@ class GeneratorAdversarialLoss(GANExecutor):
         Args:
             loss_fn (:py:class:`tf.keras.losses.Loss`): Keras Loss function to call
                 passing (tf.ones_like(d_fake_i), d_fake_i).
+            name (str): Name of the loss. It will be used for logging in TensorBoard.
 
         """
         super().__init__(loss_fn, name=name)
@@ -519,14 +522,17 @@ class DiscriminatorAdversarialLoss(GANExecutor):
     r"""Base class for the adversarial loss of the discriminator."""
 
     def __init__(
-        self, loss_fn: tf.keras.losses.Loss = None, name="DiscriminatorAdversarialLoss"
+        self,
+        loss_fn: tf.keras.losses.Loss = None,
+        name: str = "DiscriminatorAdversarialLoss",
     ) -> None:
         r"""
         Initialize the Executor.
 
         Args:
             loss_fn (:py:class:`tf.keras.losses.Loss`): Loss function call passing
-            (d_real, d_fake).
+                (d_real, d_fake).
+            name (str) : Name of the loss. It will be used for logging in TensorBoard.
 
         """
         super().__init__(loss_fn, name=name)

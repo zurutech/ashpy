@@ -17,7 +17,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Dict, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Union
 
 import tensorflow as tf  # pylint: disable=import-error
 from ashpy.metrics.metric import Metric
@@ -90,7 +90,7 @@ class ClassifierMetric(Metric):
     def __init__(
         self,
         metric: tf.keras.metrics.Metric,
-        name: str = None,
+        name: Optional[str] = None,
         model_selection_operator: Callable = None,
         logdir: Union[Path, str] = Path().cwd() / "log",
         processing_predictions=None,

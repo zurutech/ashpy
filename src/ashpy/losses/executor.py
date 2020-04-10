@@ -29,12 +29,13 @@ import tensorflow as tf
 class Executor:
     """Carry a function and the way of executing it. Given a context."""
 
-    def __init__(self, fn: tf.keras.losses.Loss = None, name="loss") -> None:
+    def __init__(self, fn: tf.keras.losses.Loss = None, name: str = "loss") -> None:
         """
         Initialize the Executor.
 
         Args:
             fn (:py:class:`tf.keras.losses.Loss`): A Keras Loss to execute.
+            name (str): Name of the loss. It will be be used for logging in TensorBoard.
 
         Returns:
             :py:obj:`None`
@@ -160,12 +161,12 @@ class Executor:
         )
         return self._loss_value
 
-    def log(self, step):
+    def log(self, step: tf.Variable):
         """
         Log the loss on Tensorboard.
 
         Args:
-            step: current step
+            step (tf.Variable): current training step.
         """
         tf.summary.scalar(f"ashpy/losses/{self._name}", self._loss_value, step=step)
 
@@ -219,6 +220,7 @@ class SumExecutor(Executor):
         Args:
             executors (:py:obj:`list` of [:py:class:`ashpy.executors.Executor`]): Array of
                 :py:obj:`ashpy.executors.Executor` to sum evaluate and sum together.
+            name (str): Name of the loss. It will be used to log in TensorBoard.
 
         Returns:
             :py:obj:`None`
@@ -254,7 +256,7 @@ class SumExecutor(Executor):
         )
         return self._loss_value
 
-    def log(self, step):
+    def log(self, step: tf.Variable):
         """
         Log the loss + all the sub-losses on Tensorboard.
 

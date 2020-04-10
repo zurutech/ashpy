@@ -24,13 +24,14 @@ from ashpy.losses.executor import Executor
 class ClassifierLoss(Executor):
     r"""Classifier Loss Executor using the classifier model, instantiated with a fn."""
 
-    def __init__(self, fn: tf.keras.losses.Loss, name="ClassifierLoss") -> None:
+    def __init__(self, fn: tf.keras.losses.Loss, name: str = "ClassifierLoss") -> None:
         r"""
         Initialize :py:class:`ClassifierLoss`.
 
         Args:
             fn (:py:class:`tf.keras.losses.Loss`): Classification Loss function, should
                 take as input labels and prediction.
+            name (str): Name of the loss. It will be used for logging in Tensorboard.
 
         Returns:
             :py:obj:`None`

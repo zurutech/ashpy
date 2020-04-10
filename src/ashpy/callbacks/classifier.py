@@ -30,7 +30,7 @@ class LogClassifierCallback(CounterCallback):
     def __init__(
         self,
         event: Event = Event.ON_EPOCH_END,
-        name="log_classifier_callback",
+        name: str = "log_classifier_callback",
         event_freq: int = 1,
         input_is_zero_centered: bool = True,
     ):
@@ -38,13 +38,13 @@ class LogClassifierCallback(CounterCallback):
         Initialize the LogClassifierCallback.
 
         Args:
-            name: name of the callback
-            event: event to consider
-            event_freq: frequency of logging
-            input_is_zero_centered: if True, the callback assumes the input is in [-1, 1] if it
-                is an image with type tf.float. If False, the callback assumes the input is [0,
-                1] if type float, and [0, 255] if type is uint. If the input type is float and
-                the image is in [0, 1] use False. If the input type is uint this parameter is
+            name (str): name of the callback
+            event (ashpy.events.Event): event to consider
+            event_freq (int): frequency of logging
+            input_is_zero_centered (bool): if True, the callback assumes the input is in [-1,
+                1] if it is an image with type tf.float. If False, the callback assumes the input
+                is [0, 1] if type float, and [0, 255] if type is uint. If the input type is float
+                and the image is in [0, 1] use False. If the input type is uint this parameter is
                 ignored.
         """
         super(LogClassifierCallback, self).__init__(
@@ -65,7 +65,7 @@ class LogClassifierCallback(CounterCallback):
 
         rank = tf.rank(input_tensor)
 
-        # if it is an image scale it if needed
+        # if it is an image, check if we need to scale and shift
         if (
             tf.equal(rank, 4)
             and (input_tensor.dtype == tf.float32 or input_tensor.dtype == tf.float64)
