@@ -201,7 +201,7 @@ class Executor:
         return self
 
     def __rmul__(self, other: Union[SumExecutor, Executor]):
-        """See `__mul__` method."""
+        """See ``__mul__`` method."""
         return self * other
 
 
