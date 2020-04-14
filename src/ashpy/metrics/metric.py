@@ -35,9 +35,9 @@ __ALL__ = ["Metric"]
 
 class Metric(ABC):
     """
-    Metric is the abstract class that every ash Metric must implement.
+    Metric is the abstract class that every AshPy Metric must implement.
 
-    AshPy Metrics wrap and extend Keras Metrics.
+    AshPy Metric wrap and extend :class:`tf.keras.metrics.Metric`.
     """
 
     def __init__(
