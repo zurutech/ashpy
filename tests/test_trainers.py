@@ -18,6 +18,9 @@ from pathlib import Path
 from typing import List
 
 import ashpy
+import pytest
+import tensorflow as tf
+from ashpy.losses import ClassifierLoss
 from ashpy.trainers import AdversarialTrainer, ClassifierTrainer
 
 from tests.test_restorers import _check_models_weights
@@ -74,3 +77,57 @@ def test_generate_human_ckpt_dict(fake_training_fn, tmpdir):
     metrics: List[ashpy.metrics.Metric] = trainer._metrics
     for metric in metrics:
         assert metric.best_folder / "ckpts" / "checkpoint_map.json"
+
+
+def test_loss_names_collision_classifier(tmpdir):
+    """
+    Test that an exception is correctly raised when two losses have the same name for the
+    classifier trainer.
+
+    WHEN two or more losses passed to a trainer have the same name
+        THEN raise a ValueError
+    """
+    loss = ClassifierLoss(
+        fn=tf.keras.losses.BinaryCrossentropy(), name="bce"
+    ) + ClassifierLoss(fn=tf.keras.losses.BinaryCrossentropy(), name="bce")
+
+    with pytest.raises(ValueError):
+        FakeClassifierTraining(logdir=tmpdir, loss=loss)
+
+
+def test_loss_names_collision_adversarial(tmpdir):
+    """
+    Test that an exception is correctly raised when two losses have the same name adversarial
+    trainer.
+
+    WHEN two or more losses passed to a trainer have the same name
+        THEN raise a ValueError
+    """
+    generator_loss = ashpy.losses.gan.GeneratorL1(name="loss")
+    discriminator_loss = ashpy.losses.gan.DiscriminatorLSGAN(name="loss")
+
+    with pytest.raises(ValueError):
+        FakeAdversarialTraining(
+            logdir=tmpdir,
+            generator_loss=generator_loss,
+            discriminator_loss=discriminator_loss,
+        )
+
+
+def test_loss_names_collision_sum_executor_adversarial(tmpdir):
+    """
+    Test that an exception is correctly raised when two losses have the same name adversarial
+    trainer.
+
+    WHEN two or more losses passed to a trainer have the same name
+        THEN raise a ValueError
+    """
+    generator_loss = ashpy.losses.gan.Pix2PixLoss(name="loss")
+    discriminator_loss = ashpy.losses.gan.DiscriminatorLSGAN(name="loss")
+
+    with pytest.raises(ValueError):
+        FakeAdversarialTraining(
+            logdir=tmpdir,
+            generator_loss=generator_loss,
+            discriminator_loss=discriminator_loss,
+        )
