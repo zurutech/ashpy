@@ -134,6 +134,8 @@ class ClassifierTrainer(Trainer):
         self._loss = loss
         self._loss.reduction = tf.keras.losses.Reduction.NONE
 
+        super()._check_loss_name_collision([self._loss])
+
         self._avg_loss = ClassifierLoss(name="ashpy/avg_loss")
         if metrics:
             metrics = (*metrics, self._avg_loss)

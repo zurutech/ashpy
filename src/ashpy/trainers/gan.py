@@ -192,6 +192,10 @@ class AdversarialTrainer(Trainer):
         self._discriminator_loss = discriminator_loss
         self._discriminator_loss.reduction = tf.losses.Reduction.NONE
 
+        super()._check_loss_name_collision(
+            [self._generator_loss, self._discriminator_loss]
+        )
+
         losses_metrics = (
             DiscriminatorLoss(name="ashpy/d_loss", logdir=logdir),
             GeneratorLoss(name="ashpy/g_loss", logdir=logdir),
@@ -585,6 +589,10 @@ class EncoderTrainer(AdversarialTrainer):
 
         self._encoder_loss = encoder_loss
         self._encoder_loss.reduction = tf.losses.Reduction.NONE
+
+        super()._check_loss_name_collision(
+            [self._generator_loss, self._discriminator_loss, self._encoder_loss]
+        )
 
         ckpt_dict = {
             self.ckpt_id_encoder: self._encoder,
