@@ -71,6 +71,10 @@ class Attention(tf.keras.Model):
                 # the same as the input shape
                 print(output.shape)
 
+            .. testoutput::
+
+                (1, 10, 10, 64)
+
         * Inside a Model:
 
             .. testcode::
