@@ -53,6 +53,11 @@ class Executor:
         self._loss_value = 0
 
     @property
+    def name(self) -> str:
+        """Return the name of the loss."""
+        return self._name
+
+    @property
     def weight(self) -> Callable[..., float]:
         """
         Return the loss weight.
@@ -232,6 +237,11 @@ class SumExecutor(Executor):
 
     @property
     def executors(self) -> List[Executor]:
+        """Return the List of Executors."""
+        return self._executors
+
+    @property
+    def sublosses(self) -> List[Executor]:
         """Return the List of Executors."""
         return self._executors
 
