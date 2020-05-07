@@ -181,8 +181,7 @@ class Trainer(ABC):
         for loss in losses:
             if loss.name in names:
                 raise ValueError(f"Losses should have unique names.")
-            else:
-                names.append(loss.name)
+            names.append(loss.name)
 
             if isinstance(loss, ashpy.losses.SumExecutor):
                 loss: ashpy.losses.SumExecutor
@@ -190,8 +189,7 @@ class Trainer(ABC):
                 for subloss_name in sublosses_names:
                     if loss.name in names:
                         raise ValueError(f"Losses should have unique names.")
-                    else:
-                        names.append(subloss_name)
+                    names.append(subloss_name)
 
     def _validate_metrics(self):
         """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""
