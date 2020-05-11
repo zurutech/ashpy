@@ -175,7 +175,15 @@ class Trainer(ABC):
 
     @staticmethod
     def _check_loss_name_collision(losses: List[ashpy.losses.Executor]):
-        """Check that all losses have unique names."""
+        """
+        Check that all losses have unique names.
+
+        Args:
+            losses (List[:py:class:`ashpy.losses.Executor`]): List of losses used by the current trainer.
+        Raises:
+            ValueError if there are losses with conflicting names
+
+        """
         names = []
 
         for loss in losses:
