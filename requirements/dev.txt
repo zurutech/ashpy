@@ -97,7 +97,7 @@ stevedore==1.31.0         # via doc8
 tensorboard==2.1.0        # via tensorflow
 tensorflow-estimator==2.1.0  # via tensorflow
 tensorflow-hub==0.7.0
-tensorflow==2.1.0
+tensorflow==2.1.2
 termcolor==1.1.0          # via tensorflow
 toml==0.10.0              # via black, tox
 tornado==6.0.3            # via livereload, sphinx-autobuild
