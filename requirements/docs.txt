@@ -15,7 +15,7 @@ flit-core==2.2.0          # via flit
 flit==2.2.0               # via sphinx-copybutton
 idna==2.8                 # via requests
 imagesize==1.2.0          # via sphinx
-jinja2==2.10.3            # via sphinx
+jinja2==2.11.3            # via sphinx
 livereload==2.6.1         # via sphinx-autobuild
 markupsafe==1.1.1         # via jinja2
 packaging==20.0           # via sphinx
