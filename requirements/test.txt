@@ -16,7 +16,7 @@ importlib-metadata==1.4.0  # via pluggy, pytest, tox
 more-itertools==8.1.0     # via pytest, zipp
 packaging==20.0           # via pytest, tox
 pluggy==0.13.1            # via pytest, tox
-py==1.8.1                 # via pytest, tox
+py==1.10.0                 # via pytest, tox
 pyparsing==2.4.6          # via packaging
 pytest-cov==2.8.1
 pytest==5.3.3
