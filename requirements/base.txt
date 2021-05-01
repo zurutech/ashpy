@@ -35,7 +35,7 @@ tensorflow-estimator==2.1.0  # via tensorflow
 tensorflow-hub==0.7.0
 tensorflow==2.4.0
 termcolor==1.1.0          # via tensorflow
-urllib3==1.25.7           # via requests
+urllib3==1.25.8           # via requests
 werkzeug==0.16.0          # via tensorboard
 wheel==0.33.6             # via tensorboard, tensorflow
 wrapt==1.11.2             # via tensorflow
