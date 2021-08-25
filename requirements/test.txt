@@ -24,7 +24,7 @@ requests==2.22.0          # via codecov
 six==1.14.0               # via packaging, tox
 toml==0.10.0              # via tox
 tox==3.14.3
-urllib3==1.25.8           # via requests
+urllib3==1.26.5           # via requests
 virtualenv==16.7.9        # via tox
 wcwidth==0.1.8            # via pytest
 zipp==2.0.0               # via importlib-metadata
