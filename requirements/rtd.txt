@@ -6,5 +6,5 @@ sphinx-autobuild
 sphinx-autodoc-typehints
 sphinx-copybutton
 sphinx-rtd-theme
-tensorflow==2.5.1
+tensorflow==2.5.2
 tensorflow-hub==0.6.0
