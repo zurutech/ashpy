@@ -33,7 +33,7 @@ six==1.14.0               # via absl-py, google-auth, google-pasta, grpcio, h5py
 tensorboard==2.1.0        # via tensorflow
 tensorflow-estimator==2.1.0  # via tensorflow
 tensorflow-hub==0.7.0
-tensorflow==2.5.1
+tensorflow==2.5.2
 termcolor==1.1.0          # via tensorflow
 urllib3==1.26.5           # via requests
 werkzeug==0.16.0          # via tensorboard
