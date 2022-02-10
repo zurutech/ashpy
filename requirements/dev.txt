@@ -49,7 +49,7 @@ mccabe==0.6.1             # via flake8, pylint
 more-itertools==8.1.0     # via pytest, zipp
 mypy-extensions==0.4.3    # via mypy
 mypy==0.761
-numpy==1.18.1             # via h5py, keras-applications, keras-preprocessing, opt-einsum, scipy, tensorboard, tensorflow, tensorflow-hub
+numpy==1.21.0             # via h5py, keras-applications, keras-preprocessing, opt-einsum, scipy, tensorboard, tensorflow, tensorflow-hub
 oauthlib==3.1.0           # via requests-oauthlib
 opt-einsum==3.1.0         # via tensorflow
 packaging==20.0           # via pytest, sphinx, tox
