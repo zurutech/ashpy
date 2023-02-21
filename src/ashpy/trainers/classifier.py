@@ -134,6 +134,8 @@ class ClassifierTrainer(Trainer):
         self._loss = loss
         self._loss.reduction = tf.keras.losses.Reduction.NONE
 
+        super()._check_loss_name_collision([self._loss])
+
         self._avg_loss = ClassifierLoss(name="ashpy/avg_loss")
         if metrics:
             metrics = (*metrics, self._avg_loss)
@@ -187,6 +189,8 @@ class ClassifierTrainer(Trainer):
 
         gradients = tape.gradient(loss, self._model.trainable_variables)
         self._optimizer.apply_gradients(zip(gradients, self._model.trainable_variables))
+
+        self._loss.log(self._global_step)
         return loss
 
     @tf.function
@@ -220,8 +224,6 @@ class ClassifierTrainer(Trainer):
                 performance.
 
         """
-        if self._deferred_restoration:
-            self._build_and_restore_models(dataset=training_set)
 
         # set the context properties
         self._context.training_set = training_set
@@ -241,6 +243,9 @@ class ClassifierTrainer(Trainer):
                 self._global_batch_size, drop_remainder=tf.distribute.has_strategy()
             )
         )
+
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=training_set)
 
         with self._train_summary_writer.as_default():
 
@@ -285,6 +290,9 @@ class ClassifierTrainer(Trainer):
 
                 # notify on epoch end
                 self._on_epoch_end()
+
+                self.context.dataset = training_set
+                self._measure_performance()
 
                 with self._eval_summary_writer.as_default():
                     self._context.dataset = validation_set

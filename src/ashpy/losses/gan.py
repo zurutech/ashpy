@@ -114,16 +114,21 @@ class GANExecutor(Executor, ABC):
 class GeneratorAdversarialLoss(GANExecutor):
     r"""Base class for the adversarial loss of the generator."""
 
-    def __init__(self, loss_fn: tf.keras.losses.Loss = None) -> None:
+    def __init__(
+        self,
+        loss_fn: tf.keras.losses.Loss = None,
+        name: str = "GeneratorAdversarialLoss",
+    ) -> None:
         """
         Initialize the Executor.
 
         Args:
             loss_fn (:py:class:`tf.keras.losses.Loss`): Keras Loss function to call
                 passing (tf.ones_like(d_fake_i), d_fake_i).
+            name (str): Name of the loss. It will be used for logging in TensorBoard.
 
         """
-        super().__init__(loss_fn)
+        super().__init__(loss_fn, name=name)
 
     @Executor.reduce_loss
     def call(
@@ -185,10 +190,11 @@ class GeneratorBCE(GeneratorAdversarialLoss):
 
     """
 
-    def __init__(self, from_logits: bool = True) -> None:
+    def __init__(self, from_logits: bool = True, name="GeneratorBCE") -> None:
         """Initialize the BCE Loss for the Generator."""
-        self.name = "GeneratorBCE"
-        super().__init__(tf.keras.losses.BinaryCrossentropy(from_logits=from_logits))
+        super().__init__(
+            tf.keras.losses.BinaryCrossentropy(from_logits=from_logits), name=name
+        )
 
 
 class GeneratorLSGAN(GeneratorAdversarialLoss):
@@ -206,10 +212,9 @@ class GeneratorLSGAN(GeneratorAdversarialLoss):
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="GeneratorLSGAN") -> None:
         """Initialize the Least Square Loss for the Generator."""
-        super().__init__(tf.keras.losses.MeanSquaredError())
-        self.name = "GeneratorLSGAN"
+        super().__init__(tf.keras.losses.MeanSquaredError(), name=name)
 
 
 class GeneratorL1(GANExecutor):
@@ -223,9 +228,9 @@ class GeneratorL1(GANExecutor):
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="GeneratorL1") -> None:
         """Initialize the Executor."""
-        super().__init__(L1())
+        super().__init__(L1(), name=name)
 
     @Executor.reduce_loss
     def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
@@ -254,10 +259,9 @@ class GeneratorHingeLoss(GeneratorAdversarialLoss):
     .. [1] Geometric GAN https://arxiv.org/abs/1705.02894
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="GeneratorHingeLoss") -> None:
         """Initialize the Least Square Loss for the Generator."""
-        super().__init__(GHingeLoss())
-        self.name = "GeneratorHingeLoss"
+        super().__init__(GHingeLoss(), name=name)
 
 
 class FeatureMatchingLoss(GANExecutor):
@@ -288,9 +292,9 @@ class FeatureMatchingLoss(GANExecutor):
     over the axis 1,2,3.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="FeatureMatchingLoss") -> None:
         """Initialize the Executor."""
-        super().__init__(L1())
+        super().__init__(L1(), name=name)
 
     @Executor.reduce_loss
     def call(
@@ -353,10 +357,9 @@ class CategoricalCrossEntropy(Executor):
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="CategoricalCrossEntropy") -> None:
         """Initialize the Categorical Cross Entropy Executor."""
-        self.name = "CrossEntropy"
-        super().__init__(tf.keras.losses.CategoricalCrossentropy())
+        super().__init__(tf.keras.losses.CategoricalCrossentropy(), name=name)
 
     @Executor.reduce_loss
     def call(self, context: GANContext, *, fake: tf.Tensor, real: tf.Tensor, **kwargs):
@@ -402,6 +405,7 @@ class Pix2PixLoss(SumExecutor):
             AdversarialLossType, int
         ] = AdversarialLossType.GAN,
         use_feature_matching_loss: bool = False,
+        name="Pix2PixLoss",
     ) -> None:
         r"""
         Initialize the loss.
@@ -431,7 +435,7 @@ class Pix2PixLoss(SumExecutor):
         if use_feature_matching_loss:
             executors.append(FeatureMatchingLoss() * feature_matching_weight)
 
-        super().__init__(executors)
+        super().__init__(executors, name=name)
 
 
 class Pix2PixLossSemantic(SumExecutor):
@@ -451,6 +455,7 @@ class Pix2PixLossSemantic(SumExecutor):
         feature_matching_weight: TWeight = 10.0,
         adversarial_loss_type: AdversarialLossType = AdversarialLossType.GAN,
         use_feature_matching_loss: bool = False,
+        name="Pix2PixLossSemantic",
     ):
         r"""
         Initialize the Executor.
@@ -479,16 +484,18 @@ class Pix2PixLossSemantic(SumExecutor):
 
         if use_feature_matching_loss:
             executors.append(FeatureMatchingLoss() * feature_matching_weight)
-        super().__init__(executors)
+        super().__init__(executors, name=name)
 
 
 # TODO: Check if this supports condition
 class EncoderBCE(Executor):
     """The Binary Cross Entropy computed among the encoder and the 0 label."""
 
-    def __init__(self, from_logits: bool = True) -> None:
+    def __init__(self, from_logits: bool = True, name="EncoderBCE") -> None:
         """Initialize the Executor."""
-        super().__init__(tf.keras.losses.BinaryCrossentropy(from_logits=from_logits))
+        super().__init__(
+            tf.keras.losses.BinaryCrossentropy(from_logits=from_logits), name=name,
+        )
 
     @Executor.reduce_loss
     def call(
@@ -515,16 +522,21 @@ class EncoderBCE(Executor):
 class DiscriminatorAdversarialLoss(GANExecutor):
     r"""Base class for the adversarial loss of the discriminator."""
 
-    def __init__(self, loss_fn: tf.keras.losses.Loss = None) -> None:
+    def __init__(
+        self,
+        loss_fn: tf.keras.losses.Loss = None,
+        name: str = "DiscriminatorAdversarialLoss",
+    ) -> None:
         r"""
         Initialize the Executor.
 
         Args:
             loss_fn (:py:class:`tf.keras.losses.Loss`): Loss function call passing
-            (d_real, d_fake).
+                (d_real, d_fake).
+            name (str) : Name of the loss. It will be used for logging in TensorBoard.
 
         """
-        super().__init__(loss_fn)
+        super().__init__(loss_fn, name=name)
 
     @Executor.reduce_loss
     def call(
@@ -588,10 +600,13 @@ class DiscriminatorMinMax(DiscriminatorAdversarialLoss):
 
     """
 
-    def __init__(self, from_logits=True, label_smoothing=0.0):
+    def __init__(
+        self, from_logits=True, label_smoothing=0.0, name="DiscriminatorMinMax"
+    ):
         """Initialize Loss."""
         super().__init__(
-            DMinMax(from_logits=from_logits, label_smoothing=label_smoothing)
+            DMinMax(from_logits=from_logits, label_smoothing=label_smoothing),
+            name=name,
         )
 
 
@@ -623,10 +638,9 @@ class DiscriminatorLSGAN(DiscriminatorAdversarialLoss):
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="DiscriminatorLSGAN") -> None:
         """Initialize loss."""
-        super().__init__(DLeastSquare())
-        self.name = "DiscriminatorLSGAN"
+        super().__init__(DLeastSquare(), name=name)
 
 
 class DiscriminatorHingeLoss(DiscriminatorAdversarialLoss):
@@ -638,10 +652,9 @@ class DiscriminatorHingeLoss(DiscriminatorAdversarialLoss):
     .. [1] Geometric GAN https://arxiv.org/abs/1705.02894
     """
 
-    def __init__(self) -> None:
+    def __init__(self, name="DiscriminatorHingeLoss") -> None:
         """Initialize the Least Square Loss for the Generator."""
-        super().__init__(DHingeLoss())
-        self.name = "DiscriminatorHingeLoss"
+        super().__init__(DHingeLoss(), name=name)
 
 
 ###

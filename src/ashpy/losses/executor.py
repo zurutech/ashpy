@@ -29,12 +29,13 @@ import tensorflow as tf
 class Executor:
     """Carry a function and the way of executing it. Given a context."""
 
-    def __init__(self, fn: tf.keras.losses.Loss = None) -> None:
+    def __init__(self, fn: tf.keras.losses.Loss = None, name: str = "loss") -> None:
         """
         Initialize the Executor.
 
         Args:
             fn (:py:class:`tf.keras.losses.Loss`): A Keras Loss to execute.
+            name (str): Name of the loss. It will be be used for logging in TensorBoard.
 
         Returns:
             :py:obj:`None`
@@ -48,6 +49,13 @@ class Executor:
         self._distribute_strategy = tf.distribute.get_strategy()
         self._global_batch_size = -1
         self._weight = lambda _: 1.0
+        self._name = name
+        self._loss_value = 0
+
+    @property
+    def name(self) -> str:
+        """Return the name of the loss."""
+        return self._name
 
     @property
     def weight(self) -> Callable[..., float]:
@@ -153,9 +161,21 @@ class Executor:
             :py:obj:`tf.Tensor`: Output Tensor.
 
         """
-        return self._weight(context.global_step) * self.call(context, **kwargs)
+        self._loss_value = self._weight(context.global_step) * self.call(
+            context, **kwargs
+        )
+        return self._loss_value
 
-    def __add__(self, other) -> SumExecutor:
+    def log(self, step: tf.Variable):
+        """
+        Log the loss on Tensorboard.
+
+        Args:
+            step (tf.Variable): current training step.
+        """
+        tf.summary.scalar(f"ashpy/losses/{self._name}", self._loss_value, step=step)
+
+    def __add__(self, other: Union[SumExecutor, Executor]) -> SumExecutor:
         """Concatenate Executors together into a SumExecutor."""
         if isinstance(other, SumExecutor):
             other_executors = other.executors
@@ -163,7 +183,7 @@ class Executor:
             other_executors = [other]
 
         all_executors = [self] + other_executors
-        return SumExecutor(all_executors)
+        return SumExecutor(all_executors, name=f"{self._name}+{other._name}")
 
     def __mul__(self, other: Union[Callable[..., float], float, int, tf.Tensor]):
         """
@@ -185,8 +205,8 @@ class Executor:
             self._weight = lambda step: weight(step) * __other(step)
         return self
 
-    def __rmul__(self, other):
-        """See `__mul__` method."""
+    def __rmul__(self, other: Union[SumExecutor, Executor]):
+        """See ``__mul__`` method."""
         return self * other
 
 
@@ -198,24 +218,30 @@ class SumExecutor(Executor):
     then summed together.
     """
 
-    def __init__(self, executors) -> None:
+    def __init__(self, executors: List[Executor], name: str = "LossSum") -> None:
         """
         Initialize the SumExecutor.
 
         Args:
             executors (:py:obj:`list` of [:py:class:`ashpy.executors.Executor`]): Array of
                 :py:obj:`ashpy.executors.Executor` to sum evaluate and sum together.
+            name (str): Name of the loss. It will be used to log in TensorBoard.
 
         Returns:
             :py:obj:`None`
 
         """
-        super().__init__()
+        super().__init__(name=name)
         self._executors = executors
         self._global_batch_size = 1
 
     @property
     def executors(self) -> List[Executor]:
+        """Return the List of Executors."""
+        return self._executors
+
+    @property
+    def sublosses(self) -> List[Executor]:
         """Return the List of Executors."""
         return self._executors
 
@@ -235,8 +261,21 @@ class SumExecutor(Executor):
             :py:classes:`tf.Tensor`: Output Tensor.
 
         """
-        result = tf.add_n([executor(*args, **kwargs) for executor in self._executors])
-        return result
+        self._loss_value = tf.add_n(
+            [executor(*args, **kwargs) for executor in self._executors]
+        )
+        return self._loss_value
+
+    def log(self, step: tf.Variable):
+        """
+        Log the loss + all the sub-losses on Tensorboard.
+
+        Args:
+            step: current step
+        """
+        super().log(step)
+        for executor in self._executors:
+            executor.log(step)
 
     def __add__(self, other: Union[SumExecutor, Executor]):
         """Concatenate Executors together into a SumExecutor."""

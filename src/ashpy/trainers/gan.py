@@ -192,6 +192,10 @@ class AdversarialTrainer(Trainer):
         self._discriminator_loss = discriminator_loss
         self._discriminator_loss.reduction = tf.losses.Reduction.NONE
 
+        super()._check_loss_name_collision(
+            [self._generator_loss, self._discriminator_loss]
+        )
+
         losses_metrics = (
             DiscriminatorLoss(name="ashpy/d_loss", logdir=logdir),
             GeneratorLoss(name="ashpy/g_loss", logdir=logdir),
@@ -232,10 +236,24 @@ class AdversarialTrainer(Trainer):
 
     def _build_and_restore_models(self, dataset: tf.data.Dataset):
         restorer = ashpy.restorers.AdversarialRestorer(self._logdir)
-        (x, _), z = next(iter(dataset.take(1)))
-        # Invoke model on sample input
-        self._generator(z)
-        self._discriminator(x)
+        (real_x, real_y), g_input = next(iter(dataset.take(1)))
+        # prepare g inputs
+        if len(self._generator.inputs) == 2:
+            g_inputs = [g_input, real_x]
+        else:
+            g_inputs = g_input
+        # call G on its inputs
+        self._generator(g_inputs)
+
+        # prepare d inputs
+        if len(self._discriminator.inputs) == 2:
+            d_inputs = [real_x, real_y]
+        else:
+            d_inputs = real_x
+        # call D on its inputs
+        self._discriminator(d_inputs)
+
+        # restore models
         restorer.restore_generator(self._generator)
         restorer.restore_discriminator(self._discriminator)
         self._deferred_restoration = False
@@ -289,6 +307,10 @@ class AdversarialTrainer(Trainer):
             zip(g_gradients, self._generator.trainable_variables)
         )
 
+        # log losses
+        self._discriminator_loss.log(self._global_step)
+        self._generator_loss.log(self._global_step)
+
         return d_loss, g_loss, fake
 
     @tf.function
@@ -328,9 +350,6 @@ class AdversarialTrainer(Trainer):
                     performance.
 
         """
-        if self._deferred_restoration:
-            self._build_and_restore_models(dataset=dataset)
-
         current_epoch = self._current_epoch()
 
         self._update_global_batch_size(
@@ -343,6 +362,9 @@ class AdversarialTrainer(Trainer):
         samples = next(iter(dataset.take(1)))
 
         self._context.generator_inputs = samples[1]
+
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=dataset)
 
         with self._train_summary_writer.as_default():
 
@@ -568,6 +590,10 @@ class EncoderTrainer(AdversarialTrainer):
         self._encoder_loss = encoder_loss
         self._encoder_loss.reduction = tf.losses.Reduction.NONE
 
+        super()._check_loss_name_collision(
+            [self._generator_loss, self._discriminator_loss, self._encoder_loss]
+        )
+
         ckpt_dict = {
             self.ckpt_id_encoder: self._encoder,
             self.ckpt_id_optimizer_encoder: self._encoder_optimizer,
@@ -652,6 +678,10 @@ class EncoderTrainer(AdversarialTrainer):
             zip(e_gradients, self._encoder.trainable_variables)
         )
 
+        self._discriminator_loss.log(self._global_step)
+        self._generator_loss.log(self._global_step)
+        self._encoder_loss.log(self._global_step)
+
         return d_loss, g_loss, e_loss, fake, generator_of_encoder
 
     @tf.function
@@ -693,9 +723,6 @@ class EncoderTrainer(AdversarialTrainer):
                 performance.
 
         """
-        if self._deferred_restoration:
-            self._build_and_restore_models(dataset=dataset)
-
         current_epoch = self._current_epoch()
 
         self._update_global_batch_size(
@@ -711,6 +738,9 @@ class EncoderTrainer(AdversarialTrainer):
 
         self._context.generator_inputs = samples[1]
         self._context.encoder_inputs = samples[0][0]
+
+        if self._deferred_restoration:
+            self._build_and_restore_models(dataset=dataset)
 
         with self._train_summary_writer.as_default():
 

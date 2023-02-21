@@ -173,6 +173,33 @@ class Trainer(ABC):
                 raise ValueError(f"{obj_type} should have unique names.")
             buffer.append(obj.name)
 
+    @staticmethod
+    def _check_loss_name_collision(losses: List[ashpy.losses.Executor]):
+        """
+        Check that all losses have unique names.
+
+        Args:
+            losses (List[:py:class:`ashpy.losses.Executor`]): List of losses
+                used by the current trainer.
+        Raises:
+            ValueError if there are losses with conflicting names
+
+        """
+        names = []
+
+        for loss in losses:
+            if loss.name in names:
+                raise ValueError(f"Losses should have unique names.")
+            names.append(loss.name)
+
+            if isinstance(loss, ashpy.losses.SumExecutor):
+                loss: ashpy.losses.SumExecutor
+                sublosses_names = [subloss.name for subloss in loss.sublosses]
+                for subloss_name in sublosses_names:
+                    if loss.name in names:
+                        raise ValueError(f"Losses should have unique names.")
+                    names.append(subloss_name)
+
     def _validate_metrics(self):
         """Check if every metric is an :py:class:`ashpy.metrics.Metric`."""
         validate_objects(self._metrics, Metric)

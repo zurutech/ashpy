@@ -20,7 +20,6 @@ from typing import List, Tuple, Union
 import ashpy
 import tensorflow as tf
 from ashpy.losses import DiscriminatorMinMax, GeneratorBCE
-from ashpy.models.gans import ConvDiscriminator, ConvGenerator
 from ashpy.trainers import AdversarialTrainer, ClassifierTrainer, Trainer
 
 from tests.utils.fake_datasets import (
@@ -45,7 +44,8 @@ class FakeClassifierTraining(FakeTraining):
         # Trainer
         logdir: Union[Path, str] = "testlog",
         optimizer=tf.optimizers.Adam(1e-4),
-        metrics=[ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)],
+        loss=ashpy.losses.ClassifierLoss(tf.keras.losses.MeanSquaredError()),
+        metrics=None,
         epochs=2,
         # Dataset
         dataset_size=10,
@@ -69,6 +69,10 @@ class FakeClassifierTraining(FakeTraining):
 
         self.optimizer = optimizer
 
+        if metrics is None:
+            metrics = [
+                ashpy.metrics.ClassifierLoss(model_selection_operator=operator.lt)
+            ]
         self.metrics = metrics
 
         # Model
@@ -88,9 +92,7 @@ class FakeClassifierTraining(FakeTraining):
         )
 
         # Loss
-        self.reconstruction_error = ashpy.losses.ClassifierLoss(
-            tf.keras.losses.MeanSquaredError()
-        )
+        self.loss = loss
 
         # Trainer
         self.trainer: ClassifierTrainer
@@ -100,7 +102,7 @@ class FakeClassifierTraining(FakeTraining):
         self.trainer = ClassifierTrainer(
             model=self.model,
             optimizer=self.optimizer,
-            loss=self.reconstruction_error,
+            loss=self.loss,
             logdir=str(self.logdir),
             epochs=self.epochs,
             metrics=self.metrics,

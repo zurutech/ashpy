@@ -17,7 +17,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Dict, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Union
 
 import tensorflow as tf  # pylint: disable=import-error
 from ashpy.metrics.metric import Metric
@@ -90,6 +90,7 @@ class ClassifierMetric(Metric):
     def __init__(
         self,
         metric: tf.keras.metrics.Metric,
+        name: Optional[str] = None,
         model_selection_operator: Callable = None,
         logdir: Union[Path, str] = Path().cwd() / "log",
         processing_predictions=None,
@@ -100,6 +101,7 @@ class ClassifierMetric(Metric):
         Args:
             metric (:py:class:`tf.keras.metrics.Metric`): The Keras Metric to use with
                 the classifier (e.g.: Accuracy()).
+            name (str): The name of the metric, if None uses the metric.name property.
             model_selection_operator (:py:obj:`typing.Callable`): The operation that will
                 be used when `model_selection` is triggered to compare the metrics,
                 used by the `update_state`.
@@ -116,8 +118,10 @@ class ClassifierMetric(Metric):
                 keyword-arguments. Defaults to {"fn": tf.argmax, "kwargs": {"axis": -1}}.
 
         """
+        if name is None:
+            name = metric.name
         super().__init__(
-            name=metric.name,
+            name=name,
             metric=metric,
             model_selection_operator=model_selection_operator,
             logdir=logdir,

@@ -18,6 +18,7 @@ Pix2Pix on Facades Datasets dummy implementation.
 Input Pipeline taken from: https://www.tensorflow.org/beta/tutorials/generative/pix2pix
 """
 import os
+from pathlib import Path
 
 import tensorflow as tf
 
@@ -31,7 +32,7 @@ from ashpy.models.convolutional.discriminators import PatchDiscriminator
 from ashpy.models.convolutional.unet import FUNet
 from ashpy.trainers.gan import AdversarialTrainer
 
-from .pix2pix_facades import BATCH_SIZE, BUFFER_SIZE, IMG_WIDTH, PATH, load_image_train
+from pix2pix_facades import BATCH_SIZE, BUFFER_SIZE, IMG_WIDTH, PATH, load_image_train
 
 
 def main(
@@ -94,7 +95,7 @@ def main(
         )
 
         metrics = []
-        logdir = f'{"log"}/{dataset_name}/run_multi'
+        logdir = Path(f'{"log"}/{dataset_name}/run_multi')
 
         if not logdir.exists():
             logdir.mkdir(parents=True)
@@ -116,7 +117,7 @@ def main(
             log_eval_mode=LogEvalMode.TEST,
         )
 
-        train_dataset = tf.data.Dataset.list_files(PATH + "train/*.jpg")
+        train_dataset = tf.data.Dataset.list_files(str(PATH / "train/*.jpg"))
         train_dataset = train_dataset.shuffle(BUFFER_SIZE)
         train_dataset = train_dataset.map(load_image_train)
         train_dataset = train_dataset.batch(BATCH_SIZE)
